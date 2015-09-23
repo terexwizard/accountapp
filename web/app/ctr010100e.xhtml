@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+  <f:view beforePhase="#{cTR010100.beforePhase}" afterPhase="#{cTR010100.afterPhase}" encoding="UTF-8" >
+    <h:head>
+      <title>ตารางภาค</title>
+      <h:outputStylesheet name="style.css" library="css" /> 
+      <h:outputStylesheet name="style_s.css" library="css" />
+      <h:outputScript name="f1common.js" library="js" />
+      <script type="text/javascript">   
+ //<![CDATA[ 
+   
+ //]]>   
+      </script>
+    </h:head>
+    <h:body>
+      <br/>
+      <h:form id="form1" >
+       
+        <div align="center">
+          <p:panelGrid>
+            <p:row>
+              <p:column>
+                <p:panelGrid>
+                  <p:row>
+                    <p:column>
+                      <h:outputLabel value="type jobstatus"/>
+                    </p:column>
+                    <p:column>
+                      
+                      <p:selectOneMenu value="#{cTR010100.masterdata.jobstatus.jobmode}">
+                          <f:selectItem itemLabel="choice" itemValue="" />
+                          <f:selectItems value="#{bKBQuery.combojobsubject}" />
+                          <p:ajax process="@this" update="#{cTR010100.detailjobstatus.detailname}" listener="#{cTR010100.searchdetail}"/>
+                      </p:selectOneMenu>
+                      
+                      
+                    </p:column>
+                  </p:row>
+                </p:panelGrid>
+              </p:column>
+            </p:row>
+          </p:panelGrid>
+            
+            
+            
+            <p:panelGrid>
+                <p:row>
+                    <p:column>
+                     
+                         <p:outputPanel id="#{cTR010100.detailjobstatus.detailname}" >
+                                <p:dataTable id="#{cTR010100.detailjobstatus.tablename}" var="rec" value="#{cTR010100.detailjobstatus.listdetailrow}" 
+                                             rowKey="#{rec}" 
+                                             paginator="false" emptyMessage=""
+                                             scrollable="false"  
+                                             editable="true"  rowIndexVar="rowIndex" style="width:700px;table-layout:fixed;"
+                                             styleClass="hide" >
+
+                                    <p:ajax event="rowEdit" listener="#{cTR010100.onEditDetailJobstatus}" update=":form1:#{bKBAppVar.COMPO_ID_MESSAGES},:form1:btn_ctrl1" oncomplete="handleComplete('btnupd1');"/>  
+                                    <p:ajax event="rowEditCancel" listener="#{cTR010100.onCancelDetailJobstatus}" update=":form1:#{bKBAppVar.COMPO_ID_MESSAGES},:form1:btn_ctrl1 " /> 
+
+                                               <p:column headerText="#" style="width:30px;">
+                                                    #{rowIndex +1}
+                                                </p:column>
+
+
+                                                <p:column headerText="jobdescription" style="width:110px;">
+                                                    <p:cellEditor>
+                                                        <f:facet name="output">  
+                                                            <h:outputText value="#{rec.data.jobstatus.jobdesc}" />  
+                                                        </f:facet>  
+                                                        <f:facet name="input">  
+                                                            <p:inputText id="jobdesc" value="#{rec.data.jobstatus.jobdesc}" 
+                                                                         label="jobdescription"
+                                                                         size="13" maxlength="100"/>
+                                                        </f:facet>
+                                                    </p:cellEditor>
+                                                </p:column>
+
+                                                <p:column headerText="sort" style="width:50px;" styleClass="iNR">
+                                                    <p:cellEditor>
+                                                        <f:facet name="output">  
+                                                            <h:outputText value="#{rec.data.jobstatus.jobsort}" />  
+
+                                                        </f:facet>  
+                                                        <f:facet name="input">  
+                                                            <p:inputText id="jobsort" value="#{rec.data.jobstatus.jobsort}" 
+                                                                         label="jobdescription"
+                                                                         size="13" maxlength="100"
+                                                                         onkeydown="num(event)"/>
+                                                        </f:facet>
+                                                    </p:cellEditor>
+                                                </p:column>
+
+                                                <p:column style="width:50px;" headerText="command" > 
+
+
+                                                    <p:rowEditor>
+                                                        <p:ajaxStatus oncomplete="autoClickRow('hide',#{rec.rowindex});" />
+                                                    </p:rowEditor>
+
+                                                    <span id="isOk" style="display:none;">#{rec.data.isOk}</span>
+
+                                                    <p:cellEditor>
+                                                        <f:facet name="output">  
+                                                            &nbsp;
+                                                            <ui:include src="#{bKBAppVar.COMPO_DETAIL_BUTTON_ROWDEL}" >
+                                                                <ui:param name="basebean" value="#{cTR010100}"/>
+                                                                <ui:param name="dt" value="#{cTR010100.detailjobstatus}"/>
+                                                                <ui:param name="msgid" value=":form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
+                                                            </ui:include>
+                                                            
+                                                        </f:facet>  
+                                                        <f:facet name="input">  
+                                                            &nbsp;
+                                                        </f:facet>
+                                                    </p:cellEditor>
+                                                    
+                                                    
+                                                    
+                                                   
+                                                    
+                                                    
+                                                </p:column>   
+                                    </p:dataTable>
+                            </p:outputPanel>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column style="text-align: right;">
+                    
+                       <p:commandButton value="add record" actionListener="#{cTR010100.detailjobstatus.addDetail}" 
+                                            process="@this" update="@this,#{cTR010100.detailjobstatus.detailname},:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"
+                                            id="btn_ctrl1"
+                                            oncomplete="clickLastRow('hide');"
+                                            immediate="true" styleClass="butt-c2"/>
+
+                       <p:commandButton id="btnupd1" style="display:none;"
+                                        process="@this" update="#{cTR010100.detailjobstatus.detailname}"
+                                        immediate="true" />
+                    </p:column>
+                </p:row>
+            </p:panelGrid> 
+            
+            
+            <br/>  
+            <div align="center">
+                   <p:panelGrid>
+                    <p:row>
+                     <p:column style="width:100%;">
+                         <ui:include src="#{bKBAppVar.COMPO_COMMAND_E}" >
+                           <ui:param name="basebean" value="#{cTR010100}"/>
+                           <ui:param name="hidequery" value="1"/>
+                           <ui:param name="hidenew" value="1"/>
+                         </ui:include>
+                     </p:column>
+                   </p:row>
+               </p:panelGrid>
+            </div>
+            
+            
+            
+          <br/>
+        </div>
+        <ui:include src="#{bKBAppVar.COMPO_MASG}" >
+          <ui:param name="basebean" value="#{cTR010100}"/>
+        </ui:include>
+      </h:form>
+    </h:body>
+  </f:view>
+</html>

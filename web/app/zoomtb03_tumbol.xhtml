@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition> 
+<p:panel  id="pg"  style="border: none ;"  >
+  <p:focus context="pg" for="tumb_name"/>
+  <p:panelGrid>
+    <p:row>
+      <p:column>รหัสจังหวัด</p:column>
+      <p:column>
+        <p:inputText id="prov_code" value="#{bKBZZoom.param.prov_code}" tabindex="-1"
+                     size="2" readonly="true" styleClass="f1-input-disable"/>
+      </p:column>
+      <p:column>ชื่อจังหวัด</p:column>
+      <p:column>
+        <p:inputText id="prov_name" value="#{bKBZZoom.param.prov_name}" tabindex="-1"
+                     size="20" readonly="true" styleClass="f1-input-disable" style="width:100%"/>
+      </p:column>
+    </p:row>
+    <p:row>
+        <p:column>รหัสอำเภอ</p:column>
+        <p:column>
+          <p:inputText id="ampr_code" value="#{bKBZZoom.param.ampr_code}" tabindex="-1"
+                     size="6" readonly="true" styleClass="f1-input-disable"/>
+        </p:column>
+        <p:column>ชื่ออำเภอ</p:column>
+        <p:column>
+          <p:inputText id="ampr_name" value="#{bKBZZoom.param.ampr_name}" tabindex="-1"
+                     size="20" readonly="true" styleClass="f1-input-disable" style="width:100%"/>
+        </p:column>
+    </p:row>
+    <p:row>
+      <p:column>รหัสตำบล</p:column>
+      <p:column colspan="3">
+        <p:inputText id="tumb_code" value="#{bKBZZoom.param.tumb_code}" size="10"/>
+      </p:column>
+    </p:row>
+    <p:row>
+      <p:column>ชื่อตำบล</p:column>
+      <p:column colspan="3">
+        <p:inputText id="tumb_name" value="#{bKBZZoom.param.tumb_name}" size="30" style="width:100%"/>
+      </p:column>
+    </p:row>
+  </p:panelGrid> 
+</p:panel> 
+</ui:composition>
+    
+</html>

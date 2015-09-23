@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition> 
+<p:panel  id="pg"  style="border: none ;"  >
+  
+  <p:panelGrid>
+    <p:row>
+        <p:column>date</p:column>
+      <p:column>
+          <p:inputMask id="dailydate" value="#{bKBZZoom.param.dailydate}" 
+                       size="4"  mask="9999" maxlength="4"/>
+      </p:column>
+      <p:column>jobno</p:column>
+      <p:column>
+        <p:inputText id="jobno" value="#{bKBZZoom.param.jobno}" 
+                     size="20" />
+      </p:column>
+    </p:row>
+  </p:panelGrid> 
+</p:panel> 
+</ui:composition>
+    
+</html>

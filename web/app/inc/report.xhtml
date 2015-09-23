@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<ui:component>
+
+<h:form id="#{bKBAppVar.COMPO_ID_REPORT_FORM}" target="wreport" prependId="false" >
+    
+    
+    <c:if test="#{debug}" >
+        #{basebean.valid} : #{basebean.reportprompt}
+        <br/>#{basebean.reportprompt['0']}:#{basebean.reportprompt['1']}<br/>
+    </c:if>
+    
+    <c:set value="#{bKBAppVar.REPORT_SERVLET_PATH}" 
+           target="#{basebean}" property="reporturl" ></c:set>
+           
+    <c:set value="#{bKBAppVar.REPORT_FILE_PATH}" target="#{basebean}" property="reportpath" ></c:set>
+    
+    <c:set value="#{bKBAppVar.REPORT_DATASOURCE}" target="#{basebean}" property="reportdatasource" ></c:set>
+    
+    <c:set value="#{reportfile1}" target="#{basebean.reportfiles}" property="reportfile1" ></c:set>
+    <c:set value="#{reportfile2}" target="#{basebean.reportfiles}" property="reportfile2" ></c:set>
+    <c:set value="#{reportfile3}" target="#{basebean.reportfiles}" property="reportfile3" ></c:set>
+    <c:set value="#{reportfile4}" target="#{basebean.reportfiles}" property="reportfile4" ></c:set>
+    <c:set value="#{reportfile5}" target="#{basebean.reportfiles}" property="reportfile5" ></c:set>
+    <c:set value="#{reportfile6}" target="#{basebean.reportfiles}" property="reportfile6" ></c:set>
+    <c:set value="#{reportfile7}" target="#{basebean.reportfiles}" property="reportfile7" ></c:set>
+    <c:set value="#{reportfile8}" target="#{basebean.reportfiles}" property="reportfile8" ></c:set>
+    <c:set value="#{reportfile9}" target="#{basebean.reportfiles}" property="reportfile9" ></c:set>
+    <c:set value="#{reportfile10}" target="#{basebean.reportfiles}" property="reportfile10" ></c:set>
+    
+        <ui:include src="/app/inc/reportpara.xhtml" >
+            <ui:param name="basebean" value="#{basebean}"/>
+            <ui:param name="promptcount" value="#{promptcount}"/>
+            <ui:param name="software" value="#{software}"/>
+        </ui:include>
+    
+    
+</h:form>
+    
+</ui:component>
+    
+</html>
+

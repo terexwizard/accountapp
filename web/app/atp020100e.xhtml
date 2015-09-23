@@ -1,0 +1,240 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+  <f:view beforePhase="#{aTP020100.beforePhase}" afterPhase="#{aTP020100.afterPhase}" encoding="UTF-8" >
+    <h:head>
+      <title></title>
+      <h:outputStylesheet name="style.css" library="css" /> 
+      <h:outputStylesheet name="style_s.css" library="css" />
+      <h:outputScript name="f1common.js" library="js" />
+      
+   <style>
+
+
+     table tr1{
+        border-color: #95461d !important;
+    }
+
+   </style>
+      
+      
+      <script type="text/javascript">   
+ //<![CDATA[ 
+   
+ //]]>   
+      </script>
+    </h:head>
+    <h:body>
+      <br/>
+      <h:form id="form1" >
+       
+        <div align="center">
+
+            <p:panelGrid style="width: 700px;">
+                 <p:row>
+                    <p:column style="width: 200px;"/>
+                    <p:column/>
+                 </p:row>
+                
+                 <p:row>
+                     <p:column colspan="2" style="text-align: center;">
+                         <h:outputLabel value="RECEIVED" style="font-size: 28px;font-weight: bold;"/>
+                         <br/><br/>
+                    </p:column>
+                  </p:row>
+                        
+                  <p:row>
+                    <p:column>
+                      <h:outputLabel value="Received Date"/>
+                    </p:column>
+                    <p:column>
+                        <p:calendar id="Received_Date" 
+                                     size="10" maxlength="10" locale="en" showOn="button" 
+                                     converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true">
+                            <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
+                            <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
+                        </p:calendar>
+                         
+                    </p:column>
+                  </p:row>
+                    
+                 <p:row>
+                    <p:column>
+                      <h:outputLabel value="Received From"/>
+                    </p:column>
+                    <p:column>
+                       <p:inputText label="" id="receivedfrom"
+                                      size="8" maxlength="8" 
+                                      required="true"
+                                      disabled="#{aTP010200.modeupdate}">
+                             <p:ajax event="change" onstart="b1_lookup();return false;" />
+                         </p:inputText>
+                        
+                        
+                         <ui:include src="#{bKBAppVar.COMPO_LOOKUPDATA}" >
+                          <ui:param name="formid" value="form1"/>
+                          <ui:param name="lookupname" value="b1"/>
+                          <ui:param name="lookupquery" value="lookup_invoicecompany"/>
+                          <ui:param name="lookuppara" value="receivedfrom#invcomid"/>
+                          <ui:param name="lookupreturn" value="companyname#companyname"/>
+                        </ui:include>
+                        
+                        <p:outputPanel rendered="#{!aTP020100.modeupdate}">
+                        <ui:include src="#{bKBAppVar.COMPO_ZOOMDATA}" >
+                            <ui:param name="formid" value="form1"/>
+                            <ui:param name="zoomname" value="zoom1"/>
+                            <ui:param name="zoomquery" value="lookup_invoicecompany"/>
+                            <ui:param name="zoomreturn" value="receivedfrom#invcomid,companyname#companyname"/>
+                          </ui:include>
+
+                        </p:outputPanel> 
+                        
+                       
+                         <p:inputText label="" id="companyname" 
+                                      size="25" maxlength="8" readonly="true"
+                                      styleClass="#{bKBStyle.STYLE_INPUT_DISABLE}"
+                                      tabindex="-1">
+                        </p:inputText>
+                    </p:column>
+                  </p:row>
+                    
+                 <p:row>
+                    <p:column>
+                      <h:outputLabel value="Voucher No."/>
+                    </p:column>
+                     <p:column style="padding: 0px;">
+                        <p:panelGrid columns="2">
+                            <p:selectOneMenu id="VoucherNo"
+                                             style="width: 80px;">
+                                <f:selectItems value="#{bKBQuery.combotb_received_voucherno}" />
+                            </p:selectOneMenu>
+
+                            <p:inputMask id="docno" mask="9999/99/99" maxlength="10" size="10"/>
+                        </p:panelGrid>
+                    </p:column>
+                  </p:row>
+                    
+                  <p:row>
+                    <p:column>
+                      <h:outputLabel value="Job Ref."/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="JobRef" size="14" maxlength="14"/>
+                    </p:column>
+                  </p:row>
+                    
+                  <p:row>
+                    <p:column>
+                      <h:outputLabel value="Transecsion No."/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="TransecsionNo" size="14" maxlength="14"/>
+                    </p:column>
+                  </p:row>
+                    
+                  <p:row>
+                    <p:column>
+                      <h:outputLabel value="Received Type"/>
+                    </p:column>
+                    <p:column>
+                        <p:selectOneMenu id="ReceivedType"
+                                             style="width: 80px;">
+                            <f:selectItems value="#{bKBQuery.combotb_received_type}" />
+                        </p:selectOneMenu>
+                    </p:column>
+                  </p:row>
+                
+                <p:row>
+                    <p:column>
+                      <h:outputLabel value="Description Code"/>
+                    </p:column>
+                    <p:column>
+                        <p:selectOneMenu id="DescriptionCode"
+                                             style="width: 380px;">
+                                <f:selectItems value="#{bKBQuery.combotb_received_descriptioncode}" />
+                        </p:selectOneMenu>
+                    </p:column>
+                  </p:row>
+                
+                <p:row>
+                    <p:column>
+                      <h:outputLabel value="Currency"/>
+                    </p:column>
+                    <p:column>
+                        <p:selectOneMenu id="Currency"
+                                             style="width: 80px;">
+                            <f:selectItems value="#{bKBQuery.combotb_currency}" />
+                        </p:selectOneMenu>
+                        
+                        &nbsp;&nbsp;
+                        <h:outputLabel value="EXCHANGE RATE"/>
+                        
+                        &nbsp;&nbsp;
+                        <p:inputMask id="EXCHANGERATE" mask="999.99" size="6" maxlength="6"/>
+                    </p:column>
+                  </p:row>
+                
+                <p:row>
+                    <p:column>
+                      <h:outputLabel value="Received Amount"/>
+                    </p:column>
+                    <p:column>
+                         <p:inputText id="ReceivedAmount" size="14" maxlength="14"
+                                      converter="moneyConverter">
+                            <p:ajax process="@this" update="@this" />
+                         </p:inputText>
+                    </p:column>
+                  </p:row>
+                <p:row>
+                    <p:column>
+                      <h:outputLabel value="Received by"/>
+                    </p:column>
+                    <p:column>
+                         <p:selectOneMenu id="Receivedby"
+                                             style="width: 250px;">
+                             <f:selectItems value="#{bKBQuery.combotb_bank}" />
+                        </p:selectOneMenu>
+                    </p:column>
+                  </p:row>
+                
+                <p:row>
+                    <p:column>
+                      <h:outputLabel value="Remark"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputTextarea id="Remark" cols="60" rows="3"/>
+                    </p:column>
+                  </p:row>
+                    
+                </p:panelGrid>
+            
+            <br/> 
+            
+            
+            <br/>  
+            <div align="center">
+                   <p:panelGrid>
+                    <p:row>
+                     <p:column style="width:100%;">
+                         <ui:include src="#{bKBAppVar.COMPO_COMMAND_E}" >
+                           <ui:param name="basebean" value="#{aTP020100}"/>
+                         </ui:include>
+                     </p:column>
+                   </p:row>
+               </p:panelGrid>
+            </div>
+            
+            
+          <br/>
+        </div>
+        <ui:include src="#{bKBAppVar.COMPO_MASG}" >
+          <ui:param name="basebean" value="#{aTP020100}"/>
+        </ui:include>
+      </h:form>
+    </h:body>
+  </f:view>
+</html>

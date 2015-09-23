@@ -1,0 +1,47 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.scc.pay.business;
+
+
+
+
+
+import com.scc.pay.bkbean.ATP010500;
+import com.scc.f1.business.BusinessImpl;
+import com.scc.f1.util.BeanUtil;
+import com.scc.pay.db.TbVat;
+
+
+
+/**
+ *
+ * @author xtra
+ * @version 1.00.00
+ * 12/06/2555 12:50:20
+ */
+public class ATP010500S extends BusinessImpl {
+
+    @Override
+    protected Object doProcess(Object inobj) {
+        
+        
+        ATP010500 frmi = (ATP010500)inobj;
+        
+        logger.debug("code id >>" + frmi.getSearchselectedrow().get("vat"));
+        
+         TbVat recordu = em.find(TbVat.class, Integer.parseInt(frmi.getSearchselectedrow().get("vat")));
+        
+        if(recordu != null){
+            BeanUtil.copyProperties(frmi.getMasterdata().getTbvat(), recordu);
+        }
+       
+        
+        frmi.setOk(true);
+        
+        return inobj;
+    }
+    
+    
+}
