@@ -605,39 +605,48 @@
         
         SELECT d.dailydate,
             db_dsf(d.dailydate) dailydate_disp,
-            d.jobno,
-            d.docno_code,
-            concat(g.data,d.docno) docno,
-            d.description,
-            d.chqno,
-            d.no,
-            g1.data,
-            money(d.balance_cash) balance_cash,
-            money(d.balance_cr) balance_cr,
-            d.vendor 
-        FROM daily d left outer join tb_group g on ( d.docno_code = g.id and g.type = '2' )
-                left outer join tb_group g1 on ( d.no = g1.id and g1.type = '1' )
+            d.companyid,
+            d.companyname,
+            d.voucherno,
+            d.docno,
+            concat(d.voucherno,d.docno) vouchernodocno,
+            d.jobref,
+            d.transecsionno,
+            d.dailytype,
+            d.descriptioncode,
+            s.dsrptvalue,
+            d.currency,
+            money(d.paidamount) paidamount,
+            d.payby,
+            d.remark
+        FROM daily d left outer join tb_descriptioncode s on(d.descriptioncode = s.dsrptvalue)
 
-       <where>
+       <where>d.receivedamount is not null
            
-       <var name="dailydate" woper="and" > d.dailydate = '<value/>' </var>
-       <var name="jobno" woper="and" > d.jobno = '<value/>' </var>
+       <var name="dailydatest" woper="and" > d.dailydate <![CDATA[>=]]> '<value/>' </var>
+       <var name="dailydatefn" woper="and" > d.dailydate <![CDATA[<=]]> '<value/>' </var>
+       <var name="jobref" woper="and" > d.jobno = '<value/>' </var>
        
        </where>
     </SQL>
     <SQLOrderBy>
-        d.dailydate
+        d.dailyid
     </SQLOrderBy>
 
     <Params>
         <Param>
-            <VarName>dailydate</VarName>
-            <UIName>dailydate</UIName>
+            <VarName>dailydatest</VarName>
+            <UIName>dailydatest</UIName>
             <Operator></Operator>
         </Param>
         <Param>
-            <VarName>jobno</VarName>
-            <UIName>jobno</UIName>
+            <VarName>jobref</VarName>
+            <UIName>jobref</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>jobref</VarName>
+            <UIName>jobref</UIName>
             <Operator></Operator>
         </Param>
     </Params>
@@ -652,64 +661,33 @@
                 <SortByThai>1</SortByThai>
              </Column>
              <Column>
-                <FieldName>jobno</FieldName>
-                <Header>jobno</Header>
+                <FieldName>jobref</FieldName>
+                <Header>jobref</Header>
                 <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
              </Column>
              <Column>
-                <FieldName>docno</FieldName>
-                <Header>docno</Header>
+                <FieldName>vouchernodocno</FieldName>
+                <Header>vouchernodocno</Header>
                 <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
              </Column>
              <Column>
-                <FieldName>description</FieldName>
-                <Header>description</Header>
+                <FieldName>dsrptvalue</FieldName>
+                <Header>dsrptvalue</Header>
                 <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
              </Column>
              <Column>
-                <FieldName>chqno</FieldName>
-                <Header>chqno</Header>
+                <FieldName>payby</FieldName>
+                <Header>payby</Header>
                 <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
              </Column>
-             <Column>
-                <FieldName>data</FieldName>
-                <Header>no</Header>
-                <Style></Style>
-                <SortBy></SortBy>
-                <SortByThai>1</SortByThai>
-             </Column>
-             
-             <Column>
-                <FieldName>balance_cash</FieldName>
-                <Header>balance_cash</Header>
-                <Style></Style>
-                <SortBy></SortBy>
-                <SortByThai>1</SortByThai>
-             </Column>
-             <Column>
-                <FieldName>balance_cr</FieldName>
-                <Header>balance_cr</Header>
-                <Style></Style>
-                <SortBy></SortBy>
-                <SortByThai>1</SortByThai>
-             </Column>
-             <Column>
-                <FieldName>vendor</FieldName>
-                <Header>vendor</Header>
-                <Style></Style>
-                <SortBy></SortBy>
-                <SortByThai>1</SortByThai>
-             </Column>
-             
-             
              
          </Columns>
 
@@ -730,39 +708,48 @@
         
         SELECT d.dailydate,
             db_dsf(d.dailydate) dailydate_disp,
-            d.jobno,
-            d.docno_code,
-            concat(g.data,d.docno) docno,
-            d.description,
-            d.chqno,
-            d.no,
-            g1.data,
-            money(d.balance_cash) balance_cash,
-            money(d.balance_cr) balance_cr,
-            d.vendor 
-        FROM daily d left outer join tb_group g on ( d.docno_code = g.id and g.type = '2' )
-                left outer join tb_group g1 on ( d.no = g1.id and g1.type = '1' )
+            d.companyid,
+            d.companyname,
+            d.voucherno,
+            d.docno,
+            concat(d.voucherno,d.docno) vouchernodocno,
+            d.jobref,
+            d.transecsionno,
+            d.dailytype,
+            d.descriptioncode,
+            s.dsrptvalue,
+            d.currency,
+            money(d.paidamount) paidamount,
+            d.payby,
+            d.remark
+        FROM daily d left outer join tb_descriptioncode s on(d.descriptioncode = s.dsrptvalue)
 
-       <where>
+       <where>d.paidamount is not null
            
-       <var name="dailydate" woper="and" > d.dailydate = '<value/>' </var>
-       <var name="jobno" woper="and" > d.jobno = '<value/>' </var>
+       <var name="dailydatest" woper="and" > d.dailydate <![CDATA[>=]]> '<value/>' </var>
+       <var name="dailydatefn" woper="and" > d.dailydate <![CDATA[<=]]> '<value/>' </var>
+       <var name="jobref" woper="and" > d.jobno = '<value/>' </var>
        
        </where>
     </SQL>
     <SQLOrderBy>
-        d.dailydate
+        d.dailyid
     </SQLOrderBy>
 
     <Params>
         <Param>
-            <VarName>dailydate</VarName>
-            <UIName>dailydate</UIName>
+            <VarName>dailydatest</VarName>
+            <UIName>dailydatest</UIName>
             <Operator></Operator>
         </Param>
         <Param>
-            <VarName>jobno</VarName>
-            <UIName>jobno</UIName>
+            <VarName>jobref</VarName>
+            <UIName>jobref</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>jobref</VarName>
+            <UIName>jobref</UIName>
             <Operator></Operator>
         </Param>
     </Params>
@@ -777,70 +764,38 @@
                 <SortByThai>1</SortByThai>
              </Column>
              <Column>
-                <FieldName>jobno</FieldName>
-                <Header>jobno</Header>
+                <FieldName>jobref</FieldName>
+                <Header>jobref</Header>
                 <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
              </Column>
              <Column>
-                <FieldName>docno</FieldName>
-                <Header>docno</Header>
+                <FieldName>vouchernodocno</FieldName>
+                <Header>vouchernodocno</Header>
                 <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
              </Column>
              <Column>
-                <FieldName>description</FieldName>
-                <Header>description</Header>
+                <FieldName>dsrptvalue</FieldName>
+                <Header>dsrptvalue</Header>
                 <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
              </Column>
              <Column>
-                <FieldName>chqno</FieldName>
-                <Header>chqno</Header>
+                <FieldName>payby</FieldName>
+                <Header>payby</Header>
                 <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
              </Column>
-             <Column>
-                <FieldName>data</FieldName>
-                <Header>no</Header>
-                <Style></Style>
-                <SortBy></SortBy>
-                <SortByThai>1</SortByThai>
-             </Column>
-             
-             <Column>
-                <FieldName>balance_cash</FieldName>
-                <Header>balance_cash</Header>
-                <Style></Style>
-                <SortBy></SortBy>
-                <SortByThai>1</SortByThai>
-             </Column>
-             <Column>
-                <FieldName>balance_cr</FieldName>
-                <Header>balance_cr</Header>
-                <Style></Style>
-                <SortBy></SortBy>
-                <SortByThai>1</SortByThai>
-             </Column>
-             <Column>
-                <FieldName>vendor</FieldName>
-                <Header>vendor</Header>
-                <Style></Style>
-                <SortBy></SortBy>
-                <SortByThai>1</SortByThai>
-             </Column>
-             
-             
              
          </Columns>
 
      </Displays>
 </Query>
-
 
 
 <!-- ************************** 
@@ -1469,18 +1424,18 @@
 
 
 <!-- ************************** 
-    lookup_tb_received_descriptioncode
+    lookup_tb_descriptioncode
 - -  ************************** -->
 
 <Query>
-    <TranCode>lookup_tb_received_descriptioncode</TranCode>    
+    <TranCode>lookup_tb_descriptioncode</TranCode>    
     <Version>1</Version>
     <Description>ตารางอำเภอ/เขต</Description>
     <Type></Type>
     <SQL>
         
         SELECT dsrptvalue,dscptdesc 
-        FROM tb_received_descriptioncode t
+        FROM tb_descriptioncode t
 
        <where>
        
@@ -1489,7 +1444,7 @@
        </where>
     </SQL>
     <SQLOrderBy>
-        t.dsrptcode
+        t.id
     </SQLOrderBy>
 
     <Params>

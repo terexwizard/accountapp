@@ -67,7 +67,7 @@
                       <h:outputLabel value="Paid To"/>
                     </p:column>
                     <p:column>
-                       <p:inputText label="" id="PaidTo"
+                       <p:inputText label="" id="paidto"
                                       size="8" maxlength="8" 
                                       required="true"
                                       disabled="#{aTP010200.modeupdate}">
@@ -79,7 +79,7 @@
                           <ui:param name="formid" value="form1"/>
                           <ui:param name="lookupname" value="b1"/>
                           <ui:param name="lookupquery" value="lookup_invoicecompany"/>
-                          <ui:param name="lookuppara" value="receivedfrom#invcomid"/>
+                          <ui:param name="lookuppara" value="paidto#invcomid"/>
                           <ui:param name="lookupreturn" value="companyname#companyname"/>
                         </ui:include>
                         
@@ -88,7 +88,7 @@
                             <ui:param name="formid" value="form1"/>
                             <ui:param name="zoomname" value="zoom1"/>
                             <ui:param name="zoomquery" value="lookup_invoicecompany"/>
-                            <ui:param name="zoomreturn" value="receivedfrom#invcomid,companyname#companyname"/>
+                            <ui:param name="zoomreturn" value="paidto#invcomid,companyname#companyname"/>
                           </ui:include>
 
                         </p:outputPanel> 
@@ -155,7 +155,7 @@
                     <p:column>
                         <p:selectOneMenu id="DescriptionCode"
                                              style="width: 380px;">
-                                <f:selectItems value="#{bKBQuery.combotb_received_descriptioncode}" />
+                                <f:selectItems value="#{bKBQuery.combotb_descriptioncode}" />
                         </p:selectOneMenu>
                     </p:column>
                   </p:row>

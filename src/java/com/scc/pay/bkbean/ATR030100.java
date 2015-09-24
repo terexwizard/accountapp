@@ -9,7 +9,6 @@ import com.scc.pay.business.BusinessFactory;
 import com.scc.f1.business.IBusinessBase;
 import com.scc.f1.util.Utils;
 import com.scc.pay.db.Daily;
-import com.scc.pay.db.DailyPK;
 import com.scc.pay.util.CenterUtils;
 import com.scc.pay.util.FaceUtil;
 import java.io.ByteArrayOutputStream;
@@ -96,7 +95,7 @@ public class ATR030100 extends BKBPage {
 
         public Daily getDaily() {
             if(daily == null){
-                daily = new Daily(new DailyPK());
+                daily = new Daily();
             }
             return daily;
         }
@@ -381,8 +380,9 @@ public class ATR030100 extends BKBPage {
 //       
             HashMap<String, String> hm = new HashMap<String, String>();
             
-            hm.put("dailydate", this.getSearchparam().getDaily().getDailyPK().getDailydate());
-            hm.put("jobno", this.getSearchparam().getDaily().getDailyPK().getJobno());
+            hm.put("dailydate", Utils.formatDateToStringToDBEn(this.getSearchparam().getDailydatest()));
+            hm.put("dailydatefn", Utils.formatDateToStringToDBEn(this.getSearchparam().getDailydatefn()));
+            hm.put("jobref", this.getSearchparam().getDaily().getJobref());
    
             BKBUQuery.getIns().setQueryparam(hm);
             BKBUQuery.getIns().search();
@@ -508,7 +508,7 @@ public class ATR030100 extends BKBPage {
                 HashMap hm = new HashMap<String, String>();
                 hm.put("dailydatest", Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()));
                 hm.put("dailydatefn", Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatefn()));
-                hm.put("jobno", this.getMasterdata().getDaily().getDailyPK().getJobno());
+                hm.put("jobref", this.getMasterdata().getDaily().getJobref());
 
                 List l = CenterUtils.selectData(hm,"ATR030100SEARCH");
 

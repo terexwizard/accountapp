@@ -12,7 +12,6 @@ import com.scc.f1.util.BeanUtil;
 import com.scc.f1.util.Utils;
 import com.scc.pay.bkbean.ATP020100;
 import com.scc.pay.db.Daily;
-import com.scc.pay.db.DailyPK;
 
 /**
  *
@@ -41,12 +40,11 @@ public class ATP020100A extends BusinessImpl {
     
     private void insertDaily(ATP020100 frmi){
         
-        Daily db = new Daily(new DailyPK());
+        Daily db = new Daily();
         
         BeanUtil.copyProperties(db, frmi.getMasterdata().getDaily());
         
-        db.getDailyPK().setDailydate(Utils.formatDateToStringToDBEn(frmi.getMasterdata().getDailydate()));
-        db.getDailyPK().setJobno(frmi.getMasterdata().getDaily().getDailyPK().getJobno());
+        db.setDailydate(Utils.formatDateToStringToDBEn(frmi.getMasterdata().getDailydate()));
         
         db.setEntuser(frmi.getUserid());
         db.setEnttime(Utils.getcurDateTime());

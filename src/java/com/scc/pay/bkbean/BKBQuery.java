@@ -72,10 +72,13 @@ public class BKBQuery {
         return DBUtils.getSelectItem("lookup_tb_received_type","revalue", "revalue");
     }
          
-    public List<SelectItem> getCombotb_received_descriptioncode() {
-        return DBUtils.getSelectItem("lookup_tb_received_descriptioncode","dsrptvalue", "dscptdesc");
+    public List<SelectItem> getCombotb_descriptioncode() {
+        return DBUtils.getSelectItem("lookup_tb_descriptioncode","dsrptvalue", "dscptdesc");
     }
     
+    public List<SelectItem> getCombotb_payment_type() {
+        return DBUtils.getSelectItem("lookup_tb_payment_type","payvalue", "payvalue");
+    }
     
     
 }

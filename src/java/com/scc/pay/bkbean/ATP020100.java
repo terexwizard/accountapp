@@ -8,7 +8,6 @@ import com.scc.pay.business.BusinessFactory;
 import com.scc.f1.business.IBusinessBase;
 import com.scc.f1.util.Utils;
 import com.scc.pay.db.Daily;
-import com.scc.pay.db.DailyPK;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -72,11 +71,11 @@ public class ATP020100 extends BKBPage {
     public class MainData extends BBBase{
         private Daily daily = null;
         private Date dailydate;
-        private String chkmode = "";
+        private Date dailydatefn;
 
         public Daily getDaily() {
             if(daily == null){
-                daily = new Daily(new DailyPK());
+                daily = new Daily();
             }
             return daily;
         }
@@ -92,15 +91,13 @@ public class ATP020100 extends BKBPage {
         public void setDailydate(Date dailydate) {
             this.dailydate = dailydate;
         }        
-
-        public String getChkmode() {
-            return chkmode;
+        public Date getDailydatefn() {
+            return dailydatefn;
         }
 
-        public void setChkmode(String chkmode) {
-            this.chkmode = chkmode;
+        public void setDailydatefn(Date dailydatefn) {
+            this.dailydatefn = dailydatefn;
         }
-
 
         
 
@@ -351,9 +348,6 @@ public class ATP020100 extends BKBPage {
             this.getMasterdata().setDailydate(Utils.getcurDateTime());
         }
         
-        if(Utils.NVL(this.getMasterdata().getChkmode()).equals("")){
-            this.getMasterdata().setChkmode("1");
-        }
         //search();
     }
     
@@ -364,8 +358,9 @@ public class ATP020100 extends BKBPage {
 //       
             HashMap<String, String> hm = new HashMap<String, String>();
             
-            hm.put("dailydate", Utils.formatDateToStringToDBEn(this.getSearchparam().getDailydate()));
-            hm.put("jobno", this.getSearchparam().getDaily().getDailyPK().getJobno());
+            hm.put("dailydatest", Utils.formatDateToStringToDBEn(this.getSearchparam().getDailydate()));
+            hm.put("dailydatefn", Utils.formatDateToStringToDBEn(this.getSearchparam().getDailydatefn()));
+            hm.put("jobref", this.getSearchparam().getDaily().getJobref());
    
             BKBUQuery.getIns().setQueryparam(hm);
             BKBUQuery.getIns().search();

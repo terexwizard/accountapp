@@ -36,7 +36,7 @@ public class ATP020101U extends BusinessImpl {
     
     private void updateDaily(ATP020100 frmi){
         
-        Daily db = em.find(Daily.class, frmi.getMasterdata().getDaily().getDailyPK());
+        Daily db = em.find(Daily.class, frmi.getMasterdata().getDaily().getDailyid());
         
         if(db != null){
             BeanUtil.copyProperties(db, frmi.getMasterdata().getDaily());

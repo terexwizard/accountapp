@@ -36,7 +36,7 @@ public class ATP020101D extends BusinessImpl {
     
     private void deleteDaily(ATP020100 frmi){
         
-        Daily db = em.find(Daily.class, frmi.getMasterdata().getDaily().getDailyPK());
+        Daily db = em.find(Daily.class, frmi.getMasterdata().getDaily().getDailyid());
         
         if(db != null){
             remove(db);

@@ -8,8 +8,6 @@ import com.scc.f1.Constant;
 import com.scc.pay.business.BusinessFactory;
 import com.scc.f1.business.IBusinessBase;
 import com.scc.f1.util.Utils;
-import com.scc.pay.db.Daily;
-import com.scc.pay.db.DailyPK;
 import com.scc.pay.db.Invoice;
 import com.scc.pay.util.CenterUtils;
 import com.scc.pay.util.FaceUtil;

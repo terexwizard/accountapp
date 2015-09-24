@@ -6,9 +6,10 @@ package com.scc.pay.db;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -27,43 +28,41 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Daily.findAll", query = "SELECT d FROM Daily d")})
 public class Daily implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected DailyPK dailyPK;
-    @Column(name = "docno_code")
-    private String docnoCode;
+    @Id
+    @Basic(optional = false)
+    @Column(name = "dailyid")
+    private String dailyid;
+    @Column(name = "dailydate")
+    private String dailydate;
+    @Column(name = "companyid")
+    private String companyid;
+    @Column(name = "companyname")
+    private String companyname;
+    @Column(name = "voucherno")
+    private String voucherno;
     @Column(name = "docno")
     private String docno;
-    @Column(name = "description")
-    private String description;
-    @Column(name = "chqno")
-    private String chqno;
-    @Column(name = "no")
-    private String no;
+    @Column(name = "jobref")
+    private String jobref;
+    @Column(name = "transecsionno")
+    private String transecsionno;
+    @Column(name = "dailytype")
+    private String dailytype;
+    @Column(name = "descriptioncode")
+    private String descriptioncode;
+    @Column(name = "currency")
+    private String currency;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "received_cash")
-    private Double receivedCash;
-    @Column(name = "received_bank")
-    private String receivedBank;
-    @Column(name = "received_cr")
-    private Double receivedCr;
-    @Column(name = "received_fixaccount")
-    private Double receivedFixaccount;
-    @Column(name = "received_exchange")
-    private String receivedExchange;
-    @Column(name = "received_typeofaccount")
-    private String receivedTypeofaccount;
-    @Column(name = "payment_cash")
-    private Double paymentCash;
-    @Column(name = "payment_bank")
-    private String paymentBank;
-    @Column(name = "payment_cr")
-    private Double paymentCr;
-    @Column(name = "balance_cash")
-    private Double balanceCash;
-    @Column(name = "balance_cr")
-    private Double balanceCr;
-    @Column(name = "vendor")
-    private String vendor;
+    @Column(name = "exchangerate")
+    private Double exchangerate;
+    @Column(name = "receivedamount")
+    private Double receivedamount;
+    @Column(name = "paidamount")
+    private Double paidamount;
+    @Column(name = "payby")
+    private Double payby;
+    @Column(name = "remark")
+    private String remark;
     @Column(name = "enttime")
     @Temporal(TemporalType.TIMESTAMP)
     private Date enttime;
@@ -80,28 +79,48 @@ public class Daily implements Serializable {
     public Daily() {
     }
 
-    public Daily(DailyPK dailyPK) {
-        this.dailyPK = dailyPK;
+    public Daily(String dailyid) {
+        this.dailyid = dailyid;
     }
 
-    public Daily(String dailydate, String jobno) {
-        this.dailyPK = new DailyPK(dailydate, jobno);
+    public String getDailyid() {
+        return dailyid;
     }
 
-    public DailyPK getDailyPK() {
-        return dailyPK;
+    public void setDailyid(String dailyid) {
+        this.dailyid = dailyid;
     }
 
-    public void setDailyPK(DailyPK dailyPK) {
-        this.dailyPK = dailyPK;
+    public String getDailydate() {
+        return dailydate;
     }
 
-    public String getDocnoCode() {
-        return docnoCode;
+    public void setDailydate(String dailydate) {
+        this.dailydate = dailydate;
     }
 
-    public void setDocnoCode(String docnoCode) {
-        this.docnoCode = docnoCode;
+    public String getCompanyid() {
+        return companyid;
+    }
+
+    public void setCompanyid(String companyid) {
+        this.companyid = companyid;
+    }
+
+    public String getCompanyname() {
+        return companyname;
+    }
+
+    public void setCompanyname(String companyname) {
+        this.companyname = companyname;
+    }
+
+    public String getVoucherno() {
+        return voucherno;
+    }
+
+    public void setVoucherno(String voucherno) {
+        this.voucherno = voucherno;
     }
 
     public String getDocno() {
@@ -112,124 +131,84 @@ public class Daily implements Serializable {
         this.docno = docno;
     }
 
-    public String getDescription() {
-        return description;
+    public String getJobref() {
+        return jobref;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setJobref(String jobref) {
+        this.jobref = jobref;
     }
 
-    public String getChqno() {
-        return chqno;
+    public String getTransecsionno() {
+        return transecsionno;
     }
 
-    public void setChqno(String chqno) {
-        this.chqno = chqno;
+    public void setTransecsionno(String transecsionno) {
+        this.transecsionno = transecsionno;
     }
 
-    public String getNo() {
-        return no;
+    public String getDailytype() {
+        return dailytype;
     }
 
-    public void setNo(String no) {
-        this.no = no;
+    public void setDailytype(String dailytype) {
+        this.dailytype = dailytype;
     }
 
-    public Double getReceivedCash() {
-        return receivedCash;
+    public String getDescriptioncode() {
+        return descriptioncode;
     }
 
-    public void setReceivedCash(Double receivedCash) {
-        this.receivedCash = receivedCash;
+    public void setDescriptioncode(String descriptioncode) {
+        this.descriptioncode = descriptioncode;
     }
 
-    public String getReceivedBank() {
-        return receivedBank;
+    public String getCurrency() {
+        return currency;
     }
 
-    public void setReceivedBank(String receivedBank) {
-        this.receivedBank = receivedBank;
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
-    public Double getReceivedCr() {
-        return receivedCr;
+    public Double getExchangerate() {
+        return exchangerate;
     }
 
-    public void setReceivedCr(Double receivedCr) {
-        this.receivedCr = receivedCr;
+    public void setExchangerate(Double exchangerate) {
+        this.exchangerate = exchangerate;
     }
 
-    public Double getReceivedFixaccount() {
-        return receivedFixaccount;
+    public Double getReceivedamount() {
+        return receivedamount;
     }
 
-    public void setReceivedFixaccount(Double receivedFixaccount) {
-        this.receivedFixaccount = receivedFixaccount;
+    public void setReceivedamount(Double receivedamount) {
+        this.receivedamount = receivedamount;
     }
 
-    public String getReceivedExchange() {
-        return receivedExchange;
+    public Double getPaidamount() {
+        return paidamount;
     }
 
-    public void setReceivedExchange(String receivedExchange) {
-        this.receivedExchange = receivedExchange;
+    public void setPaidamount(Double paidamount) {
+        this.paidamount = paidamount;
     }
 
-    public String getReceivedTypeofaccount() {
-        return receivedTypeofaccount;
+    public Double getPayby() {
+        return payby;
     }
 
-    public void setReceivedTypeofaccount(String receivedTypeofaccount) {
-        this.receivedTypeofaccount = receivedTypeofaccount;
+    public void setPayby(Double payby) {
+        this.payby = payby;
     }
 
-    public Double getPaymentCash() {
-        return paymentCash;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setPaymentCash(Double paymentCash) {
-        this.paymentCash = paymentCash;
-    }
-
-    public String getPaymentBank() {
-        return paymentBank;
-    }
-
-    public void setPaymentBank(String paymentBank) {
-        this.paymentBank = paymentBank;
-    }
-
-    public Double getPaymentCr() {
-        return paymentCr;
-    }
-
-    public void setPaymentCr(Double paymentCr) {
-        this.paymentCr = paymentCr;
-    }
-
-    public Double getBalanceCash() {
-        return balanceCash;
-    }
-
-    public void setBalanceCash(Double balanceCash) {
-        this.balanceCash = balanceCash;
-    }
-
-    public Double getBalanceCr() {
-        return balanceCr;
-    }
-
-    public void setBalanceCr(Double balanceCr) {
-        this.balanceCr = balanceCr;
-    }
-
-    public String getVendor() {
-        return vendor;
-    }
-
-    public void setVendor(String vendor) {
-        this.vendor = vendor;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     public Date getEnttime() {
@@ -275,7 +254,7 @@ public class Daily implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (dailyPK != null ? dailyPK.hashCode() : 0);
+        hash += (dailyid != null ? dailyid.hashCode() : 0);
         return hash;
     }
 
@@ -286,7 +265,7 @@ public class Daily implements Serializable {
             return false;
         }
         Daily other = (Daily) object;
-        if ((this.dailyPK == null && other.dailyPK != null) || (this.dailyPK != null && !this.dailyPK.equals(other.dailyPK))) {
+        if ((this.dailyid == null && other.dailyid != null) || (this.dailyid != null && !this.dailyid.equals(other.dailyid))) {
             return false;
         }
         return true;
@@ -294,7 +273,7 @@ public class Daily implements Serializable {
 
     @Override
     public String toString() {
-        return "com.scc.pay.db.Daily[ dailyPK=" + dailyPK + " ]";
+        return "com.scc.pay.db.Daily[ dailyid=" + dailyid + " ]";
     }
     
 }

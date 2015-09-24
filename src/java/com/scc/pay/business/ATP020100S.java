@@ -11,9 +11,7 @@ package com.scc.pay.business;
 import com.scc.pay.bkbean.ATP020100;
 import com.scc.f1.business.BusinessImpl;
 import com.scc.f1.util.BeanUtil;
-import com.scc.f1.util.Utils;
 import com.scc.pay.db.Daily;
-import com.scc.pay.db.DailyPK;
 import com.scc.pay.util.CenterUtils;
 
 
@@ -32,23 +30,14 @@ public class ATP020100S extends BusinessImpl {
         
         ATP020100 frmi = (ATP020100)inobj;
         
-        logger.debug(">>parameter search:" + frmi.getSearchselectedrow().get("dailydate")+frmi.getSearchselectedrow().get("jobno"));
+        logger.debug(">>parameter search:" + frmi.getSearchselectedrow().get("dailyid"));
         
-        
-        DailyPK pk = new DailyPK(frmi.getSearchselectedrow().get("dailydate"), frmi.getSearchselectedrow().get("jobno"));
-        
-        Daily rec = em.find(Daily.class, pk);
+        Daily rec = em.find(Daily.class, frmi.getSearchselectedrow().get("dailyid"));
         
         if(rec!= null){
             BeanUtil.copyProperties(frmi.getMasterdata().getDaily(), rec);
             
-            frmi.getMasterdata().setDailydate(CenterUtils.formatStringToDateToScreen(rec.getDailyPK().getDailydate()));
-        }
-        
-        if(!Utils.NVL(frmi.getMasterdata().getDaily().getReceivedCash()).equals("")){
-             frmi.getMasterdata().setChkmode("1");
-        }else{
-             frmi.getMasterdata().setChkmode("2");
+            frmi.getMasterdata().setDailydate(CenterUtils.formatStringToDateToScreen(rec.getDailydate()));
         }
         
         
