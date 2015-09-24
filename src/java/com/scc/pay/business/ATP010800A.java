@@ -7,10 +7,10 @@ package com.scc.pay.business;
 
 
 
-import com.scc.pay.bkbean.ATP010300;
+import com.scc.pay.bkbean.ATP010800;
 import com.scc.f1.business.BusinessImpl;
 import com.scc.f1.util.Utils;
-import com.scc.pay.db.TbDescriptioncode;
+import com.scc.pay.db.TbReceivedType;
 
 /**
  *
@@ -18,18 +18,18 @@ import com.scc.pay.db.TbDescriptioncode;
  * @version 1.00.00
  * 12/06/2555 12:50:20
  */
-public class ATP010300A extends BusinessImpl {
+public class ATP010800A extends BusinessImpl {
 
     @Override
     protected Object doProcess(Object inobj) {
         
         
         
-        ATP010300 frmi = (ATP010300)inobj;
+        ATP010800 frmi = (ATP010800)inobj;
         
-        logger.debug(">>" + frmi.getUserid());
+        logger.debug(">>" + frmi.getMasterdata().getTbreceivedtype().getRevalue());
         
-        TbDescriptioncode record = frmi.getMasterdata().getTbdescriptioncode();
+        TbReceivedType record = frmi.getMasterdata().getTbreceivedtype();
         
         
         record.setEntuser(frmi.getUserid());

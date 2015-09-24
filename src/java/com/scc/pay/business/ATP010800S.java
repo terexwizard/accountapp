@@ -8,10 +8,10 @@ package com.scc.pay.business;
 
 
 
-import com.scc.pay.bkbean.ATP010300;
+import com.scc.pay.bkbean.ATP010800;
 import com.scc.f1.business.BusinessImpl;
 import com.scc.f1.util.BeanUtil;
-import com.scc.pay.db.TbDescriptioncode;
+import com.scc.pay.db.TbReceivedType;
 
 
 
@@ -21,20 +21,20 @@ import com.scc.pay.db.TbDescriptioncode;
  * @version 1.00.00
  * 12/06/2555 12:50:20
  */
-public class ATP010300S extends BusinessImpl {
+public class ATP010800S extends BusinessImpl {
 
     @Override
     protected Object doProcess(Object inobj) {
         
         
-        ATP010300 frmi = (ATP010300)inobj;
+        ATP010800 frmi = (ATP010800)inobj;
         
         logger.debug("code id >>" + frmi.getSearchselectedrow().get("id"));
         
-        TbDescriptioncode db = em.find(TbDescriptioncode.class, Integer.parseInt(frmi.getSearchselectedrow().get("id")) );
-  
-        if (db == null) {
-            BeanUtil.copyProperties(frmi.getMasterdata().getTbdescriptioncode(), db);
+         TbReceivedType recordu = em.find(TbReceivedType.class, Integer.parseInt(frmi.getSearchselectedrow().get("id")));
+        
+        if(recordu != null){
+            BeanUtil.copyProperties(frmi.getMasterdata().getTbreceivedtype(), recordu);
         }
        
         

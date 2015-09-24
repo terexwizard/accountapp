@@ -5,7 +5,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui" 
       xmlns:ui="http://java.sun.com/jsf/facelets">
-  <f:view beforePhase="#{aTP010300.beforePhase}" afterPhase="#{aTP010300.afterPhase}" encoding="UTF-8" >
+  <f:view beforePhase="#{aTP010800.beforePhase}" afterPhase="#{aTP010800.afterPhase}" encoding="UTF-8" >
     <h:head>
       <title></title>
       <h:outputStylesheet name="style.css" library="css" /> 
@@ -31,10 +31,10 @@
                 <p:panelGrid>
                   <p:row>
                     <p:column>
-                      <h:outputLabel value="Description Code"/>
+                      <h:outputLabel value="Receivedtype Code"/>
                     </p:column>
                     <p:column>
-                        <p:inputText id="dsrptvalue" value="#{aTP010300.searchparam.tbdescriptioncode.dsrptvalue}"/>
+                        <p:inputText id="revalue" value="#{aTP010800.searchparam.tbreceivedtype.revalue}"/>
                     </p:column>
                   </p:row>
                   <p:row>
@@ -42,7 +42,7 @@
                       <h:outputLabel value="Description"/>
                     </p:column>
                     <p:column>
-                        <p:inputText id="dscptdesc" value="#{aTP010300.searchparam.tbdescriptioncode.dscptdesc}"/>
+                        <p:inputText id="redesc" value="#{aTP010800.searchparam.tbreceivedtype.redesc}"/>
                     </p:column>
                   </p:row>
                 </p:panelGrid>
@@ -55,7 +55,7 @@
               <p:column>
                   <p:separator />
                       <ui:include src="#{bKBAppVar.COMPO_COMMAND_Q}"  >
-                                <ui:param name="basebean" value="#{aTP010300}"/>
+                                <ui:param name="basebean" value="#{aTP010800}"/>
                                 <ui:param name="datatable" value="#{bKBUQuery.tableid} "/>
                       </ui:include>  
                    </p:column>
@@ -65,15 +65,15 @@
           <br/>
 
           <ui:include src="#{bKBAppVar.COMPO_QUERYDATATABLE}"  >
-              <ui:param name="basebean" value="#{aTP010300}"/>
+              <ui:param name="basebean" value="#{aTP010800}"/>
               <ui:param name="formid" value="form1"/>
               <ui:param name="tableid" value="table22"/>
-              <ui:param name="queryname" value="ATP010300Q"/>
+              <ui:param name="queryname" value="ATP010800Q"/>
           </ui:include>
           
         </div>
         <ui:include src="#{bKBAppVar.COMPO_MASG}" >
-          <ui:param name="basebean" value="#{aTP010300}"/>
+          <ui:param name="basebean" value="#{aTP010800}"/>
         </ui:include>
       </h:form>
     </h:body>

@@ -6,7 +6,9 @@ package com.scc.pay.bkbean;
 
 import com.scc.pay.business.BusinessFactory;
 import com.scc.f1.business.IBusinessBase;
-import com.scc.pay.db.TbDescriptioncode;
+import com.scc.f1.util.Utils;
+import com.scc.pay.db.TbReceivedType;
+import com.scc.pay.db.TbReceivedVoucherno;
 import java.util.HashMap;
 import java.util.Map;
 import javax.faces.bean.ManagedBean;
@@ -23,14 +25,14 @@ import javax.faces.context.FacesContext;
 
 @ManagedBean
 @SessionScoped
-public class ATP010300 extends BKBPage {
+public class ATP010900 extends BKBPage {
 
     
     private MainData masterdata ;
     private MainData searchparam;
     
-    private static final String PAGE_E  = "atp010300e.xhtml";
-    private static final String PAGE_Q  = "atp010300q.xhtml";
+    private static final String PAGE_E  = "atp010900e.xhtml";
+    private static final String PAGE_Q  = "atp010900q.xhtml";
     
     private Map<String, String> searchselectedrow ;
     
@@ -67,28 +69,22 @@ public class ATP010300 extends BKBPage {
     
     
     public class MainData extends BBBase{
-        private TbDescriptioncode tbdescriptioncode = null;
+        private TbReceivedVoucherno tbreceivedvoucherno;
 
-        public TbDescriptioncode getTbdescriptioncode() {
-            return tbdescriptioncode;
+        public TbReceivedVoucherno getTbreceivedvoucherno() {
+            return tbreceivedvoucherno;
         }
 
-        public void setTbdescriptioncode(TbDescriptioncode tbdescriptioncode) {
-            this.tbdescriptioncode = tbdescriptioncode;
+        public void setTbreceivedvoucherno(TbReceivedVoucherno tbreceivedvoucherno) {
+            this.tbreceivedvoucherno = tbreceivedvoucherno;
         }
-
-        
-        
-      
-
-        
 
         
         
     }
     
     
-    public ATP010300() {
+    public ATP010900() {
         setAutoconvertthai(true);
         setShowphase(true);
         
@@ -212,7 +208,7 @@ public class ATP010300 extends BKBPage {
             
 //            toDB();
             
-            IBusinessBase ib = BusinessFactory.getBusiness("ATP010300A");
+            IBusinessBase ib = BusinessFactory.getBusiness("ATP010900A");
             
             
             ib.process(this);
@@ -244,7 +240,7 @@ public class ATP010300 extends BKBPage {
     private void update(){
         
         
-        IBusinessBase ib = BusinessFactory.getBusiness("ATP010300U");
+        IBusinessBase ib = BusinessFactory.getBusiness("ATP010900U");
             
             
         ib.process(this);
@@ -274,7 +270,7 @@ public class ATP010300 extends BKBPage {
     public String delete(){
         
         
-        IBusinessBase ib = BusinessFactory.getBusiness("ATP010300D");
+        IBusinessBase ib = BusinessFactory.getBusiness("ATP010900D");
             
             
         ib.process(this);
@@ -332,13 +328,14 @@ public class ATP010300 extends BKBPage {
     
     private void search(){
             
-            logger.debug("q para "+ this.getSearchparam().getTbdescriptioncode().getDsrptvalue()+", "+ 
-                        this.getSearchparam().getTbdescriptioncode().getDscptdesc());
+            logger.debug("q para "+ this.getSearchparam().getTbreceivedvoucherno().getRevvalue()+", "+ 
+                        this.getSearchparam().getTbreceivedvoucherno().getRevdesc());
        
             HashMap<String, String> hm = new HashMap<String, String>();
             
-            hm.put("dsrptvalue", this.getSearchparam().getTbdescriptioncode().getDsrptvalue());
-            hm.put("dscptdesc", this.getSearchparam().getTbdescriptioncode().getDscptdesc());
+
+            hm.put("revvalue", Utils.NVL(this.getSearchparam().getTbreceivedvoucherno().getRevvalue()));
+            hm.put("revdesc", Utils.NVL(this.getSearchparam().getTbreceivedvoucherno().getRevdesc()));
    
             BKBUQuery.getIns().setQueryparam(hm);
             BKBUQuery.getIns().search();
@@ -353,7 +350,7 @@ public class ATP010300 extends BKBPage {
         
         searchselectedrow       = rec;
         
-        IBusinessBase ib = BusinessFactory.getBusiness("ATP010300S");
+        IBusinessBase ib = BusinessFactory.getBusiness("ATP010900S");
         
         ib.process(this);
 

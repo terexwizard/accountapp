@@ -339,20 +339,14 @@
     <Type></Type>
     <SQL>
         
-        select t.id,
-            t.type,
-            case
-              when (t.type = '1') then 'no'
-              when (t.type = '2') then 'doc no'
-            end type_disp,
-            t.data  
-        from tb_group t
+        select dsrptvalue,
+            dscptdesc  
+        from tb_descriptioncode t
 
        <where>
            
-       <var name="id" woper="and" > t.id = '<value/>' </var>
-       <var name="type" woper="and" > t.type = '<value/>' </var>
-       <var name="data" woper="and" > t.data like '%<value/>%' </var>
+       <var name="dsrptvalue" woper="and" > t.dsrptvalue = '<value/>' </var>
+       <var name="dscptdesc" woper="and" > t.dscptdesc like '%<value/>%' </var>
        
        </where>
     </SQL>
@@ -362,18 +356,13 @@
 
     <Params>
         <Param>
-            <VarName>id</VarName>
-            <UIName>id</UIName>
+            <VarName>dsrptvalue</VarName>
+            <UIName>dsrptvalue</UIName>
             <Operator></Operator>
         </Param>
         <Param>
-            <VarName>type</VarName>
-            <UIName>type</UIName>
-            <Operator></Operator>
-        </Param>
-        <Param>
-            <VarName>data</VarName>
-            <UIName>data</UIName>
+            <VarName>dscptdesc</VarName>
+            <UIName>dscptdesc</UIName>
             <Operator></Operator>
         </Param>
     </Params>
@@ -381,15 +370,15 @@
      <Displays>
          <Columns>
              <Column>
-                <FieldName>type_disp</FieldName>
-                <Header>type</Header>
+                <FieldName>dsrptvalue</FieldName>
+                <Header>Description Code</Header>
                 <Style>width:200px;</Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
              </Column>
              <Column>
-                <FieldName>data</FieldName>
-                <Header>data</Header>
+                <FieldName>dscptdesc</FieldName>
+                <Header>Description</Header>
                 <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
@@ -591,6 +580,189 @@
      </Displays>
 </Query>
 
+
+<!-- ************************** 
+    ATP010700Q 
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATP010700Q</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+       SELECT payvalue,
+            paydesc 
+       FROM tb_payment_type t
+
+       <where>
+           
+       <var name="payvalue" woper="and" > t.payvalue = '<value/>' </var>
+       <var name="paydesc" woper="and" > t.paydesc like '%<value/>%' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.id
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>payvalue</VarName>
+            <UIName>payvalue</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>paydesc</VarName>
+            <UIName>paydesc</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>payvalue</FieldName>
+                <Header>payvalue</Header>
+                <Style>width:100px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>paydesc</FieldName>
+                <Header>paydesc</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+</Query>
+
+
+<!-- ************************** 
+    ATP010800Q 
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATP010800Q</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+       SELECT revalue,
+            redesc 
+       FROM tb_received_type t
+
+       <where>
+           
+       <var name="revalue" woper="and" > t.revalue = '<value/>' </var>
+       <var name="redesc" woper="and" > t.redesc like '%<value/>%' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.id
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>revalue</VarName>
+            <UIName>revalue</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>redesc</VarName>
+            <UIName>redesc</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>revalue</FieldName>
+                <Header>revalue</Header>
+                <Style>width:100px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>redesc</FieldName>
+                <Header>redesc</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+</Query>
+
+
+
+<!-- ************************** 
+    ATP010900Q 
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATP010900Q</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+       SELECT revvalue,
+            revdesc 
+       FROM tb_received_voucherno t
+
+       <where>
+           
+       <var name="revvalue" woper="and" > t.revvalue = '<value/>' </var>
+       <var name="revdesc" woper="and" > t.revdesc like '%<value/>%' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.id
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>revvalue</VarName>
+            <UIName>revvalue</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>revdesc</VarName>
+            <UIName>revdesc</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>revvalue</FieldName>
+                <Header>revvalue</Header>
+                <Style>width:100px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>revdesc</FieldName>
+                <Header>revdesc</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+</Query>
 
 <!-- ************************** 
     ATP020100Q 

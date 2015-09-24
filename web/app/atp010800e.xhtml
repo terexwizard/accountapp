@@ -5,7 +5,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui" 
       xmlns:ui="http://java.sun.com/jsf/facelets">
-  <f:view beforePhase="#{aTP010300.beforePhase}" afterPhase="#{aTP010300.afterPhase}" encoding="UTF-8" >
+  <f:view beforePhase="#{aTP010800.beforePhase}" afterPhase="#{aTP010800.afterPhase}" encoding="UTF-8" >
     <h:head>
       <title></title>
       <h:outputStylesheet name="style.css" library="css" /> 
@@ -26,13 +26,10 @@
                 <p:panelGrid>
                     <p:row>
                     <p:column>
-                      <h:outputLabel value="Description Code"/>
+                      <h:outputLabel value="Receivedtype Code"/>
                     </p:column>
                     <p:column>
-                        <p:selectOneMenu id="dsrptvalue" value="#{aTP010300.masterdata.tbdescriptioncode.dsrptvalue}">
-                            <f:selectItems value="#{bKBRdb.typegroup}"/>
-                        </p:selectOneMenu>
-                         
+                        <p:inputText id="revalue" value="#{aTP010800.masterdata.tbreceivedtype.revalue}"/>
                     </p:column>
                   </p:row>
                     
@@ -41,7 +38,7 @@
                       <h:outputLabel value="Description"/>
                     </p:column>
                     <p:column>
-                        <p:inputText id="dscptdesc" value="#{aTP010300.masterdata.tbdescriptioncode.dscptdesc}"/>
+                        <p:inputText id="redesc" value="#{aTP010800.masterdata.tbreceivedtype.redesc}"/>
      
                     </p:column>
                   </p:row>
@@ -55,7 +52,7 @@
                     <p:row>
                      <p:column style="width:100%;">
                          <ui:include src="#{bKBAppVar.COMPO_COMMAND_E}" >
-                           <ui:param name="basebean" value="#{aTP010300}"/>
+                           <ui:param name="basebean" value="#{aTP010800}"/>
                          </ui:include>
                      </p:column>
                    </p:row>
@@ -66,7 +63,7 @@
           <br/>
         </div>
         <ui:include src="#{bKBAppVar.COMPO_MASG}" >
-          <ui:param name="basebean" value="#{aTP010300}"/>
+          <ui:param name="basebean" value="#{aTP010800}"/>
         </ui:include>
       </h:form>
     </h:body>

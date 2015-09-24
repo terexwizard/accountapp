@@ -6,11 +6,12 @@ package com.scc.pay.business;
 
 
 
-import com.scc.pay.bkbean.ATP010300;
+import com.scc.pay.bkbean.ATP010700;
 import com.scc.f1.business.BusinessImpl;
 import com.scc.f1.util.Utils;
 import com.scc.f1.util.MessageUtil;
-import com.scc.pay.db.TbDescriptioncode;
+import com.scc.pay.db.TbPaymentType;
+import com.scc.pay.db.TbWhtax;
 import com.scc.pay.util.AppMessage;
 
 
@@ -20,32 +21,33 @@ import com.scc.pay.util.AppMessage;
  * @version 1.00.00
  * 12/06/2555 12:50:20
  */
-public class ATP010300U extends BusinessImpl {
+public class ATP010700U extends BusinessImpl {
 
     @Override
     protected Object doProcess(Object inobj) {
         
         
         
-        ATP010300 frmi = (ATP010300)inobj;
+        ATP010700 frmi = (ATP010700)inobj;
         
-        logger.debug(">>ATP010300U " + frmi.getUserid());
+        logger.debug(">>ATP010700U " + frmi.getUserid());
         
-      TbDescriptioncode record = em.find(TbDescriptioncode.class, frmi.getMasterdata().getTbdescriptioncode().getId());
+        TbPaymentType recordn = frmi.getMasterdata().getTbpaymenttype();
+        TbPaymentType record = em.find(TbPaymentType.class, recordn.getId());
 
       if (record == null) {
         createBusinessException(AppMessage.BUSINESS_ERROR_SEARCH);
         frmi.setOk(false);
         return inobj;
       }
-      if (!checkLcnt(record.getUpdlcnt(), frmi.getMasterdata().getTbdescriptioncode().getUpdlcnt(), frmi)) {
+      if (!checkLcnt(recordn.getUpdlcnt(), record.getUpdlcnt(), frmi)) {
         createBusinessException(MessageUtil.RECORD_LCNT_CHANGE);
         frmi.setOk(false);
         return inobj;
       }
       
-      record.setDsrptvalue(frmi.getMasterdata().getTbdescriptioncode().getDsrptvalue());
-      record.setDscptdesc(frmi.getMasterdata().getTbdescriptioncode().getDscptdesc());
+      record.setPayvalue(recordn.getPayvalue());
+      record.setPaydesc(recordn.getPaydesc());
       
       record.setUpdlcnt(addLcnt(record.getUpdlcnt()));
       record.setUpdtime(Utils.getcurDateTime());

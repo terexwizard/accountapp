@@ -26,27 +26,7 @@ public class BKBQuery {
     public List<SelectItem> getComboProvince() {
             //return DBUtils.getSelectItem("lookup_tb_province", "pv_code", "pv_nameth");
           return BKBListData.getSelectprovincelistOnly();  
-    }
-        
-    public List<SelectItem> getComboTb14_title_eng() {
-        return DBUtils.getSelectItem("lookup_tb14_title_eng" ,"title_nameen", "title_nameen");
-    }
-    
-    
-    public List<SelectItem> getCombojobsubject() {
-        return DBUtils.getSelectItem("lookup_jobsubject" ,"jobmode", "jobdesc");
-    }
-    
-    public List<SelectItem> getCombotbgroup() {
-        HashMap<String,String> hm = new HashMap<String,String>();
-        hm.put("type", "1");
-        return DBUtils.getSelectItem("lookup_tb_group" ,hm,"id", "data");
-    }
-    public List<SelectItem> getCombotbgroup2() {
-        HashMap<String,String> hm = new HashMap<String,String>();
-        hm.put("type", "2");
-        return DBUtils.getSelectItem("lookup_tb_group",hm ,"id", "data");
-    }
+    } 
     
     public List<SelectItem> getCombotb_bank() {
         return DBUtils.getSelectItem("lookup_tb_bank","bankid", "bankname");

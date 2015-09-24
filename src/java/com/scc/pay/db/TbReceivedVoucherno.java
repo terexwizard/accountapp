@@ -8,8 +8,10 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -22,17 +24,21 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author terex
  */
 @Entity
-@Table(name = "tb_group")
+@Table(name = "tb_received_voucherno")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TbGroup.findAll", query = "SELECT t FROM TbGroup t")})
-public class TbGroup implements Serializable {
+    @NamedQuery(name = "TbReceivedVoucherno.findAll", query = "SELECT t FROM TbReceivedVoucherno t")})
+public class TbReceivedVoucherno implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected TbGroupPK tbGroupPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "data")
-    private String data;
+    @Column(name = "id")
+    private Integer id;
+    @Column(name = "revvalue")
+    private String revvalue;
+    @Column(name = "revdesc")
+    private String revdesc;
     @Column(name = "enttime")
     @Temporal(TemporalType.TIMESTAMP)
     private Date enttime;
@@ -46,36 +52,35 @@ public class TbGroup implements Serializable {
     @Column(name = "upduser")
     private String upduser;
 
-    public TbGroup() {
+    public TbReceivedVoucherno() {
     }
 
-    public TbGroup(TbGroupPK tbGroupPK) {
-        this.tbGroupPK = tbGroupPK;
+    public TbReceivedVoucherno(Integer id) {
+        this.id = id;
     }
 
-    public TbGroup(TbGroupPK tbGroupPK, String data) {
-        this.tbGroupPK = tbGroupPK;
-        this.data = data;
+    public Integer getId() {
+        return id;
     }
 
-    public TbGroup(int id, String type) {
-        this.tbGroupPK = new TbGroupPK(id, type);
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public TbGroupPK getTbGroupPK() {
-        return tbGroupPK;
+    public String getRevvalue() {
+        return revvalue;
     }
 
-    public void setTbGroupPK(TbGroupPK tbGroupPK) {
-        this.tbGroupPK = tbGroupPK;
+    public void setRevvalue(String revvalue) {
+        this.revvalue = revvalue;
     }
 
-    public String getData() {
-        return data;
+    public String getRevdesc() {
+        return revdesc;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setRevdesc(String revdesc) {
+        this.revdesc = revdesc;
     }
 
     public Date getEnttime() {
@@ -121,18 +126,18 @@ public class TbGroup implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (tbGroupPK != null ? tbGroupPK.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TbGroup)) {
+        if (!(object instanceof TbReceivedVoucherno)) {
             return false;
         }
-        TbGroup other = (TbGroup) object;
-        if ((this.tbGroupPK == null && other.tbGroupPK != null) || (this.tbGroupPK != null && !this.tbGroupPK.equals(other.tbGroupPK))) {
+        TbReceivedVoucherno other = (TbReceivedVoucherno) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -140,7 +145,7 @@ public class TbGroup implements Serializable {
 
     @Override
     public String toString() {
-        return "com.scc.pay.db.TbGroup[ tbGroupPK=" + tbGroupPK + " ]";
+        return "com.scc.pay.db.TbReceivedVoucherno[ id=" + id + " ]";
     }
     
 }

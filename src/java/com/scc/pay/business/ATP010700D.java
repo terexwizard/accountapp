@@ -6,10 +6,11 @@ package com.scc.pay.business;
 
 
 
-import com.scc.pay.bkbean.ATP010300;
+import com.scc.pay.bkbean.ATP010700;
 import com.scc.f1.business.BusinessImpl;
 import com.scc.f1.util.MessageUtil;
-import com.scc.pay.db.TbDescriptioncode;
+import com.scc.pay.db.TbPaymentType;
+import com.scc.pay.db.TbWhtax;
 import com.scc.pay.util.AppMessage;
 
 /**
@@ -18,20 +19,20 @@ import com.scc.pay.util.AppMessage;
  * @version 1.00.00
  * 12/06/2555 12:50:20
  */
-public class ATP010300D extends BusinessImpl {
+public class ATP010700D extends BusinessImpl {
 
     @Override
     protected Object doProcess(Object inobj) {
         
         
         
-        ATP010300 frmi = (ATP010300)inobj;
+        ATP010700 frmi = (ATP010700)inobj;
         
         logger.debug(">>" + frmi.getUserid());
         
-        TbDescriptioncode record = frmi.getMasterdata().getTbdescriptioncode();
+        TbPaymentType record = frmi.getMasterdata().getTbpaymenttype();
         
-        TbDescriptioncode recordu = em.find(TbDescriptioncode.class, record.getId() );
+        TbPaymentType recordu = em.find(TbPaymentType.class, record.getId() );
   
         if (recordu == null) {
           createBusinessException(AppMessage.BUSINESS_ERROR_DELETE);

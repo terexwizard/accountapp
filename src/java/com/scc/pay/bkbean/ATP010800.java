@@ -6,7 +6,8 @@ package com.scc.pay.bkbean;
 
 import com.scc.pay.business.BusinessFactory;
 import com.scc.f1.business.IBusinessBase;
-import com.scc.pay.db.TbDescriptioncode;
+import com.scc.f1.util.Utils;
+import com.scc.pay.db.TbReceivedType;
 import java.util.HashMap;
 import java.util.Map;
 import javax.faces.bean.ManagedBean;
@@ -23,14 +24,14 @@ import javax.faces.context.FacesContext;
 
 @ManagedBean
 @SessionScoped
-public class ATP010300 extends BKBPage {
+public class ATP010800 extends BKBPage {
 
     
     private MainData masterdata ;
     private MainData searchparam;
     
-    private static final String PAGE_E  = "atp010300e.xhtml";
-    private static final String PAGE_Q  = "atp010300q.xhtml";
+    private static final String PAGE_E  = "atp010600e.xhtml";
+    private static final String PAGE_Q  = "atp010600q.xhtml";
     
     private Map<String, String> searchselectedrow ;
     
@@ -67,28 +68,20 @@ public class ATP010300 extends BKBPage {
     
     
     public class MainData extends BBBase{
-        private TbDescriptioncode tbdescriptioncode = null;
+        private TbReceivedType tbreceivedtype;
 
-        public TbDescriptioncode getTbdescriptioncode() {
-            return tbdescriptioncode;
+        public TbReceivedType getTbreceivedtype() {
+            return tbreceivedtype;
         }
 
-        public void setTbdescriptioncode(TbDescriptioncode tbdescriptioncode) {
-            this.tbdescriptioncode = tbdescriptioncode;
+        public void setTbreceivedtype(TbReceivedType tbreceivedtype) {
+            this.tbreceivedtype = tbreceivedtype;
         }
-
-        
-        
-      
-
-        
-
-        
         
     }
     
     
-    public ATP010300() {
+    public ATP010800() {
         setAutoconvertthai(true);
         setShowphase(true);
         
@@ -212,7 +205,7 @@ public class ATP010300 extends BKBPage {
             
 //            toDB();
             
-            IBusinessBase ib = BusinessFactory.getBusiness("ATP010300A");
+            IBusinessBase ib = BusinessFactory.getBusiness("ATP010600A");
             
             
             ib.process(this);
@@ -244,7 +237,7 @@ public class ATP010300 extends BKBPage {
     private void update(){
         
         
-        IBusinessBase ib = BusinessFactory.getBusiness("ATP010300U");
+        IBusinessBase ib = BusinessFactory.getBusiness("ATP010600U");
             
             
         ib.process(this);
@@ -274,7 +267,7 @@ public class ATP010300 extends BKBPage {
     public String delete(){
         
         
-        IBusinessBase ib = BusinessFactory.getBusiness("ATP010300D");
+        IBusinessBase ib = BusinessFactory.getBusiness("ATP010600D");
             
             
         ib.process(this);
@@ -332,13 +325,14 @@ public class ATP010300 extends BKBPage {
     
     private void search(){
             
-            logger.debug("q para "+ this.getSearchparam().getTbdescriptioncode().getDsrptvalue()+", "+ 
-                        this.getSearchparam().getTbdescriptioncode().getDscptdesc());
+            logger.debug("q para "+ this.getSearchparam().getTbreceivedtype().getRevalue()+", "+ 
+                        this.getSearchparam().getTbreceivedtype().getRedesc());
        
             HashMap<String, String> hm = new HashMap<String, String>();
             
-            hm.put("dsrptvalue", this.getSearchparam().getTbdescriptioncode().getDsrptvalue());
-            hm.put("dscptdesc", this.getSearchparam().getTbdescriptioncode().getDscptdesc());
+
+            hm.put("revalue", Utils.NVL(this.getSearchparam().getTbreceivedtype().getRevalue()));
+            hm.put("redesc", Utils.NVL(this.getSearchparam().getTbreceivedtype().getRedesc()));
    
             BKBUQuery.getIns().setQueryparam(hm);
             BKBUQuery.getIns().search();
@@ -353,7 +347,7 @@ public class ATP010300 extends BKBPage {
         
         searchselectedrow       = rec;
         
-        IBusinessBase ib = BusinessFactory.getBusiness("ATP010300S");
+        IBusinessBase ib = BusinessFactory.getBusiness("ATP010600S");
         
         ib.process(this);
 
