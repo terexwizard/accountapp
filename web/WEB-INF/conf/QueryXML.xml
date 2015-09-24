@@ -603,7 +603,8 @@
     <Type></Type>
     <SQL>
         
-        SELECT d.dailydate,
+        SELECT d.dailyid,
+            d.dailydate,
             db_dsf(d.dailydate) dailydate_disp,
             d.companyid,
             d.companyname,
@@ -614,14 +615,16 @@
             d.transecsionno,
             d.dailytype,
             d.descriptioncode,
-            s.dsrptvalue,
+            s.dscptdesc,
             d.currency,
             money(d.paidamount) paidamount,
             d.payby,
+            b.bankname,
             d.remark
-        FROM daily d left outer join tb_descriptioncode s on(d.descriptioncode = s.dsrptvalue)
+        FROM daily d left outer join tb_descriptioncode s on(d.descriptioncode = s.dsrptvalue) 
+            left outer join tb_bank b on (d.payby = b.bankid)
 
-       <where>d.receivedamount is not null
+       <where>d.receivedamount  <![CDATA[<>]]> 0.00
            
        <var name="dailydatest" woper="and" > d.dailydate <![CDATA[>=]]> '<value/>' </var>
        <var name="dailydatefn" woper="and" > d.dailydate <![CDATA[<=]]> '<value/>' </var>
@@ -637,6 +640,11 @@
         <Param>
             <VarName>dailydatest</VarName>
             <UIName>dailydatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatefn</VarName>
+            <UIName>dailydatefn</UIName>
             <Operator></Operator>
         </Param>
         <Param>
@@ -669,21 +677,21 @@
              </Column>
              <Column>
                 <FieldName>vouchernodocno</FieldName>
-                <Header>vouchernodocno</Header>
+                <Header>voucherno</Header>
                 <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
              </Column>
              <Column>
-                <FieldName>dsrptvalue</FieldName>
-                <Header>dsrptvalue</Header>
+                <FieldName>dscptdesc</FieldName>
+                <Header>dscptdesc</Header>
                 <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
              </Column>
              <Column>
-                <FieldName>payby</FieldName>
-                <Header>payby</Header>
+                <FieldName>bankname</FieldName>
+                <Header>bankname</Header>
                 <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
@@ -706,7 +714,8 @@
     <Type></Type>
     <SQL>
         
-        SELECT d.dailydate,
+        SELECT d.dailyid,
+            d.dailydate,
             db_dsf(d.dailydate) dailydate_disp,
             d.companyid,
             d.companyname,
@@ -717,14 +726,16 @@
             d.transecsionno,
             d.dailytype,
             d.descriptioncode,
-            s.dsrptvalue,
+            s.dscptdesc,
             d.currency,
             money(d.paidamount) paidamount,
             d.payby,
+            b.bankname,
             d.remark
-        FROM daily d left outer join tb_descriptioncode s on(d.descriptioncode = s.dsrptvalue)
+        FROM daily d left outer join tb_descriptioncode s on(d.descriptioncode = s.dsrptvalue) 
+            left outer join tb_bank b on (d.payby = b.bankid)
 
-       <where>d.paidamount is not null
+       <where>d.paidamount <![CDATA[<>]]> 0.00
            
        <var name="dailydatest" woper="and" > d.dailydate <![CDATA[>=]]> '<value/>' </var>
        <var name="dailydatefn" woper="and" > d.dailydate <![CDATA[<=]]> '<value/>' </var>
@@ -740,6 +751,11 @@
         <Param>
             <VarName>dailydatest</VarName>
             <UIName>dailydatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatefn</VarName>
+            <UIName>dailydatefn</UIName>
             <Operator></Operator>
         </Param>
         <Param>
@@ -772,21 +788,21 @@
              </Column>
              <Column>
                 <FieldName>vouchernodocno</FieldName>
-                <Header>vouchernodocno</Header>
+                <Header>voucherno</Header>
                 <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
              </Column>
              <Column>
-                <FieldName>dsrptvalue</FieldName>
-                <Header>dsrptvalue</Header>
+                <FieldName>dscptdesc</FieldName>
+                <Header>dscptdesc</Header>
                 <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
              </Column>
              <Column>
-                <FieldName>payby</FieldName>
-                <Header>payby</Header>
+                <FieldName>bankname</FieldName>
+                <Header>bankname</Header>
                 <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
@@ -1500,6 +1516,54 @@
         <Param>
             <VarName>revalue</VarName>
             <UIName>revalue</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+<!-- ************************** 
+    lookup_tb_payment_type
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_tb_payment_type</TranCode>    
+    <Version>1</Version>
+    <Description>ตารางอำเภอ/เขต</Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT payvalue,paydesc 
+        FROM tb_payment_type t
+
+       <where>
+       
+       <var name="payvalue" woper="and" > t.payvalue = '<value/>' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.id
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>payvalue</VarName>
+            <UIName>payvalue</UIName>
             <Operator></Operator>
         </Param>
     </Params>

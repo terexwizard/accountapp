@@ -32,7 +32,7 @@ public class ATP020100S extends BusinessImpl {
         
         logger.debug(">>parameter search:" + frmi.getSearchselectedrow().get("dailyid"));
         
-        Daily rec = em.find(Daily.class, frmi.getSearchselectedrow().get("dailyid"));
+        Daily rec = em.find(Daily.class, Integer.parseInt(frmi.getSearchselectedrow().get("dailyid")));
         
         if(rec!= null){
             BeanUtil.copyProperties(frmi.getMasterdata().getDaily(), rec);

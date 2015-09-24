@@ -9,6 +9,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -29,9 +31,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Daily implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "dailyid")
-    private String dailyid;
+    private Integer dailyid;
     @Column(name = "dailydate")
     private String dailydate;
     @Column(name = "companyid")
@@ -79,15 +82,15 @@ public class Daily implements Serializable {
     public Daily() {
     }
 
-    public Daily(String dailyid) {
+    public Daily(Integer dailyid) {
         this.dailyid = dailyid;
     }
 
-    public String getDailyid() {
+    public Integer getDailyid() {
         return dailyid;
     }
 
-    public void setDailyid(String dailyid) {
+    public void setDailyid(Integer dailyid) {
         this.dailyid = dailyid;
     }
 

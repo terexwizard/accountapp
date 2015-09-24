@@ -361,7 +361,7 @@ public class ATP020101 extends BKBPage {
 //       
             HashMap<String, String> hm = new HashMap<String, String>();
             
-            hm.put("dailydate", Utils.formatDateToStringToDBEn(this.getSearchparam().getDailydate()));
+            hm.put("dailydatest", Utils.formatDateToStringToDBEn(this.getSearchparam().getDailydate()));
             hm.put("dailydatefn", Utils.formatDateToStringToDBEn(this.getSearchparam().getDailydatefn()));
             hm.put("jobref", this.getSearchparam().getDaily().getJobref());
    

@@ -7,7 +7,7 @@ package com.scc.pay.business;
 
 
 import com.scc.f1.business.BusinessImpl;
-import com.scc.pay.bkbean.ATP020100;
+import com.scc.pay.bkbean.ATP020101;
 import com.scc.pay.db.Daily;
 
 /**
@@ -23,7 +23,7 @@ public class ATP020101D extends BusinessImpl {
         
         
         
-        ATP020100 frmi = (ATP020100)inobj;
+        ATP020101 frmi = (ATP020101)inobj;
         
         logger.debug(">>" + frmi.getUserid());
         
@@ -34,7 +34,7 @@ public class ATP020101D extends BusinessImpl {
         return inobj;
     }
     
-    private void deleteDaily(ATP020100 frmi){
+    private void deleteDaily(ATP020101 frmi){
         
         Daily db = em.find(Daily.class, frmi.getMasterdata().getDaily().getDailyid());
         

@@ -52,7 +52,7 @@
                       <h:outputLabel value="Payment Date"/>
                     </p:column>
                     <p:column>
-                        <p:calendar id="PaymentDate" 
+                        <p:calendar id="dailydate" value="#{aTP020101.masterdata.dailydate}"
                                      size="10" maxlength="10" locale="en" showOn="button" 
                                      converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true">
                             <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
@@ -67,7 +67,7 @@
                       <h:outputLabel value="Paid To"/>
                     </p:column>
                     <p:column>
-                       <p:inputText label="" id="paidto"
+                       <p:inputText label="" id="companyid" value="#{aTP020101.masterdata.daily.companyid}"
                                       size="8" maxlength="8" 
                                       required="true"
                                       disabled="#{aTP010200.modeupdate}">
@@ -79,7 +79,7 @@
                           <ui:param name="formid" value="form1"/>
                           <ui:param name="lookupname" value="b1"/>
                           <ui:param name="lookupquery" value="lookup_invoicecompany"/>
-                          <ui:param name="lookuppara" value="paidto#invcomid"/>
+                          <ui:param name="lookuppara" value="companyid#invcomid"/>
                           <ui:param name="lookupreturn" value="companyname#companyname"/>
                         </ui:include>
                         
@@ -88,13 +88,13 @@
                             <ui:param name="formid" value="form1"/>
                             <ui:param name="zoomname" value="zoom1"/>
                             <ui:param name="zoomquery" value="lookup_invoicecompany"/>
-                            <ui:param name="zoomreturn" value="paidto#invcomid,companyname#companyname"/>
+                            <ui:param name="zoomreturn" value="companyid#invcomid,companyname#companyname"/>
                           </ui:include>
 
                         </p:outputPanel> 
                         
                        
-                         <p:inputText label="" id="companyname" 
+                         <p:inputText label="" id="companyname" value="#{aTP020101.masterdata.daily.companyname}"
                                       size="25" maxlength="8" readonly="true"
                                       styleClass="#{bKBStyle.STYLE_INPUT_DISABLE}"
                                       tabindex="-1">
@@ -108,12 +108,13 @@
                     </p:column>
                      <p:column style="padding: 0px;">
                         <p:panelGrid columns="2">
-                            <p:selectOneMenu id="VoucherNo"
+                            <p:selectOneMenu id="voucherno" value="#{aTP020101.masterdata.daily.voucherno}"
                                              style="width: 80px;">
                                 <f:selectItems value="#{bKBQuery.combotb_received_voucherno}" />
                             </p:selectOneMenu>
 
-                            <p:inputMask id="docno" mask="9999/99/99" maxlength="10" size="10"/>
+                            <p:inputMask id="docno" mask="9999/99/99" maxlength="10" size="10"
+                                         value="#{aTP020101.masterdata.daily.docno}"/>
                         </p:panelGrid>
                     </p:column>
                   </p:row>
@@ -123,7 +124,8 @@
                       <h:outputLabel value="Job Ref."/>
                     </p:column>
                     <p:column>
-                        <p:inputText id="JobRef" size="14" maxlength="14"/>
+                        <p:inputText id="jobref" size="14" maxlength="14"
+                                     value="#{aTP020101.masterdata.daily.jobref}"/>
                     </p:column>
                   </p:row>
                     
@@ -132,7 +134,8 @@
                       <h:outputLabel value="Transecsion No."/>
                     </p:column>
                     <p:column>
-                        <p:inputText id="TransecsionNo" size="14" maxlength="14"/>
+                        <p:inputText id="transecsionno" size="14" maxlength="14"
+                                     value="#{aTP020101.masterdata.daily.transecsionno}"/>
                     </p:column>
                   </p:row>
                     
@@ -141,9 +144,9 @@
                       <h:outputLabel value="Payment Type"/>
                     </p:column>
                     <p:column>
-                        <p:selectOneMenu id="PaymentType"
+                        <p:selectOneMenu id="dailytype" value="#{aTP020101.masterdata.daily.dailytype}"
                                              style="width: 80px;">
-                            <f:selectItems value="#{bKBQuery.combotb_received_type}" />
+                            <f:selectItems value="#{bKBQuery.combotb_payment_type}" />
                         </p:selectOneMenu>
                     </p:column>
                   </p:row>
@@ -153,7 +156,7 @@
                       <h:outputLabel value="Description Code"/>
                     </p:column>
                     <p:column>
-                        <p:selectOneMenu id="DescriptionCode"
+                        <p:selectOneMenu id="descriptioncode" value="#{aTP020101.masterdata.daily.descriptioncode}"
                                              style="width: 380px;">
                                 <f:selectItems value="#{bKBQuery.combotb_descriptioncode}" />
                         </p:selectOneMenu>
@@ -165,7 +168,7 @@
                       <h:outputLabel value="Currency"/>
                     </p:column>
                     <p:column>
-                        <p:selectOneMenu id="Currency"
+                        <p:selectOneMenu id="currency" value="#{aTP020101.masterdata.daily.currency}"
                                              style="width: 80px;">
                             <f:selectItems value="#{bKBQuery.combotb_currency}" />
                         </p:selectOneMenu>
@@ -174,7 +177,8 @@
                         <h:outputLabel value="EXCHANGE RATE"/>
                         
                         &nbsp;&nbsp;
-                        <p:inputMask id="EXCHANGERATE" mask="999.99" size="6" maxlength="6"/>
+                        <p:inputMask id="exchangerate" mask="999.99" size="6" maxlength="6"
+                                     value="#{aTP020101.masterdata.daily.exchangerate}"/>
                     </p:column>
                   </p:row>
                 
@@ -183,7 +187,8 @@
                       <h:outputLabel value="Paid Amount"/>
                     </p:column>
                     <p:column>
-                         <p:inputText id="PaidAmount" size="14" maxlength="14"
+                         <p:inputText id="paidamount" size="14" maxlength="14"
+                                      value="#{aTP020101.masterdata.daily.paidamount}"
                                       converter="moneyConverter">
                             <p:ajax process="@this" update="@this" />
                          </p:inputText>
@@ -194,7 +199,7 @@
                       <h:outputLabel value="Paid by"/>
                     </p:column>
                     <p:column>
-                         <p:selectOneMenu id="Paidby"
+                         <p:selectOneMenu id="payby" value="#{aTP020101.masterdata.daily.payby}"
                                              style="width: 250px;">
                              <f:selectItems value="#{bKBQuery.combotb_bank}" />
                         </p:selectOneMenu>
@@ -206,7 +211,8 @@
                       <h:outputLabel value="Remark"/>
                     </p:column>
                     <p:column>
-                        <p:inputTextarea id="Remark" cols="60" rows="3"/>
+                        <p:inputTextarea id="remark" cols="60" rows="3"
+                                          value="#{aTP020101.masterdata.daily.remark}"/>
                     </p:column>
                   </p:row>
                     

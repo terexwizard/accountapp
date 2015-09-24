@@ -8,7 +8,7 @@ package com.scc.pay.business;
 
 
 
-import com.scc.pay.bkbean.ATP020100;
+import com.scc.pay.bkbean.ATP020101;
 import com.scc.f1.business.BusinessImpl;
 import com.scc.f1.util.BeanUtil;
 import com.scc.pay.db.Daily;
@@ -28,17 +28,17 @@ public class ATP020101S extends BusinessImpl {
     protected Object doProcess(Object inobj) {
         
         
-        ATP020100 frmi = (ATP020100)inobj;
+        ATP020101 frmi = (ATP020101)inobj;
         
         logger.debug(">>parameter search:" + frmi.getSearchselectedrow().get("dailyid"));
         
         
-        Daily rec = em.find(Daily.class, frmi.getSearchselectedrow().get("dailyid"));
+        Daily rec = em.find(Daily.class, Integer.parseInt(frmi.getSearchselectedrow().get("dailyid")));
         
         if(rec!= null){
             BeanUtil.copyProperties(frmi.getMasterdata().getDaily(), rec);
             
-            frmi.getMasterdata().setDailydate(CenterUtils.formatStringToDateToScreen(rec.getDailyid()));
+            frmi.getMasterdata().setDailydate(CenterUtils.formatStringToDateToScreen(rec.getDailydate()));
         }
         
         

@@ -6,7 +6,7 @@ package com.scc.pay.business;
 
 
 
-import com.scc.pay.bkbean.ATP020100;
+import com.scc.pay.bkbean.ATP020101;
 import com.scc.f1.business.BusinessImpl;
 import com.scc.f1.util.BeanUtil;
 import com.scc.f1.util.Utils;
@@ -24,7 +24,7 @@ public class ATP020101U extends BusinessImpl {
     @Override
     protected Object doProcess(Object inobj) {  
         
-      ATP020100 frmi = (ATP020100)inobj;
+      ATP020101 frmi = (ATP020101)inobj;
         
       logger.debug(">>" + frmi.getUserid());
       
@@ -34,7 +34,7 @@ public class ATP020101U extends BusinessImpl {
       return inobj;
     }
     
-    private void updateDaily(ATP020100 frmi){
+    private void updateDaily(ATP020101 frmi){
         
         Daily db = em.find(Daily.class, frmi.getMasterdata().getDaily().getDailyid());
         

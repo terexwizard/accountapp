@@ -10,7 +10,7 @@ package com.scc.pay.business;
 import com.scc.f1.business.BusinessImpl;
 import com.scc.f1.util.BeanUtil;
 import com.scc.f1.util.Utils;
-import com.scc.pay.bkbean.ATP020100;
+import com.scc.pay.bkbean.ATP020101;
 import com.scc.pay.db.Daily;
 
 /**
@@ -26,7 +26,7 @@ public class ATP020101A extends BusinessImpl {
         
         
         
-        ATP020100 frmi = (ATP020100)inobj;
+        ATP020101 frmi = (ATP020101)inobj;
         
         logger.debug(">>" + frmi.getUserid());
         
@@ -38,7 +38,7 @@ public class ATP020101A extends BusinessImpl {
         return inobj;
     }
     
-    private void insertDaily(ATP020100 frmi){
+    private void insertDaily(ATP020101 frmi){
         
         Daily db = new Daily();
         

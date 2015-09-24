@@ -28,7 +28,7 @@
                     </p:row>
                    <p:row>
                     <p:column>
-                      <h:outputLabel value="วันที่"/>
+                      <h:outputLabel value="Payment Date"/>
                     </p:column>
                     <p:column>
                         <p:calendar id="dailydate" value="#{aTP020101.searchparam.dailydate}"
@@ -39,13 +39,25 @@
                         </p:calendar>
                          
                     </p:column>
+                       <p:column>
+                      <h:outputLabel value="Payment Date"/>
+                    </p:column>
+                    <p:column>
+                        <p:calendar id="dailydatefn" value="#{aTP020101.searchparam.dailydatefn}"
+                                     size="10" maxlength="10" locale="en" showOn="button" 
+                                     converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true">
+                            <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
+                            <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
+                        </p:calendar>
+                         
+                    </p:column>
                    </p:row>
                    <p:row>
                     <p:column>
-                      <h:outputLabel value="REF. NO. (jobno)"/>
+                      <h:outputLabel value="Job Ref."/>
                     </p:column>
                     <p:column>
-                        <p:inputText id="jobno" value="#{aTP020101.searchparam.daily.dailyPK.jobno}"/>
+                        <p:inputText id="jobref" value="#{aTP020101.searchparam.daily.jobref}"/>
                     </p:column>
                   </p:row>
                 </p:panelGrid>
