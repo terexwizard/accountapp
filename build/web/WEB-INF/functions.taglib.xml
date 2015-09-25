@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<facelet-taglib 
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facelettaglibrary_2_0.xsd"
+    version="2.0">
+    <namespace>http://taglib.scc.com/functions</namespace>
+    
+    <function>
+        <function-name>convertIntToScreen</function-name>
+        <function-class>com.scc.pay.taglib.Functions</function-class>
+        <function-signature>String convertIntToScreen(java.lang.Integer)</function-signature>
+    </function>
+    
+    <function>
+        <function-name>formatMoney</function-name>
+        <function-class>com.scc.pay.taglib.Functions</function-class>
+        <function-signature>String formatMoney(java.lang.Object)</function-signature>
+    </function>
+    
+    <function>
+        <function-name>formatDecimal</function-name>
+        <function-class>com.scc.pay.taglib.Functions</function-class>
+        <function-signature>String formatDecimal(java.lang.Object)</function-signature>
+    </function>
+    
+    <function>
+        <function-name>formatDecimalString</function-name>
+        <function-class>com.scc.pay.taglib.Functions</function-class>
+        <function-signature>String formatDecimalString(java.lang.Object)</function-signature>
+    </function>
+    
+    <function>
+        <function-name>convertPinTinToScreen</function-name>
+        <function-class>com.scc.pay.taglib.Functions</function-class>
+        <function-signature>String convertPinTinToScreen(java.lang.Object)</function-signature>
+    </function>
+   
+    
+     <function>
+        <function-name>convertDateTimeToScreen</function-name>
+        <function-class>com.scc.pay.taglib.Functions</function-class>
+        <function-signature>String convertDateTimeToScreen(java.util.Date)</function-signature>
+    </function>
+
+    <function>
+        <function-name>convertDateStringToScreen</function-name>
+        <function-class>com.scc.pay.taglib.Functions</function-class>
+        <function-signature>String convertDateStringToScreen(java.lang.String)</function-signature>
+    </function>
+    
+</facelet-taglib>

@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+  <f:view beforePhase="#{bTT010100.beforePhase}" afterPhase="#{bTT010100.afterPhase}" encoding="UTF-8" >
+    <h:head>
+      <title>ตารางจังหวัด</title>
+      <h:outputStylesheet name="style.css" library="css" />
+      <h:outputStylesheet name="style_s.css" library="css" />
+      <h:outputScript name="f1common.js" library="js" />
+      <script type="text/javascript">   
+ //<![CDATA[ 
+     function zero_pad(x){
+      if(x.value.length)
+         while(x.value.length < x.maxLength)
+           x.value = '0' + x.value;
+     }
+ //]]>   
+      </script>
+    </h:head>
+    <h:body>
+      <br/>
+      <h:form id="form1" >
+        <p:focus for="#{bTT010100.focus}" />
+        <div align="center">
+          <p:panelGrid>
+            <p:row>
+              <p:column>
+                <p:panelGrid>
+                  <p:row>
+                    <p:column styleClass="td100">
+                      <h:outputLabel value="รหัสจังหวัด"><h:outputText styleClass="redstar" value="*" rendered="#{bTT010100.modeadd}"/></h:outputLabel>
+                    </p:column>
+                    <p:column>
+                      <p:inputText id="provcode" value="#{bTT010100.masterdata.provCode}"  label="รหัสจังหวัด"
+                               size="5" maxlength="2" styleClass="#{bTT010100.style.notupdate}"
+                               readonly="#{bTT010100.modeupdate}" required="true" onchange="zero_pad(this)"
+                               onkeydown="num(event);"/>
+                    </p:column>
+                  </p:row>
+                  <p:row>
+                    <p:column styleClass="td100">
+                      <h:outputLabel value="ชื่อจังหวัด"><h:outputText styleClass="redstar" value="*"/></h:outputLabel>
+                    </p:column>
+                    <p:column>
+                      <p:inputText id="provname" value="#{bTT010100.masterdata.provName}" label="ชื่อจังหวัด" 
+                               required="true" size="40" maxlength="60"/>
+                    </p:column>
+                  </p:row>
+                </p:panelGrid>
+              </p:column>
+            </p:row>
+            <p:row>
+              <p:column>
+                <div align="center">
+                  <p:separator />
+                  <ui:include src="#{bKBAppVar.COMPO_COMMAND_E}" >
+                    <ui:param name="basebean" value="#{bTT010100}"/>
+                  </ui:include>
+                </div>
+              </p:column>
+            </p:row>
+          </p:panelGrid>
+        </div>
+        <ui:include src="#{bKBAppVar.COMPO_MASG}" >
+          <ui:param name="basebean" value="#{bTT010100}"/>
+        </ui:include>
+      </h:form>
+    </h:body>
+  </f:view>
+</html>

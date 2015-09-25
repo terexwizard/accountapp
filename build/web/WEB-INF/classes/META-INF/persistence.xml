@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+  <!--<persistence-unit name="WebJPAT2REGCOM" transaction-type="JTA">
+    <jta-data-source>java:/comp/env/jdbc/rcdb</jta-data-source> -->
+  <persistence-unit name="purdc" transaction-type="RESOURCE_LOCAL">
+    <non-jta-data-source>java:/comp/env/jdbc/accdb</non-jta-data-source>
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.scc.app.db.ScUserLog</class>
+    <class>com.scc.app.db.ScProcLog</class>
+    <class>com.scc.app.db.ScRolePermisstion</class>
+    <class>com.scc.app.db.ScSystem</class>
+    <class>com.scc.app.db.ScFunction</class>
+    <class>com.scc.app.db.ScMenu</class>
+    <class>com.scc.app.db.ScMenuDisp</class>
+    <class>com.scc.app.db.ScUserInfo</class>
+    <class>com.scc.app.db.ScUserPermitRole</class>
+    <class>com.scc.app.db.ScUserCertificate</class>
+    <class>com.scc.app.db.ScUser</class>
+    <class>com.scc.app.db.ScRole</class>
+    <class>com.scc.app.db.ScUserPermitFunction</class>
+    <class>com.scc.app.db.ScUserSession</class>
+    <class>com.scc.app.db.ScUserLogonLock</class>
+    <class>com.scc.app.db.ScConfig</class>
+    <class>com.scc.app.db.ScTrustedrootCa</class>
+    <class>com.scc.app.db.TbMessage</class>
+    <class>com.scc.pay.db.Tb04Holiday</class>
+    <class>com.scc.pay.db.Tb02Amphur</class>
+    <class>com.scc.pay.db.Tb14Title</class>
+    <class>com.scc.pay.db.Tb03Tumbol</class>
+    <class>com.scc.pay.db.Tb01Province</class>
+    <class>com.scc.pay.db.Jobsubject</class>
+    <class>com.scc.pay.db.Jobstatus</class>
+    <class>com.scc.pay.db.Jobdata</class>
+    <class>com.scc.pay.db.TbBank</class>
+    <class>com.scc.pay.db.TbCurrency</class>
+    <class>com.scc.pay.db.TbGroup</class>
+    <class>com.scc.pay.db.Daily</class>
+    <class>com.scc.pay.db.Invoice</class>
+    <class>com.scc.pay.db.Invoicecompany</class>
+    <class>com.scc.pay.db.Receivable</class>
+    <class>com.scc.pay.db.TbVat</class>
+    <class>com.scc.pay.db.TbWhtax</class>
+    <class>com.scc.pay.db.TbPaymentType</class>
+    <class>com.scc.pay.db.TbDescriptioncode</class>
+    <class>com.scc.pay.db.TbReceivedType</class>
+    <class>com.scc.pay.db.TbReceivedVoucherno</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <shared-cache-mode>NONE</shared-cache-mode>
+    <validation-mode>NONE</validation-mode>
+    <properties>
+      <property name="eclipselink.logging.level" value="FINE"/>
+      <property name="eclipselink.session.customizer" value="org.eclipse.persistence.logging.JPAEclipseLinkSessionCustomizer"/>
+      <!-- 
+      <property name="eclipselink.logging.logger" value="org.eclipse.persistence.logging.CommonsLoggingSessionLog"/> 
+      
+      <property name="eclipselink.logging.file" value="c:/logs/ec.log"/>
+      -->
+    </properties>
+  </persistence-unit>
+</persistence>

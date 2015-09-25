@@ -1,0 +1,407 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+  <f:view beforePhase="#{cTR010200.beforePhase}" afterPhase="#{cTR010200.afterPhase}" encoding="UTF-8" >
+    <h:head>
+      <title>ตารางภาค</title>
+      <h:outputStylesheet name="style.css" library="css" /> 
+      <h:outputStylesheet name="style_s.css" library="css" />
+      <h:outputScript name="f1common.js" library="js" />
+      <script type="text/javascript">   
+ //<![CDATA[ 
+   
+ //]]>   
+      </script>
+    </h:head>
+    <h:body>
+      <br/>
+      <h:form id="form1" >
+       
+        <div align="center">
+
+                <p:panelGrid>
+                  <p:row>
+                    <p:column>
+                      <h:outputLabel value="jobno"/>
+                    </p:column>
+                    <p:column>
+                        
+                        <p:inputText id="jobno" value="#{cTR010200.masterdata.jobdata.jobno}"/>
+                        
+                    </p:column>
+                  </p:row>
+                    
+                    <p:row>
+                    <p:column>
+                      <h:outputLabel value="consignee"/>
+                    </p:column>
+                    <p:column>
+                    <p:inputText id="consignee" value="#{cTR010200.masterdata.jobdata.consignee}"/>
+                         
+                    </p:column>
+                  </p:row>
+                    
+                <p:row>
+                    <p:column>
+                      <h:outputLabel value="import"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="import1" value="#{cTR010200.masterdata.jobdata.import1}"/>
+     
+                    </p:column>
+                  </p:row>
+
+                <p:row>
+                    <p:column>
+                      <h:outputLabel value="reexport"/>
+                    </p:column>
+                    <p:column>
+                            <p:inputText id="reexport" value="#{cTR010200.masterdata.jobdata.reexport}"/>
+     
+                    </p:column>
+                  </p:row>
+
+                <p:row>
+                    <p:column>
+                      <h:outputLabel value="invoiceNo"/>
+                    </p:column>
+                    <p:column>
+                            <p:inputText id="invoiceNo" value="#{cTR010200.masterdata.jobdata.invoiceNo}"/> 
+
+     
+                    </p:column>
+                  </p:row>
+
+                <p:row>
+                    <p:column>
+                      <h:outputLabel value="vendorName"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="vendorName" value="#{cTR010200.masterdata.jobdata.vendorName}"/> 
+     
+                    </p:column>
+                  </p:row>
+
+                <p:row>
+                    <p:column>
+                      <h:outputLabel value="descriptionOfGoods"/>
+                    </p:column>
+                    <p:column>
+                            <p:inputText id="descriptionOfGoods" value="#{cTR010200.masterdata.jobdata.descriptionOfGoods}"/>
+     
+                    </p:column>
+                  </p:row>
+
+                <p:row>
+                <p:column>
+                  <h:outputLabel value="qtyOfShipment"/>
+                </p:column>
+                <p:column>
+                    <p:inputText id="qtyOfShipment" value="#{cTR010200.masterdata.jobdata.qtyOfShipment}"/>
+
+                </p:column>
+              </p:row>
+
+                <p:row>
+                    <p:column>
+                      <h:outputLabel value="exportEntryLicenseno"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="exportEntryLicenseno" value="#{cTR010200.masterdata.jobdata.exportEntryLicenseno}"/> 
+     
+                    </p:column>
+                  </p:row>
+
+                <p:row>
+                    <p:column>
+                      <h:outputLabel value="grossWt"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="grossWt" value="#{cTR010200.masterdata.jobdata.grossWt}"/> 
+     
+                    </p:column>
+                  </p:row>
+
+                <p:row>
+                    <p:column>
+                      <h:outputLabel value="kindOfTransport"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="kindOfTransport" value="#{cTR010200.masterdata.jobdata.kindOfTransport}"/>
+     
+                    </p:column>
+                  </p:row>
+
+                <p:row>
+                    <p:column>
+                      <h:outputLabel value="dateShippingCustoms"/>
+                    </p:column>
+                    <p:column>
+                         <p:calendar id="dateShippingCustoms" value="#{cTR010200.masterdata.jobdata.dateShippingCustoms}"
+                                             size="10" maxlength="10" locale="th" showOn="button" 
+                                             converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true"
+                                               label="dateShippingCustoms">
+                            <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
+                            <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
+                        </p:calendar>
+     
+                    </p:column>
+                  </p:row>
+
+                <p:row>
+                    <p:column>
+                      <h:outputLabel value="dateOfTransitChongmek"/>
+                    </p:column>
+                    <p:column>
+                        <p:calendar id="dateOfTransitChongmek" value="#{cTR010200.masterdata.jobdata.dateOfTransitChongmek}"
+                                             size="10" maxlength="10" locale="th" showOn="button" 
+                                             converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true"
+                                               label="dateOfTransitChongmek">
+                            <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
+                            <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
+                        </p:calendar>
+     
+                    </p:column>
+                  </p:row>
+
+                <p:row>
+                    <p:column>
+                      <h:outputLabel value="dateOfTransitMukdahan"/>
+                    </p:column>
+                    <p:column>
+                        
+                         <p:calendar id="dateOfTransitMukdahan" value="#{cTR010200.masterdata.jobdata.dateOfTransitMukdahan}"
+                                             size="10" maxlength="10" locale="th" showOn="button" 
+                                             converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true"
+                                               label="dateOfTransitMukdahan">
+                            <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
+                            <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
+                        </p:calendar>
+                    </p:column>
+                  </p:row>
+                <p:row>
+                    <p:column>
+                      <h:outputLabel value="dateOfTransitNongkhai"/>
+                    </p:column>
+                    <p:column>
+                        
+                         <p:calendar id="dateOfTransitNongkhai" value="#{cTR010200.masterdata.jobdata.dateOfTransitNongkhai}"
+                                             size="10" maxlength="10" locale="th" showOn="button" 
+                                             converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true"
+                                               label="dateOfTransitNongkhai">
+                            <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
+                            <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
+                        </p:calendar>
+                    </p:column>
+                  </p:row>
+
+                <p:row>
+                    <p:column>
+                      <h:outputLabel value="dateOfTransitWangtao"/>
+                    </p:column>
+                    <p:column>
+                         <p:calendar id="dateOfTransitWangtao" value="#{cTR010200.masterdata.jobdata.dateOfTransitWangtao}"
+                                             size="10" maxlength="10" locale="th" showOn="button" 
+                                             converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true"
+                                               label="dateOfTransitWangtao">
+                            <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
+                            <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
+                        </p:calendar>
+                        
+                    </p:column>
+                  </p:row>
+
+                   <p:row>
+                    <p:column>
+                      <h:outputLabel value="dateOfTransitSavannakhet"/>
+                    </p:column>
+                    <p:column>
+                        <p:calendar id="dateOfTransitSavannakhet" value="#{cTR010200.masterdata.jobdata.dateOfTransitSavannakhet}"
+                                             size="10" maxlength="10" locale="th" showOn="button" 
+                                             converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true"
+                                               label="dateOfTransitSavannakhet">
+                            <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
+                            <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
+                        </p:calendar>
+                    </p:column>
+                  </p:row>
+
+                <p:row>
+                    <p:column>
+                      <h:outputLabel value="dateOfTransitThanaleng"/>
+                    </p:column>
+                    <p:column>
+                        <p:calendar id="dateOfTransitThanaleng" value="#{cTR010200.masterdata.jobdata.dateOfTransitThanaleng}"
+                                             size="10" maxlength="10" locale="th" showOn="button" 
+                                             converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true"
+                                               label="dateOfTransitThanaleng">
+                            <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
+                            <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
+                        </p:calendar>
+                    </p:column>
+                  </p:row>
+
+                <p:row>
+                    <p:column>
+                      <h:outputLabel value="deliveryToSite"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="deliveryToSite" value="#{cTR010200.masterdata.jobdata.deliveryToSite}"/>
+     
+                    </p:column>
+                  </p:row>
+
+
+                <p:row>
+                    <p:column>
+                      <h:outputLabel value="laosShippingBy"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="laosShippingBy" value="#{cTR010200.masterdata.jobdata.laosShippingBy}"/> 
+     
+                    </p:column>
+                  </p:row>
+
+
+                <p:row>
+                    <p:column>
+                      <h:outputLabel value="thaiShippingBy"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="thaiShippingBy" value="#{cTR010200.masterdata.jobdata.thaiShippingBy}"/> 
+     
+                    </p:column>
+                  </p:row>
+
+
+                <p:row>
+                    <p:column>
+                      <h:outputLabel value="transportBy"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="transportBy" value="#{cTR010200.masterdata.jobdata.transportBy}"/>
+     
+                    </p:column>
+                  </p:row>
+
+
+                <p:row>
+                    <p:column>
+                      <h:outputLabel value="origin"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="origin" value="#{cTR010200.masterdata.jobdata.origin}"/>
+     
+                    </p:column>
+                  </p:row>
+
+                    <p:row>
+                    <p:column>
+                      <h:outputLabel value="transportCost"/>
+                    </p:column>
+                    <p:column>
+                    <p:inputText id="transportCost" value="#{cTR010200.masterdata.jobdata.transportCost}"/>
+     
+                    </p:column>
+                  </p:row>
+
+
+                <p:row>
+                    <p:column>
+                      <h:outputLabel value="dischargeSiteThai"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="dischargeSiteThai" value="#{cTR010200.masterdata.jobdata.dischargeSiteThai}"/> 
+     
+                    </p:column>
+                  </p:row>
+
+
+                <p:row>
+                    <p:column>
+                      <h:outputLabel value="dischargeSiteLaos"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="dischargeSiteLaos" value="#{cTR010200.masterdata.jobdata.dischargeSiteLaos}"/> 
+     
+                    </p:column>
+                  </p:row>
+
+
+                <p:row>
+                    <p:column>
+                      <h:outputLabel value="aseanCusDocIm4"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="aseanCusDocIm4" value="#{cTR010200.masterdata.jobdata.aseanCusDocIm4}"/>
+     
+                    </p:column>
+                  </p:row>
+
+
+                <p:row>
+                    <p:column>
+                      <h:outputLabel value="aseanCusDocIm5"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="aseanCusDocIm5" value="#{cTR010200.masterdata.jobdata.aseanCusDocIm5}"/>
+     
+                    </p:column>
+                  </p:row>
+
+
+                <p:row>
+                    <p:column>
+                      <h:outputLabel value="aseanCusDocIm8"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="aseanCusDocIm8" value="#{cTR010200.masterdata.jobdata.aseanCusDocIm8}"/>
+     
+                    </p:column>
+                  </p:row>
+
+
+                <p:row>
+                    <p:column>
+                      <h:outputLabel value="remark"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="remark" value="#{cTR010200.masterdata.jobdata.remark}"/>
+     
+                    </p:column>
+                  </p:row>
+                      
+                    
+                    
+                    
+                </p:panelGrid>
+            
+            
+            <br/>  
+            <div align="center">
+                   <p:panelGrid>
+                    <p:row>
+                     <p:column style="width:100%;">
+                         <ui:include src="#{bKBAppVar.COMPO_COMMAND_E}" >
+                           <ui:param name="basebean" value="#{cTR010200}"/>
+                         </ui:include>
+                     </p:column>
+                   </p:row>
+               </p:panelGrid>
+            </div>
+            
+            
+            
+          <br/>
+        </div>
+        <ui:include src="#{bKBAppVar.COMPO_MASG}" >
+          <ui:param name="basebean" value="#{cTR010200}"/>
+        </ui:include>
+      </h:form>
+    </h:body>
+  </f:view>
+</html>

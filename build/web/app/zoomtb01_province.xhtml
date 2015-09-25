@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+<p:panel  id="pg" style="border: none ;" >
+  <p:focus context="pg" for="prov_name"/>
+  <p:panelGrid >
+    <p:row>
+      <p:column>รหัสจังหวัด</p:column>
+      <p:column>
+        <p:inputText id="prov_code" value="#{bKBZZoom.param.prov_code}" size="5" ></p:inputText>
+      </p:column>
+    </p:row>
+    <p:row>
+      <p:column>ชื่อจังหวัด</p:column>
+      <p:column>
+        <p:inputText id="prov_name" value="#{bKBZZoom.param.prov_name}" size="30" ></p:inputText>
+      </p:column>
+    </p:row>
+  </p:panelGrid>
+</p:panel>
+</ui:composition>
+    
+</html>

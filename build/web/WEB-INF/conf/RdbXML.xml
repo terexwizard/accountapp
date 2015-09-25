@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : RdbXML.xml
+    Created on : 17/07/2555, 20:53 
+    Author     : xtra
+    Description:
+        Purpose of the document follows.
+-->
+
+<RdbXML>
+    
+    <Rdb>
+        <TranCode>example_rdb1</TranCode> 
+        <Description> rdb ตัวอย่าง แบบปกติ 1</Description>
+        <DataItemList>
+            <DataItem>
+                <Code>Y</Code>
+                <Text>ใช้งาน</Text>
+            </DataItem>
+            <DataItem>
+                <Code>N</Code>
+                <Text>ไม่ใช้งาน</Text>
+            </DataItem>
+        </DataItemList>
+    </Rdb>
+    
+    <Rdb>
+        <TranCode>example_rdb2</TranCode> 
+        <Description> rdb ตัวอย่าง แบบปกติ 2</Description>
+        <DataItemList>
+            <DataItem>
+                <Code>Y</Code>
+                <Text>ผ่าน</Text>
+            </DataItem>
+            <DataItem>
+                <Code>N</Code>
+                <Text>ไม่ผ่าน</Text>
+            </DataItem>
+        </DataItemList>
+    </Rdb>
+    
+    <Rdb>
+        <TranCode>news_type</TranCode> 
+        <Description></Description>
+        <DataItemList>
+            <DataItem>
+                <Code>1</Code>
+                <Text>ข่าว</Text>
+            </DataItem>
+            <DataItem>
+                <Code>2</Code>
+                <Text>ข่าวใหม่</Text>
+            </DataItem>
+            <DataItem>
+                <Code>3</Code>
+                <Text>ข่าวปรับปรุง</Text>
+            </DataItem>
+            <DataItem>
+                <Code>4</Code>
+                <Text>ข่าวน่าสนใจ</Text>
+            </DataItem>
+            <DataItem>
+                <Code>9</Code>
+                <Text>ข่าวเก่า</Text>
+            </DataItem>
+        </DataItemList>
+    </Rdb>
+    
+    <Rdb>
+        <TranCode>status</TranCode> 
+        <Description>A=ใช้งาน,C=ไม่ใช้งาน</Description>
+        <DataItemList>
+            <DataItem>
+                <Code>A</Code>
+                <Text>ใช้งาน</Text>
+            </DataItem>
+            <DataItem>
+                <Code>C</Code>
+                <Text>ไม่ใช้งาน</Text>
+            </DataItem>
+        </DataItemList>
+    </Rdb>
+    
+    <Rdb>
+        <TranCode>typegroup</TranCode> 
+        <Description></Description>
+        <DataItemList>
+            <DataItem>
+                <Code>1</Code>
+                <Text>NO</Text>
+            </DataItem>
+            <DataItem>
+                <Code>2</Code>
+                <Text>DOC NO</Text>
+            </DataItem>
+        </DataItemList>
+    </Rdb>
+
+
+    
+</RdbXML>

@@ -1,0 +1,2212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryXML>
+    
+<Query>
+    <TranCode>example_query1</TranCode>    
+    <Version>1</Version>
+    <Description> Sql ตัวอย่าง แบบปกติ 1</Description>
+    <Type></Type>
+    <PU>1</PU>
+     <!-- P Unit number NA=defalut 1 -->
+    <RowLimit></RowLimit>
+     <!-- Row Limit NA=count and limit by default, 
+        -1= not count and not limit , 
+        [number]=count and limit by [number]  -->
+    <SQL>
+        Select t.*, p.province_name , 'ข้อมูล' tdesc
+        <var name="province_code" >, t.province_code as newcode </var>
+        From blte0district t left outer join bltd0province p 
+             on ( t.province_code = p.province_code )
+
+        <where>
+            <var name="province_code" woper="and" > t.province_code = '<value/>' </var>
+            <var name="district_code" woper="and" > t.district_code = '<value/>' </var>
+            <var name="district_name" woper="and" > t.district_name like '%<value/>%' </var>
+        </where>
+    </SQL>
+    <SQLOrderBy>
+        t.province_code, t.district_code
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>province_code</VarName>
+            <UIName>province_code</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>district_code</VarName>
+            <UIName>district_code</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>district_name</VarName>
+            <UIName>district_name</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>province_code</FieldName>
+                <Header>รหัสจังหวัด</Header>
+                <Style>width:100px;</Style>
+                <HeaderAlign>right</HeaderAlign>
+                <SortBy></SortBy>
+             </Column>
+             <Column>
+                <FieldName>province_name</FieldName>
+                <Header>ชื่อจังหวัด</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+             </Column>
+             <Column>
+                <FieldName>district_code</FieldName>
+                <Header>รหัสแขวง/อำเภอ</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+             </Column>
+             <Column>
+                <FieldName>district_name</FieldName>
+                <Header>ชื่อแขวง/อำเภอ</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+             </Column>
+             
+
+         </Columns>
+
+     </Displays>
+</Query>
+
+
+<!-- ************************** 
+    init_connection
+  ************************** -->
+
+<Query>
+    <TranCode>init_connection</TranCode>    
+    <Version>1</Version>
+    <Description>init_connection</Description>
+    <Type></Type>
+    <SQL>
+        select 1 as col1
+       <where>
+        </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+    </Params>
+
+     <Displays>
+         <Columns>  
+         </Columns>
+     </Displays>
+</Query>
+
+<!-- ************************** 
+    query_message
+- -  ************************** -->
+<Query>
+    <TranCode>query_message_XX</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <RowLimit>-1</RowLimit>
+
+    <SQL>
+        Select msg_code, msg_desc, msg_flag, msg_mcode
+        From TB_MESSAGE t
+        
+        <where>
+            msg_mcode is not null
+        </where>
+    </SQL>
+    <SQLOrderBy>
+        t.msg_mcode
+    </SQLOrderBy>
+
+    <Params/>
+    <Displays/>
+
+</Query>  
+      
+<!-- ************************** 
+    query_privilegefunction
+- -  ************************** -->
+      
+<Query>
+    <TranCode>query_privilegefunction</TranCode>    
+    <Version>1</Version>
+    <Description>get user privilege for function</Description>
+    <Type></Type>
+    <SQL>
+         select *  from 
+            (
+            (
+                select  r.func_code
+
+                from SC_USER_PERMIT_ROLE t left join SC_ROLE_PERMISSTION r
+                    on (t.role_code = r.role_code)
+                where t.user_code = <var name="user" >'<value/>'</var>
+                and r.func_code = <var name="func_code" >'<value/>'</var>
+            )
+            union
+            (
+                select t.func_code
+
+                from SC_USER_PERMIT_FUNCTION t
+                 where t.user_code = <var name="user" >'<value/>'</var>
+                 and t.func_code = <var name="func_code" >'<value/>'</var>
+            )
+            ) a
+            order by func_code 
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>user</VarName>
+            <UIName>user</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>func_code</VarName>
+            <UIName>func_code</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+         </Columns>
+     </Displays>
+</Query>
+      
+      
+
+<!-- ************************** 
+    ATP010100Q 
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATP010100Q</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        select bankid,
+            bankname,
+            banknamesh,
+            bankdesc
+        from tb_bank t
+
+       <where>
+           
+       <var name="bankid" woper="and" > t.bankid = '<value/>' </var>
+       <var name="bankname" woper="and" > t.bankname like '%<value/>%' </var>
+       <var name="banknamesh" woper="and" > t.banknamesh like '%<value/>%' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.bankid
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>bankid</VarName>
+            <UIName>bankid</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>bankname</VarName>
+            <UIName>bankname</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>banknamesh</VarName>
+            <UIName>banknamesh</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>bankname</FieldName>
+                <Header>bank name</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>banknamesh</FieldName>
+                <Header>bank name short</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+</Query>
+
+
+
+<!-- ************************** 
+    ATP010200Q 
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATP010200Q</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        select currencyid,
+            currencyname,
+            currencydesc 
+        from tb_currency t
+
+       <where>
+           
+       <var name="currencyid" woper="and" > t.currencyid = '<value/>' </var>
+       <var name="currencyname" woper="and" > t.currencyname like '%<value/>%' </var>
+       <var name="currencydesc" woper="and" > t.currencydesc like '%<value/>%' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.currencyname
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>currencyid</VarName>
+            <UIName>currencyid</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>currencyname</VarName>
+            <UIName>currencyname</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>currencydesc</VarName>
+            <UIName>currencydesc</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>currencyname</FieldName>
+                <Header>name</Header>
+                <Style>width:200px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>currencydesc</FieldName>
+                <Header>description</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+</Query>
+
+
+
+<!-- ************************** 
+    ATP010300Q 
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATP010300Q</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        select dsrptvalue,
+            dscptdesc  
+        from tb_descriptioncode t
+
+       <where>
+           
+       <var name="dsrptvalue" woper="and" > t.dsrptvalue = '<value/>' </var>
+       <var name="dscptdesc" woper="and" > t.dscptdesc like '%<value/>%' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.id
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dsrptvalue</VarName>
+            <UIName>dsrptvalue</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dscptdesc</VarName>
+            <UIName>dscptdesc</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>dsrptvalue</FieldName>
+                <Header>Description Code</Header>
+                <Style>width:200px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>dscptdesc</FieldName>
+                <Header>Description</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+</Query>
+
+
+<!-- ************************** 
+    ATP010400Q 
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATP010400Q</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+       SELECT invcomid,
+            companyname,
+            remark 
+       FROM accountdb.invoicecompany t
+
+       <where>
+           
+       <var name="invcomid" woper="and" > t.invcomid = '<value/>' </var>
+       <var name="companyname" woper="and" > t.companyname like '%<value/>%' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.invcomid
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>invcomid</VarName>
+            <UIName>invcomid</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>companyname</VarName>
+            <UIName>companyname</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>invcomid</FieldName>
+                <Header>company id</Header>
+                <Style>width:200px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>companyname</FieldName>
+                <Header>company name</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>remark</FieldName>
+                <Header>remark</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+</Query>
+
+
+
+<!-- ************************** 
+    ATP010500Q 
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATP010500Q</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+       SELECT vat,
+            description 
+       FROM accountdb.tb_vat t
+
+       <where>
+           
+       <var name="vat" woper="and" > t.vat = '<value/>' </var>
+       <var name="description" woper="and" > t.description like '%<value/>%' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.vat
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>vat</VarName>
+            <UIName>vat</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>description</VarName>
+            <UIName>description</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>vat</FieldName>
+                <Header>vat</Header>
+                <Style>width:100px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>description</FieldName>
+                <Header>description</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+</Query>
+
+
+<!-- ************************** 
+    ATP010600Q 
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATP010600Q</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+       SELECT tax,
+            description 
+       FROM accountdb.tb_whtax t
+
+       <where>
+           
+       <var name="tax" woper="and" > t.tax = '<value/>' </var>
+       <var name="description" woper="and" > t.description like '%<value/>%' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.tax
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>tax</VarName>
+            <UIName>tax</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>description</VarName>
+            <UIName>description</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>tax</FieldName>
+                <Header>tax</Header>
+                <Style>width:100px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>description</FieldName>
+                <Header>description</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+</Query>
+
+
+<!-- ************************** 
+    ATP010700Q 
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATP010700Q</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+       SELECT payvalue,
+            paydesc 
+       FROM tb_payment_type t
+
+       <where>
+           
+       <var name="payvalue" woper="and" > t.payvalue = '<value/>' </var>
+       <var name="paydesc" woper="and" > t.paydesc like '%<value/>%' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.id
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>payvalue</VarName>
+            <UIName>payvalue</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>paydesc</VarName>
+            <UIName>paydesc</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>payvalue</FieldName>
+                <Header>payvalue</Header>
+                <Style>width:100px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>paydesc</FieldName>
+                <Header>paydesc</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+</Query>
+
+
+<!-- ************************** 
+    ATP010800Q 
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATP010800Q</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+       SELECT revalue,
+            redesc 
+       FROM tb_received_type t
+
+       <where>
+           
+       <var name="revalue" woper="and" > t.revalue = '<value/>' </var>
+       <var name="redesc" woper="and" > t.redesc like '%<value/>%' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.id
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>revalue</VarName>
+            <UIName>revalue</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>redesc</VarName>
+            <UIName>redesc</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>revalue</FieldName>
+                <Header>revalue</Header>
+                <Style>width:100px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>redesc</FieldName>
+                <Header>redesc</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+</Query>
+
+
+
+<!-- ************************** 
+    ATP010900Q 
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATP010900Q</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+       SELECT revvalue,
+            revdesc 
+       FROM tb_received_voucherno t
+
+       <where>
+           
+       <var name="revvalue" woper="and" > t.revvalue = '<value/>' </var>
+       <var name="revdesc" woper="and" > t.revdesc like '%<value/>%' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.id
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>revvalue</VarName>
+            <UIName>revvalue</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>revdesc</VarName>
+            <UIName>revdesc</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>revvalue</FieldName>
+                <Header>revvalue</Header>
+                <Style>width:100px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>revdesc</FieldName>
+                <Header>revdesc</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+</Query>
+
+<!-- ************************** 
+    ATP020100Q 
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATP020100Q</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT d.dailyid,
+            d.dailydate,
+            db_dsf(d.dailydate) dailydate_disp,
+            d.companyid,
+            d.companyname,
+            d.voucherno,
+            d.docno,
+            concat(d.voucherno,d.docno) vouchernodocno,
+            d.jobref,
+            d.transecsionno,
+            d.dailytype,
+            d.descriptioncode,
+            s.dscptdesc,
+            d.currency,
+            money(d.paidamount) paidamount,
+            d.payby,
+            b.bankname,
+            d.remark
+        FROM daily d left outer join tb_descriptioncode s on(d.descriptioncode = s.dsrptvalue) 
+            left outer join tb_bank b on (d.payby = b.bankid)
+
+       <where>d.receivedamount  <![CDATA[<>]]> 0.00
+           
+       <var name="dailydatest" woper="and" > d.dailydate <![CDATA[>=]]> '<value/>' </var>
+       <var name="dailydatefn" woper="and" > d.dailydate <![CDATA[<=]]> '<value/>' </var>
+       <var name="jobref" woper="and" > d.jobno = '<value/>' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        d.dailyid
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydatest</VarName>
+            <UIName>dailydatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatefn</VarName>
+            <UIName>dailydatefn</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>jobref</VarName>
+            <UIName>jobref</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>jobref</VarName>
+            <UIName>jobref</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>dailydate_disp</FieldName>
+                <Header>date</Header>
+                <Style>width:200px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>jobref</FieldName>
+                <Header>jobref</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>vouchernodocno</FieldName>
+                <Header>voucherno</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>dscptdesc</FieldName>
+                <Header>dscptdesc</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>bankname</FieldName>
+                <Header>bankname</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             
+         </Columns>
+
+     </Displays>
+</Query>
+
+
+<!-- ************************** 
+    ATP020101Q 
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATP020101Q</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT d.dailyid,
+            d.dailydate,
+            db_dsf(d.dailydate) dailydate_disp,
+            d.companyid,
+            d.companyname,
+            d.voucherno,
+            d.docno,
+            concat(d.voucherno,d.docno) vouchernodocno,
+            d.jobref,
+            d.transecsionno,
+            d.dailytype,
+            d.descriptioncode,
+            s.dscptdesc,
+            d.currency,
+            money(d.paidamount) paidamount,
+            d.payby,
+            b.bankname,
+            d.remark
+        FROM daily d left outer join tb_descriptioncode s on(d.descriptioncode = s.dsrptvalue) 
+            left outer join tb_bank b on (d.payby = b.bankid)
+
+       <where>d.paidamount <![CDATA[<>]]> 0.00
+           
+       <var name="dailydatest" woper="and" > d.dailydate <![CDATA[>=]]> '<value/>' </var>
+       <var name="dailydatefn" woper="and" > d.dailydate <![CDATA[<=]]> '<value/>' </var>
+       <var name="jobref" woper="and" > d.jobno = '<value/>' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        d.dailyid
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydatest</VarName>
+            <UIName>dailydatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatefn</VarName>
+            <UIName>dailydatefn</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>jobref</VarName>
+            <UIName>jobref</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>jobref</VarName>
+            <UIName>jobref</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>dailydate_disp</FieldName>
+                <Header>date</Header>
+                <Style>width:200px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>jobref</FieldName>
+                <Header>jobref</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>vouchernodocno</FieldName>
+                <Header>voucherno</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>dscptdesc</FieldName>
+                <Header>dscptdesc</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>bankname</FieldName>
+                <Header>bankname</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             
+         </Columns>
+
+     </Displays>
+</Query>
+
+
+<!-- ************************** 
+    ATP020200Q 
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATP020200Q</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT i.invcomid , i.company , ic.remark ,i.invdate 
+        FROM  invoicecompany ic left join invoice i   on (ic.invcomid = i.invcomid) 
+        where i.invcomid is not null 
+        
+            <var name="invcomid" woper="and" > and i.invcomid = '<value/>' </var>
+            <var name="company" woper="and" > and i.company = '<value/>' </var>
+            <var name="invdate" woper="and" > and i.invdate = '<value/>' </var>
+        
+        group by ic.invcomid
+
+       <where>
+           
+
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>invcomid</VarName>
+            <UIName>invcomid</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>company</VarName>
+            <UIName>company</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>invdate</VarName>
+            <UIName>invdate</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>invcomid</FieldName>
+                <Header>invcomid</Header>
+                <Style>width:200px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>company</FieldName>
+                <Header>company</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>remark</FieldName>
+                <Header>remark</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             
+         </Columns>
+
+     </Displays>
+</Query>
+
+
+
+
+<!-- ************************** 
+    lookup_tb01_province
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_tb01_province</TranCode>    
+    <Version>1</Version>
+    <Description>ตารางจังหวัด</Description>
+    <Type></Type>
+    <SQL>
+        
+        select t.prov_code, t.prov_name 
+        from TB01_PROVINCE t
+
+       <where>
+           
+       <var name="prov_code" woper="and" > t.prov_code = '<value/>' </var>
+       <var name="prov_name" woper="and" > t.prov_name like '%<value/>%' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.prov_code
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>prov_code</VarName>
+            <UIName>prov_code</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>prov_name</VarName>
+            <UIName>prov_name</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>prov_code</FieldName>
+                <Header>รหัสจังหวัด</Header>
+                <Style>width:100px;</Style>
+                <SortBy></SortBy>
+             </Column>
+             <Column>
+                <FieldName>prov_name</FieldName>
+                <Header>ชื่อจังหวัด</Header>
+                <Style>width:200px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile>zoomtb01_province.xhtml</ZoomFile>
+     <ZoomTitle>ตารางจังหวัด</ZoomTitle>
+</Query>
+
+
+
+<!-- ************************** 
+    lookup_tb02_amphur
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_tb02_amphur</TranCode>    
+    <Version>1</Version>
+    <Description>ตารางอำเภอ/เขต</Description>
+    <Type></Type>
+    <SQL>
+        
+        select t1.prov_code, t1.prov_name, t2.ampr_code, t2.ampr_name 
+        from TB02_AMPHUR t2, TB01_PROVINCE t1
+
+       <where>
+       t2.prov_code = t1.prov_code
+       <var name="prov_code" woper="and" > t2.prov_code = '<value/>' </var>
+       <var name="ampr_code" woper="and" > t2.ampr_code = '<value/>' </var>
+       <var name="ampr_name" woper="and" > t2.ampr_name like '%<value/>%' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t2.ampr_code
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>prov_code</VarName>
+            <UIName>prov_code</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>ampr_code</VarName>
+            <UIName>ampr_code</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>ampr_name</VarName>
+            <UIName>ampr_name</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>ampr_code</FieldName>
+                <Header>รหัสอำเภอ/เขต</Header>
+                <Style>width:100px;</Style>
+                <SortBy></SortBy>
+             </Column>
+             <Column>
+                <FieldName>ampr_name</FieldName>
+                <Header>ชื่ออำเภอ/เขต</Header>
+                <Style>width:200px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile>zoomtb02_amphur.xhtml</ZoomFile>
+     <ZoomTitle>ตารางอำเภอ/เขต</ZoomTitle>
+</Query>
+
+<!-- ************************** 
+    lookup_tb03_tumbol
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_tb03_tumbol</TranCode>    
+    <Version>1</Version>
+    <Description>ตารางตำบล/แขวง</Description>
+    <Type></Type>
+    <SQL>
+        
+        select t1.prov_code, t1.prov_name, t2.ampr_code, t2.ampr_name, t3.tumb_code, t3.tumb_name 
+               , t3.zip_code
+        from TB02_AMPHUR t2, TB01_PROVINCE t1, TB03_TUMBOL t3
+
+       <where>
+       t3.ampr_code = t2.ampr_code and t3.prov_code = t1.prov_code
+       <var name="prov_code" woper="and" > t3.prov_code = '<value/>' </var>
+       <var name="ampr_code" woper="and" > t3.ampr_code = '<value/>' </var>
+       <var name="tumb_code" woper="and" > t3.tumb_code = '<value/>' </var>
+       <var name="tumb_name" woper="and" > t3.tumb_name like '%<value/>%' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t3.tumb_code
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>prov_code</VarName>
+            <UIName>prov_code</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>ampr_code</VarName>
+            <UIName>ampr_code</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>tumb_code</VarName>
+            <UIName>tumb_code</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>tumb_name</VarName>
+            <UIName>tumb_name</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>tumb_code</FieldName>
+                <Header>ตำบล/แขวง</Header>
+                <Style>width:60px;</Style>
+                <SortBy></SortBy>
+             </Column>
+             <Column>
+                <FieldName>tumb_name</FieldName>
+                <Header>ชื่อตำบล/แขวง</Header>
+                <Style>width:120px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>ampr_code</FieldName>
+                <Header>อำเภอ/เขต</Header>
+                <Style>width:60px;</Style>
+                <SortBy></SortBy>
+             </Column>
+             <Column>
+                <FieldName>ampr_name</FieldName>
+                <Header>ชื่ออำเภอ/เขต</Header>
+                <Style>width:120px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>prov_code</FieldName>
+                <Header>จังหวัด</Header>
+                <Style>width:60px;</Style>
+                <SortBy></SortBy>
+             </Column>
+             <Column>
+                <FieldName>prov_name</FieldName>
+                <Header>ชื่อจังหวัด</Header>
+                <Style>width:120px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile>zoomtb03_tumbol.xhtml</ZoomFile>
+     <ZoomTitle>ตารางตำบล/แขวง</ZoomTitle>
+</Query>
+
+
+<!-- ************************** 
+    lookup_jobsubject
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_jobsubject</TranCode>    
+    <Version>1</Version>
+    <Description>ตารางอำเภอ/เขต</Description>
+    <Type></Type>
+    <SQL>
+        
+        select * 
+        from jobsubject t 
+
+       <where>
+       
+       <var name="jobmode" woper="and" > t.jobmode = '<value/>' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.jobmode
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>jobmode</VarName>
+            <UIName>jobmode</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+<!-- ************************** 
+    lookup_tb_group
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_tb_group</TranCode>    
+    <Version>1</Version>
+    <Description>ตารางอำเภอ/เขต</Description>
+    <Type></Type>
+    <SQL>
+        
+        select * 
+        from tb_group t 
+
+       <where>
+       
+       <var name="id" woper="and" > t.id = '<value/>' </var>
+       <var name="type" woper="and" > t.type = '<value/>' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.id
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>id</VarName>
+            <UIName>id</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>type</VarName>
+            <UIName>type</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+
+
+<!-- ************************** 
+    lookup_tb_bank
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_tb_bank</TranCode>    
+    <Version>1</Version>
+    <Description>ตารางอำเภอ/เขต</Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT t.bankid,
+            t.bankname,
+            t.banknamesh,
+            t.bankdesc 
+        FROM tb_bank t
+
+       <where>
+       
+       <var name="bankid" woper="and" > t.bankid = '<value/>' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.bankid
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>bankid</VarName>
+            <UIName>bankid</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+
+<!-- ************************** 
+    lookup_tb_currency
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_tb_currency</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT t.currencyid,
+            t.currencyname,
+            t.currencydesc 
+        FROM tb_currency t
+
+       <where>
+       
+       <var name="currencyid" woper="and" > t.currencyid = '<value/>' </var>
+       <var name="currencyname" woper="and" > t.currencyname = '<value/>' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.currencyid
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>currencyid</VarName>
+            <UIName>currencyid</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>currencyname</VarName>
+            <UIName>currencyname</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+<!-- ************************** 
+    lookup_tb_vat
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_tb_vat</TranCode>    
+    <Version>1</Version>
+    <Description>ตารางอำเภอ/เขต</Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT CAST(t.vat as CHAR) as vat  
+        FROM tb_vat t
+
+       <where>
+       
+       <var name="vat" woper="and" > t.vat = '<value/>' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.vat
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>vat</VarName>
+            <UIName>vat</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+<!-- ************************** 
+    lookup_tb_whtax
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_tb_whtax</TranCode>    
+    <Version>1</Version>
+    <Description>ตารางอำเภอ/เขต</Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT CAST(t.tax as CHAR) as tax  
+        FROM tb_whtax t
+
+       <where>
+       
+       <var name="tax" woper="and" > t.tax = '<value/>' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.tax
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>tax</VarName>
+            <UIName>tax</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+<!-- ************************** 
+    lookup_tb_descriptioncode
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_tb_descriptioncode</TranCode>    
+    <Version>1</Version>
+    <Description>ตารางอำเภอ/เขต</Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT dsrptvalue,dscptdesc 
+        FROM tb_descriptioncode t
+
+       <where>
+       
+       <var name="dsrptvalue" woper="and" > t.dsrptvalue = '<value/>' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.id
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dsrptvalue</VarName>
+            <UIName>dsrptvalue</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+<!-- ************************** 
+    lookup_tb_received_type
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_tb_received_type</TranCode>    
+    <Version>1</Version>
+    <Description>ตารางอำเภอ/เขต</Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT revalue,redesc 
+        FROM tb_received_type t
+
+       <where>
+       
+       <var name="revalue" woper="and" > t.revalue = '<value/>' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.id
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>revalue</VarName>
+            <UIName>revalue</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+<!-- ************************** 
+    lookup_tb_payment_type
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_tb_payment_type</TranCode>    
+    <Version>1</Version>
+    <Description>ตารางอำเภอ/เขต</Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT payvalue,paydesc 
+        FROM tb_payment_type t
+
+       <where>
+       
+       <var name="payvalue" woper="and" > t.payvalue = '<value/>' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.id
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>payvalue</VarName>
+            <UIName>payvalue</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+<!-- ************************** 
+    lookup_tb_received_voucherno
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_tb_received_voucherno</TranCode>    
+    <Version>1</Version>
+    <Description>ตารางอำเภอ/เขต</Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT revvalue,revdesc 
+        FROM tb_received_voucherno t
+
+       <where>
+       
+       <var name="revvalue" woper="and" > t.revvalue = '<value/>' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.id
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>revvalue</VarName>
+            <UIName>revvalue</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+
+<!-- ************************** 
+    lookup_invoicecompany
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_invoicecompany</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT t.invcomid,
+            t.companyname,
+            t.remark  
+        FROM invoicecompany t
+
+       <where>
+       
+       <var name="invcomid" woper="and" > t.invcomid = '<value/>' </var>
+       <var name="companyname" woper="and" > t.companyname like '%<value/>%' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.invcomid
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>invcomid</VarName>
+            <UIName>invcomid</UIName>
+            <Operator></Operator>
+        </Param>
+         <Param>
+            <VarName>companyname</VarName>
+            <UIName>companyname</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>invcomid</FieldName>
+                <Header>company id</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+             <Column>
+                <FieldName>companyname</FieldName>
+                <Header>companyname</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile>zoom_invoicecompany.xhtml</ZoomFile>
+     <ZoomTitle>ตารางชื่อบริษัท</ZoomTitle>
+</Query>
+
+
+
+
+<!-- ************************** 
+    lookup_daily
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_daily</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT d.dailydate,
+           DB_DSF(d.dailydate) dailydate_disp,
+          d.jobno,
+          d.docno_code,
+          d.docno,
+          concat(g.data,'-',docno) docno_disp,
+          d.description,
+          d.chqno,
+          d.no,
+          d.received_cash,
+          d.received_bank,
+          d.received_cr,
+          d.payment_cash,
+          d.payment_bank,
+          d.payment_cr,
+          d.balance_cash,
+          d.balance_cr,
+          d.vendor 
+        FROM daily d left outer join tb_group g on ( d.docno_code = g.id and g.type = '2' )
+                left outer join tb_group g1 on ( d.no = g1.id and g1.type = '1' )
+
+       <where>
+       
+       <var name="dailydate" woper="and" > d.dailydate = '<value/>' </var>
+       <var name="jobno" woper="and" > d.jobno = '<value/>' </var>
+       
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        d.dailydate
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydate</VarName>
+            <UIName>dailydate</UIName>
+            <Operator></Operator>
+        </Param>
+         <Param>
+            <VarName>jobno</VarName>
+            <UIName>jobno</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>jobno</FieldName>
+                <Header>jobno</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+             <Column>
+                <FieldName>dailydate_disp</FieldName>
+                <Header>date</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+             
+             <Column>
+                <FieldName>docno_disp</FieldName>
+                <Header>docno</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+             <Column>
+                <FieldName>chqno</FieldName>
+                <Header>chqno</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+             
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile>zoom_daily.xhtml</ZoomFile>
+     <ZoomTitle>ตารางบันทึกประจำวัน</ZoomTitle>
+</Query>
+
+
+
+<!-- ************************** 
+    CTR010200Q 
+- -  ************************** -->
+
+<Query>
+    <TranCode>CTR010200Q</TranCode>    
+    <Version>1</Version>
+    <Description>ตารางจังหวัด</Description>
+    <Type></Type>
+    <SQL>
+        
+        select jobno, consignee,vendor_name,kind_of_transport 
+        from jobdata t
+
+       <where>
+           
+       <var name="jobno" woper="and" > t.jobno = '<value/>' </var>
+       <var name="consignee" woper="and" > t.consignee like '%<value/>%' </var>
+       <var name="vendor_name" woper="and" > t.vendor_name like '%<value/>%' </var>
+       <var name="kind_of_transport" woper="and" > t.kind_of_transport = '<value/>' </var>
+       
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.jobno
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>jobno</VarName>
+            <UIName>jobno</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>consignee</VarName>
+            <UIName>consignee</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>vendor_name</VarName>
+            <UIName>vendor_name</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>kind_of_transport</VarName>
+            <UIName>kind_of_transport</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>jobno</FieldName>
+                <Header>jobno</Header>
+                <Style>width:100px;</Style>
+                <SortBy></SortBy>
+             </Column>
+             <Column>
+                <FieldName>consignee</FieldName>
+                <Header>consignee</Header>
+                <Style>width:200px;</Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+             <Column>
+                <FieldName>vendor_name</FieldName>
+                <Header>vendor_name</Header>
+                <Style>width:100px;</Style>
+                <SortBy></SortBy>
+             </Column>
+             <Column>
+                <FieldName>kind_of_transport</FieldName>
+                <Header>kind_of_transport</Header>
+                <Style>width:100px;</Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+</Query>
+
+
+
+<!-- ************************** 
+    ATR030100SEARCH
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATR030100SEARCH</TranCode>    
+    <Version>1</Version>
+    <Description>ตารางอำเภอ/เขต</Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT DB_DSF(t.dailydate) dailydate,
+              t.jobno,
+              t.docno_code,
+              t.docno,
+              concat(tg2.data,"-",t.docno) as docno_disp,
+              t.description,
+              t.chqno,
+              tg.data,
+              t.no,
+              t.received_cash,
+              t.received_bank,
+              t.received_cr,
+              t.payment_cash,
+              t.payment_bank,
+              t.payment_cr,
+              t.balance_cash,
+              t.balance_cr,
+              t.vendor 
+        FROM daily t left join tb_group tg on (t.no = tg.id and tg.type = '1')
+            left join tb_group tg2 on (t.docno_code = tg2.id and tg2.type = '2')
+
+       <where> 
+       
+       <var name="dailydatest" woper="and" > t.dailydate <![CDATA[>=]]>  '<value/>' </var>
+       <var name="dailydatefn" woper="and" > t.dailydate <![CDATA[<=]]>  '<value/>' </var>
+       <var name="jobno" woper="and" > t.jobno = '<value/>' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.dailydate
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydatest</VarName>
+            <UIName>dailydatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatefn</VarName>
+            <UIName>dailydatefn</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>jobno</VarName>
+            <UIName>jobno</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+
+<!-- ************************** 
+    ATR030200SEARCH
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATR030200SEARCH</TranCode>    
+    <Version>1</Version>
+    <Description>ตารางอำเภอ/เขต</Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT t.jobno,
+              t.invcomid,
+              t.company,
+              t.invno,
+              t.invdate,
+              DB_DSF(t.invdate) invdate_disp,
+              t.amount,
+              t.duedate,
+              DB_DSF(t.duedate) duedate_disp,
+              t.paid_amount,
+              t.received_date,
+              DB_DSF(t.received_date) received_date_disp 
+        FROM invoice t
+
+       <where> 
+       
+       <var name="datest" woper="and" > t.invdate <![CDATA[>=]]>  '<value/>' </var>
+       <var name="datefn" woper="and" > t.invdate <![CDATA[<=]]>  '<value/>' </var>
+       <var name="jobno" woper="and" > t.jobno = '<value/>' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.invdate
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>datest</VarName>
+            <UIName>datest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>datefn</VarName>
+            <UIName>datefn</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>jobno</VarName>
+            <UIName>jobno</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+  
+</QueryXML>
