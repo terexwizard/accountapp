@@ -29,6 +29,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Daily.findAll", query = "SELECT d FROM Daily d")})
 public class Daily implements Serializable {
+    @Column(name = "invno")
+    private String invno;
     @Column(name = "amount2")
     private Double amount2;
     @Column(name = "amount")
@@ -297,6 +299,14 @@ public class Daily implements Serializable {
 
     public void setAmount2(Double amount2) {
         this.amount2 = amount2;
+    }
+
+    public String getInvno() {
+        return invno;
+    }
+
+    public void setInvno(String invno) {
+        this.invno = invno;
     }
     
 }
