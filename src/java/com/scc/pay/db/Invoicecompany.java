@@ -27,6 +27,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Invoicecompany.findAll", query = "SELECT i FROM Invoicecompany i")})
 public class Invoicecompany implements Serializable {
+    @Column(name = "taxid")
+    private String taxid;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -149,6 +151,14 @@ public class Invoicecompany implements Serializable {
     @Override
     public String toString() {
         return "com.scc.pay.db.Invoicecompany[ invcomid=" + invcomid + " ]";
+    }
+
+    public String getTaxid() {
+        return taxid;
+    }
+
+    public void setTaxid(String taxid) {
+        this.taxid = taxid;
     }
     
 }

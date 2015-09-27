@@ -45,7 +45,18 @@
                     </p:column>
                     <p:column>
                         <p:inputText id="companyname" value="#{aTP010400.masterdata.invoicecompany.companyname}"
-                                     required="true" label="companyname"/>
+                                     required="true" label="companyname"
+                                     size="20"/>
+     
+                    </p:column>
+                  </p:row>
+                    <p:row>
+                    <p:column>
+                      <h:outputLabel value="taxid"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="taxid" value="#{aTP010400.masterdata.invoicecompany.taxid}"
+                                     label="taxid" maxlength="13" size="13"/>
      
                     </p:column>
                   </p:row>

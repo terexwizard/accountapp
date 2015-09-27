@@ -29,6 +29,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Daily.findAll", query = "SELECT d FROM Daily d")})
 public class Daily implements Serializable {
+    @Column(name = "amount2")
+    private Double amount2;
+    @Column(name = "amount")
+    private Double amount;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -277,6 +281,22 @@ public class Daily implements Serializable {
     @Override
     public String toString() {
         return "com.scc.pay.db.Daily[ dailyid=" + dailyid + " ]";
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public Double getAmount2() {
+        return amount2;
+    }
+
+    public void setAmount2(Double amount2) {
+        this.amount2 = amount2;
     }
     
 }

@@ -339,7 +339,8 @@
     <Type></Type>
     <SQL>
         
-        select dsrptvalue,
+        select id,
+            dsrptvalue,
             dscptdesc  
         from tb_descriptioncode t
 
@@ -402,6 +403,7 @@
         
        SELECT invcomid,
             companyname,
+            taxid,
             remark 
        FROM accountdb.invoicecompany t
 
@@ -409,6 +411,7 @@
            
        <var name="invcomid" woper="and" > t.invcomid = '<value/>' </var>
        <var name="companyname" woper="and" > t.companyname like '%<value/>%' </var>
+       <var name="taxid" woper="and" > t.taxid = '<value/>' </var>
        
        </where>
     </SQL>
@@ -427,6 +430,11 @@
             <UIName>companyname</UIName>
             <Operator></Operator>
         </Param>
+        <Param>
+            <VarName>taxid</VarName>
+            <UIName>taxid</UIName>
+            <Operator></Operator>
+        </Param>
     </Params>
 
      <Displays>
@@ -441,6 +449,13 @@
              <Column>
                 <FieldName>companyname</FieldName>
                 <Header>company name</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>taxid</FieldName>
+                <Header>taxid</Header>
                 <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
@@ -841,6 +856,13 @@
                 <SortByThai>1</SortByThai>
              </Column>
              <Column>
+                <FieldName>companyname</FieldName>
+                <Header>companyname</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
                 <FieldName>jobref</FieldName>
                 <Header>jobref</Header>
                 <Style></Style>
@@ -948,6 +970,13 @@
                 <FieldName>dailydate_disp</FieldName>
                 <Header>date</Header>
                 <Style>width:200px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+              <Column>
+                <FieldName>companyname</FieldName>
+                <Header>companyname</Header>
+                <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
              </Column>
@@ -1622,7 +1651,9 @@
     <Type></Type>
     <SQL>
         
-        SELECT dsrptvalue,dscptdesc 
+        SELECT dsrptvalue,
+            dscptdesc ,
+            concat(dsrptvalue,'-',dscptdesc) dsrptvalue_disp
         FROM tb_descriptioncode t
 
        <where>
@@ -1671,7 +1702,9 @@
     <Type></Type>
     <SQL>
         
-        SELECT revalue,redesc 
+        SELECT revalue,
+            redesc ,
+            concat(revalue,'-',redesc) revalue_disp
         FROM tb_received_type t
 
        <where>
@@ -1719,7 +1752,9 @@
     <Type></Type>
     <SQL>
         
-        SELECT payvalue,paydesc 
+        SELECT payvalue,
+            paydesc ,
+            concat(payvalue,'-',paydesc) payvalue_disp 
         FROM tb_payment_type t
 
        <where>
@@ -1768,7 +1803,9 @@
     <Type></Type>
     <SQL>
         
-        SELECT revvalue,revdesc 
+        SELECT revvalue,
+            revdesc ,
+            concat(revvalue,'-',revdesc) revvalue_disp
         FROM tb_received_voucherno t
 
        <where>

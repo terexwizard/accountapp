@@ -336,6 +336,7 @@ public class ATP010400 extends BKBPage {
             
             hm.put("invcomid", Utils.NVL(this.getSearchparam().getInvoicecompany().getInvcomid()));
             hm.put("companyname", Utils.NVL(this.getSearchparam().getInvoicecompany().getCompanyname()));
+            hm.put("taxid", Utils.NVL(this.getSearchparam().getInvoicecompany().getTaxid()));
    
             BKBUQuery.getIns().setQueryparam(hm);
             BKBUQuery.getIns().search();

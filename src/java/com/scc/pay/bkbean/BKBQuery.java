@@ -49,7 +49,7 @@ public class BKBQuery {
     }
     
     public List<SelectItem> getCombotb_received_type() {
-        return DBUtils.getSelectItem("lookup_tb_received_type","revalue", "revalue");
+        return DBUtils.getSelectItem("lookup_tb_received_type","revalue", "revalue_disp");
     }
          
     public List<SelectItem> getCombotb_descriptioncode() {
@@ -57,7 +57,7 @@ public class BKBQuery {
     }
     
     public List<SelectItem> getCombotb_payment_type() {
-        return DBUtils.getSelectItem("lookup_tb_payment_type","payvalue", "payvalue");
+        return DBUtils.getSelectItem("lookup_tb_payment_type","payvalue", "payvalue_disp");
     }
     
     

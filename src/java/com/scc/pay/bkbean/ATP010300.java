@@ -70,6 +70,9 @@ public class ATP010300 extends BKBPage {
         private TbDescriptioncode tbdescriptioncode = null;
 
         public TbDescriptioncode getTbdescriptioncode() {
+            if(tbdescriptioncode == null){
+                tbdescriptioncode = new TbDescriptioncode();
+            }
             return tbdescriptioncode;
         }
 

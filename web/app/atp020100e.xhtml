@@ -42,7 +42,7 @@
                 
                  <p:row>
                      <p:column colspan="2" style="text-align: center;">
-                         <h:outputLabel value="RECEIVED" style="font-size: 28px;font-weight: bold;"/>
+                         <h:outputLabel value="CASH RECEIVED" style="font-size: 28px;font-weight: bold;"/>
                          <br/><br/>
                     </p:column>
                   </p:row>
@@ -53,7 +53,7 @@
                     </p:column>
                     <p:column>
                         <p:calendar id="dailydate" value="#{aTP020100.masterdata.dailydate}"
-                                     size="10" maxlength="10" locale="en" showOn="button" 
+                                    size="10" maxlength="10" locale="en" showOn="button" disabled="true"
                                      converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true">
                             <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
                             <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
@@ -67,9 +67,9 @@
                       <h:outputLabel value="Received From"/>
                     </p:column>
                     <p:column>
-                        <p:inputText label="" id="companyid" value="#{aTP020100.masterdata.daily.companyid}"
+                        <p:inputText label="Received From" id="companyid" value="#{aTP020100.masterdata.daily.companyid}"
                                       size="8" maxlength="8" 
-                                      required="true"
+                                      required="true" 
                                       disabled="#{aTP010200.modeupdate}">
                              <p:ajax event="change" onstart="b1_lookup();return false;" />
                          </p:inputText>
@@ -113,7 +113,7 @@
                                 <f:selectItems value="#{bKBQuery.combotb_received_voucherno}" />
                             </p:selectOneMenu>
 
-                            <p:inputMask id="docno" mask="9999/99/99" maxlength="10" size="10"
+                            <p:inputText id="docno" maxlength="10" size="10"
                                          value="#{aTP020100.masterdata.daily.docno}"/>
                         </p:panelGrid>
                     </p:column>
@@ -145,7 +145,7 @@
                     </p:column>
                     <p:column>
                         <p:selectOneMenu id="dailytype"  value="#{aTP020100.masterdata.daily.dailytype}"
-                                             style="width: 80px;">
+                                             style="width: 380px;">
                             <f:selectItems value="#{bKBQuery.combotb_received_type}" />
                         </p:selectOneMenu>
                     </p:column>
@@ -163,22 +163,53 @@
                     </p:column>
                   </p:row>
                 
+                 <p:row>
+                    <p:column>
+                      <h:outputLabel value="Received by"/>
+                    </p:column>
+                    <p:column>
+                        <p:selectOneMenu id="payby" value="#{aTP020100.masterdata.daily.payby}"
+                                             style="width: 250px;">
+                             <f:selectItems value="#{bKBQuery.combotb_bank}" />
+                             <p:ajax process="@this" update="exchangerate,amount,receivedamount" listener="#{aTP020100.clearamount}" />
+                        </p:selectOneMenu>
+                    </p:column>
+                  </p:row>
+                
                 <p:row>
                     <p:column>
                       <h:outputLabel value="Currency"/>
                     </p:column>
-                    <p:column>
-                        <p:selectOneMenu id="currency" value="#{aTP020100.masterdata.daily.currency}"
-                                             style="width: 80px;">
-                            <f:selectItems value="#{bKBQuery.combotb_currency}" />
-                        </p:selectOneMenu>
-                        
-                        &nbsp;&nbsp;
-                        <h:outputLabel value="EXCHANGE RATE"/>
-                        
-                        &nbsp;&nbsp;
-                        <p:inputMask id="exchangerate" mask="999.99" size="6" maxlength="6"
-                                     value="#{aTP020100.masterdata.daily.exchangerate}"/>
+                    <p:column style="padding: 0px;">
+                        <p:panelGrid>
+                            <p:row>
+                                <p:column>
+                                    <p:selectOneMenu id="currency" value="#{aTP020100.masterdata.daily.currency}"
+                                                     style="width: 80px;">
+                                        <f:selectItems value="#{bKBQuery.combotb_currency}" />
+                                        <p:ajax process="@this" update="exchangerate,amount,receivedamount" listener="#{aTP020100.clearamount}" />
+                                    </p:selectOneMenu>
+                                </p:column>
+                                <p:column>
+                                    <h:outputLabel value="EXCHANGE RATE"/>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="exchangerate" size="6" maxlength="6" onkeydown="num();"
+                                                 styleClass="iNR" converter="moneyConverter"
+                                             value="#{aTP020100.masterdata.daily.exchangerate}">
+                                        <p:ajax process="@this" update="@this"/>
+                                    </p:inputText>
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="amount" size="10" maxlength="10" value="#{aTP020100.masterdata.daily.amount}"
+                                                  converter="moneyConverter" styleClass="iNR">
+                                         <p:ajax process="@this,payby,currency,exchangerate" 
+                                                 update="@this,exchangerate,receivedamount,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" 
+                                                 listener="#{aTP020100.calamount}" />
+                                     </p:inputText>
+                                </p:column> 
+                            </p:row>
+                        </p:panelGrid>
                     </p:column>
                   </p:row>
                 
@@ -187,24 +218,14 @@
                       <h:outputLabel value="Received Amount"/>
                     </p:column>
                     <p:column>
-                         <p:inputText id="receivedamount" size="14" maxlength="14"
+                        <p:inputText id="receivedamount" size="14" maxlength="14" disabled="true"
                                       value="#{aTP020100.masterdata.daily.receivedamount}"
-                                      converter="moneyConverter">
+                                      converter="moneyConverter" styleClass="iNR">
                             <p:ajax process="@this" update="@this" />
                          </p:inputText>
                     </p:column>
                   </p:row>
-                <p:row>
-                    <p:column>
-                      <h:outputLabel value="Received by"/>
-                    </p:column>
-                    <p:column>
-                        <p:selectOneMenu id="payby" value="#{aTP020100.masterdata.daily.payby}"
-                                             style="width: 250px;">
-                             <f:selectItems value="#{bKBQuery.combotb_bank}" />
-                        </p:selectOneMenu>
-                    </p:column>
-                  </p:row>
+
                 
                 <p:row>
                     <p:column>

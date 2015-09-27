@@ -6,6 +6,7 @@ package com.scc.pay.bkbean;
 
 import com.scc.pay.business.BusinessFactory;
 import com.scc.f1.business.IBusinessBase;
+import com.scc.f1.util.MessageUtil;
 import com.scc.f1.util.Utils;
 import com.scc.pay.db.Daily;
 import java.util.Date;
@@ -421,7 +422,59 @@ public class ATP020100 extends BKBPage {
         
     }
     
+    //======================
     
+    public void calamount(){
+        logger.debug(">>calamount "+this.getMasterdata().getDaily().getPayby());
+        logger.debug(">>calamount "+this.getMasterdata().getDaily().getCurrency());
+        logger.debug(">>calamount "+this.getMasterdata().getDaily().getExchangerate() );
+        logger.debug(">>calamount "+this.getMasterdata().getDaily().getAmount());
+        
+        if(Utils.NVLNumber(this.getMasterdata().getDaily().getPayby()) == 2){ //US
+            this.getMasterdata().getDaily().setReceivedamount(null);
+        }else{
+            if(this.getMasterdata().getDaily().getExchangerate() != null && this.getMasterdata().getDaily().getAmount() != null){
+                Double x = this.getMasterdata().getDaily().getExchangerate() * this.getMasterdata().getDaily().getAmount();
+
+                this.getMasterdata().getDaily().setReceivedamount(x);
+            }else{
+
+                this.getMasterdata().getDaily().setAmount(null);
+
+                String msg = MessageUtil.getMessage("EP001");
+                addInfoMessage(null,msg, msg);
+            }
+        }
+        
+//        if(this.getMasterdata().getDaily().getAmount() == null){
+//            String msg = MessageUtil.getMessage("EP002");
+//            addInfoMessage(null,msg, msg);
+//        }else{
+//        
+//            if(Utils.NVL(this.getMasterdata().getDaily().getCurrency()).equals("1")){ // US
+//                this.getMasterdata().getDaily().setReceivedamount(this.getMasterdata().getDaily().getAmount());
+//                this.getMasterdata().getDaily().setExchangerate(new Double("1"));
+//            }else{
+//                if(this.getMasterdata().getDaily().getExchangerate() != null && this.getMasterdata().getDaily().getAmount() != null){
+//                    Double x = this.getMasterdata().getDaily().getExchangerate() * this.getMasterdata().getDaily().getAmount();
+//
+//                    this.getMasterdata().getDaily().setReceivedamount(x);
+//                }else{
+//                    
+//                    this.getMasterdata().getDaily().setAmount(null);
+//                    
+//                    String msg = MessageUtil.getMessage("EP001");
+//                    addInfoMessage(null,msg, msg);
+//                }
+//            }
+//        }
+    }
     
+    public void clearamount(){
+        this.getMasterdata().getDaily().setReceivedamount(null);
+        this.getMasterdata().getDaily().setExchangerate(null);
+        this.getMasterdata().getDaily().setReceivedamount(null);;
+        this.getMasterdata().getDaily().setAmount(null);
+    }
       
 }
