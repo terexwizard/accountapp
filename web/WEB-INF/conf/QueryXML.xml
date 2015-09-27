@@ -851,7 +851,7 @@
              <Column>
                 <FieldName>dailydate_disp</FieldName>
                 <Header>date</Header>
-                <Style>width:200px;</Style>
+                <Style>width:100px;</Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
              </Column>
@@ -969,7 +969,7 @@
              <Column>
                 <FieldName>dailydate_disp</FieldName>
                 <Header>date</Header>
-                <Style>width:200px;</Style>
+                <Style>width:100px;</Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
              </Column>
