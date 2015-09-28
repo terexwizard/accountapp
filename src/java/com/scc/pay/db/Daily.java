@@ -1,5 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package com.scc.pay.db;
@@ -29,12 +30,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Daily.findAll", query = "SELECT d FROM Daily d")})
 public class Daily implements Serializable {
-    @Column(name = "invno")
-    private String invno;
-    @Column(name = "amount2")
-    private Double amount2;
-    @Column(name = "amount")
-    private Double amount;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,6 +50,8 @@ public class Daily implements Serializable {
     private String jobref;
     @Column(name = "transecsionno")
     private String transecsionno;
+    @Column(name = "invno")
+    private String invno;
     @Column(name = "dailytype")
     private String dailytype;
     @Column(name = "descriptioncode")
@@ -66,12 +63,28 @@ public class Daily implements Serializable {
     private Double exchangerate;
     @Column(name = "receivedamount")
     private Double receivedamount;
+    @Column(name = "amount")
+    private Double amount;
     @Column(name = "paidamount")
     private Double paidamount;
+    @Column(name = "amount2")
+    private Double amount2;
     @Column(name = "payby")
     private Double payby;
     @Column(name = "remark")
     private String remark;
+    @Column(name = "receivesuccess")
+    private String receivesuccess;
+    @Column(name = "receivesuccessdate")
+    private String receivesuccessdate;
+    @Column(name = "receivesuccessuser")
+    private String receivesuccessuser;
+    @Column(name = "paymentsuccess")
+    private String paymentsuccess;
+    @Column(name = "paymentsuccessdate")
+    private String paymentsuccessdate;
+    @Column(name = "paymentsuccessuser")
+    private String paymentsuccessuser;
     @Column(name = "enttime")
     @Temporal(TemporalType.TIMESTAMP)
     private Date enttime;
@@ -156,6 +169,14 @@ public class Daily implements Serializable {
         this.transecsionno = transecsionno;
     }
 
+    public String getInvno() {
+        return invno;
+    }
+
+    public void setInvno(String invno) {
+        this.invno = invno;
+    }
+
     public String getDailytype() {
         return dailytype;
     }
@@ -196,12 +217,28 @@ public class Daily implements Serializable {
         this.receivedamount = receivedamount;
     }
 
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
     public Double getPaidamount() {
         return paidamount;
     }
 
     public void setPaidamount(Double paidamount) {
         this.paidamount = paidamount;
+    }
+
+    public Double getAmount2() {
+        return amount2;
+    }
+
+    public void setAmount2(Double amount2) {
+        this.amount2 = amount2;
     }
 
     public Double getPayby() {
@@ -218,6 +255,54 @@ public class Daily implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getReceivesuccess() {
+        return receivesuccess;
+    }
+
+    public void setReceivesuccess(String receivesuccess) {
+        this.receivesuccess = receivesuccess;
+    }
+
+    public String getReceivesuccessdate() {
+        return receivesuccessdate;
+    }
+
+    public void setReceivesuccessdate(String receivesuccessdate) {
+        this.receivesuccessdate = receivesuccessdate;
+    }
+
+    public String getReceivesuccessuser() {
+        return receivesuccessuser;
+    }
+
+    public void setReceivesuccessuser(String receivesuccessuser) {
+        this.receivesuccessuser = receivesuccessuser;
+    }
+
+    public String getPaymentsuccess() {
+        return paymentsuccess;
+    }
+
+    public void setPaymentsuccess(String paymentsuccess) {
+        this.paymentsuccess = paymentsuccess;
+    }
+
+    public String getPaymentsuccessdate() {
+        return paymentsuccessdate;
+    }
+
+    public void setPaymentsuccessdate(String paymentsuccessdate) {
+        this.paymentsuccessdate = paymentsuccessdate;
+    }
+
+    public String getPaymentsuccessuser() {
+        return paymentsuccessuser;
+    }
+
+    public void setPaymentsuccessuser(String paymentsuccessuser) {
+        this.paymentsuccessuser = paymentsuccessuser;
     }
 
     public Date getEnttime() {
@@ -283,30 +368,6 @@ public class Daily implements Serializable {
     @Override
     public String toString() {
         return "com.scc.pay.db.Daily[ dailyid=" + dailyid + " ]";
-    }
-
-    public Double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
-
-    public Double getAmount2() {
-        return amount2;
-    }
-
-    public void setAmount2(Double amount2) {
-        this.amount2 = amount2;
-    }
-
-    public String getInvno() {
-        return invno;
-    }
-
-    public void setInvno(String invno) {
-        this.invno = invno;
     }
     
 }
