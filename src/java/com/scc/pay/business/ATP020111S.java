@@ -8,11 +8,11 @@ package com.scc.pay.business;
 
 
 
-import com.scc.pay.bkbean.ATP020110;
+import com.scc.pay.bkbean.ATP020111;
 import com.scc.f1.business.BusinessImpl;
 import com.scc.f1.util.BeanUtil;
 import com.scc.f1.util.Utils;
-import com.scc.pay.bkbean.ATP020110.DetailDaily;
+import com.scc.pay.bkbean.ATP020111.DetailDaily;
 import com.scc.pay.db.Daily;
 import com.scc.pay.db.TbBank;
 import com.scc.pay.db.TbCurrency;
@@ -29,13 +29,13 @@ import javax.persistence.Query;
  * @version 1.00.00
  * 12/06/2555 12:50:20
  */
-public class ATP020110S extends BusinessImpl {
+public class ATP020111S extends BusinessImpl {
 
     @Override
     protected Object doProcess(Object inobj) {
         
         
-        ATP020110 frmi = (ATP020110)inobj;
+        ATP020111 frmi = (ATP020111)inobj;
         
         logger.debug(">>parameter search:" + frmi.getMasterdata().getDaily().getCompanyid());
         
@@ -46,13 +46,13 @@ public class ATP020110S extends BusinessImpl {
         return inobj;
     }
     
-    private void searchDaily(ATP020110 frmi){
+    private void searchDaily(ATP020111 frmi){
         frmi.setDetaildaily(null);
                 
         String sql = "SELECT t FROM Daily t "
                    + "Where t.companyid = :companyid and "
-                   + " t.paidamount = 0.00 and t.amount2 = 0.00 and"
-                   + " t.receivesuccess is null "
+                   + " t.receivedamount = 0.00 and t.amount = 0.00 and"
+                   + " t.paymentsuccess is null "
                    + "ORDER BY t.dailydate";
         Query query = em.createQuery(sql);
         query.setParameter("companyid",frmi.getMasterdata().getDaily().getCompanyid());

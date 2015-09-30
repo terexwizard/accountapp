@@ -6,7 +6,7 @@
       xmlns:p="http://primefaces.org/ui" 
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:func="http://taglib.scc.com/functions">
-  <f:view beforePhase="#{aTP020110.beforePhase}" afterPhase="#{aTP020110.afterPhase}" encoding="UTF-8" >
+  <f:view beforePhase="#{aTP020111.beforePhase}" afterPhase="#{aTP020111.afterPhase}" encoding="UTF-8" >
     <h:head>
       <title></title>
       <h:outputStylesheet name="style.css" library="css" /> 
@@ -50,7 +50,7 @@
                       <h:outputLabel value="Received From"/>
                     </p:column>
                     <p:column>
-                        <p:inputText label="Received From" id="companyid" value="#{aTP020110.masterdata.daily.companyid}"
+                        <p:inputText label="Received From" id="companyid" value="#{aTP020111.masterdata.daily.companyid}"
                                       size="8" maxlength="8" 
                                       required="true" 
                                       disabled="#{aTP010200.modeupdate}">
@@ -66,7 +66,7 @@
                           <ui:param name="lookupreturn" value="companyid#invcomid,companyname#companyname"/>
                         </ui:include>
                         
-                        <p:outputPanel rendered="#{!aTP020110.modeupdate}">
+                        <p:outputPanel rendered="#{!aTP020111.modeupdate}">
                         <ui:include src="#{bKBAppVar.COMPO_ZOOMDATA}" >
                             <ui:param name="formid" value="form1"/>
                             <ui:param name="zoomname" value="zoom1"/>
@@ -77,7 +77,7 @@
                         </p:outputPanel> 
                         
                        
-                        <p:inputText label="" id="companyname" value="#{aTP020110.masterdata.daily.companyname}"
+                        <p:inputText label="" id="companyname" value="#{aTP020111.masterdata.daily.companyname}"
                                       size="40" maxlength="8" readonly="true"
                                       styleClass="#{bKBStyle.STYLE_INPUT_DISABLE}"
                                       tabindex="-1">
@@ -89,49 +89,49 @@
             <br/> 
             <p:commandButton value="Search" 
                              process="@this" update="@form"
-                             actionListener="#{aTP020110.searchData}"/>
+                             actionListener="#{aTP020111.searchData}"/>
             
             <br/><br/>
           
            
-           <p:outputPanel id="#{aTP020110.detaildaily.detailname}" >
+           <p:outputPanel id="#{aTP020111.detaildaily.detailname}" >
 
-              <p:dataTable id="#{aTP020110.detaildaily.tablename}" var="rec" value="#{aTP020110.detaildaily.listdetailrow}" 
+              <p:dataTable id="#{aTP020111.detaildaily.tablename}" var="rec" value="#{aTP020111.detaildaily.listdetailrow}" 
                            rowKey="#{rec}"  
                            paginator="false" emptyMessage="" 
-                           selectionMode="single" selection="#{aTP020110.detaildaily.selectedrow}"
+                           selectionMode="single" selection="#{aTP020111.detaildaily.selectedrow}"
                            scrollable="true" 
                            editable="false"  rowIndexVar="rowIndex" 
                            styleClass="f1-p-datatable-wide" scrollWidth="970" scrollHeight="120"
                            style="width:950px;table-layout: fixed;text-align: left;">
 
-                  <p:ajax event="rowSelect" listener="#{aTP020110.detaildaily.selectRow}" 
-                          update=":#{aTP020110.detaildaily.parentid}:#{aTP020110.detaildaily.detailrowpanel}" />
+                  <p:ajax event="rowSelect" listener="#{aTP020111.detaildaily.selectRow}" 
+                          update=":#{aTP020111.detaildaily.parentid}:#{aTP020111.detaildaily.detailrowpanel}" />
 
                   <p:column style="width:60px;text-align:center;vertical-align: text-top;">
                       
                       <f:facet name="header"> 
                           Select <br/>
                           
-                          <h:selectBooleanCheckbox value="#{aTP020110.checkboxAllDetail}">
-                              <p:ajax process="@this,#{aTP020110.detaildaily.tablename}" 
-                                      update="#{aTP020110.detaildaily.tablename},:form1:statuscheckboxAllDetail" 
-                                      listener="#{aTP020110.checkAllDetail}"/>
+                          <h:selectBooleanCheckbox value="#{aTP020111.checkboxAllDetail}">
+                              <p:ajax process="@this,#{aTP020111.detaildaily.tablename}" 
+                                      update="#{aTP020111.detaildaily.tablename},:form1:statuscheckboxAllDetail" 
+                                      listener="#{aTP020111.checkAllDetail}"/>
                           </h:selectBooleanCheckbox>
 
                       </f:facet>
 
                       <h:selectBooleanCheckbox value="#{rec.data.detailCheckbox}" >
-                          <p:ajax process="@this" listener="#{aTP020110.calSumAmount}" 
-                                  update=":form1:#{aTP020110.detaildaily.detailname}" />
+                          <p:ajax process="@this" listener="#{aTP020111.calSumAmount}" 
+                                  update=":form1:#{aTP020111.detaildaily.detailname}" />
                       </h:selectBooleanCheckbox>
 
 
                       <ui:remove>
                           <!--
                       <ui:include src="#{bKBAppVar.COMPO_DETAIL_BUTTON_ROWDEL}" >
-                          <ui:param name="basebean" value="#{aTP020110}"/>
-                          <ui:param name="dt" value="#{aTP020110.detaildaily}"/>
+                          <ui:param name="basebean" value="#{aTP020111}"/>
+                          <ui:param name="dt" value="#{aTP020111.detaildaily}"/>
                           <ui:param name="msgid" value=":form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
                       </ui:include>
                           -->
@@ -168,12 +168,12 @@
 
 
                   <p:column  headerText="Amount" style="vertical-align: text-top;text-align: right;">
-                     #{func:formatMoney(rec.data.daily.amount)}
+                     #{func:formatMoney(rec.data.daily.amount2)}
                   </p:column>
 
-                  <p:column  headerText="Received Amount" style="width:120px;vertical-align: text-top;text-align: right;">
+                  <p:column  headerText="Paid Amount" style="width:120px;vertical-align: text-top;text-align: right;">
 
-                     #{func:formatMoney(rec.data.daily.receivedamount)}
+                     #{func:formatMoney(rec.data.daily.paidamount)}
 
                   </p:column>
                   
@@ -194,7 +194,7 @@
                                       style="text-align:right; color: #2b9905;font-weight: bold;"  />  
                             
                             <p:column
-                                footerText="#{func:formatMoney(aTP020110.masterdata.amus)}"  
+                                footerText="#{func:formatMoney(aTP020111.masterdata.amus)}"  
                                       style="text-align:right;color: #2b9905;font-weight: bold;"  />  
 
                         </p:row>  
@@ -205,8 +205,9 @@
                                       footerText="Received Amount THB"  
                                       style="text-align:right; color: #2b9905;font-weight: bold;"  />  
                             <p:column 
-                                footerText="#{func:formatMoney(aTP020110.masterdata.revamth)}"  
+                                footerText="#{func:formatMoney(aTP020111.masterdata.revamth)}"  
                                       style="text-align:right;color: #2b9905;font-weight: bold;"  />  
+
 
                         </p:row> 
                     </p:columnGroup>            
@@ -218,7 +219,7 @@
             //INPUT
             -->
             
-            <p:outputPanel  id="#{aTP020110.detaildaily.detailrowpanel}" style="display: none;">
+            <p:outputPanel  id="#{aTP020111.detaildaily.detailrowpanel}" style="display: none;">
                <p:panelGrid style="width:935px;table-layout: fixed;">
                     <p:row>
                         <p:column style="width:270px;"/>
@@ -230,8 +231,8 @@
                    <p:row>
                         <p:column colspan="5" style="text-align: center;">
                            <ui:include src="#{bKBAppVar.COMPO_DETAIL_BUTTON_SET}" >
-                               <ui:param name="basebean" value="#{aTP020110}"/>
-                               <ui:param name="dt" value="#{aTP020110.detaildaily}"/>
+                               <ui:param name="basebean" value="#{aTP020111}"/>
+                               <ui:param name="dt" value="#{aTP020111.detaildaily}"/>
                                <ui:param name="msgid" value=":form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
                                <ui:param name="msgcf" value="1"/>
                                <ui:param name="btnnamecancel" value="ล้างจอภาพ"/>
@@ -255,13 +256,13 @@
                              <p:commandButton id="btna11add" value="" 
                                          styleClass="f1-p-commandbutton-cs-add}" 
                                          style="display:none;"
-                                         action="#{aTP020110.doAdd}" 
+                                         action="#{aTP020111.doAdd}" 
                                          ajax="false" >
                              </p:commandButton>
                        </p:column>
                        <p:column style="padding: 0px;">
                             <ui:include src="#{bKBAppVar.COMPO_COMMAND_E}" >
-                                <ui:param name="basebean" value="#{aTP020110}"/>
+                                <ui:param name="basebean" value="#{aTP020111}"/>
                                 <ui:param name="hideadd" value="1"/>
                                 <ui:param name="hidequery" value="1"/>
                                 <ui:param name="hidedelete" value="0"/>
@@ -279,17 +280,17 @@
     //HIDDEN_ZONE
     --> 
     <p:inputText id="statuscheckboxAllDetail" 
-                 value="#{aTP020110.statuscheckboxAllDetail}" 
+                 value="#{aTP020111.statuscheckboxAllDetail}" 
                  style="display:none;"/>   
           
         </div>
         <ui:include src="#{bKBAppVar.COMPO_MASG}" >
-          <ui:param name="basebean" value="#{aTP020110}"/>
+          <ui:param name="basebean" value="#{aTP020111}"/>
         </ui:include>
           
           
         <ui:include src="#{bKBAppVar.COMPO_MASG_CONFIRM}" >
-            <ui:param name="basebean" value="#{aTP020110}"/>
+            <ui:param name="basebean" value="#{aTP020111}"/>
             <ui:param name="name" value="cf1"/>
             <ui:param name="msg" value="Confirm Save"/>
             <ui:param name="ok" value=""/>   

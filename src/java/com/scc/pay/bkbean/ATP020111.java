@@ -33,10 +33,10 @@ import javax.faces.context.FacesContext;
 
 @ManagedBean
 @SessionScoped
-public class ATP020110 extends BKBPage {
+public class ATP020111 extends BKBPage {
 
-    private static final String PAGE_E  = "atp020110e.xhtml";
-    private static final String PAGE_Q  = "atp020110q.xhtml";
+    private static final String PAGE_E  = "atp020111e.xhtml";
+    private static final String PAGE_Q  = "atp020111q.xhtml";
     
     private MainData masterdata ;
     private MainData searchparam;
@@ -302,7 +302,7 @@ public class ATP020110 extends BKBPage {
     
     
     
-    public ATP020110() {
+    public ATP020111() {
         setAutoconvertthai(true);
         setShowphase(true);
         
@@ -430,7 +430,7 @@ public class ATP020110 extends BKBPage {
             
 //            toDB();
             
-            IBusinessBase ib = BusinessFactory.getBusiness("ATP020110A");
+            IBusinessBase ib = BusinessFactory.getBusiness("ATP020111A");
             
             
             ib.process(this);
@@ -479,7 +479,7 @@ public class ATP020110 extends BKBPage {
     private void update(){
         
         
-        IBusinessBase ib = BusinessFactory.getBusiness("ATP020110U");
+        IBusinessBase ib = BusinessFactory.getBusiness("ATP020111U");
             
             
         ib.process(this);
@@ -509,7 +509,7 @@ public class ATP020110 extends BKBPage {
     public String delete(){
         
         
-        IBusinessBase ib = BusinessFactory.getBusiness("ATP020110D");
+        IBusinessBase ib = BusinessFactory.getBusiness("ATP020111D");
             
             
         ib.process(this);
@@ -596,7 +596,7 @@ public class ATP020110 extends BKBPage {
         
         searchselectedrow       = rec;
         
-        IBusinessBase ib = BusinessFactory.getBusiness("ATP020110S");
+        IBusinessBase ib = BusinessFactory.getBusiness("ATP020111S");
         
         ib.process(this);
 
@@ -649,8 +649,9 @@ public class ATP020110 extends BKBPage {
         logger.debug(">>searchData company :"+this.getMasterdata().getDaily().getCompanyid());
         
         if(validatesearchData()){
-            IBusinessBase ib = BusinessFactory.getBusiness("ATP020110S");        
+            IBusinessBase ib = BusinessFactory.getBusiness("ATP020111S");        
             ib.process(this);
+            
             
             if(ib.isOk()){
                 if(this.getDetaildaily().getListdetailrow().isEmpty()){
@@ -712,8 +713,6 @@ public class ATP020110 extends BKBPage {
         boolean flagchkall = true;
         for(DetailRow<DetailDaily> item : this.getDetaildaily().getListdetailrow()){
             if(item.getData().isDetailCheckbox()){
-                
-                logger.debug(">>calSumAmount getPayby:"+Utils.NVL(item.getData().getDaily().getPayby()));
 
 //                if(Utils.NVL(item.getData().getDaily().getCurrency()).equals("1")){ //us
 //                    revamus = revamus.add(new BigDecimal(item.getData().getDaily().getReceivedamount()));
@@ -723,12 +722,12 @@ public class ATP020110 extends BKBPage {
 //                    revamth = revamth.add(new BigDecimal(item.getData().getDaily().getReceivedamount()));
 //                    amth = amth.add(new BigDecimal(item.getData().getDaily().getAmount()));
 //                }
-                if(item.getData().getDaily().getPayby().intValue() == 2){
-                    amus = amus.add(new BigDecimal(item.getData().getDaily().getAmount()));
-                }else{
-                    revamth = revamth.add(new BigDecimal(item.getData().getDaily().getReceivedamount()));
-                }
                 
+                if(item.getData().getDaily().getPayby().intValue() == 2){
+                    amus = amus.add(new BigDecimal(item.getData().getDaily().getAmount2()));
+                }else{
+                    revamth = revamth.add(new BigDecimal(item.getData().getDaily().getPaidamount()));
+                }
             }else{
                 flagchkall = false;
             }
@@ -736,16 +735,17 @@ public class ATP020110 extends BKBPage {
         
         this.setCheckboxAllDetail(flagchkall);
         
+        
         logger.debug(">>calSumAmount "+revamus);
         logger.debug(">>calSumAmount "+amus);
         logger.debug(">>calSumAmount "+revamth);
         logger.debug(">>calSumAmount "+amth);
         
         
-//        this.getMasterdata().setRevamus(revamus);
+        this.getMasterdata().setRevamus(revamus);
         this.getMasterdata().setRevamth(revamth);
         this.getMasterdata().setAmus(amus);
-//        this.getMasterdata().setAmth(amth);
+        this.getMasterdata().setAmth(amth);
     }
   
 }

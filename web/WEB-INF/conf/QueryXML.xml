@@ -2106,31 +2106,32 @@
     <SQL>
         
         SELECT DB_DSF(t.dailydate) dailydate,
-              t.jobno,
-              t.docno_code,
-              t.docno,
-              concat(tg2.data,"-",t.docno) as docno_disp,
-              t.description,
-              t.chqno,
-              tg.data,
-              t.no,
-              t.received_cash,
-              t.received_bank,
-              t.received_cr,
-              t.payment_cash,
-              t.payment_bank,
-              t.payment_cr,
-              t.balance_cash,
-              t.balance_cr,
-              t.vendor 
-        FROM daily t left join tb_group tg on (t.no = tg.id and tg.type = '1')
-            left join tb_group tg2 on (t.docno_code = tg2.id and tg2.type = '2')
+            t.dailytype,
+            t.descriptioncode,
+            concat(t.voucherno,'',t.docno) as voucherno_disp,
+            t.jobref,
+            t.transecsionno,
+            t.payby,
+            b.bankname,
+            t.receivedamount,
+            t.amount,
+            t.exchangerate,
+            t.currency,
+            c.currencyname,
+            t.remark,
+            case
+              when t.receivesuccess is null then 'N'
+              else t.receivesuccess
+            end receivesuccess
+        FROM daily t left outer join tb_bank b on (payby = b.bankid)
+            left outer join tb_currency c on (t.currency = c.currencyid)
 
        <where> 
-       
+           t.paidamount = 0.00 and t.amount2 = 0.00 
        <var name="dailydatest" woper="and" > t.dailydate <![CDATA[>=]]>  '<value/>' </var>
        <var name="dailydatefn" woper="and" > t.dailydate <![CDATA[<=]]>  '<value/>' </var>
-       <var name="jobno" woper="and" > t.jobno = '<value/>' </var>
+       <var name="jobref" woper="and" > t.jobref = '<value/>' </var>
+       <var name="receivesuccess" woper="and" > t.receivesuccess = '<value/>' </var>
        
        </where>
     </SQL>
@@ -2150,8 +2151,13 @@
             <Operator></Operator>
         </Param>
         <Param>
-            <VarName>jobno</VarName>
-            <UIName>jobno</UIName>
+            <VarName>jobref</VarName>
+            <UIName>jobref</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>receivesuccess</VarName>
+            <UIName>receivesuccess</UIName>
             <Operator></Operator>
         </Param>
     </Params>
@@ -2185,46 +2191,59 @@
     <Type></Type>
     <SQL>
         
-        SELECT t.jobno,
-              t.invcomid,
-              t.company,
-              t.invno,
-              t.invdate,
-              DB_DSF(t.invdate) invdate_disp,
-              t.amount,
-              t.duedate,
-              DB_DSF(t.duedate) duedate_disp,
-              t.paid_amount,
-              t.received_date,
-              DB_DSF(t.received_date) received_date_disp 
-        FROM invoice t
+        SELECT DB_DSF(t.dailydate) dailydate,
+            t.dailytype,
+            t.descriptioncode,
+            concat(t.voucherno,'',t.docno) as voucherno_disp,
+            t.jobref,
+            t.transecsionno,
+            t.payby,
+            b.bankname,
+            t.paidamount,
+            t.amount2,
+            t.exchangerate,
+            t.currency,
+            c.currencyname,
+            t.remark,
+            case
+              when t.paymentsuccess is null then 'N'
+              else t.paymentsuccess
+            end paymentsuccess
+        FROM daily t left outer join tb_bank b on (payby = b.bankid)
+            left outer join tb_currency c on (t.currency = c.currencyid)
 
        <where> 
-       
-       <var name="datest" woper="and" > t.invdate <![CDATA[>=]]>  '<value/>' </var>
-       <var name="datefn" woper="and" > t.invdate <![CDATA[<=]]>  '<value/>' </var>
-       <var name="jobno" woper="and" > t.jobno = '<value/>' </var>
+           t.receivedamount = 0.00 and t.amount = 0.00 
+       <var name="dailydatest" woper="and" > t.dailydate <![CDATA[>=]]>  '<value/>' </var>
+       <var name="dailydatefn" woper="and" > t.dailydate <![CDATA[<=]]>  '<value/>' </var>
+       <var name="jobref" woper="and" > t.jobref = '<value/>' </var>
+       <var name="paymentsuccess" woper="and" > t.paymentsuccess = '<value/>' </var>
        
        </where>
     </SQL>
     <SQLOrderBy>
-        t.invdate
+        t.dailydate
     </SQLOrderBy>
 
     <Params>
         <Param>
-            <VarName>datest</VarName>
-            <UIName>datest</UIName>
+            <VarName>dailydatest</VarName>
+            <UIName>dailydatest</UIName>
             <Operator></Operator>
         </Param>
         <Param>
-            <VarName>datefn</VarName>
-            <UIName>datefn</UIName>
+            <VarName>dailydatefn</VarName>
+            <UIName>dailydatefn</UIName>
             <Operator></Operator>
         </Param>
         <Param>
-            <VarName>jobno</VarName>
-            <UIName>jobno</UIName>
+            <VarName>jobref</VarName>
+            <UIName>jobref</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>paymentsuccess</VarName>
+            <UIName>paymentsuccess</UIName>
             <Operator></Operator>
         </Param>
     </Params>
