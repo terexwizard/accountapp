@@ -9,6 +9,7 @@ import static com.scc.f1.backingbean.BKBPageImpl.SEARCH_ACTION_NEW;
 import static com.scc.f1.backingbean.BKBPageImpl.SEARCH_ACTION_REQUERY;
 import com.scc.pay.business.BusinessFactory;
 import com.scc.f1.business.IBusinessBase;
+import com.scc.f1.util.MessageUtil;
 import com.scc.f1.util.Utils;
 import com.scc.pay.db.Daily;
 import com.scc.pay.util.CenterUtils;
@@ -536,10 +537,19 @@ public class ATR030200 extends BKBPage {
                     String header = "Date : " + CenterUtils.formatDateToStringShowTime(Utils.getcurDateTime());
                     
 
-                    HSSFRow row = hSheet.createRow(2);      
+                    HSSFRow row = hSheet.createRow(1);      
                     cell = row.createCell(0);
                     cell.setCellValue(header);
                     cell.setCellStyle(hCellstyleCB);
+                    
+                    String condition = "Condition :"+Utils.convertDateStringToScreen(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()),"/") 
+                        +"-"+Utils.convertDateStringToScreen(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatefn()),"/");
+                    
+                    row = hSheet.createRow(2);      
+                    cell = row.createCell(0);
+                    cell.setCellValue(condition);
+                    cell.setCellStyle(hCellstyleCB);
+                    
                     
 
                     row = hSheet.createRow(4);      
@@ -771,10 +781,18 @@ public class ATR030200 extends BKBPage {
     private boolean validategenDataExcel(){
        boolean isok = true;
        
+       if((this.getMasterdata().getDailydatest() == null && this.getMasterdata().getDailydatefn() == null)){
+                
+            String msg = MessageUtil.getMessage("EP006");
+            addErrorMessage(null,msg,msg);
+            return false;
+
+        }
+       
        if((this.getMasterdata().getDailydatest() != null && this.getMasterdata().getDailydatefn() == null) ||
                 (this.getMasterdata().getDailydatest() == null && this.getMasterdata().getDailydatefn() != null)){
                 
-            String msg = "กรอกวันที่ไม่ถูกต้อง";
+            String msg = MessageUtil.getMessage("EP007");
             addErrorMessage(null,msg,msg);
             return false;
 
@@ -786,7 +804,7 @@ public class ATR030200 extends BKBPage {
                 String e = Utils.NVL(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatefn()));
 
                 if(Integer.parseInt(s) > Integer.parseInt(e)){
-                    String msg = "กรอกวันที่ไม่ถูกต้อง";
+                    String msg = MessageUtil.getMessage("EP007");
                     addErrorMessage(null,msg,msg);
                     return false;
                 }

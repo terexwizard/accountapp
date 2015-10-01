@@ -267,7 +267,7 @@ public class CenterUtils{
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
         dateFormat.setLenient(false);
         
-        String date = Utils.convertDateStringToScreen(Utils.formatDateToStringToDB(dt,true),"/");
+        String date = Utils.convertDateStringToScreen(Utils.formatDateToStringToDBEn(dt),"/");
         String time = dateFormat.format(dt);
         
         return date+" เวลา "+time+" น.";
