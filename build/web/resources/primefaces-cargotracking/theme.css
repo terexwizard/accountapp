@@ -1,14 +1,14 @@
 /*!
- * jQuery UI CSS Framework 1.11.2
+ * jQuery UI CSS Framework 1.11.4
  * http://jqueryui.com
  *
- * Copyright 2014 jQuery Foundation and other contributors
+ * Copyright jQuery Foundation and other contributors
  * Released under the MIT license.
  * http://jquery.org/license
  *
  * http://api.jqueryui.com/category/theming/
  *
- * To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=tahoma&fwDefault=normal&fsDefault=12px&cornerRadius=4px&bgColorHeader=%23e0ffa4&bgTextureHeader=highlight_soft&bgImgOpacityHeader=75&borderColorHeader=%2397ee58&fcHeader=%232b9905&iconColorHeader=%23ffffff&bgColorContent=%23ffffff&bgTextureContent=flat&bgImgOpacityContent=75&borderColorContent=%2397ee58&fcContent=%232b9905&iconColorContent=%2397ee58&bgColorDefault=%23e0ffa4&bgTextureDefault=highlight_soft&bgImgOpacityDefault=75&borderColorDefault=%2397ee58&fcDefault=%232b9905&iconColorDefault=%23fc6b00&bgColorHover=%2321b80e&bgTextureHover=highlight_soft&bgImgOpacityHover=75&borderColorHover=%23e5ffa1&fcHover=%23f9fbf9&iconColorHover=%23554fce&bgColorActive=%2321b80e&bgTextureActive=highlight_soft&bgImgOpacityActive=65&borderColorActive=%23e5ffa1&fcActive=%23f9fbf9&iconColorActive=%23fc6b00&bgColorHighlight=%23e0ffa4&bgTextureHighlight=highlight_soft&bgImgOpacityHighlight=55&borderColorHighlight=%23e0ffa4&fcHighlight=%23fdaf17&iconColorHighlight=%232b9905&bgColorError=%23ffe396&bgTextureError=highlight_soft&bgImgOpacityError=55&borderColorError=%23cd0a0a&fcError=%23cd0a0a&iconColorError=%23cd0a0a&bgColorOverlay=%23aaaaaa&bgTextureOverlay=flat&bgImgOpacityOverlay=0&opacityOverlay=30&bgColorShadow=%23aaaaaa&bgTextureShadow=flat&bgImgOpacityShadow=0&opacityShadow=30&thicknessShadow=8px&offsetTopShadow=-8px&offsetLeftShadow=-8px&cornerRadiusShadow=8px
+ * To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=tahoma&fwDefault=normal&fsDefault=12px&cornerRadius=4px&bgColorHeader=%23e0ffa4&bgTextureHeader=highlight_soft&bgImgOpacityHeader=75&borderColorHeader=%2397ee58&fcHeader=%232b9905&iconColorHeader=%23ffffff&bgColorContent=%23ffffff&bgTextureContent=flat&bgImgOpacityContent=75&borderColorContent=%2397ee58&fcContent=%232b9905&iconColorContent=%2397ee58&bgColorDefault=%23e0ffa4&bgTextureDefault=highlight_soft&bgImgOpacityDefault=75&borderColorDefault=%2397ee58&fcDefault=%232b9905&iconColorDefault=%23fc6b00&bgColorHover=%2321b80e&bgTextureHover=highlight_soft&bgImgOpacityHover=75&borderColorHover=%23e5ffa1&fcHover=%23f9fbf9&iconColorHover=%23554fce&bgColorActive=%2321b80e&bgTextureActive=highlight_soft&bgImgOpacityActive=65&borderColorActive=%23e5ffa1&fcActive=%23f9fbf9&iconColorActive=%232b9905&bgColorHighlight=%23adffa4&bgTextureHighlight=highlight_soft&bgImgOpacityHighlight=55&borderColorHighlight=%23adffa4&fcHighlight=%23292ef7&iconColorHighlight=%232b9905&bgColorError=%23ffe396&bgTextureError=highlight_soft&bgImgOpacityError=55&borderColorError=%23cd0a0a&fcError=%23cd0a0a&iconColorError=%23cd0a0a&bgColorOverlay=%23aaaaaa&bgTextureOverlay=flat&bgImgOpacityOverlay=0&opacityOverlay=30&bgColorShadow=%23aaaaaa&bgTextureShadow=flat&bgImgOpacityShadow=0&opacityShadow=30&thicknessShadow=8px&offsetTopShadow=-8px&offsetLeftShadow=-8px&cornerRadiusShadow=8px
  */
 
 
@@ -19,14 +19,14 @@
 	font-size: 12px;
 }
 .ui-widget .ui-widget {
-	font-size: 12px;
+	font-size: 1em;
 }
 .ui-widget input,
 .ui-widget select,
 .ui-widget textarea,
 .ui-widget button {
 	font-family: tahoma;
-	font-size: 12px;
+	font-size: 1em;
 }
 .ui-widget-content {
 	border: 1px solid #97ee58;
@@ -104,14 +104,14 @@
 .ui-state-highlight,
 .ui-widget-content .ui-state-highlight,
 .ui-widget-header .ui-state-highlight {
-	border: 1px solid #e0ffa4;
-	background: #e0ffa4 url("#{resource['primefaces-cargotracking:images/ui-bg_highlight-soft_55_e0ffa4_1x100.png']}") 50% top repeat-x;
-	color: #fdaf17;
+	border: 1px solid #adffa4;
+	background: #adffa4 url("#{resource['primefaces-cargotracking:images/ui-bg_highlight-soft_55_adffa4_1x100.png']}") 50% top repeat-x;
+	color: #292ef7;
 }
 .ui-state-highlight a,
 .ui-widget-content .ui-state-highlight a,
 .ui-widget-header .ui-state-highlight a {
-	color: #fdaf17;
+	color: #292ef7;
 }
 .ui-state-error,
 .ui-widget-content .ui-state-error,
@@ -176,7 +176,7 @@
 	background-image: url("#{resource['primefaces-cargotracking:images/ui-icons_554fce_256x240.png']}");
 }
 .ui-state-active .ui-icon {
-	background-image: url("#{resource['primefaces-cargotracking:images/ui-icons_fc6b00_256x240.png']}");
+	background-image: url("#{resource['primefaces-cargotracking:images/ui-icons_2b9905_256x240.png']}");
 }
 .ui-state-highlight .ui-icon {
 	background-image: url("#{resource['primefaces-cargotracking:images/ui-icons_2b9905_256x240.png']}");

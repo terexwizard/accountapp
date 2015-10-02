@@ -14,8 +14,9 @@
             username="root" validationInterval="60000" validationQuery="SELECT 1"/>
 -->
             
-       <Resource name="jdbc/accdb"
-	      auth="Container"
+       <!-- Tomcat7
+            <Resource name="jdbc/accdb"
+	         auth="Container"
               type="javax.sql.DataSource" 
               factory="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory"
               driverClassName="com.mysql.jdbc.Driver"
@@ -25,5 +26,11 @@
               maxActive="150"
               maxIdle="30"
               maxWait="-1"/>  
+         -->        
+                 
+          <Resource name="jdbc/accdb" auth="Container" type="javax.sql.DataSource"
+               maxTotal="100" maxIdle="30" maxWaitMillis="10000"
+               username="root" password="root" driverClassName="com.mysql.jdbc.Driver"
+               url="jdbc:mysql://localhost:3306/accountdb?useUnicode=yes&amp;characterEncoding=UTF-8"/>
 
 </Context>

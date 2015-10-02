@@ -1,0 +1,308 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:func="http://taglib.scc.com/functions">
+  <f:view beforePhase="#{aTP020111.beforePhase}" afterPhase="#{aTP020111.afterPhase}" encoding="UTF-8" >
+    <h:head>
+      <title></title>
+      <h:outputStylesheet name="style.css" library="css" /> 
+      <h:outputStylesheet name="style_s.css" library="css" />
+      <h:outputScript name="f1common.js" library="js" />
+      
+   <style>
+
+
+     table tr1{
+        border-color: #95461d !important;
+    }
+
+   </style>
+      
+      
+      <script type="text/javascript">   
+ //<![CDATA[ 
+        function callbackclickbtnadd(){
+            document.getElementById("form1:btna11add").click();
+        }
+        function cancel(){
+            
+        }
+ //]]>   
+      </script>
+    </h:head>
+    <h:body>
+      <br/>
+      <h:form id="form1" >
+       
+        <div align="center">
+
+            <p:panelGrid style="width: 600px;">
+                 <p:row>
+                    <p:column style="width: 100px;"/>
+                    <p:column/>
+                 </p:row>
+                 <p:row>
+                    <p:column>
+                      <h:outputLabel value="Received From"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText label="Received From" id="companyid" value="#{aTP020111.masterdata.daily.companyid}"
+                                      size="8" maxlength="8" 
+                                      required="true" 
+                                      disabled="#{aTP010200.modeupdate}">
+                             <p:ajax event="change" onstart="b1_lookup();return false;" />
+                         </p:inputText>
+                        
+                        
+                         <ui:include src="#{bKBAppVar.COMPO_LOOKUPDATA}" >
+                          <ui:param name="formid" value="form1"/>
+                          <ui:param name="lookupname" value="b1"/>
+                          <ui:param name="lookupquery" value="lookup_invoicecompany"/>
+                          <ui:param name="lookuppara" value="companyid#invcomid"/>
+                          <ui:param name="lookupreturn" value="companyid#invcomid,companyname#companyname"/>
+                        </ui:include>
+                        
+                        <p:outputPanel rendered="#{!aTP020111.modeupdate}">
+                        <ui:include src="#{bKBAppVar.COMPO_ZOOMDATA}" >
+                            <ui:param name="formid" value="form1"/>
+                            <ui:param name="zoomname" value="zoom1"/>
+                            <ui:param name="zoomquery" value="lookup_invoicecompany"/>
+                            <ui:param name="zoomreturn" value="companyid#invcomid,companyname#companyname"/>
+                          </ui:include>
+
+                        </p:outputPanel> 
+                        
+                       
+                        <p:inputText label="" id="companyname" value="#{aTP020111.masterdata.daily.companyname}"
+                                      size="40" maxlength="8" readonly="true"
+                                      styleClass="#{bKBStyle.STYLE_INPUT_DISABLE}"
+                                      tabindex="-1">
+                        </p:inputText>
+                    </p:column>
+                  </p:row>
+            </p:panelGrid>
+            
+            <br/> 
+            <p:commandButton value="Search" 
+                             process="@this" update="@form"
+                             actionListener="#{aTP020111.searchData}"/>
+            
+            <br/><br/>
+          
+           
+           <p:outputPanel id="#{aTP020111.detaildaily.detailname}" >
+
+              <p:dataTable id="#{aTP020111.detaildaily.tablename}" var="rec" value="#{aTP020111.detaildaily.listdetailrow}" 
+                           rowKey="#{rec}"  
+                           paginator="false" emptyMessage="" 
+                           selectionMode="single" selection="#{aTP020111.detaildaily.selectedrow}"
+                           scrollable="true" 
+                           editable="false"  rowIndexVar="rowIndex" 
+                           styleClass="f1-p-datatable-wide" scrollWidth="970" scrollHeight="120"
+                           style="width:950px;table-layout: fixed;text-align: left;">
+
+                  <p:ajax event="rowSelect" listener="#{aTP020111.detaildaily.selectRow}" 
+                          update=":#{aTP020111.detaildaily.parentid}:#{aTP020111.detaildaily.detailrowpanel}" />
+
+                  <p:column style="width:60px;text-align:center;vertical-align: text-top;">
+                      
+                      <f:facet name="header"> 
+                          Select <br/>
+                          
+                          <h:selectBooleanCheckbox value="#{aTP020111.checkboxAllDetail}">
+                              <p:ajax process="@this,#{aTP020111.detaildaily.tablename}" 
+                                      update="#{aTP020111.detaildaily.tablename},:form1:statuscheckboxAllDetail" 
+                                      listener="#{aTP020111.checkAllDetail}"/>
+                          </h:selectBooleanCheckbox>
+
+                      </f:facet>
+
+                      <h:selectBooleanCheckbox value="#{rec.data.detailCheckbox}" >
+                          <p:ajax process="@this" listener="#{aTP020111.calSumAmount}" 
+                                  update=":form1:#{aTP020111.detaildaily.detailname}" />
+                      </h:selectBooleanCheckbox>
+
+
+                      <ui:remove>
+                          <!--
+                      <ui:include src="#{bKBAppVar.COMPO_DETAIL_BUTTON_ROWDEL}" >
+                          <ui:param name="basebean" value="#{aTP020111}"/>
+                          <ui:param name="dt" value="#{aTP020111.detaildaily}"/>
+                          <ui:param name="msgid" value=":form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
+                      </ui:include>
+                          -->
+                      </ui:remove>
+
+                  </p:column>
+
+                  <p:column  headerText="Seq" style="width:50px;vertical-align: text-top;text-align: center;">
+                      #{rowIndex+1}
+                  </p:column>
+
+
+                  <p:column  headerText="Received Date"  style="width:90px;vertical-align: text-top;" >  
+                      #{func:convertDateStringToScreen(rec.data.daily.dailydate)}
+                  </p:column>
+
+                  <p:column  headerText="Voucher No." style="width:80px;vertical-align: text-top;text-align: center;">  
+                      #{rec.data.daily.voucherno} #{rec.data.daily.docno}
+                  </p:column>
+                  
+                  <p:column headerText="Received by" style="width:120px;vertical-align: text-top;text-align: center;">             
+
+                      #{rec.data.tbbank.bankname}
+
+                  </p:column>
+
+                  <p:column headerText="Description Code" style="width:120px;vertical-align: text-top;">             
+                      
+                      <h:outputLabel value=" #{rec.data.daily.descriptioncode}" title="#{rec.data.tbdescriptioncode.dscptdesc}"/>
+                     
+                      
+                  </p:column>
+
+
+
+                  <p:column  headerText="Amount" style="vertical-align: text-top;text-align: right;">
+                     #{func:formatMoney(rec.data.daily.amount2)}
+                  </p:column>
+
+                  <p:column  headerText="Paid Amount" style="width:120px;vertical-align: text-top;text-align: right;">
+
+                     #{func:formatMoney(rec.data.daily.paidamount)}
+
+                  </p:column>
+                  
+                  <p:column  headerText="Currency" style="vertical-align: text-top;text-align: center;">
+                     #{rec.data.tbcurrency.currencyname}
+                  </p:column>
+                  
+                  <p:column  headerText="Remark" style="width:120px;vertical-align: text-top;">  
+                      #{rec.data.daily.remark}
+                  </p:column>
+                  
+                  
+                     <p:columnGroup type="footer">  
+                        <p:row>  
+
+                            <p:column colspan="8" 
+                                      footerText="Received Amount USD"  
+                                      style="text-align:right; color: #2b9905;font-weight: bold;"  />  
+                            
+                            <p:column
+                                footerText="#{func:formatMoney(aTP020111.masterdata.amus)}"  
+                                      style="text-align:right;color: #2b9905;font-weight: bold;"  />  
+
+                        </p:row>  
+                         
+                         <p:row>  
+
+                            <p:column colspan="8" 
+                                      footerText="Received Amount THB"  
+                                      style="text-align:right; color: #2b9905;font-weight: bold;"  />  
+                            <p:column 
+                                footerText="#{func:formatMoney(aTP020111.masterdata.revamth)}"  
+                                      style="text-align:right;color: #2b9905;font-weight: bold;"  />  
+
+
+                        </p:row> 
+                    </p:columnGroup>            
+
+              </p:dataTable>
+            </p:outputPanel>
+            
+            <!--
+            //INPUT
+            -->
+            
+            <p:outputPanel  id="#{aTP020111.detaildaily.detailrowpanel}" style="display: none;">
+               <p:panelGrid style="width:935px;table-layout: fixed;">
+                    <p:row>
+                        <p:column style="width:270px;"/>
+                        <p:column style="width:80px;"/>
+                        <p:column style="width:15px;"/>
+                        <p:column />
+                    </p:row>
+                   
+                   <p:row>
+                        <p:column colspan="5" style="text-align: center;">
+                           <ui:include src="#{bKBAppVar.COMPO_DETAIL_BUTTON_SET}" >
+                               <ui:param name="basebean" value="#{aTP020111}"/>
+                               <ui:param name="dt" value="#{aTP020111.detaildaily}"/>
+                               <ui:param name="msgid" value=":form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
+                               <ui:param name="msgcf" value="1"/>
+                               <ui:param name="btnnamecancel" value="ล้างจอภาพ"/>
+                           </ui:include>
+                        </p:column>
+                    </p:row>  
+               </p:panelGrid>
+            </p:outputPanel>
+            
+            
+            <br/>  
+            <div align="center">
+  
+                <p:panelGrid >
+                 <p:row>
+                     <p:column style="padding: 0px;">
+                            <p:commandButton type="button" value="" 
+                                      styleClass="f1-p-commandbutton-cs-add"  
+                                      onclick="cf1.show();" />
+
+                             <p:commandButton id="btna11add" value="" 
+                                         styleClass="f1-p-commandbutton-cs-add}" 
+                                         style="display:none;"
+                                         action="#{aTP020111.doAdd}" 
+                                         ajax="false" >
+                             </p:commandButton>
+                       </p:column>
+                       <p:column style="padding: 0px;">
+                            <ui:include src="#{bKBAppVar.COMPO_COMMAND_E}" >
+                                <ui:param name="basebean" value="#{aTP020111}"/>
+                                <ui:param name="hideadd" value="1"/>
+                                <ui:param name="hidequery" value="1"/>
+                                <ui:param name="hidedelete" value="0"/>
+                                <ui:param name="hideupdate" value="0"/>
+                            </ui:include>
+
+                       </p:column>
+                    </p:row>
+                </p:panelGrid>
+                
+                
+            </div>
+          
+    <!--
+    //HIDDEN_ZONE
+    --> 
+    <p:inputText id="statuscheckboxAllDetail" 
+                 value="#{aTP020111.statuscheckboxAllDetail}" 
+                 style="display:none;"/>   
+          
+        </div>
+        <ui:include src="#{bKBAppVar.COMPO_MASG}" >
+          <ui:param name="basebean" value="#{aTP020111}"/>
+        </ui:include>
+          
+          
+        <ui:include src="#{bKBAppVar.COMPO_MASG_CONFIRM}" >
+            <ui:param name="basebean" value="#{aTP020111}"/>
+            <ui:param name="name" value="cf1"/>
+            <ui:param name="msg" value="Confirm Save"/>
+            <ui:param name="ok" value=""/>   
+            <ui:param name="oknotajax" value="1"/>
+            <ui:param name="okfunction" value="callbackclickbtnadd"/>
+            <ui:param name="cancelfunction" value="cancel();"/>
+        </ui:include> 
+          
+          
+          
+          
+      </h:form>
+    </h:body>
+  </f:view>
+</html>

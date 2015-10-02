@@ -339,7 +339,8 @@
     <Type></Type>
     <SQL>
         
-        select dsrptvalue,
+        select id,
+            dsrptvalue,
             dscptdesc  
         from tb_descriptioncode t
 
@@ -402,6 +403,7 @@
         
        SELECT invcomid,
             companyname,
+            taxid,
             remark 
        FROM accountdb.invoicecompany t
 
@@ -409,6 +411,7 @@
            
        <var name="invcomid" woper="and" > t.invcomid = '<value/>' </var>
        <var name="companyname" woper="and" > t.companyname like '%<value/>%' </var>
+       <var name="taxid" woper="and" > t.taxid = '<value/>' </var>
        
        </where>
     </SQL>
@@ -427,6 +430,11 @@
             <UIName>companyname</UIName>
             <Operator></Operator>
         </Param>
+        <Param>
+            <VarName>taxid</VarName>
+            <UIName>taxid</UIName>
+            <Operator></Operator>
+        </Param>
     </Params>
 
      <Displays>
@@ -441,6 +449,13 @@
              <Column>
                 <FieldName>companyname</FieldName>
                 <Header>company name</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>taxid</FieldName>
+                <Header>taxid</Header>
                 <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
@@ -796,7 +811,7 @@
         FROM daily d left outer join tb_descriptioncode s on(d.descriptioncode = s.dsrptvalue) 
             left outer join tb_bank b on (d.payby = b.bankid)
 
-       <where>d.receivedamount  <![CDATA[<>]]> 0.00
+       <where>d.paidamount = 0.00 and d.amount2 = 0.00
            
        <var name="dailydatest" woper="and" > d.dailydate <![CDATA[>=]]> '<value/>' </var>
        <var name="dailydatefn" woper="and" > d.dailydate <![CDATA[<=]]> '<value/>' </var>
@@ -836,7 +851,14 @@
              <Column>
                 <FieldName>dailydate_disp</FieldName>
                 <Header>date</Header>
-                <Style>width:200px;</Style>
+                <Style>width:100px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>companyname</FieldName>
+                <Header>companyname</Header>
+                <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
              </Column>
@@ -907,7 +929,7 @@
         FROM daily d left outer join tb_descriptioncode s on(d.descriptioncode = s.dsrptvalue) 
             left outer join tb_bank b on (d.payby = b.bankid)
 
-       <where>d.paidamount <![CDATA[<>]]> 0.00
+       <where>d.receivedamount = 0.00 and d.amount = 0.00
            
        <var name="dailydatest" woper="and" > d.dailydate <![CDATA[>=]]> '<value/>' </var>
        <var name="dailydatefn" woper="and" > d.dailydate <![CDATA[<=]]> '<value/>' </var>
@@ -947,7 +969,14 @@
              <Column>
                 <FieldName>dailydate_disp</FieldName>
                 <Header>date</Header>
-                <Style>width:200px;</Style>
+                <Style>width:100px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+              <Column>
+                <FieldName>companyname</FieldName>
+                <Header>companyname</Header>
+                <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
              </Column>
@@ -1622,7 +1651,9 @@
     <Type></Type>
     <SQL>
         
-        SELECT dsrptvalue,dscptdesc 
+        SELECT dsrptvalue,
+            dscptdesc ,
+            concat(dsrptvalue,'-',dscptdesc) dsrptvalue_disp
         FROM tb_descriptioncode t
 
        <where>
@@ -1671,7 +1702,9 @@
     <Type></Type>
     <SQL>
         
-        SELECT revalue,redesc 
+        SELECT revalue,
+            redesc ,
+            concat(revalue,'-',redesc) revalue_disp
         FROM tb_received_type t
 
        <where>
@@ -1719,7 +1752,9 @@
     <Type></Type>
     <SQL>
         
-        SELECT payvalue,paydesc 
+        SELECT payvalue,
+            paydesc ,
+            concat(payvalue,'-',paydesc) payvalue_disp 
         FROM tb_payment_type t
 
        <where>
@@ -1768,7 +1803,9 @@
     <Type></Type>
     <SQL>
         
-        SELECT revvalue,revdesc 
+        SELECT revvalue,
+            revdesc ,
+            concat(revvalue,'-',revdesc) revvalue_disp
         FROM tb_received_voucherno t
 
        <where>
@@ -2069,31 +2106,32 @@
     <SQL>
         
         SELECT DB_DSF(t.dailydate) dailydate,
-              t.jobno,
-              t.docno_code,
-              t.docno,
-              concat(tg2.data,"-",t.docno) as docno_disp,
-              t.description,
-              t.chqno,
-              tg.data,
-              t.no,
-              t.received_cash,
-              t.received_bank,
-              t.received_cr,
-              t.payment_cash,
-              t.payment_bank,
-              t.payment_cr,
-              t.balance_cash,
-              t.balance_cr,
-              t.vendor 
-        FROM daily t left join tb_group tg on (t.no = tg.id and tg.type = '1')
-            left join tb_group tg2 on (t.docno_code = tg2.id and tg2.type = '2')
+            t.dailytype,
+            t.descriptioncode,
+            concat(t.voucherno,'',t.docno) as voucherno_disp,
+            t.jobref,
+            t.transecsionno,
+            t.payby,
+            b.bankname,
+            t.receivedamount,
+            t.amount,
+            t.exchangerate,
+            t.currency,
+            c.currencyname,
+            t.remark,
+            case
+              when t.receivesuccess is null then 'N'
+              else t.receivesuccess
+            end receivesuccess
+        FROM daily t left outer join tb_bank b on (payby = b.bankid)
+            left outer join tb_currency c on (t.currency = c.currencyid)
 
        <where> 
-       
+           t.paidamount = 0.00 and t.amount2 = 0.00 
        <var name="dailydatest" woper="and" > t.dailydate <![CDATA[>=]]>  '<value/>' </var>
        <var name="dailydatefn" woper="and" > t.dailydate <![CDATA[<=]]>  '<value/>' </var>
-       <var name="jobno" woper="and" > t.jobno = '<value/>' </var>
+       <var name="jobref" woper="and" > t.jobref = '<value/>' </var>
+       <var name="receivesuccess" woper="and" > t.receivesuccess = '<value/>' </var>
        
        </where>
     </SQL>
@@ -2113,8 +2151,13 @@
             <Operator></Operator>
         </Param>
         <Param>
-            <VarName>jobno</VarName>
-            <UIName>jobno</UIName>
+            <VarName>jobref</VarName>
+            <UIName>jobref</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>receivesuccess</VarName>
+            <UIName>receivesuccess</UIName>
             <Operator></Operator>
         </Param>
     </Params>
@@ -2148,46 +2191,59 @@
     <Type></Type>
     <SQL>
         
-        SELECT t.jobno,
-              t.invcomid,
-              t.company,
-              t.invno,
-              t.invdate,
-              DB_DSF(t.invdate) invdate_disp,
-              t.amount,
-              t.duedate,
-              DB_DSF(t.duedate) duedate_disp,
-              t.paid_amount,
-              t.received_date,
-              DB_DSF(t.received_date) received_date_disp 
-        FROM invoice t
+        SELECT DB_DSF(t.dailydate) dailydate,
+            t.dailytype,
+            t.descriptioncode,
+            concat(t.voucherno,'',t.docno) as voucherno_disp,
+            t.jobref,
+            t.transecsionno,
+            t.payby,
+            b.bankname,
+            t.paidamount,
+            t.amount2,
+            t.exchangerate,
+            t.currency,
+            c.currencyname,
+            t.remark,
+            case
+              when t.paymentsuccess is null then 'N'
+              else t.paymentsuccess
+            end paymentsuccess
+        FROM daily t left outer join tb_bank b on (payby = b.bankid)
+            left outer join tb_currency c on (t.currency = c.currencyid)
 
        <where> 
-       
-       <var name="datest" woper="and" > t.invdate <![CDATA[>=]]>  '<value/>' </var>
-       <var name="datefn" woper="and" > t.invdate <![CDATA[<=]]>  '<value/>' </var>
-       <var name="jobno" woper="and" > t.jobno = '<value/>' </var>
+           t.receivedamount = 0.00 and t.amount = 0.00 
+       <var name="dailydatest" woper="and" > t.dailydate <![CDATA[>=]]>  '<value/>' </var>
+       <var name="dailydatefn" woper="and" > t.dailydate <![CDATA[<=]]>  '<value/>' </var>
+       <var name="jobref" woper="and" > t.jobref = '<value/>' </var>
+       <var name="paymentsuccess" woper="and" > t.paymentsuccess = '<value/>' </var>
        
        </where>
     </SQL>
     <SQLOrderBy>
-        t.invdate
+        t.dailydate
     </SQLOrderBy>
 
     <Params>
         <Param>
-            <VarName>datest</VarName>
-            <UIName>datest</UIName>
+            <VarName>dailydatest</VarName>
+            <UIName>dailydatest</UIName>
             <Operator></Operator>
         </Param>
         <Param>
-            <VarName>datefn</VarName>
-            <UIName>datefn</UIName>
+            <VarName>dailydatefn</VarName>
+            <UIName>dailydatefn</UIName>
             <Operator></Operator>
         </Param>
         <Param>
-            <VarName>jobno</VarName>
-            <UIName>jobno</UIName>
+            <VarName>jobref</VarName>
+            <UIName>jobref</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>paymentsuccess</VarName>
+            <UIName>paymentsuccess</UIName>
             <Operator></Operator>
         </Param>
     </Params>
@@ -2208,5 +2264,381 @@
      <ZoomTitle></ZoomTitle>
 </Query>
 
+
+
+
+<!-- ************************** 
+    sumdaily_receiveamount
+- -  ************************** -->
+
+<Query>
+    <TranCode>sumdaily_receiveamount</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+            SELECT sum(d.receivedamount) receivedamount 
+            FROM daily d
+
+       <where> 
+           d.paidamount = 0.00 and d.amount2 = 0.00 and d.payby <![CDATA[<>]]> '2'
+       <var name="dailydatest" woper="and" > t.dailydate <![CDATA[>=]]>  '<value/>' </var>
+       <var name="dailydatefn" woper="and" > t.dailydate <![CDATA[<=]]>  '<value/>' </var>
+       <var name="dailytype" woper="and" > d.dailytype = '<value/>' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydatest</VarName>
+            <UIName>dailydatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatefn</VarName>
+            <UIName>dailydatefn</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailytype</VarName>
+            <UIName>dailytype</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+
+<!-- ************************** 
+    sumdaily_amount
+- -  ************************** -->
+
+<Query>
+    <TranCode>sumdaily_amount</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+            SELECT sum(d.receivedamount) receivedamount 
+            FROM daily d
+
+       <where> 
+           d.paidamount = 0.00 and d.amount2 = 0.00 and d.payby = '2'
+       <var name="dailydatest" woper="and" > t.dailydate <![CDATA[>=]]>  '<value/>' </var>
+       <var name="dailydatefn" woper="and" > t.dailydate <![CDATA[<=]]>  '<value/>' </var>
+       <var name="dailytype" woper="and" > d.dailytype = '<value/>' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydatest</VarName>
+            <UIName>dailydatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatefn</VarName>
+            <UIName>dailydatefn</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailytype</VarName>
+            <UIName>dailytype</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+<!-- ************************** 
+    sumdaily_paidamount
+- -  ************************** -->
+
+<Query>
+    <TranCode>sumdaily_paidamount</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+            SELECT sum(d.paidamount) paidamount 
+            FROM daily d
+
+       <where> 
+           d.receivedamount = 0.00 and d.amount = 0.00 and d.payby <![CDATA[<>]]> '2'
+       <var name="dailydatest" woper="and" > t.dailydate <![CDATA[>=]]>  '<value/>' </var>
+       <var name="dailydatefn" woper="and" > t.dailydate <![CDATA[<=]]>  '<value/>' </var>
+       <var name="dailytype" woper="and" > d.dailytype = '<value/>' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydatest</VarName>
+            <UIName>dailydatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatefn</VarName>
+            <UIName>dailydatefn</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailytype</VarName>
+            <UIName>dailytype</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+
+<!-- ************************** 
+    sumdaily_amount2
+- -  ************************** -->
+
+<Query>
+    <TranCode>sumdaily_amount2</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+            SELECT sum(d.amount2) amount2 
+            FROM daily d
+
+       <where> 
+           d.receivedamount = 0.00 and d.amount = 0.00 and d.payby = '2'
+       <var name="dailydatest" woper="and" > t.dailydate <![CDATA[>=]]>  '<value/>' </var>
+       <var name="dailydatefn" woper="and" > t.dailydate <![CDATA[<=]]>  '<value/>' </var>
+       <var name="dailytype" woper="and" > d.dailytype = '<value/>' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydatest</VarName>
+            <UIName>dailydatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatefn</VarName>
+            <UIName>dailydatefn</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailytype</VarName>
+            <UIName>dailytype</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+<!-- ************************** 
+    sumdaily_receivedall
+- -  ************************** -->
+
+<Query>
+    <TranCode>sumdaily_receivedall</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+            SELECT t.revalue,t.redesc ,a1.receivedamount ,a2.amount
+            FROM tb_received_type t left join
+
+             (SELECT sum(d.receivedamount) receivedamount,t.revalue
+                FROM daily d left outer join tb_received_type t on (d.dailytype = t.revalue)
+              where d.paidamount = 0.00 and d.amount2 = 0.00 and d.payby <![CDATA[<>]]> '2'
+                <var name="dailydatest" woper="and" >and d.dailydate <![CDATA[>=]]>  '<value/>' </var>
+                <var name="dailydatefn" woper="and" >and d.dailydate <![CDATA[<=]]>  '<value/>' </var>
+              group by t.revalue) a1 on(t.revalue = a1.revalue) left join
+
+             (SELECT sum(d.amount) amount,t.revalue
+                FROM daily d left outer join tb_received_type t on (d.dailytype = t.revalue)
+                where d.paidamount = 0.00 and d.amount2 = 0.00 and d.payby = '2'
+                    <var name="dailydatest" woper="and" >and d.dailydate <![CDATA[>=]]>  '<value/>' </var>
+                    <var name="dailydatefn" woper="and" >and d.dailydate <![CDATA[<=]]>  '<value/>' </var>
+                group by t.revalue) a2 on(t.revalue = a2.revalue)
+
+            order by t.id
+
+       <where>
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydatest</VarName>
+            <UIName>dailydatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatefn</VarName>
+            <UIName>dailydatefn</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+
+<!-- ************************** 
+    sumdaily_paiddall
+- -  ************************** -->
+
+<Query>
+    <TranCode>sumdaily_paiddall</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+            SELECT t.payvalue,t.paydesc ,a1.paidamount ,a2.amount2
+            FROM tb_payment_type t left join
+
+             (SELECT sum(d.paidamount) paidamount,t.payvalue
+                FROM daily d left outer join tb_payment_type t on (d.dailytype = t.payvalue)
+              where d.receivedamount = 0.00 and d.amount = 0.00 and d.payby <![CDATA[<>]]> '2'
+                <var name="dailydatest" woper="and" >and d.dailydate <![CDATA[>=]]>  '<value/>' </var>
+                <var name="dailydatefn" woper="and" >and d.dailydate <![CDATA[<=]]>  '<value/>' </var>
+              group by t.payvalue) a1 on(t.payvalue = a1.payvalue) left join
+
+             (SELECT sum(d.amount2) amount2,t.payvalue
+                FROM daily d left outer join tb_payment_type t on (d.dailytype = t.payvalue)
+                where d.receivedamount = 0.00 and d.amount = 0.00 and d.payby = '2'
+                    <var name="dailydatest" woper="and" >and d.dailydate <![CDATA[>=]]>  '<value/>' </var>
+                    <var name="dailydatefn" woper="and" >and d.dailydate <![CDATA[<=]]>  '<value/>' </var>
+                group by t.payvalue) a2 on(t.payvalue = a2.payvalue)
+
+            order by t.id
+
+       <where>
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydatest</VarName>
+            <UIName>dailydatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatefn</VarName>
+            <UIName>dailydatefn</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
   
 </QueryXML>

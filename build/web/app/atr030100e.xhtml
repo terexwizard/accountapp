@@ -26,7 +26,7 @@
                 <p:panelGrid>
                     <p:row>
                         <p:column>
-                          <h:outputLabel value="ตั้งแต่วันที่"/>
+                          <h:outputLabel value="Received Date Start"/>
                         </p:column>
                         <p:column>
                              <p:calendar id="dailydatest" value="#{aTR030100.masterdata.dailydatest}"
@@ -38,7 +38,7 @@
 
                         </p:column>
                         <p:column>
-                          <h:outputLabel value="ถึงวันที่"/>
+                          <h:outputLabel value="Received Date Finish"/>
                         </p:column>
                         <p:column>
                             <p:calendar id="dailydatefn" value="#{aTR030100.masterdata.dailydatefn}"
@@ -52,11 +52,24 @@
                   </p:row>
                   <p:row>
                         <p:column>
-                          <h:outputLabel value="jobno"/>
+                          <h:outputLabel value="Job Ref."/>
                         </p:column>
                       <p:column colspan="3">
-                          <p:inputText value="#{aTR030100.masterdata.daily.dailyPK.jobno}"
+                          <p:inputText value="#{aTR030100.masterdata.daily.jobref}"
                                        size="20" maxlength="20"/>
+
+                        </p:column>
+                  </p:row>
+                    
+                  <p:row>
+                        <p:column>
+                          <h:outputLabel value="Status"/>
+                        </p:column>
+                      <p:column colspan="3">
+                          <h:selectOneRadio value="#{aTR030100.masterdata.receivesuccess}">
+                              <f:selectItem itemLabel="Pay" itemValue="Y"/>
+                              <f:selectItem itemLabel="All" itemValue=""/>
+                          </h:selectOneRadio>
 
                         </p:column>
                   </p:row>

@@ -4,7 +4,8 @@
  */
 package com.scc.pay.util;
 
-import com.scc.f1.util.Utils;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
 /**
  *
@@ -19,7 +20,9 @@ public class NewMain {
         // TODO code application logic here
         String d = "25570102";
         
-        System.out.print(Utils.formatStringToDateToScreen(d));
+        DecimalFormat df2 = new DecimalFormat( "#,##0.00" );
+        
+        System.out.println(df2.format(new BigDecimal("12345")));
         
     }
 }
