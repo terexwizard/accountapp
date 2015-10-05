@@ -2640,5 +2640,137 @@
      <ZoomFile></ZoomFile>
      <ZoomTitle></ZoomTitle>
 </Query>
+
+
+<!-- ************************** 
+    sumdailybank_th
+- -  ************************** -->
+<Query>
+    <TranCode>sumdailybank_th</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        
+        select b.bankname,
+
+         case
+          when c.receivedamount is null then '0.00'
+          else c.receivedamount
+         end receivedamount   ,
+         case
+          when c.paidamount is null then '0.00'
+          else c.paidamount
+         end paidamount
+
+
+        FROM tb_bank b left outer join
+        
+        (SELECT d.dailydate,b.bankname,b.bankid,
+                    sum(d.receivedamount) receivedamount,
+                    sum(d.paidamount) paidamount
+            FROM daily d left outer join tb_bank b on (d.payby = b.bankid)
+            where d.payby <![CDATA[<>]]> '2' 
+                <var name="dailydate" woper="and" >and d.dailydate <![CDATA[=]]>  '<value/>' </var>     
+            group by d.dailydate,b.bankname
+            order by d.payby ) c on (b.bankid = c.bankid)
+            
+        where b.bankid <![CDATA[<>]]> '2' 
+        order by b.bankid
+       <where>
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydate</VarName>
+            <UIName>dailydate</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+<!-- ************************** 
+    sumdailybank_us
+- -  ************************** -->
+<Query>
+    <TranCode>sumdailybank_us</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        select b.bankname,
+
+         case
+          when c.amount is null then '0.00'
+          else c.amount
+         end amount   ,
+         case
+          when c.amount2 is null then '0.00'
+          else c.amount2
+         end amount2 
+
+        FROM tb_bank b left outer join
+        
+        (SELECT d.dailydate,b.bankname,b.bankid,
+                sum(d.amount) amount,
+                sum(d.amount2) amount2 
+        FROM daily d left outer join tb_bank b on (d.payby = b.bankid)
+        where d.payby <![CDATA[=]]> '2' 
+            <var name="dailydate" woper="and" >and d.dailydate <![CDATA[=]]>  '<value/>' </var>     
+        group by d.dailydate,b.bankname
+        order by d.payby ) c on (b.bankid = c.bankid)
+         
+        where b.bankid = '2' 
+        order by b.bankid
+        
+       <where>
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydate</VarName>
+            <UIName>dailydate</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
   
 </QueryXML>
