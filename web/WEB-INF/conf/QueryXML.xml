@@ -1094,6 +1094,86 @@
 
 
 
+<!-- ************************** 
+    ATP020400Q 
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATP020400Q</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT b.bfdate,
+            db_dsf(b.bfdate) bfdate_disp,
+            b.bankid,
+            t.bankname,
+            money(b.received) received,
+            money(b.paid) paid,
+            money(b.actualmoney) actualmoney 
+        FROM bringforward b left outer join tb_bank t on (b.bankid = t.bankid)
+
+       <where>
+           
+            <var name="bfdate" woper="and" > b.bfdate = '<value/>' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        b.bfdate,t.bankid
+    </SQLOrderBy>
+    <Params>
+        <Param>
+            <VarName>bfdate</VarName>
+            <UIName>bfdate</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>bfdate_disp</FieldName>
+                <Header>bfdate_disp</Header>
+                <Style>width:200px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>bankname</FieldName>
+                <Header>bankname</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>received</FieldName>
+                <Header>received</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>paid</FieldName>
+                <Header>paid</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>actualmoney</FieldName>
+                <Header>actualmoney</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+</Query>
+
+
 
 <!-- ************************** 
     lookup_tb01_province
