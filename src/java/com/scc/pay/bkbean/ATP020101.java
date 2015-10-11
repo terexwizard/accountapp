@@ -243,6 +243,8 @@ public class ATP020101 extends BKBPage {
             
             if(ib.isOk()){
                 clearAllData();
+                
+                initialValue();
             }
             
             
@@ -348,11 +350,16 @@ public class ATP020101 extends BKBPage {
         
         BKBUQuery.getIns().clearListData();
         
+        initialValue();
+        
+        //search();
+    }
+    
+    
+    private void initialValue(){
         if(this.getMasterdata().getDailydate() == null){
             this.getMasterdata().setDailydate(Utils.getcurDateTime());
         }
-        
-        //search();
     }
     
     private void search(){

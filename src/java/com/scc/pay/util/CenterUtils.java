@@ -592,4 +592,46 @@ public class CenterUtils{
         }
     }
     
+    public static String nextDayEn(String d,Integer i){  
+        
+        Date date = null; 
+ 
+        Calendar c = Calendar.getInstance();
+        
+        c.setTime(Utils.formatStringToDateToScreen(d));
+        c.add(Calendar.DATE, +i);
+  
+        SimpleDateFormat sm = new SimpleDateFormat("yyyyMMdd");
+        
+        try {
+            date = sm.parse(Utils.formatDateToStringToDBThai(c.getTime())); 
+        } catch (ParseException ex) {
+            java.util.logging.Logger.getLogger(CenterUtils.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
+        return Utils.formatDateToStringToDBEn(date);
+ 
+    }
+    
+    public static String previousDayEn(String d,Integer i){  
+        
+        Date date = null; 
+ 
+        Calendar c = Calendar.getInstance();
+        
+        c.setTime(Utils.formatStringToDateToScreen(d));
+        c.add(Calendar.DATE, -i);
+  
+        SimpleDateFormat sm = new SimpleDateFormat("yyyyMMdd");
+        
+        try {
+            date = sm.parse(Utils.formatDateToStringToDBThai(c.getTime())); 
+        } catch (ParseException ex) {
+            java.util.logging.Logger.getLogger(CenterUtils.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
+        return Utils.formatDateToStringToDBEn(date);
+ 
+    }
+    
 }

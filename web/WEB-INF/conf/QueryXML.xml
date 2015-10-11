@@ -2345,6 +2345,72 @@
 </Query>
 
 
+<!-- ************************** 
+    search_bringforward
+- -  ************************** -->
+
+<Query>
+    <TranCode>search_bringforward</TranCode>    
+    <Version>1</Version>
+    <Description>ตารางอำเภอ/เขต</Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT b.bfdate,
+            db_dsf(b.bfdate) bfdate_disp,
+            b.bankid,
+            t.bankname,
+            b.received received,
+            b.paid paid,
+            b.actualmoney actualmoney 
+        FROM bringforward b left outer join tb_bank t on (b.bankid = t.bankid)
+
+       <where>
+           
+            <var name="bfdate" woper="and" > b.bfdate = '<value/>' </var>
+            <var name="bankidnot2" woper="and" > b.bankid <![CDATA[<>]]> '<value/>' </var>
+            <var name="bankid2" woper="and" > b.bankid = '<value/>' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        b.bfdate,t.bankid
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>bfdate</VarName>
+            <UIName>bfdate</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>bankidnot2</VarName>
+            <UIName>bankidnot2</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>bankid2</VarName>
+            <UIName>bankid2</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
 
 
 <!-- ************************** 
