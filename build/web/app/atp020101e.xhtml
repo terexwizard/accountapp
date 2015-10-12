@@ -181,7 +181,7 @@
                          <p:selectOneMenu id="payby" value="#{aTP020101.masterdata.daily.payby}"
                                              style="width: 250px;">
                              <f:selectItems value="#{bKBQuery.combotb_bank}" />
-                             <p:ajax process="@this" update="exchangerate,amount2,paidamount" listener="#{aTP020101.clearamount}" />
+                             <p:ajax process="@this" update="exchangerate,amount2,paidamount,currency" listener="#{aTP020101.clearamount}" />
                         </p:selectOneMenu>
                     </p:column>
                   </p:row>
@@ -195,7 +195,7 @@
                             <p:row>
                                 <p:column>
                                     <p:selectOneMenu id="currency" value="#{aTP020101.masterdata.daily.currency}"
-                                                         style="width: 80px;">
+                                                         style="width: 80px;" disabled="#{aTP020101.masterdata.daily.payby eq '2.00'}">
                                         <f:selectItems value="#{bKBQuery.combotb_currency}" />
                                         <p:ajax process="@this" update="exchangerate,amount2,paidamount" listener="#{aTP020101.clearamount}" />
                                     </p:selectOneMenu>

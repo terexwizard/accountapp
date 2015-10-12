@@ -44,6 +44,7 @@
     <class>com.scc.pay.db.TbDescriptioncode</class>
     <class>com.scc.pay.db.TbReceivedType</class>
     <class>com.scc.pay.db.TbReceivedVoucherno</class>
+    <class>com.scc.pay.db.Bringforward</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>
     <validation-mode>NONE</validation-mode>

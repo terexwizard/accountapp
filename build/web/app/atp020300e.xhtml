@@ -95,7 +95,7 @@
                    scrollable="true" scrollHeight="100"
                     editable="false"  rowIndexVar="rowIndex" 
                     styleClass="f1-p-datatable-wide" 
-                     style="width:610px;table-layout: fixed;text-align: left;">
+                     style="width:710px;table-layout: fixed;text-align: left;">
 
           <p:ajax event="rowSelect" listener="#{aTP020300.detailreceivable.selectRow}" 
                   update=":#{aTP020300.detailreceivable.parentid}:#{aTP020300.detailreceivable.detailrowpanel}" />
@@ -106,7 +106,7 @@
           </p:column>
 
           <p:column  headerText="date"  style="width:90px;vertical-align: text-top;" >  
-              #{func:convertDateStringToScreen(rec.data.receivable.date)}
+              #{func:convertDateStringToScreen(rec.data.receivable.submitdate)}
           </p:column>
 
           <p:column  headerText="jobno"  style="width:90px;vertical-align: text-top;" >  
@@ -143,27 +143,27 @@
     //INPUT
     -->
     <p:outputPanel  id="#{aTP020300.detailreceivable.detailrowpanel}">
-       <p:panelGrid style="width:600px;table-layout: fixed;">
+       <p:panelGrid style="width:800px;table-layout: fixed;">
             <p:row>
                 <p:column style="width:80px;"/>
                 <p:column style="width:120px;"/>
-                <p:column style="width:40px;"/>
-                <p:column style="width:90px;"/>
+                <p:column style="width:70px;"/>
+                <p:column style="width:190px;"/>
                 <p:column style="width:40px;"/>
                 <p:column />
             </p:row>
            
            
            <p:row>
-               <p:column>
+               <p:column styleClass="textR">
                    <h:outputLabel value="submit date" /> 
                </p:column>
                <p:column>
                    
-                    <p:calendar id="invdate" value="#{aTP020300.detailreceivable.row.data.invdate}" 
+                    <p:calendar id="submitdate" value="#{aTP020300.detailreceivable.row.data.submitdate}" 
                                      size="10" maxlength="10" locale="en" showOn="button" 
                                      converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true"
-                                     disabled="#{!aTP020300.detailreceivable.rowinputmode}">
+                                     disabled="true">
                             <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
                             <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
                     </p:calendar>
@@ -198,8 +198,8 @@
                         <ui:param name="formid" value="form1"/>
                         <ui:param name="lookupname" value="b2"/>
                         <ui:param name="lookupquery" value="lookup_daily"/>
-                        <ui:param name="lookuppara" value="jobno#jobno"/>
-                        <ui:param name="lookupreturn" value="jobno#jobno"/>
+                        <ui:param name="lookuppara" value="jobno#jobref"/>
+                        <ui:param name="lookupreturn" value="jobno#jobref"/>
                     </ui:include>
                     
                     <p:outputPanel rendered="#{aTP020300.detailreceivable.rowinputmode}">
@@ -207,7 +207,7 @@
                             <ui:param name="formid" value="form1"/>
                             <ui:param name="zoomname" value="zoom2"/>
                             <ui:param name="zoomquery" value="lookup_daily"/>
-                            <ui:param name="zoomreturn" value="jobno#jobno"/>
+                            <ui:param name="zoomreturn" value="jobno#jobref"/>
                         </ui:include>
                     </p:outputPanel>
                </p:column>
@@ -220,7 +220,13 @@
                </p:column>
                  <p:column colspan="5">
                    
-                   xxxx
+                   <p:calendar id="invdate" value="#{aTP020300.detailreceivable.row.data.invdate}" 
+                                     size="10" maxlength="10" locale="en" showOn="button" 
+                                     converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true"
+                                     disabled="#{!aTP020300.detailreceivable.rowinputmode}">
+                            <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
+                            <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
+                    </p:calendar>
                </p:column>
            </p:row>
            
@@ -235,9 +241,9 @@
                    <p:inputText id="reimbursement" value="#{aTP020300.detailreceivable.row.data.receivable.reimbursement}" 
                                  size="10"
                                  readonly="#{!aTP020300.detailreceivable.rowinputmode}"
-                                 styleClass="#{!aTP020300.detailreceivable.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL}"
+                                 styleClass="#{!aTP020300.detailreceivable.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL} iNR"
                                  converter="moneyConverter">
-                            <p:ajax process="@this" update="@this" />
+                             <p:ajax process="@this,service,vat" update="vat,total,whtax,totalall" listener="#{aTP020300.calVat}" />
                     </p:inputText>
                </p:column>
                <p:column>
@@ -248,9 +254,9 @@
                     <p:inputText id="service" value="#{aTP020300.detailreceivable.row.data.receivable.service}" 
                                  size="10"
                                  readonly="#{!aTP020300.detailreceivable.rowinputmode}"
-                                 styleClass="#{!aTP020300.detailreceivable.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL}"
+                                 styleClass="#{!aTP020300.detailreceivable.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL} iNR"
                                  converter="moneyConverter">
-                            <p:ajax process="@this" update="@this" />
+                            <p:ajax process="@this,reimbursement,vat" update="vat,total,whtax,totalall" listener="#{aTP020300.calVat}" />
                     </p:inputText>
                    
                </p:column>
@@ -264,13 +270,13 @@
                                         disabled="#{!aTP020300.detailreceivable.rowinputmode}">
                            <f:selectItem itemLabel="Select...." itemValue="" />
                            <f:selectItems value="#{bKBQuery.combotb_vat}" />
-                           <p:ajax process="@this,reimbursement,service" update="vat,total" listener="#{aTP020300.calVat}"/>
+                           <p:ajax process="@this,reimbursement,service" update="vat,total,whtax,totalall" listener="#{aTP020300.calVat}"/>
                        </p:selectOneMenu>
 
                        <p:inputText id="vat" value="#{aTP020300.detailreceivable.row.data.receivable.vat}" 
                                      size="10"
                                      readonly="true"
-                                     styleClass="#{bKBStyle.STYLE_INPUT_DISABLE}">
+                                     styleClass="#{bKBStyle.STYLE_INPUT_DISABLE} iNR">
                         </p:inputText>
                    </p:panelGrid>
                </p:column>
@@ -278,7 +284,7 @@
            
            
             <p:row>
-               <p:column>
+               <p:column styleClass="textR">
                    <h:outputLabel value="total" /> 
                </p:column>
                <p:column>
@@ -286,7 +292,7 @@
                     <p:inputText id="total" value="#{aTP020300.detailreceivable.row.data.receivable.total}" 
                                  size="10"
                                  readonly="true" tabindex="-1"
-                                 styleClass="#{bKBStyle.STYLE_INPUT_DISABLE}"
+                                 styleClass="#{bKBStyle.STYLE_INPUT_DISABLE} iNR"
                                  converter="moneyConverter">
                             <p:ajax process="@this" update="@this" />
                     </p:inputText>
@@ -295,22 +301,23 @@
                  <p:column>
                    <h:outputLabel value="WH/TAX" /> 
                </p:column>
-               <p:column>
-                   
+                <p:column style="padding: 0px;">
+                   <p:panelGrid columns="2">
                    <p:selectOneMenu value="#{aTP020300.detailreceivable.row.data.receivable.whtaxdata}" 
                                         disabled="#{!aTP020300.detailreceivable.rowinputmode}">
                            <f:selectItem itemLabel="Select...." itemValue="" />
                            <f:selectItems value="#{bKBQuery.combotb_whtax}" />
-                           <p:ajax process="@this,total" update="whtax" listener="#{aTP020300.calwhtax}"/>
+                           <p:ajax process="@this,total" update="whtax,totalall" listener="#{aTP020300.calwhtax}"/>
                        </p:selectOneMenu>
                    
                     <p:inputText id="whtax" value="#{aTP020300.detailreceivable.row.data.receivable.whtax}" 
                                  size="10"
                                  readonly="true"
-                                 styleClass="#{bKBStyle.STYLE_INPUT_DISABLE}"
+                                 styleClass="#{bKBStyle.STYLE_INPUT_DISABLE} iNR"
                                  converter="moneyConverter">
                             <p:ajax process="@this" update="@this" />
                     </p:inputText>
+                    </p:panelGrid>
                </p:column>
                <p:column>
                    <h:outputLabel value="advance" /> 
@@ -320,7 +327,7 @@
                     <p:inputText id="advance" value="#{aTP020300.detailreceivable.row.data.receivable.advance}" 
                                  size="10"
                                  readonly="#{!aTP020300.detailreceivable.rowinputmode}"
-                                 styleClass="#{!aTP020300.detailreceivable.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL}"
+                                 styleClass="#{!aTP020300.detailreceivable.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL} iNR"
                                  converter="moneyConverter">
                             <p:ajax process="@this" update="@this" />
                     </p:inputText>
@@ -335,8 +342,8 @@
                    
                     <p:inputText id="totalall" value="#{aTP020300.detailreceivable.row.data.receivable.totalall}" 
                                  size="15"
-                                 readonly="true" tabindex="-1"
-                                 styleClass="#{bKBStyle.STYLE_INPUT_DISABLE}">
+                                 readonly="true" tabindex="-1" converter="moneyConverter"
+                                 styleClass="#{bKBStyle.STYLE_INPUT_DISABLE} iNR">
                     </p:inputText>
                </p:column>
            </p:row>

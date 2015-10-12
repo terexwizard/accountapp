@@ -140,6 +140,23 @@
                 <p:column />
             </p:row>
            
+           <p:row>
+               <p:column styleClass="textR">
+                   <h:outputLabel value="submit date" /> 
+               </p:column>
+               <p:column colspan="3">
+                   
+                    <p:calendar id="submitdate" value="#{aTP020200.detailinvoice.row.data.submitdate}" 
+                                     size="10" maxlength="10" locale="en" showOn="button" 
+                                     converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true"
+                                     disabled="true">
+                            <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
+                            <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
+                    </p:calendar>
+                   
+               </p:column>
+           </p:row>   
+           
             <p:row>
                 <p:column styleClass="textR">
                     <h:outputLabel value="job no" /> 
@@ -162,7 +179,7 @@
                         <ui:param name="lookupname" value="b2"/>
                         <ui:param name="lookupquery" value="lookup_daily"/>
                         <ui:param name="lookuppara" value="jobno#jobno"/>
-                        <ui:param name="lookupreturn" value="jobno#jobno,jobdate#dailydate"/>
+                        <ui:param name="lookupreturn" value="jobno#jobref,jobdate#dailydate"/>
                         <ui:param name="after" value="callBacklookup_daily();"/>
                     </ui:include>
                     
@@ -171,7 +188,7 @@
                             <ui:param name="formid" value="form1"/>
                             <ui:param name="zoomname" value="zoom2"/>
                             <ui:param name="zoomquery" value="lookup_daily"/>
-                            <ui:param name="zoomreturn" value="jobno#jobno,jobdate#dailydate"/>
+                            <ui:param name="zoomreturn" value="jobno#jobref,jobdate#dailydate"/>
                             <ui:param name="after" value="callBacklookup_daily();"/>
                             <ui:param name="auto" value="1"/>
                         </ui:include>

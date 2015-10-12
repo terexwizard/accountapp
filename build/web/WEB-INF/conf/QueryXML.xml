@@ -1093,6 +1093,164 @@
 </Query>
 
 
+<!-- ************************** 
+    ATP020300Q 
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATP020300Q</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT i.invcomid , i.company , ic.remark ,i.invdate 
+        FROM  invoicecompany ic left join receivable i   on (ic.invcomid = i.invcomid) 
+        where i.invcomid is not null 
+        
+            <var name="invcomid" woper="and" > and i.invcomid = '<value/>' </var>
+            <var name="company" woper="and" > and i.company = '<value/>' </var>
+            <var name="invdate" woper="and" > and i.invdate = '<value/>' </var>
+        
+        group by ic.invcomid
+
+       <where>
+           
+
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>invcomid</VarName>
+            <UIName>invcomid</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>company</VarName>
+            <UIName>company</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>invdate</VarName>
+            <UIName>invdate</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>invcomid</FieldName>
+                <Header>invcomid</Header>
+                <Style>width:200px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>company</FieldName>
+                <Header>company</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>remark</FieldName>
+                <Header>remark</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             
+         </Columns>
+
+     </Displays>
+</Query>
+
+
+
+<!-- ************************** 
+    ATP020400Q 
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATP020400Q</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT b.bfdate,
+            db_dsf(b.bfdate) bfdate_disp,
+            b.bankid,
+            t.bankname,
+            money(b.received) received,
+            money(b.paid) paid,
+            money(b.actualmoney) actualmoney 
+        FROM bringforward b left outer join tb_bank t on (b.bankid = t.bankid)
+
+       <where>
+           
+            <var name="bfdate" woper="and" > b.bfdate = '<value/>' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        b.bfdate,t.bankid
+    </SQLOrderBy>
+    <Params>
+        <Param>
+            <VarName>bfdate</VarName>
+            <UIName>bfdate</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>bfdate_disp</FieldName>
+                <Header>bfdate_disp</Header>
+                <Style>width:200px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>bankname</FieldName>
+                <Header>bankname</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>received</FieldName>
+                <Header>received</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>paid</FieldName>
+                <Header>paid</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>actualmoney</FieldName>
+                <Header>actualmoney</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+</Query>
+
 
 
 <!-- ************************** 
@@ -1921,31 +2079,24 @@
     <Type></Type>
     <SQL>
         
-        SELECT d.dailydate,
+       SELECT d.dailydate,
            DB_DSF(d.dailydate) dailydate_disp,
-          d.jobno,
-          d.docno_code,
+          d.jobref,
           d.docno,
-          concat(g.data,'-',docno) docno_disp,
-          d.description,
-          d.chqno,
-          d.no,
-          d.received_cash,
-          d.received_bank,
-          d.received_cr,
-          d.payment_cash,
-          d.payment_bank,
-          d.payment_cr,
-          d.balance_cash,
-          d.balance_cr,
-          d.vendor 
-        FROM daily d left outer join tb_group g on ( d.docno_code = g.id and g.type = '2' )
-                left outer join tb_group g1 on ( d.no = g1.id and g1.type = '1' )
+          d.payby,
+          b.bankname,
+          d.receivedamount,
+          d.amount,
+          d.paidamount,
+          d.amount2,
+          d.dailytype
+
+        FROM daily d left outer join tb_bank b on (d.payby = b.bankid)
 
        <where>
        
        <var name="dailydate" woper="and" > d.dailydate = '<value/>' </var>
-       <var name="jobno" woper="and" > d.jobno = '<value/>' </var>
+       <var name="jobref" woper="and" > d.jobref = '<value/>' </var>
        
        
        </where>
@@ -1961,38 +2112,60 @@
             <Operator></Operator>
         </Param>
          <Param>
-            <VarName>jobno</VarName>
-            <UIName>jobno</UIName>
+            <VarName>jobref</VarName>
+            <UIName>jobref</UIName>
             <Operator></Operator>
         </Param>
     </Params>
      <Displays>
          <Columns>
              <Column>
-                <FieldName>jobno</FieldName>
-                <Header>jobno</Header>
+                <FieldName>jobref</FieldName>
+                <Header>jobref</Header>
                 <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai></SortByThai>
              </Column>
              <Column>
-                <FieldName>dailydate_disp</FieldName>
-                <Header>date</Header>
+                <FieldName>bankname</FieldName>
+                <Header>bankname</Header>
                 <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai></SortByThai>
              </Column>
              
              <Column>
-                <FieldName>docno_disp</FieldName>
-                <Header>docno</Header>
+                <FieldName>receivedamount</FieldName>
+                <Header>receivedamount</Header>
                 <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai></SortByThai>
              </Column>
              <Column>
-                <FieldName>chqno</FieldName>
-                <Header>chqno</Header>
+                <FieldName>amount</FieldName>
+                <Header>amount</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+             
+              <Column>
+                <FieldName>paidamount</FieldName>
+                <Header>paidamount</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+             <Column>
+                <FieldName>amount2</FieldName>
+                <Header>amount2</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+             <Column>
+                <FieldName>dailytype</FieldName>
+                <Header>dailytype</Header>
                 <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai></SortByThai>
@@ -2264,6 +2437,72 @@
      <ZoomTitle></ZoomTitle>
 </Query>
 
+
+<!-- ************************** 
+    search_bringforward
+- -  ************************** -->
+
+<Query>
+    <TranCode>search_bringforward</TranCode>    
+    <Version>1</Version>
+    <Description>ตารางอำเภอ/เขต</Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT b.bfdate,
+            db_dsf(b.bfdate) bfdate_disp,
+            b.bankid,
+            t.bankname,
+            b.received received,
+            b.paid paid,
+            b.actualmoney actualmoney 
+        FROM bringforward b left outer join tb_bank t on (b.bankid = t.bankid)
+
+       <where>
+           
+            <var name="bfdate" woper="and" > b.bfdate = '<value/>' </var>
+            <var name="bankidnot2" woper="and" > b.bankid <![CDATA[<>]]> '<value/>' </var>
+            <var name="bankid2" woper="and" > b.bankid = '<value/>' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        b.bfdate,t.bankid
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>bfdate</VarName>
+            <UIName>bfdate</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>bankidnot2</VarName>
+            <UIName>bankidnot2</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>bankid2</VarName>
+            <UIName>bankid2</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
 
 
 
@@ -2621,6 +2860,138 @@
         <Param>
             <VarName>dailydatefn</VarName>
             <UIName>dailydatefn</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+<!-- ************************** 
+    sumdailybank_th
+- -  ************************** -->
+<Query>
+    <TranCode>sumdailybank_th</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        
+        select b.bankname,
+
+         case
+          when c.receivedamount is null then '0.00'
+          else c.receivedamount
+         end receivedamount   ,
+         case
+          when c.paidamount is null then '0.00'
+          else c.paidamount
+         end paidamount
+
+
+        FROM tb_bank b left outer join
+        
+        (SELECT d.dailydate,b.bankname,b.bankid,
+                    sum(d.receivedamount) receivedamount,
+                    sum(d.paidamount) paidamount
+            FROM daily d left outer join tb_bank b on (d.payby = b.bankid)
+            where d.payby <![CDATA[<>]]> '2' 
+                <var name="dailydate" woper="and" >and d.dailydate <![CDATA[=]]>  '<value/>' </var>     
+            group by d.dailydate,b.bankname
+            order by d.payby ) c on (b.bankid = c.bankid)
+            
+        where b.bankid <![CDATA[<>]]> '2' 
+        order by b.bankid
+       <where>
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydate</VarName>
+            <UIName>dailydate</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+<!-- ************************** 
+    sumdailybank_us
+- -  ************************** -->
+<Query>
+    <TranCode>sumdailybank_us</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        select b.bankname,
+
+         case
+          when c.amount is null then '0.00'
+          else c.amount
+         end amount   ,
+         case
+          when c.amount2 is null then '0.00'
+          else c.amount2
+         end amount2 
+
+        FROM tb_bank b left outer join
+        
+        (SELECT d.dailydate,b.bankname,b.bankid,
+                sum(d.amount) amount,
+                sum(d.amount2) amount2 
+        FROM daily d left outer join tb_bank b on (d.payby = b.bankid)
+        where d.payby <![CDATA[=]]> '2' 
+            <var name="dailydate" woper="and" >and d.dailydate <![CDATA[=]]>  '<value/>' </var>     
+        group by d.dailydate,b.bankname
+        order by d.payby ) c on (b.bankid = c.bankid)
+         
+        where b.bankid = '2' 
+        order by b.bankid
+        
+       <where>
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydate</VarName>
+            <UIName>dailydate</UIName>
             <Operator></Operator>
         </Param>
     </Params>
