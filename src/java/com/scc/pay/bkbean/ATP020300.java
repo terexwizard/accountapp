@@ -113,12 +113,16 @@ public class ATP020300 extends BKBPage {
         if(mode.equals(DetailTable.ROW_ADD) || mode.equals(DetailTable.ROW_EDIT)){
             
             //logger.debug(">>beforeDetailInvoice add :"+Utils.formatDateToStringToDBEn(this.getDetailinvoice().getRow().getData().getInvdate()));
-           this.getDetailreceivable().getRow().getData().getReceivable().setDate(Utils.formatDateToStringToDBEn(this.getDetailreceivable().getRow().getData().getInvdate()));
+           this.getDetailreceivable().getRow().getData().getReceivable().setInvdate(Utils.formatDateToStringToDBEn(this.getDetailreceivable().getRow().getData().getInvdate()));
            this.getDetailreceivable().getRow().getData().getReceivable().setCompany(this.getMasterdata().getInvoicecompany().getCompanyname());
+           
+           this.getDetailreceivable().getRow().getData().getReceivable().setSubmitdate(Utils.formatDateToStringToDBEn(this.getDetailreceivable().getRow().getData().getSubmitdate()));
+           
+           caltotalAll();
         }
     }
     
-    public void afterDetailInvoice(String mode) throws Exception{
+    public void afterDetailReceivable(String mode) throws Exception{
         
         logger.debug(">>afterDetailReceivable :"+mode);
         
@@ -128,6 +132,11 @@ public class ATP020300 extends BKBPage {
 //            
 //           this.getDetailinvoice().getRow().getData().getInvoice().setInvdate(Utils.formatDateToStringToDBEn(this.getDetailinvoice().getRow().getData().getInvdate()));
 //        }
+        
+        if(mode.equals(DetailTable.ROW_NEW)){
+            
+            this.getDetailreceivable().getRow().getData().setSubmitdate(Utils.getcurDateTime());
+        }
     }
     
     
@@ -166,6 +175,7 @@ public class ATP020300 extends BKBPage {
     
   public class DetailReceivable extends BBBase{
         private Receivable  receivable;
+        private Date submitdate;
         private Date invdate;
         private Date duedate;
         private Date receivedDate;
@@ -205,6 +215,14 @@ public class ATP020300 extends BKBPage {
 
         public void setReceivedDate(Date receivedDate) {
             this.receivedDate = receivedDate;
+        }
+
+        public Date getSubmitdate() {
+            return submitdate;
+        }
+
+        public void setSubmitdate(Date submitdate) {
+            this.submitdate = submitdate;
         }
         
   }
@@ -544,18 +562,34 @@ public class ATP020300 extends BKBPage {
             total = total.add(new BigDecimal(this.getDetailreceivable().getRow().getData().getReceivable().getVat()));
             
             this.getDetailreceivable().getRow().getData().getReceivable().setTotal(total.doubleValue());
+            
+            calwhtax();
         }
     }
     
     public void calwhtax(){
         
+        logger.debug(">>calwhtax ");
+        
          if(!Utils.NVL(this.getDetailreceivable().getRow().getData().getReceivable().getTotal()).equals("")){
+             
+             logger.debug(">>calwhtax if "+this.getDetailreceivable().getRow().getData().getReceivable().getTotal());
+             
              BigDecimal total = new BigDecimal(this.getDetailreceivable().getRow().getData().getReceivable().getTotal());
              BigDecimal whtaxdata = new BigDecimal(this.getDetailreceivable().getRow().getData().getReceivable().getWhtaxdata());
              whtaxdata = whtaxdata.divide(new BigDecimal("100"));
              
             this.getDetailreceivable().getRow().getData().getReceivable().setWhtax(total.multiply(whtaxdata).doubleValue());
+            
+            caltotalAll();
          }
     }
-      
+     
+    private void caltotalAll(){
+        double whtax = this.getDetailreceivable().getRow().getData().getReceivable().getWhtax() == null?0:this.getDetailreceivable().getRow().getData().getReceivable().getWhtax();
+        double advance = this.getDetailreceivable().getRow().getData().getReceivable().getAdvance() == null?0:this.getDetailreceivable().getRow().getData().getReceivable().getAdvance();
+           
+        this.getDetailreceivable().getRow().getData().getReceivable().setTotalall(this.getDetailreceivable().getRow().getData().getReceivable().getTotal() - (whtax + advance));
+        
+    }
 }

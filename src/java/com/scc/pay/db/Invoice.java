@@ -1,5 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package com.scc.pay.db;
@@ -70,6 +71,8 @@ public class Invoice implements Serializable {
     private Integer invid;
     @Column(name = "balance")
     private Double balance;
+    @Column(name = "sumbitdate")
+    private String sumbitdate;
 
     public Invoice() {
     }
@@ -212,6 +215,14 @@ public class Invoice implements Serializable {
 
     public void setBalance(Double balance) {
         this.balance = balance;
+    }
+
+    public String getSumbitdate() {
+        return sumbitdate;
+    }
+
+    public void setSumbitdate(String sumbitdate) {
+        this.sumbitdate = sumbitdate;
     }
 
     @Override

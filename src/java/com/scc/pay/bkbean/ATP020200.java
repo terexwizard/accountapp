@@ -125,6 +125,11 @@ public class ATP020200 extends BKBPage {
 //            
 //           this.getDetailinvoice().getRow().getData().getInvoice().setInvdate(Utils.formatDateToStringToDBEn(this.getDetailinvoice().getRow().getData().getInvdate()));
 //        }
+        
+        if(mode.equals(DetailTable.ROW_NEW)){
+            
+            this.getDetailinvoice().getRow().getData().setSubmitdate(Utils.getcurDateTime());
+        }
     }
     
     
@@ -172,6 +177,7 @@ public class ATP020200 extends BKBPage {
     
    public class DetailInvoice extends BBBase{
         private Invoice  invoice;
+        private Date submitdate;
         private Date invdate;
         private Date jobdate;
         private Date duedate;
@@ -218,6 +224,14 @@ public class ATP020200 extends BKBPage {
 
         public void setReceivedDate(Date receivedDate) {
             this.receivedDate = receivedDate;
+        }
+
+        public Date getSubmitdate() {
+            return submitdate;
+        }
+
+        public void setSubmitdate(Date submitdate) {
+            this.submitdate = submitdate;
         }
         
   }

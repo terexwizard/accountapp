@@ -1,5 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package com.scc.pay.db;
@@ -29,12 +30,14 @@ public class Receivable implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected ReceivablePK receivablePK;
-    @Column(name = "date")
-    private String date;
+    @Column(name = "submitdate")
+    private String submitdate;
     @Column(name = "invcomid")
     private String invcomid;
     @Column(name = "company")
     private String company;
+    @Column(name = "invdate")
+    private String invdate;
     @Column(name = "ref")
     private String ref;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -88,12 +91,12 @@ public class Receivable implements Serializable {
         this.receivablePK = receivablePK;
     }
 
-    public String getDate() {
-        return date;
+    public String getSubmitdate() {
+        return submitdate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setSubmitdate(String submitdate) {
+        this.submitdate = submitdate;
     }
 
     public String getInvcomid() {
@@ -110,6 +113,14 @@ public class Receivable implements Serializable {
 
     public void setCompany(String company) {
         this.company = company;
+    }
+
+    public String getInvdate() {
+        return invdate;
+    }
+
+    public void setInvdate(String invdate) {
+        this.invdate = invdate;
     }
 
     public String getRef() {
