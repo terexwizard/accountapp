@@ -45,6 +45,9 @@
     <class>com.scc.pay.db.TbReceivedType</class>
     <class>com.scc.pay.db.TbReceivedVoucherno</class>
     <class>com.scc.pay.db.Bringforward</class>
+    <class>com.scc.pay.db.ScUserInfo</class>
+    <class>com.scc.pay.db.ScUser</class>
+    <class>com.scc.pay.db.ScUserPermitRole</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>
     <validation-mode>NONE</validation-mode>

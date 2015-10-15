@@ -97,6 +97,19 @@
         </DataItemList>
     </Rdb>
 
-
+    <Rdb>
+        <TranCode>titel_active</TranCode> 
+        <Description></Description>
+        <DataItemList>
+            <DataItem>
+                <Code>Y</Code>
+                <Text>ใช้งาน</Text>
+            </DataItem>
+            <DataItem>
+                <Code>N</Code>
+                <Text>ไม่ใช้งาน</Text>
+            </DataItem>
+        </DataItemList>
+    </Rdb>
     
 </RdbXML>

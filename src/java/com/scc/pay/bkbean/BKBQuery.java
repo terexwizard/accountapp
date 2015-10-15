@@ -60,5 +60,8 @@ public class BKBQuery {
         return DBUtils.getSelectItem("lookup_tb_payment_type","payvalue", "payvalue_disp");
     }
     
+    public List<SelectItem> getCombosc_role() {
+        return DBUtils.getSelectItem("lookup_sc_role","role_code", "role_tname");
+    }
     
 }

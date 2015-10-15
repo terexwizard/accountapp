@@ -2179,6 +2179,66 @@
      <ZoomTitle>ตารางบันทึกประจำวัน</ZoomTitle>
 </Query>
 
+<!-- ************************** 
+    lookup_sc_role
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_sc_role</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT role_code,
+            role_tname,
+            role_desc
+        FROM sc_role t
+
+       <where>
+       
+       <var name="role_code" woper="and" > t.role_code = '<value/>' </var>
+       <var name="role_tname" woper="and" > t.role_tname like '%<value/>%' </var>
+       <var name="role_desc" woper="and" > t.role_desc like '%<value/>%' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>role_code</VarName>
+            <UIName>role_code</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>role_tname</VarName>
+            <UIName>role_tname</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>role_desc</VarName>
+            <UIName>role_desc</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
 
 
 <!-- ************************** 
@@ -3010,6 +3070,106 @@
      
      <ZoomFile></ZoomFile>
      <ZoomTitle></ZoomTitle>
+</Query>
+
+
+<!-- ************************** 
+    SCP010100Q 
+- -  ************************** -->
+
+<Query>
+    <TranCode>SCP010100Q</TranCode>    
+    <Version>1</Version>
+    <Description>ตารางรายชื่อผู้ใช้ระบบงาน</Description>
+    <Type></Type>
+    <SQL>
+        select t.user_code , t.user_pin , t.user_tnm , t.user_fnm , t.user_lnm,
+               concat( t.user_tnm, ' ' ,user_fnm,'  ',t.user_lnm) as disp_name , t.user_active 
+          , case
+              when (t.USER_ACTIVE = 'Y') then 'ใช้งาน '
+              when (t.USER_ACTIVE = 'N') then 'ไม่ใช้งาน'
+           end func_user_active
+        
+       from SC_USER t
+       
+      
+       <where>
+            
+       <var name="user_code" woper="and" > t.user_code  = '<value/>' </var>
+       <var name="user_pin" woper="and" > t.user_pin  = '<value/>' </var>
+       <var name="user_fnm" woper="and" > t.user_fnm like '%<value/>%' </var>
+       <var name="user_lnm" woper="and" > t.user_lnm like '%<value/>%' </var>
+       
+       <var name="user_active" woper="and" > t.user_active = '<value/>' </var>
+              
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.user_code
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>user_code</VarName>
+            <UIName>user_code</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>user_pin</VarName>
+            <UIName>user_pin</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>user_fnm</VarName>
+            <UIName>user_fnm</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>user_lnm</VarName>
+            <UIName>user_lnm</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>reg_usertype</VarName>
+            <UIName>reg_usertype</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>cert_type</VarName>
+            <UIName>cert_type</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>user_active</VarName>
+            <UIName>user_active</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>user_code</FieldName>
+                <Header>รหัสผู้ใช้งาน</Header>
+                <Style>width:150px;</Style>
+                <SortBy></SortBy>
+             </Column>
+             <Column>
+                <FieldName>disp_name</FieldName>
+                <Header>ชื่อ – นามสกุลผู้ใช้งาน</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>func_user_active</FieldName>
+                <Header>การใช้งาน</Header>
+                <Style>width:100px;</Style>
+                <SortBy>user_active</SortBy>
+             </Column>
+         </Columns>
+
+     </Displays>
 </Query>
   
 </QueryXML>

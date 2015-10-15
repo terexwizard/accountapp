@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    
+<f:view beforePhase="#{sCP010101.beforePhase}" afterPhase="#{sCP010101.afterPhase}"  >
+<h:head>
+    <title>ตารางรายชื่อผู้ใช้ระบบงาน</title>
+    <h:outputStylesheet name="style.css" library="css" />
+    <h:outputStylesheet name="style_s.css" library="css" />
+    <h:outputScript name="f1common.js" library="js" />
+    
+   <style>
+       table tr1{
+            border: 1px solid #95461d !important;
+        }     
+   </style>
+   
+</h:head>
+<h:body>
+
+<br/>
+<h:form id="form1" >
+<div align="center">
+    
+    <h:panelGrid style="width: 90%;" >
+
+    <p:row>
+        <p:column>
+            <div align="center">
+            <p:panelGrid  style="table-layout:fixed;width:700px;">
+                <p:row>
+                    <p:column style="width:120px;"></p:column>
+                    <p:column style="width:160px;"></p:column>
+                    <p:column style="width:130px;"></p:column>
+                    <p:column ></p:column>
+                </p:row>
+                
+                <p:row>
+                    <p:column >
+                        <h:outputLabel value="รหัสผู้ใช้งาน"></h:outputLabel>
+                    </p:column>
+                    <p:column >
+                        <p:inputText id="userCode" value="#{sCP010101.searchparam.scuser.userCode}"  label="รหัสผู้ใช้งาน" 
+                                     size="20" maxlength="15" >
+                        </p:inputText>
+                    </p:column>
+                    
+                    <p:column >
+                         <h:outputLabel value="เลขประจำตัวประชาชน"></h:outputLabel>
+                    </p:column>
+                    <p:column >
+                        <p:inputText id="userPin" value="#{sCP010101.searchparam.scuser.userPin}" label="เลขที่บัตรประชาชน" 
+                                     onkeydown="num(event);" size="20" maxlength="13" >
+                        </p:inputText>
+                    </p:column>
+                </p:row>
+               
+                <p:row>
+                    <p:column >
+                        <h:outputLabel value="ชื่อ (ผู้ใช้งาน)"></h:outputLabel>
+                    </p:column>
+                    <p:column >
+                        <p:inputText id="userFnm" value="#{sCP010101.searchparam.scuser.userFnm}" label="ชื่อ (ผู้ใช้งาน)" 
+                                     size="20" maxlength="50" >
+                        </p:inputText>
+                    </p:column>
+                    <p:column >
+                        <h:outputLabel value="นามสกุล (ผู้ใช้งาน)"></h:outputLabel>
+                    </p:column>
+                    <p:column >
+                        <p:inputText id="userLnm" value="#{sCP010101.searchparam.scuser.userLnm}" label="นามสกุล (ผู้ใช้งาน)" 
+                                     size="20" maxlength="50" >
+                        </p:inputText>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column >
+                        <h:outputLabel value="การใช้งาน"></h:outputLabel>
+                    </p:column>
+                    <p:column >
+                        <p:selectOneMenu id="userActive" value="#{sCP010101.searchparam.scuser.userActive}" label="การใช้งาน" 
+                                         style="width:120px;" effect="none" >
+                            <f:selectItem itemLabel="ไม่ระบุ" itemValue="A" />
+                            <f:selectItems value="#{bKBRdb.titel_active}" />
+                        </p:selectOneMenu>
+                    </p:column>
+                </p:row>
+                
+            </p:panelGrid>
+            </div>
+        </p:column>
+    </p:row>
+    
+    <p:row><p:column>
+        <div align="center">
+        <p:separator />
+        <ui:include src="#{bKBAppVar.COMPO_COMMAND_Q}"  >
+            <ui:param name="basebean" value="#{sCP010101}"/>
+            <ui:param name="datatable" value="#{bKBUQuery.tableid} "/>
+            <ui:param name="hidenew" value="1"/>
+            <ui:param name="modequery" value="1"/>
+        </ui:include>
+        </div>
+    </p:column></p:row>
+    
+    
+    <p:row>
+        <p:column>
+            <br/>
+            <ui:include src="#{bKBAppVar.COMPO_QUERYDATATABLE}"  >
+                <ui:param name="basebean" value="#{sCP010101}"/>
+                <ui:param name="formid" value="form1"/>
+                <ui:param name="tableid" value="table22"/>
+                <ui:param name="queryname" value="SCP010100Q"/>
+            </ui:include>
+        </p:column>
+    </p:row>
+    
+</h:panelGrid>
+    
+    <br/>
+</div>
+ 
+<ui:include src="#{bKBAppVar.COMPO_MASG}" >
+    <ui:param name="basebean" value="#{sCP010101}"/>
+</ui:include>
+    
+    
+</h:form>
+
+</h:body>
+</f:view>
+</html>
+
