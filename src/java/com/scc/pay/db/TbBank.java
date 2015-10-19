@@ -29,6 +29,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "TbBank.findAll", query = "SELECT t FROM TbBank t")})
 public class TbBank implements Serializable {
+    @Column(name = "\r\nmonetaryusd")
+    private String monetaryusd;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -156,6 +158,14 @@ public class TbBank implements Serializable {
     @Override
     public String toString() {
         return "com.scc.pay.db.TbBank[ bankid=" + bankid + " ]";
+    }
+
+    public String getMonetaryusd() {
+        return monetaryusd;
+    }
+
+    public void setMonetaryusd(String monetaryusd) {
+        this.monetaryusd = monetaryusd;
     }
     
 }

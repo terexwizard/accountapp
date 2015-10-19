@@ -49,6 +49,8 @@ public class ATP010100U extends BusinessImpl {
       record.setBanknamesh(recordn.getBanknamesh());
       record.setBankdesc(recordn.getBankdesc());
       
+      record.setMonetaryusd(recordn.getMonetaryusd());
+      
       record.setUpdlcnt(addLcnt(record.getUpdlcnt()));
       record.setUpdtime(Utils.getcurDateTime());
       record.setUpduser(frmi.getUserid());
