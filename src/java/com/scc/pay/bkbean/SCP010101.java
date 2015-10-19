@@ -500,27 +500,27 @@ public class SCP010101 extends BKBPage {
         
 //        if(validateDelete() == true){
 //        
-//            IBusinessBase ib = BusinessFactory.getBusiness("SCP010101D");
-//
-//
-//            ib.process(this);
-//
-//            genMessage(ib);
-//
-//            if(ib.isOk()){
-//
-//                setModeupdate(false);
-//                setModeadd(false);
-//                setModequery(true);
-//
-//                searchaction = SEARCH_ACTION_REQUERY;
-//
-//
-//                redirectPage(PAGE_Q);
-//
-//                BKBUQuery.getIns().autoResearch();
-//
-//            }
+            IBusinessBase ib = BusinessFactory.getBusiness("SCP010101D");
+
+
+            ib.process(this);
+
+            genMessage(ib);
+
+            if(ib.isOk()){
+
+                setModeupdate(false);
+                setModeadd(false);
+                setModequery(true);
+
+                searchaction = SEARCH_ACTION_REQUERY;
+
+
+                redirectPage(PAGE_Q);
+
+                BKBUQuery.getIns().autoResearch();
+
+            }
 //            
 //            
 //        }

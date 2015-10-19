@@ -30,10 +30,10 @@
                       <h:outputText styleClass="redstar" value="*" />
                     </p:column>
                     <p:column>
-                        <p:inputMask id="invcomid" value="#{aTP010400.masterdata.invoicecompany.invcomid}"
+                        <p:inputText id="invcomid" value="#{aTP010400.masterdata.invoicecompany.invcomid}"
                                      required="true" label="company id"
                                      disabled="#{aTP010400.modeupdate}"
-                                     mask="9999" maxlength="4" size="4"/>
+                                     maxlength="4" size="4"/>
                          
                     </p:column>
                   </p:row>

@@ -114,7 +114,7 @@ public class SCP010101U extends BusinessImpl {
     private void deleteScUserPermitRole(SCP010101 frmi){
         
         String sql = "SELECT t FROM ScUserPermitRole t "
-                       + "Where r.scUserPermitRolePK.userCode = :userCode ";
+                       + "Where t.scUserPermitRolePK.userCode = :userCode ";
         Query query = em.createQuery(sql);
         query.setParameter("userCode",Utils.NVL(frmi.getMasterdata().getScuser().getUserCode()));
         
