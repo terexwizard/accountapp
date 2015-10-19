@@ -50,8 +50,8 @@ public class ATP020400S extends BusinessImpl {
         frmi.getMasterdata().setListbringforwarddata(new ArrayList<BringforwardData>());
         
         String sql = "SELECT t FROM Bringforward t "
-                       + "Where r.bringforwardPK.bfdate = :bfdate "
-                       + "order by r.bringforwardPK.bankid ";
+                       + "Where t.bringforwardPK.bfdate = :bfdate "
+                       + "order by t.bringforwardPK.bankid ";
         Query query = em.createQuery(sql);
         query.setParameter("bfdate",Utils.NVL(frmi.getSearchselectedrow().get("bfdate")));
 

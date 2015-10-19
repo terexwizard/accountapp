@@ -9,6 +9,7 @@ import com.scc.app.db.ScUserPermitRole;
 import com.scc.f1.business.BusinessException;
 import com.scc.f1.business.BusinessImpl;
 import com.scc.f1.util.MessageUtil;
+import com.scc.f1.util.SecurityUtil;
 import com.scc.f1.util.Utils;
 import com.scc.pay.bkbean.SCP010101;
 import java.util.List;
@@ -67,6 +68,9 @@ public class SCP010101U extends BusinessImpl {
                 
                 ScUser recordn = frmi.getMasterdata().getScuser();
 
+                if(frmi.getMasterdata().isChkpwd()){
+                    record.setUserPasswd(SecurityUtil.encryptPasswordBase64(frmi.getMasterdata().getChangeuserPasswd()));
+                }
             
                 record.setUserPin( recordn.getUserPin());
                 record.setUserTnm( recordn.getUserTnm());

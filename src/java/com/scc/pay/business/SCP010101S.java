@@ -8,6 +8,7 @@ package com.scc.pay.business;
 import com.scc.app.db.ScUser;
 import com.scc.app.db.ScUserPermitRole;
 import com.scc.f1.business.BusinessImpl;
+import com.scc.f1.util.SecurityUtil;
 import com.scc.f1.util.Utils;
 import com.scc.pay.bkbean.SCP010101;
 import java.util.List;
@@ -45,6 +46,12 @@ public class SCP010101S extends BusinessImpl {
                 
             frmi.getMasterdata().setScuser(rec);
             
+            logger.debug(">>searchScUser "+rec.getUserPasswd());
+            logger.debug(">>searchScUser "+SecurityUtil.decryptFormBase64(rec.getUserPasswd()));
+            
+            //frmi.getMasterdata().getScuser().setUserPasswd(SecurityUtil.decryptFormBase64(rec.getUserPasswd()));
+           
+            
         }finally{
             
         }
@@ -52,7 +59,7 @@ public class SCP010101S extends BusinessImpl {
     
      private void searchScUserPermitRole(SCP010101 frmi){
         String sql = "SELECT t FROM ScUserPermitRole t "
-                       + "Where r.scUserPermitRolePK.userCode = :userCode ";
+                       + "Where t.scUserPermitRolePK.userCode = :userCode ";
         Query query = em.createQuery(sql);
         query.setParameter("userCode",Utils.NVL(frmi.getMasterdata().getScuser().getUserCode()));
         

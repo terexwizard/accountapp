@@ -69,26 +69,34 @@
                 </p:inputText>
             </p:column>
             <p:column>
-                <h:outputLabel value="Password">
-                    <h:outputText styleClass="redstar" value="*" rendered="#{sCP010101.modeadd}"/>
+                <h:outputLabel value="Password" rendered="#{sCP010101.modeadd}">
+                    <h:outputText styleClass="redstar" value="*" />
                 </h:outputLabel>
+                
+                
+                <h:outputLabel value="Change Password" rendered="#{sCP010101.modeupdate}"/>
             </p:column>
             <p:column>
                 
                 
                 <p:inputText id="userPasswd" value="#{sCP010101.masterdata.scuser.userPasswd}"  label="รหัสผู้ใช้งาน"
                              required="true" size="18" maxlength="15" styleClass="#{sCP010101.style.notupdate}"
-                             readonly="#{sCP010101.modeupdate}"
+                             readonly="#{sCP010101.modeupdate}" rendered="#{sCP010101.modeadd}"
                              requiredMessage="กรุณาป้อนข้อมูล : Password"
                              validatorMessage="#{msgs.tipmsgpassword}">
                     <f:validateRegex pattern="[A-Za-z0-9]*" />
                 </p:inputText>
                 
+                <h:selectBooleanCheckbox rendered="#{sCP010101.modeupdate}" value="#{sCP010101.masterdata.chkpwd}"> 
+                    <p:ajax process="@this" update="op_changeuserPasswd" />
+                </h:selectBooleanCheckbox>
                 
-                <p:commandButton value="ตั้งค่ารหัสผ่านเริ่มต้น"  styleClass="butt-c4" rendered="false"
-                                 update=":form1,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" process="@this,userCode" 
-                                 actionListener="#{sCP010101.ajaxreset}" >
-                </p:commandButton>
+                <p:outputPanel id="op_changeuserPasswd">
+                    <p:inputText id="changeuserPasswd" value="#{sCP010101.masterdata.changeuserPasswd}"  label="รหัสผู้ใช้งาน"
+                                 required="#{sCP010101.masterdata.chkpwd}" size="18" maxlength="15" 
+                                 rendered="#{sCP010101.masterdata.chkpwd}">
+                    </p:inputText>
+                </p:outputPanel>
             </p:column>
         </p:row>
         
@@ -116,12 +124,12 @@
             </p:column>
             <p:column colspan="2" style="padding: 0px;">
                 <p:panelGrid columns="2">
-                    <p:inputText id="userFnm" value="#{sCP010101.masterdata.scuser.userFnm}" label="ชื่อ(ภาษาไทย)" 
-                                 required="true" size="30" maxlength="60" onkeypress="numn(event);">
+                    <p:inputText id="userFnm" value="#{sCP010101.masterdata.scuser.userFnm}" label="ชื่อ" 
+                                 required="true" size="30" maxlength="60" >
                     </p:inputText>
                     
-                    <p:inputText id="userLnm" value="#{sCP010101.masterdata.scuser.userLnm}" label="นามสกุล(ภาษาไทย)" 
-                                 required="true" size="30" maxlength="60" onkeypress="numn(event);">
+                    <p:inputText id="userLnm" value="#{sCP010101.masterdata.scuser.userLnm}" label="นามสกุล" 
+                                 required="true" size="30" maxlength="60" >
                     </p:inputText>
                 </p:panelGrid>
             </p:column>

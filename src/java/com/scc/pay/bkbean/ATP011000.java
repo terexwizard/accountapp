@@ -7,6 +7,7 @@ package com.scc.pay.bkbean;
 import com.scc.pay.business.BusinessFactory;
 import com.scc.f1.business.IBusinessBase;
 import com.scc.f1.util.Utils;
+import com.scc.pay.db.TbPaymentVoucherno;
 import com.scc.pay.db.TbReceivedType;
 import com.scc.pay.db.TbReceivedVoucherno;
 import java.util.HashMap;
@@ -25,14 +26,14 @@ import javax.faces.context.FacesContext;
 
 @ManagedBean
 @SessionScoped
-public class ATP010900 extends BKBPage {
+public class ATP011000 extends BKBPage {
 
     
     private MainData masterdata ;
     private MainData searchparam;
     
-    private static final String PAGE_E  = "atp010900e.xhtml";
-    private static final String PAGE_Q  = "atp010900q.xhtml";
+    private static final String PAGE_E  = "atp011000e.xhtml";
+    private static final String PAGE_Q  = "atp011000q.xhtml";
     
     private Map<String, String> searchselectedrow ;
     
@@ -69,25 +70,27 @@ public class ATP010900 extends BKBPage {
     
     
     public class MainData extends BBBase{
-        private TbReceivedVoucherno tbreceivedvoucherno;
+        private TbPaymentVoucherno tbpaymentvoucherno;
 
-        public TbReceivedVoucherno getTbreceivedvoucherno() {
-            if( tbreceivedvoucherno == null){
-                 tbreceivedvoucherno = new TbReceivedVoucherno();
+        public TbPaymentVoucherno getTbpaymentvoucherno() {
+            if(tbpaymentvoucherno == null){
+                tbpaymentvoucherno = new TbPaymentVoucherno();
             }
-            return tbreceivedvoucherno;
+            return tbpaymentvoucherno;
         }
 
-        public void setTbreceivedvoucherno(TbReceivedVoucherno tbreceivedvoucherno) {
-            this.tbreceivedvoucherno = tbreceivedvoucherno;
+        public void setTbpaymentvoucherno(TbPaymentVoucherno tbpaymentvoucherno) {
+            this.tbpaymentvoucherno = tbpaymentvoucherno;
         }
+
+        
 
         
         
     }
     
     
-    public ATP010900() {
+    public ATP011000() {
         setAutoconvertthai(true);
         setShowphase(true);
         
@@ -211,7 +214,7 @@ public class ATP010900 extends BKBPage {
             
 //            toDB();
             
-            IBusinessBase ib = BusinessFactory.getBusiness("ATP010900A");
+            IBusinessBase ib = BusinessFactory.getBusiness("ATP011000A");
             
             
             ib.process(this);
@@ -243,7 +246,7 @@ public class ATP010900 extends BKBPage {
     private void update(){
         
         
-        IBusinessBase ib = BusinessFactory.getBusiness("ATP010900U");
+        IBusinessBase ib = BusinessFactory.getBusiness("ATP011000U");
             
             
         ib.process(this);
@@ -273,7 +276,7 @@ public class ATP010900 extends BKBPage {
     public String delete(){
         
         
-        IBusinessBase ib = BusinessFactory.getBusiness("ATP010900D");
+        IBusinessBase ib = BusinessFactory.getBusiness("ATP011000D");
             
             
         ib.process(this);
@@ -331,14 +334,14 @@ public class ATP010900 extends BKBPage {
     
     private void search(){
             
-            logger.debug("q para "+ this.getSearchparam().getTbreceivedvoucherno().getRevvalue()+", "+ 
-                        this.getSearchparam().getTbreceivedvoucherno().getRevdesc());
+            logger.debug("q para "+ this.getSearchparam().getTbpaymentvoucherno().getPayvalue()+", "+ 
+                        this.getSearchparam().getTbpaymentvoucherno().getPaydesc());
        
             HashMap<String, String> hm = new HashMap<String, String>();
             
 
-            hm.put("revvalue", Utils.NVL(this.getSearchparam().getTbreceivedvoucherno().getRevvalue()));
-            hm.put("revdesc", Utils.NVL(this.getSearchparam().getTbreceivedvoucherno().getRevdesc()));
+            hm.put("payvalue", Utils.NVL(this.getSearchparam().getTbpaymentvoucherno().getPayvalue()));
+            hm.put("paydesc", Utils.NVL(this.getSearchparam().getTbpaymentvoucherno().getPaydesc()));
    
             BKBUQuery.getIns().setQueryparam(hm);
             BKBUQuery.getIns().search();
@@ -353,7 +356,7 @@ public class ATP010900 extends BKBPage {
         
         searchselectedrow       = rec;
         
-        IBusinessBase ib = BusinessFactory.getBusiness("ATP010900S");
+        IBusinessBase ib = BusinessFactory.getBusiness("ATP011000S");
         
         ib.process(this);
 

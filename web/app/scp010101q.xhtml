@@ -43,20 +43,12 @@
                     <p:column >
                         <h:outputLabel value="รหัสผู้ใช้งาน"></h:outputLabel>
                     </p:column>
-                    <p:column >
+                    <p:column colspan="3">
                         <p:inputText id="userCode" value="#{sCP010101.searchparam.scuser.userCode}"  label="รหัสผู้ใช้งาน" 
                                      size="20" maxlength="15" >
                         </p:inputText>
                     </p:column>
                     
-                    <p:column >
-                         <h:outputLabel value="เลขประจำตัวประชาชน"></h:outputLabel>
-                    </p:column>
-                    <p:column >
-                        <p:inputText id="userPin" value="#{sCP010101.searchparam.scuser.userPin}" label="เลขที่บัตรประชาชน" 
-                                     onkeydown="num(event);" size="20" maxlength="13" >
-                        </p:inputText>
-                    </p:column>
                 </p:row>
                
                 <p:row>

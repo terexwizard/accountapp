@@ -169,6 +169,9 @@ public class SCP010101 extends BKBPage {
         private String                  roletname            = "";
         private boolean                 flag                = true; 
         private Date                    expDate             = null;
+        
+        private boolean                 chkpwd                = false; 
+        private String                  changeuserPasswd      = "";
 
         public ScUser getScuser() {
             if(scuser == null) scuser = new ScUser();
@@ -278,6 +281,22 @@ public class SCP010101 extends BKBPage {
 
         public void setExpDate(Date expDate) {
             this.expDate = expDate;
+        }
+
+        public boolean isChkpwd() {
+            return chkpwd;
+        }
+
+        public void setChkpwd(boolean chkpwd) {
+            this.chkpwd = chkpwd;
+        }
+
+        public String getChangeuserPasswd() {
+            return changeuserPasswd;
+        }
+
+        public void setChangeuserPasswd(String changeuserPasswd) {
+            this.changeuserPasswd = changeuserPasswd;
         }
  
     }
@@ -599,7 +618,7 @@ public class SCP010101 extends BKBPage {
         
         IBusinessBase ib = BusinessFactory.getBusiness("SCP010101S");
             
-        this.focus = "userPin";
+        //this.focus = "userPin";
         
         ib.process(this);
         

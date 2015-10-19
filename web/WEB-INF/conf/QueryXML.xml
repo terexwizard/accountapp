@@ -779,6 +779,69 @@
      </Displays>
 </Query>
 
+
+
+<!-- ************************** 
+    ATP011000Q 
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATP011000Q</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+       SELECT payvalue,
+            paydesc 
+       FROM tb_payment_voucherno t
+
+       <where>
+           
+       <var name="payvalue" woper="and" > t.payvalue = '<value/>' </var>
+       <var name="paydesc" woper="and" > t.paydesc like '%<value/>%' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.id
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>payvalue</VarName>
+            <UIName>payvalue</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>paydesc</VarName>
+            <UIName>paydesc</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>payvalue</FieldName>
+                <Header>payvalue</Header>
+                <Style>width:100px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>paydesc</FieldName>
+                <Header>paydesc</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+</Query>
+
+
 <!-- ************************** 
     ATP020100Q 
 - -  ************************** -->
@@ -2000,6 +2063,56 @@
      <ZoomTitle></ZoomTitle>
 </Query>
 
+
+<!-- ************************** 
+    lookup_tb_payment_voucherno
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_tb_payment_voucherno</TranCode>    
+    <Version>1</Version>
+    <Description>ตารางอำเภอ/เขต</Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT payvalue,
+            paydesc ,
+            concat(payvalue,'-',paydesc) payvalue_disp
+        FROM tb_payment_voucherno t
+
+       <where>
+       
+       <var name="payvalue" woper="and" > t.payvalue = '<value/>' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.id
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>payvalue</VarName>
+            <UIName>payvalue</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
 
 
 <!-- ************************** 
