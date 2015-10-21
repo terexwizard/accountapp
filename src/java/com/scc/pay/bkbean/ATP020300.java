@@ -544,7 +544,8 @@ public class ATP020300 extends BKBPage {
     //======================
     public void calVat(){
         
-        if(!Utils.NVL(this.getDetailreceivable().getRow().getData().getReceivable().getService()).equals("")){
+        if(!Utils.NVL(this.getDetailreceivable().getRow().getData().getReceivable().getService()).equals("") &&
+            !Utils.NVL(this.getDetailreceivable().getRow().getData().getReceivable().getVatdata()).equals("")    ){
             BigDecimal service = new BigDecimal(this.getDetailreceivable().getRow().getData().getReceivable().getService());
             BigDecimal vatdata = new BigDecimal(this.getDetailreceivable().getRow().getData().getReceivable().getVatdata());
             vatdata = vatdata.divide(new BigDecimal("100"));
@@ -571,7 +572,8 @@ public class ATP020300 extends BKBPage {
         
         logger.debug(">>calwhtax ");
         
-         if(!Utils.NVL(this.getDetailreceivable().getRow().getData().getReceivable().getTotal()).equals("")){
+         if(!Utils.NVL(this.getDetailreceivable().getRow().getData().getReceivable().getTotal()).equals("") &&
+                 !Utils.NVL(this.getDetailreceivable().getRow().getData().getReceivable().getWhtaxdata()).equals("")){
              
              logger.debug(">>calwhtax if "+this.getDetailreceivable().getRow().getData().getReceivable().getTotal());
              
