@@ -28,9 +28,21 @@
                     <p:column>
                       <h:outputLabel value="bankname"/>
                     </p:column>
-                    <p:column>
-                        <p:inputText id="bankname" value="#{aTP010100.masterdata.tbbank.bankname}"/>
-                         
+                    <p:column style="padding: 0px;">
+                        <p:panelGrid>
+                            <p:row>
+                                <p:column>
+                                    <p:inputText id="bankname" value="#{aTP010100.masterdata.tbbank.bankname}"
+                                                 required="true"/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputLabel value="Monetary USD"/>
+                                </p:column>
+                                <p:column>
+                                    <p:selectBooleanCheckbox  value="#{aTP010100.masterdata.tbbank.monetaryusd}"/>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
                     </p:column>
                   </p:row>
                     
