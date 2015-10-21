@@ -9,8 +9,10 @@ import com.scc.f1.business.IBusinessBase;
 import com.scc.f1.util.MessageUtil;
 import com.scc.f1.util.Utils;
 import com.scc.pay.db.Daily;
+import com.scc.pay.util.CenterUtils;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -73,6 +75,8 @@ public class ATP020101 extends BKBPage {
         private Daily daily = null;
         private Date dailydate;
         private Date dailydatefn;
+        
+        private boolean monetaryusd = false;
 
         public Daily getDaily() {
             if(daily == null){
@@ -101,12 +105,18 @@ public class ATP020101 extends BKBPage {
             this.dailydatefn = dailydatefn;
         }
 
+        public boolean isMonetaryusd() {
+            return monetaryusd;
+        }
+
+        public void setMonetaryusd(boolean monetaryusd) {
+            this.monetaryusd = monetaryusd;
+        }
+
 
 
         
 
-        
-        
     }
     
     
@@ -483,6 +493,30 @@ public class ATP020101 extends BKBPage {
         this.getMasterdata().getDaily().setExchangerate(null);
         this.getMasterdata().getDaily().setPaidamount(null);
         this.getMasterdata().getDaily().setAmount2(null);
+        
+        searachTbbank();
+        
     }
       
+    private void searachTbbank(){
+        
+        logger.debug(">>searachTbbank :"+this.getMasterdata().getDaily().getPayby());
+        
+        HashMap hm = new HashMap<String, String>();
+        hm.put("bankid", Utils.NVL(this.getMasterdata().getDaily().getPayby()));
+        List l = CenterUtils.selectData(hm, "lookup_tb_bank");
+        
+        if(!l.isEmpty()){
+            hm = (HashMap)l.get(0);
+            if(Utils.NVL(hm.get("monetaryusd")).equals("true")){
+                this.getMasterdata().setMonetaryusd(true);
+            }else{
+            
+                this.getMasterdata().setMonetaryusd(false);
+            }
+        }else{
+        
+            this.getMasterdata().setMonetaryusd(false);
+        }
+    }
 }

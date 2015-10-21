@@ -10,17 +10,15 @@ package com.scc.pay.business;
 import com.scc.f1.business.BusinessImpl;
 import com.scc.f1.util.Utils;
 import com.scc.pay.db.Bringforward;
+import com.scc.pay.db.TbBank;
 import com.scc.pay.util.CenterUtils;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
 import javax.persistence.Query;
 
 /**
@@ -142,7 +140,8 @@ public class PROCESSBRINGFORWARD extends BusinessImpl {
     
     private Double countDailyReceived(String dailydate,int payby){
         String sql = "select ";
-               if(payby == 2){
+               //if(payby == 2){
+               if(checkmonetaryusd(payby)){
                    sql += "sum(r.amount) FROM Daily r ";
                }else{
                    sql += "sum(r.receivedamount) FROM Daily r ";
@@ -166,7 +165,8 @@ public class PROCESSBRINGFORWARD extends BusinessImpl {
     private Double countDailyPaid(String dailydate,int payby){
         
                 String sql = "select ";
-                    if(payby == 2){
+                  //if(payby == 2){
+                 if(checkmonetaryusd(payby)){
                       sql += "sum(r.amount2) FROM Daily r ";
                   }else{
                       sql += "sum(r.paidamount) FROM Daily r ";
@@ -186,6 +186,20 @@ public class PROCESSBRINGFORWARD extends BusinessImpl {
         }else{        
             return sum;
         }
+    }
+    
+    private boolean checkmonetaryusd(int payby){
+        
+        
+        TbBank db = em.find(TbBank.class, payby);
+        if(db != null){
+            if(db.getMonetaryusd().equals("true")){
+                return true;
+            }
+            
+            return false;
+        }
+        return false;
     }
     
     public static boolean isDateValid(String date) 

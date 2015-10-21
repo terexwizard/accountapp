@@ -689,7 +689,8 @@ public class ATR030200 extends BKBPage {
                         
                         
                         //====sum======
-                       if(new Double(Utils.NVL(hm.get("payby"))).intValue() == 2){
+                       //if(new Double(Utils.NVL(hm.get("payby"))).intValue() == 2){
+                        if(Utils.NVL(hm.get("monetaryusd")).equals("true")){
                             amount = amount.add(new BigDecimal(Utils.NVL(hm.get("amount2"))));
                         }else{
                             receivedamount = receivedamount.add(new BigDecimal(Utils.NVL(hm.get("paidamount"))));
