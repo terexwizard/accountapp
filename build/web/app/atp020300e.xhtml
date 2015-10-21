@@ -243,7 +243,7 @@
                                  readonly="#{!aTP020300.detailreceivable.rowinputmode}"
                                  styleClass="#{!aTP020300.detailreceivable.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL} iNR"
                                  converter="moneyConverter">
-                             <p:ajax process="@this,service,vat" update="vat,total,whtax,totalall" listener="#{aTP020300.calVat}" />
+                             <p:ajax process="@this,service,vat" update="@this,vat,total,whtax,totalall" listener="#{aTP020300.calVat}" />
                     </p:inputText>
                </p:column>
                <p:column>
@@ -256,7 +256,7 @@
                                  readonly="#{!aTP020300.detailreceivable.rowinputmode}"
                                  styleClass="#{!aTP020300.detailreceivable.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL} iNR"
                                  converter="moneyConverter">
-                            <p:ajax process="@this,reimbursement,vat" update="vat,total,whtax,totalall" listener="#{aTP020300.calVat}" />
+                            <p:ajax process="@this,reimbursement,vat" update="@this,vat,total,whtax,totalall" listener="#{aTP020300.calVat}" />
                     </p:inputText>
                    
                </p:column>
@@ -329,7 +329,7 @@
                                  readonly="#{!aTP020300.detailreceivable.rowinputmode}"
                                  styleClass="#{!aTP020300.detailreceivable.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL} iNR"
                                  converter="moneyConverter">
-                            <p:ajax process="@this" update="@this" />
+                            <p:ajax process="@this" update="@this,totalall" listener="#{aTP020300.calwhtax}"/>
                     </p:inputText>
                    
                </p:column>
