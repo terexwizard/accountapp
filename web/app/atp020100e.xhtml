@@ -187,15 +187,28 @@
                              </p:row>
                               <p:row>
                                 <p:column>
+                                    <ui:remove>
+                                        <!--
+                                        <p:selectOneMenu id="payby" value="#{aTP020100.masterdata.daily.payby}"
+                                                 style="width: 250px;" disabled="#{aTP020100.masterdata.daily.cheque}"
+                                                 styleClass="#{aTP020100.masterdata.daily.cheque?bKBStyle.STYLE_INPUT_DISABLE:''}"
+                                                 required="#{!aTP020100.masterdata.daily.cheque}"
+                                                 label="Received by">
+                                             <f:selectItem itemLabel="#{msgs.combolabelinitial}" itemValue="" />
+                                             <f:selectItems value="#{bKBQuery.combotb_bank}" />
+                                             <p:ajax process="@this" update="exchangerate,amount,receivedamount,oplcurrency" listener="#{aTP020100.clearamount}" />
+                                        </p:selectOneMenu>
+                                        -->
+                                    </ui:remove>
+                                    
                                     <p:selectOneMenu id="payby" value="#{aTP020100.masterdata.daily.payby}"
-                                             style="width: 250px;" disabled="#{aTP020100.masterdata.daily.cheque}"
-                                             styleClass="#{aTP020100.masterdata.daily.cheque?bKBStyle.STYLE_INPUT_DISABLE:''}"
-                                             required="#{!aTP020100.masterdata.daily.cheque}"
-                                             label="Received by">
-                                         <f:selectItem itemLabel="#{msgs.combolabelinitial}" itemValue="" />
-                                         <f:selectItems value="#{bKBQuery.combotb_bank}" />
-                                         <p:ajax process="@this" update="exchangerate,amount,receivedamount,oplcurrency" listener="#{aTP020100.clearamount}" />
-                                    </p:selectOneMenu>
+                                                 style="width: 250px;" 
+                                                 required="true"
+                                                 label="Received by">
+                                             <f:selectItem itemLabel="#{msgs.combolabelinitial}" itemValue="" />
+                                             <f:selectItems value="#{bKBQuery.combotb_bank}" />
+                                             <p:ajax process="@this" update="exchangerate,amount,receivedamount,oplcurrency" listener="#{aTP020100.clearamount}" />
+                                        </p:selectOneMenu>
                                 </p:column>
                                 <p:column>
                                     <h:outputLabel value="Received by cheque"/>

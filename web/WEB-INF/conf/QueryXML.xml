@@ -3556,5 +3556,169 @@
 
      </Displays>
 </Query>
+
+<!-- ************************** 
+    lookup_combo_voucherno
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_combo_voucherno</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+            SELECT t.payvalue as result,t.paydesc as descrp FROM tb_payment_voucherno t 
+            union 
+            SELECT t.revvalue as result,t.revdesc as descrp FROM tb_received_voucherno t
+
+       <where>
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>voucherno</VarName>
+            <UIName>voucherno</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+<!-- ************************** 
+    lookup_sumdaily_voucherno_us
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_sumdaily_voucherno_us</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+            SELECT d.dailydate,d.companyname,
+                sum(d.amount) as moneyr,
+                sum(d.amount2) as moneyp,
+                count(d.companyname) as shippment,
+                d.receivedamount,d.amount,d.paidamount,d.amount2,d.payby
+            FROM daily d left outer join tb_bank b on (d.payby = b.bankid) 
+            where b.monetaryusd = 'true' 
+            <var name="voucherno" woper="and" >and d.voucherno = '<value/>' </var>
+            <var name="dailydate" woper="and" >and d.dailydate = '<value/>' </var>
+            
+            group by d.companyname,d.dailydate
+            order by d.dailydate
+
+       <where>
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>voucherno</VarName>
+            <UIName>voucherno</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydate</VarName>
+            <UIName>dailydate</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+<!-- ************************** 
+    lookup_sumdaily_voucherno_th
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_sumdaily_voucherno_th</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+            SELECT d.dailydate,d.companyname,
+                sum(d.receivedamount) as moneyr,
+                sum(d.paidamount) as moneyp,
+                count(d.companyname) as shippment,
+                d.receivedamount,d.amount,d.paidamount,d.amount2,d.payby
+            FROM daily d left outer join tb_bank b on (d.payby = b.bankid) 
+            where b.monetaryusd = 'false' 
+            <var name="voucherno" woper="and" >and d.voucherno = '<value/>' </var>
+            <var name="dailydate" woper="and" >and d.dailydate = '<value/>' </var>
+            
+            group by d.companyname,d.dailydate
+            order by d.dailydate
+
+       <where>
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>voucherno</VarName>
+            <UIName>voucherno</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydate</VarName>
+            <UIName>dailydate</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
   
 </QueryXML>

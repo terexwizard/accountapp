@@ -188,9 +188,8 @@
                               <p:row>
                                 <p:column>
                                     <p:selectOneMenu id="payby" value="#{aTP020101.masterdata.daily.payby}"
-                                             style="width: 250px;" disabled="#{aTP020101.masterdata.daily.cheque}"
-                                             styleClass="#{aTP020101.masterdata.daily.cheque?bKBStyle.STYLE_INPUT_DISABLE:''}"
-                                             required="#{!aTP020101.masterdata.daily.cheque}"
+                                             style="width: 250px;" 
+                                             required="true"
                                              label="Received by">
                                          <f:selectItem itemLabel="#{msgs.combolabelinitial}" itemValue="" />
                                          <f:selectItems value="#{bKBQuery.combotb_bank}" />
@@ -198,7 +197,7 @@
                                     </p:selectOneMenu>
                                 </p:column>
                                 <p:column>
-                                    <h:outputLabel value="Received by cheque"/>
+                                    <h:outputLabel value="Pay by cheque"/>
                                 </p:column>
                                 <p:column>
                                     <h:selectBooleanCheckbox id="cheque" value="#{aTP020101.masterdata.daily.cheque}">
