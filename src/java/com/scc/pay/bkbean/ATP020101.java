@@ -450,21 +450,22 @@ public class ATP020101 extends BKBPage {
         logger.debug(">>calamount2 "+this.getMasterdata().getDaily().getExchangerate() );
         logger.debug(">>calamount2 "+this.getMasterdata().getDaily().getAmount2());
         
-        if(Utils.NVLNumber(this.getMasterdata().getDaily().getPayby()) == 2){ //US
-            this.getMasterdata().getDaily().setPaidamount(null);
-        }else{
-            if(this.getMasterdata().getDaily().getExchangerate() != null && this.getMasterdata().getDaily().getAmount2() != null){
-                Double x = this.getMasterdata().getDaily().getExchangerate() * this.getMasterdata().getDaily().getAmount2();
+                //if(Utils.NVLNumber(this.getMasterdata().getDaily().getPayby()) == 2){ //US
+                if(this.getMasterdata().isMonetaryusd()){
+                    this.getMasterdata().getDaily().setPaidamount(null);
+                }else{
+                    if(this.getMasterdata().getDaily().getExchangerate() != null && this.getMasterdata().getDaily().getAmount2() != null){
+                        Double x = this.getMasterdata().getDaily().getExchangerate() * this.getMasterdata().getDaily().getAmount2();
 
-                this.getMasterdata().getDaily().setPaidamount(x);
-            }else{
+                        this.getMasterdata().getDaily().setPaidamount(x);
+                    }else{
 
-                this.getMasterdata().getDaily().setAmount2(null);
+                        this.getMasterdata().getDaily().setAmount2(null);
 
-                String msg = MessageUtil.getMessage("EP001");
-                addInfoMessage(null,msg, msg);
-            }
-        }
+                        String msg = MessageUtil.getMessage("EP001");
+                        addInfoMessage(null,msg, msg);
+                    }
+                }
         
 //        if(this.getMasterdata().getDaily().getAmount() == null){
 //            String msg = MessageUtil.getMessage("EP002");
@@ -521,8 +522,8 @@ public class ATP020101 extends BKBPage {
     }
     
      public void resetpayby(){
-         this.getMasterdata().getDaily().setPayby(null);
+         //this.getMasterdata().getDaily().setPayby(null);
          this.getMasterdata().getDaily().setChequeno(null);
-         this.getMasterdata().setMonetaryusd(false);
+         //this.getMasterdata().setMonetaryusd(false);
      }
 }
