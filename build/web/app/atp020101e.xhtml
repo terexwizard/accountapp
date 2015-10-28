@@ -178,12 +178,63 @@
                     <p:column>
                       <h:outputLabel value="Paid by"/>
                     </p:column>
-                    <p:column>
-                         <p:selectOneMenu id="payby" value="#{aTP020101.masterdata.daily.payby}"
-                                             style="width: 250px;">
-                             <f:selectItems value="#{bKBQuery.combotb_bank}" />
-                             <p:ajax process="@this" update="exchangerate,amount2,paidamount,oplcurrency" listener="#{aTP020101.clearamount}" />
-                        </p:selectOneMenu>
+                    <p:column style="padding: 0px;">
+                        <p:panelGrid>
+                              <p:row>
+                                <p:column style="width: 200px;"/>
+                                <p:column/>
+                                <p:column/>
+                             </p:row>
+                              <p:row>
+                                <p:column>
+                                    <p:selectOneMenu id="payby" value="#{aTP020101.masterdata.daily.payby}"
+                                             style="width: 250px;" disabled="#{aTP020101.masterdata.daily.cheque}"
+                                             styleClass="#{aTP020101.masterdata.daily.cheque?bKBStyle.STYLE_INPUT_DISABLE:''}"
+                                             required="#{!aTP020101.masterdata.daily.cheque}"
+                                             label="Received by">
+                                         <f:selectItem itemLabel="#{msgs.combolabelinitial}" itemValue="" />
+                                         <f:selectItems value="#{bKBQuery.combotb_bank}" />
+                                         <p:ajax process="@this" update="exchangerate,amount2,paidamount,oplcurrency" listener="#{aTP020101.clearamount}" />
+                                    </p:selectOneMenu>
+                                </p:column>
+                                <p:column>
+                                    <h:outputLabel value="Received by cheque"/>
+                                </p:column>
+                                <p:column>
+                                    <h:selectBooleanCheckbox id="cheque" value="#{aTP020101.masterdata.daily.cheque}">
+                                        <p:ajax process="@this" update="payby,oplchequeno,oplcurrency" listener="#{aTP020101.resetpayby}"/>
+                                    </h:selectBooleanCheckbox>
+                                </p:column>
+                             </p:row>                              
+                          </p:panelGrid> 
+                    </p:column>
+                  </p:row>
+                
+                             
+                  <p:row>
+                      <p:column colspan="2" style="padding: 0px;">
+                          <p:outputPanel id="oplchequeno">
+                              <p:panelGrid>
+                                  <p:row>
+                                    <p:column style="width: 200px;"/>
+                                    <p:column/>
+                                 </p:row>
+                                  <p:row>
+                                    <p:column>
+                                        <h:outputLabel id="lbl_chequeno" value="chequeno" 
+                                                       rendered="#{aTP020101.masterdata.daily.cheque}">
+                                            <h:outputText styleClass="redstar" value="*" />
+                                        </h:outputLabel>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="chequeno" size="14" maxlength="14" rendered="#{aTP020101.masterdata.daily.cheque}"
+                                         value="#{aTP020101.masterdata.daily.chequeno}"
+                                         required="#{aTP020101.masterdata.daily.cheque}" 
+                                         label="chequeno"/>
+                                    </p:column>
+                                 </p:row>                              
+                              </p:panelGrid>  
+                          </p:outputPanel>
                     </p:column>
                   </p:row>
                 
@@ -197,7 +248,8 @@
                                 <p:column>
                                     <p:outputPanel id="oplcurrency">
                                         <p:selectOneMenu id="currency" value="#{aTP020101.masterdata.daily.currency}"
-                                                         style="width: 80px;" disabled="#{aTP020101.masterdata.monetaryusd}">
+                                                         style="width: 80px;" disabled="#{aTP020101.masterdata.monetaryusd}"
+                                                         styleClass="#{aTP020101.masterdata.monetaryusd?bKBStyle.STYLE_INPUT_DISABLE:''}">
                                             <f:selectItems value="#{bKBQuery.combotb_currency}" />
                                             <p:ajax process="@this" update="exchangerate,amount2,paidamount" listener="#{aTP020101.clearamount}" />
                                         </p:selectOneMenu>
