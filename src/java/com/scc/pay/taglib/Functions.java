@@ -108,7 +108,8 @@ public final class Functions {
             SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm" , Locale.ENGLISH);
             dateFormat.setLenient(false);
 
-            return date+" "+dateFormat.format(dt);
+            //return date+" "+dateFormat.format(dt);
+            return date;
         }else{
             return "";
         }

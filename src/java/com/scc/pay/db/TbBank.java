@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "TbBank.findAll", query = "SELECT t FROM TbBank t")})
 public class TbBank implements Serializable {
-    @Column(name = "\r\nmonetaryusd")
+    @Column(name = "monetaryusd")
     private String monetaryusd;
     private static final long serialVersionUID = 1L;
     @Id

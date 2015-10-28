@@ -85,6 +85,12 @@ public class Daily implements Serializable {
     private String paymentsuccessdate;
     @Column(name = "paymentsuccessuser")
     private String paymentsuccessuser;
+    @Column(name = "cheque")
+    private String cheque;
+    @Column(name = "chequeno")
+    private String chequeno;
+    @Column(name = "chequedate")
+    private String chequedate;
     @Column(name = "enttime")
     @Temporal(TemporalType.TIMESTAMP)
     private Date enttime;
@@ -303,6 +309,30 @@ public class Daily implements Serializable {
 
     public void setPaymentsuccessuser(String paymentsuccessuser) {
         this.paymentsuccessuser = paymentsuccessuser;
+    }
+
+    public String getCheque() {
+        return cheque;
+    }
+
+    public void setCheque(String cheque) {
+        this.cheque = cheque;
+    }
+
+    public String getChequeno() {
+        return chequeno;
+    }
+
+    public void setChequeno(String chequeno) {
+        this.chequeno = chequeno;
+    }
+
+    public String getChequedate() {
+        return chequedate;
+    }
+
+    public void setChequedate(String chequedate) {
+        this.chequedate = chequedate;
     }
 
     public Date getEnttime() {

@@ -518,5 +518,11 @@ public class ATP020100 extends BKBPage {
             this.getMasterdata().setMonetaryusd(false);
         }
     }
+     
+     public void resetpayby(){
+         this.getMasterdata().getDaily().setPayby(null);
+         this.getMasterdata().getDaily().setChequeno(null);
+         this.getMasterdata().setMonetaryusd(false);
+     }
       
 }
