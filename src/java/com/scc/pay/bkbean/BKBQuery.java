@@ -68,4 +68,8 @@ public class BKBQuery {
         return DBUtils.getSelectItem("lookup_sc_role","role_code", "role_tname");
     }
     
+     public List<SelectItem> getCombovoucherno() {
+        return DBUtils.getSelectItem("lookup_combo_voucherno","result", "result");
+    }
+    
 }
