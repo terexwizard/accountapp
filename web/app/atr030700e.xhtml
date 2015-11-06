@@ -5,7 +5,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui" 
       xmlns:ui="http://java.sun.com/jsf/facelets">
-  <f:view beforePhase="#{aTR030100.beforePhase}" afterPhase="#{aTR030100.afterPhase}" encoding="UTF-8" >
+  <f:view beforePhase="#{aTR030700.beforePhase}" afterPhase="#{aTR030700.afterPhase}" encoding="UTF-8" >
     <h:head>
       <title></title>
       <h:outputStylesheet name="style.css" library="css" /> 
@@ -26,54 +26,32 @@
                 <p:panelGrid>
                     <p:row>
                         <p:column>
-                          <h:outputLabel value="Received Date Start"/>
+                          <h:outputLabel value="Date"/>
                         </p:column>
                         <p:column>
-                             <p:calendar id="dailydatest" value="#{aTR030100.masterdata.dailydatest}"
+                            <p:calendar id="dailydatest" value="#{aTR030700.masterdata.dailydatest}"
                                          size="10" maxlength="10" locale="en" showOn="button" 
-                                         converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true">
-                                <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
-                                <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
-                            </p:calendar>
-
-                        </p:column>
-                        <p:column>
-                          <h:outputLabel value="Received Date Finish"/>
-                        </p:column>
-                        <p:column>
-                            <p:calendar id="dailydatefn" value="#{aTR030100.masterdata.dailydatefn}"
-                                         size="10" maxlength="10" locale="en" showOn="button" 
-                                         converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true">
+                                         converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true"
+                                         label="Date">
                                 <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
                                 <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
                             </p:calendar>
 
                         </p:column>
                   </p:row>
-                  <p:row>
+                    <p:row>
                         <p:column>
-                          <h:outputLabel value="Job Ref."/>
+                          <h:outputLabel value="Type"/>
                         </p:column>
-                      <p:column colspan="3">
-                          <p:inputText value="#{aTR030100.masterdata.daily.jobref}"
-                                       size="20" maxlength="15"/>
+                        <p:column>
+                            <h:selectOneRadio  value="#{aTR030700.masterdata.type}">
+                                <f:selectItem itemValue="C" itemLabel="CLEARING CHEQUE"/>
+                                <f:selectItem itemValue="N" itemLabel="NOT CLEARING CHEQUE"/>
+                                <f:selectItem itemValue="A" itemLabel="ALL"/>
+                            </h:selectOneRadio>
 
                         </p:column>
                   </p:row>
-                    
-                  <p:row>
-                        <p:column>
-                          <h:outputLabel value="Status"/>
-                        </p:column>
-                      <p:column colspan="3">
-                          <h:selectOneRadio value="#{aTR030100.masterdata.receivesuccess}">
-                              <f:selectItem itemLabel="Pay" itemValue="Y"/>
-                              <f:selectItem itemLabel="All" itemValue=""/>
-                          </h:selectOneRadio>
-
-                        </p:column>
-                  </p:row>
-                    
                 </p:panelGrid>
             
             
@@ -83,7 +61,7 @@
                     <p:row>
                      <p:column style="width:100%;">
                          <ui:include src="#{bKBAppVar.COMPO_COMMAND_E}" >
-                           <ui:param name="basebean" value="#{aTR030100}"/>
+                           <ui:param name="basebean" value="#{aTR030700}"/>
                            <ui:param name="btn_img_add" value="f1-p-commandbutton-cs-excel"/>
                            <ui:param name="hidequery" value="1"/>
                          </ui:include>
@@ -96,7 +74,7 @@
           <br/>
         </div>
         <ui:include src="#{bKBAppVar.COMPO_MASG}" >
-          <ui:param name="basebean" value="#{aTR030100}"/>
+          <ui:param name="basebean" value="#{aTR030700}"/>
         </ui:include>
       </h:form>
     </h:body>

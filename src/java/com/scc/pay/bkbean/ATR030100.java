@@ -382,10 +382,10 @@ public class ATR030100 extends BKBPage {
         
         searchparam     = null;
         
-        BKBUQuery.getIns().clearListData();
-        
-        this.getSearchparam();
-        search();
+//        BKBUQuery.getIns().clearListData();
+//        
+//        this.getSearchparam();
+//        search();
     }
     
     private void search(){

@@ -30,8 +30,8 @@ public class ATP010700 extends BKBPage {
     private MainData masterdata ;
     private MainData searchparam;
     
-    private static final String PAGE_E  = "atp010600e.xhtml";
-    private static final String PAGE_Q  = "atp010600q.xhtml";
+    private static final String PAGE_E  = "atp010700e.xhtml";
+    private static final String PAGE_Q  = "atp010700q.xhtml";
     
     private Map<String, String> searchselectedrow ;
     
@@ -71,6 +71,9 @@ public class ATP010700 extends BKBPage {
         private TbPaymentType tbpaymenttype;
 
         public TbPaymentType getTbpaymenttype() {
+            if(tbpaymenttype == null){
+                tbpaymenttype = new TbPaymentType();
+            }
             return tbpaymenttype;
         }
 
@@ -210,7 +213,7 @@ public class ATP010700 extends BKBPage {
             
 //            toDB();
             
-            IBusinessBase ib = BusinessFactory.getBusiness("ATP010600A");
+            IBusinessBase ib = BusinessFactory.getBusiness("ATP010700A");
             
             
             ib.process(this);
@@ -242,7 +245,7 @@ public class ATP010700 extends BKBPage {
     private void update(){
         
         
-        IBusinessBase ib = BusinessFactory.getBusiness("ATP010600U");
+        IBusinessBase ib = BusinessFactory.getBusiness("ATP010700U");
             
             
         ib.process(this);
@@ -272,7 +275,7 @@ public class ATP010700 extends BKBPage {
     public String delete(){
         
         
-        IBusinessBase ib = BusinessFactory.getBusiness("ATP010600D");
+        IBusinessBase ib = BusinessFactory.getBusiness("ATP010700D");
             
             
         ib.process(this);
@@ -352,7 +355,7 @@ public class ATP010700 extends BKBPage {
         
         searchselectedrow       = rec;
         
-        IBusinessBase ib = BusinessFactory.getBusiness("ATP010600S");
+        IBusinessBase ib = BusinessFactory.getBusiness("ATP010700S");
         
         ib.process(this);
 

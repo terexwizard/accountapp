@@ -607,7 +607,8 @@
     <Type></Type>
     <SQL>
         
-       SELECT payvalue,
+       SELECT id,
+            payvalue,
             paydesc 
        FROM tb_payment_type t
 
@@ -668,7 +669,8 @@
     <Type></Type>
     <SQL>
         
-       SELECT revalue,
+       SELECT id,
+            revalue,
             redesc 
        FROM tb_received_type t
 
@@ -730,7 +732,8 @@
     <Type></Type>
     <SQL>
         
-       SELECT revvalue,
+       SELECT id,
+            revvalue,
             revdesc 
        FROM tb_received_voucherno t
 
@@ -792,7 +795,8 @@
     <Type></Type>
     <SQL>
         
-       SELECT payvalue,
+       SELECT id,
+            payvalue,
             paydesc 
        FROM tb_payment_voucherno t
 
@@ -3701,6 +3705,86 @@
         <Param>
             <VarName>dailydate</VarName>
             <UIName>dailydate</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+<!-- ************************** 
+    lookup_daily_cheque
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_daily_cheque</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+            SELECT d.dailydate,
+                d.voucherno,
+                d.docno,
+                concat(d.voucherno,d.docno) vouchernodocno,
+                d.companyname,
+                d.chequeno,
+                d.chequedate,
+                d.receivedamount,
+                d.amount,
+                d.paidamount,
+                d.amount2,
+                d.payby,
+                b.bankname,
+                b.monetaryusd  
+            FROM daily d left outer join tb_bank b on (d.payby = b.bankid) 
+
+       <where>
+           d.cheque = 'true' 
+           <var name="chequedateclear" woper="and" > d.chequedate is not null </var>
+           <var name="chequedatenotclear" woper="and" > d.chequedate is null </var>
+           <var name="chequedate" woper="and" > d.chequedate <![CDATA[=]]> '<value/>' </var>
+           <var name="chequedateold" woper="and" > d.chequedate <![CDATA[<=]]> '<value/>' </var>
+           
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        d.chequedate
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>chequedateclear</VarName>
+            <UIName>chequedateclear</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>chequedatenotclear</VarName>
+            <UIName>chequedatenotclear</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>chequedate</VarName>
+            <UIName>chequedate</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>chequedateold</VarName>
+            <UIName>chequedateold</UIName>
             <Operator></Operator>
         </Param>
     </Params>

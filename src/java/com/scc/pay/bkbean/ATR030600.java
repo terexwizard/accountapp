@@ -61,7 +61,7 @@ public class ATR030600 extends BKBPage {
     private MainData masterdata ;
     private MainData searchparam;
     
-    private static final String PAGE_E  = "atr030400e.xhtml";
+    private static final String PAGE_E  = "atr030600e.xhtml";
     private static final String PAGE_Q  = "atr030600q.xhtml";
     
     private Map<String, String> searchselectedrow ;
@@ -384,10 +384,10 @@ public class ATR030600 extends BKBPage {
         
         searchparam     = null;
         
-        BKBUQuery.getIns().clearListData();
-        
-        this.getSearchparam();
-        search();
+//        BKBUQuery.getIns().clearListData();
+//        
+//        this.getSearchparam();
+//        search();
     }
     
     private void search(){

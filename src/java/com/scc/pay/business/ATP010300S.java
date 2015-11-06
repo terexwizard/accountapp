@@ -33,7 +33,7 @@ public class ATP010300S extends BusinessImpl {
         
         TbDescriptioncode db = em.find(TbDescriptioncode.class, Integer.parseInt(frmi.getSearchselectedrow().get("id")) );
   
-        if (db == null) {
+        if (db != null) {
             BeanUtil.copyProperties(frmi.getMasterdata().getTbdescriptioncode(), db);
         }
        
