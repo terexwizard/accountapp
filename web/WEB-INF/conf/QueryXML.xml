@@ -2641,8 +2641,8 @@
        <where>
            
             <var name="bfdate" woper="and" > b.bfdate = '<value/>' </var>
-            <var name="bankidnot2" woper="and" > b.bankid <![CDATA[<>]]> '<value/>' </var>
-            <var name="bankid2" woper="and" > b.bankid = '<value/>' </var>
+            <var name="bankidnot2" woper="and" > t.monetaryusd = 'false'  </var>
+            <var name="bankid2" woper="and" > t.monetaryusd = 'true'  </var>
        
        </where>
     </SQL>
