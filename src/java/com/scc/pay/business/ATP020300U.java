@@ -40,7 +40,7 @@ public class ATP020300U extends BusinessImpl {
     private void processReceivable(ATP020300 frmi){
         
         for(DetailRow<DetailReceivable> item: frmi.getDetailreceivable().getListdetailrowdeleted()){
-                Receivable dbu = em.find(Receivable.class, item.getData().getReceivable().getReceivablePK());
+                Receivable dbu = em.find(Receivable.class, item.getData().getReceivable().getId());
 
                 if(dbu != null){
                     remove(dbu);
@@ -53,7 +53,7 @@ public class ATP020300U extends BusinessImpl {
             
                 
                 if(Utils.NVL(item.getRowstatus()).equals(DetailRow.ROW_STATUS_EDIT)){
-                    Receivable db = em.find(Receivable.class, item.getData().getReceivable().getReceivablePK());
+                    Receivable db = em.find(Receivable.class, item.getData().getReceivable().getId());
                     
                     BeanUtil.copyProperties(db, item.getData().getReceivable());
                     

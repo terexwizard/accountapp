@@ -8,18 +8,15 @@ package com.scc.pay.business;
 
 
 
-import com.scc.pay.bkbean.ATP020300;
+import com.scc.pay.bkbean.ATP020201;
 import com.scc.f1.business.BusinessImpl;
 import com.scc.f1.util.BeanUtil;
-import com.scc.f1.util.Utils;
-import com.scc.pay.bkbean.ATP020300.DetailReceivable;
-import com.scc.pay.bkbean.BKBListData;
+import com.scc.pay.bkbean.ATP020201.DetailInvoice;
+import com.scc.pay.db.Invoice;
 import com.scc.pay.db.Invoicecompany;
-import com.scc.pay.db.Receivable;
 import com.scc.pay.util.CenterUtils;
 import java.util.ArrayList;
 import java.util.List;
-import javax.faces.model.SelectItem;
 import javax.persistence.Query;
 
 
@@ -30,13 +27,13 @@ import javax.persistence.Query;
  * @version 1.00.00
  * 12/06/2555 12:50:20
  */
-public class ATP020300S extends BusinessImpl {
+public class ATP020201S extends BusinessImpl {
 
     @Override
     protected Object doProcess(Object inobj) {
         
         
-        ATP020300 frmi = (ATP020300)inobj;
+        ATP020201 frmi = (ATP020201)inobj;
         
         logger.debug(">>invcomid :" + frmi.getSearchselectedrow().get("invcomid"));
         
@@ -48,7 +45,7 @@ public class ATP020300S extends BusinessImpl {
         return inobj;
     }
     
-    private void searchInvoicecompany(ATP020300 frmi){
+    private void searchInvoicecompany(ATP020201 frmi){
         
         Invoicecompany db = em.find(Invoicecompany.class, frmi.getSearchselectedrow().get("invcomid"));
         
@@ -58,47 +55,35 @@ public class ATP020300S extends BusinessImpl {
         
     }
     
-    private void searchInvoice(ATP020300 frmi){
+    private void searchInvoice(ATP020201 frmi){
         
-         String sql = "SELECT t FROM Receivable t "
+         String sql = "SELECT t FROM Invoice t "
                        + "Where t.invcomid = :invcomid "
+                       + "and (t.clearflag is null or t.clearflag = :clearflag) "
                        + "order by t.invdate desc";
         Query query = em.createQuery(sql);
         query.setParameter("invcomid",frmi.getMasterdata().getInvoicecompany().getInvcomid());
+        query.setParameter("clearflag","false");
 
-        List<Receivable> l = query.getResultList();
-        List<DetailReceivable> ld = new ArrayList<DetailReceivable>();
+        List<Invoice> l = query.getResultList();
+        List<DetailInvoice> ld = new ArrayList<DetailInvoice>();
         
-         for(Receivable db : l){
-              DetailReceivable row = frmi.new DetailReceivable();
+         for(Invoice db : l){
+              DetailInvoice row = frmi.new DetailInvoice();
               
-              BeanUtil.copyProperties(row.getReceivable(), db);
+              BeanUtil.copyProperties(row.getInvoice(), db);
               
               row.setInvdate(CenterUtils.formatStringToDateToScreen(db.getInvdate()));
-              row.setSubmitdate(CenterUtils.formatStringToDateToScreen(db.getSubmitdate()));
-              row.setCurrency_disp(getLabelCombotb_currency(db.getCurrency()));
+              row.setDuedate(CenterUtils.formatStringToDateToScreen(db.getDuedate()));
+              row.setReceivedDate(CenterUtils.formatStringToDateToScreen(db.getReceivedDate()));
+              row.setJobdate(CenterUtils.formatStringToDateToScreen(db.getJobdate()));
               
               ld.add(row);
          }
          
-         frmi.getDetailreceivable().convertSetListdetailrow(ld);
+         frmi.getDetailinvoice().convertSetListdetailrow(ld);
          
         
-    }
-    
-    
-    private String getLabelCombotb_currency(String code){
-        
-        String result = "";
-        if(!Utils.NVL(code).equals("")){
-            for(SelectItem si :  BKBListData.getCombotb_currency()){
-                    if(Utils.NVL(code).equals(Utils.NVL(si.getValue()))){
-                        result = si.getLabel();
-                        break;
-                    }
-             }
-        }
-        return result;
     }
     
 }

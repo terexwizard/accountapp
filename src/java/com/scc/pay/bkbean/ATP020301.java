@@ -18,7 +18,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
 
 /**
  *
@@ -29,15 +28,15 @@ import javax.faces.model.SelectItem;
 
 @ManagedBean
 @SessionScoped
-public class ATP020300 extends BKBPage {
+public class ATP020301 extends BKBPage {
 
     
     private MainData masterdata ;
     private MainData searchparam;
     private DetailTable<DetailReceivable> detailreceivable;
     
-    private static final String PAGE_E  = "atp020300e.xhtml";
-    private static final String PAGE_Q  = "atp020300q.xhtml";
+    private static final String PAGE_E  = "atp020301e.xhtml";
+    private static final String PAGE_Q  = "atp020301q.xhtml";
     
     private Map<String, String> searchselectedrow ;
     
@@ -118,7 +117,6 @@ public class ATP020300 extends BKBPage {
            
            this.getDetailreceivable().getRow().getData().getReceivable().setSubmitdate(Utils.formatDateToStringToDBEn(this.getDetailreceivable().getRow().getData().getSubmitdate()));
            
-           this.getDetailreceivable().getRow().getData().setCurrency_disp(getLabelCombotb_currency(this.getDetailreceivable().getRow().getData().getReceivable().getCurrency()));
            caltotalAll();
         }
     }
@@ -238,7 +236,7 @@ public class ATP020300 extends BKBPage {
   }
     
     
-    public ATP020300() {
+    public ATP020301() {
         setAutoconvertthai(true);
         setShowphase(true);
         
@@ -363,7 +361,7 @@ public class ATP020300 extends BKBPage {
             
 //            toDB();
             
-            IBusinessBase ib = BusinessFactory.getBusiness("ATP020300A");
+            IBusinessBase ib = BusinessFactory.getBusiness("ATP020301A");
             
             
             ib.process(this);
@@ -395,7 +393,7 @@ public class ATP020300 extends BKBPage {
     private void update(){
         
         
-        IBusinessBase ib = BusinessFactory.getBusiness("ATP020300U");
+        IBusinessBase ib = BusinessFactory.getBusiness("ATP020301U");
             
             
         ib.process(this);
@@ -425,7 +423,7 @@ public class ATP020300 extends BKBPage {
     public String delete(){
         
         
-        IBusinessBase ib = BusinessFactory.getBusiness("ATP020300D");
+        IBusinessBase ib = BusinessFactory.getBusiness("ATP020301D");
             
             
         ib.process(this);
@@ -504,7 +502,7 @@ public class ATP020300 extends BKBPage {
         
         searchselectedrow       = rec;
         
-        IBusinessBase ib = BusinessFactory.getBusiness("ATP020300S");
+        IBusinessBase ib = BusinessFactory.getBusiness("ATP020301S");
         
         ib.process(this);
 
@@ -582,16 +580,16 @@ public class ATP020300 extends BKBPage {
         
         logger.debug(">>calwhtax ");
         
-         if(!Utils.NVL(this.getDetailreceivable().getRow().getData().getReceivable().getService()).equals("") &&
+         if(!Utils.NVL(this.getDetailreceivable().getRow().getData().getReceivable().getTotal()).equals("") &&
                  !Utils.NVL(this.getDetailreceivable().getRow().getData().getReceivable().getWhtaxdata()).equals("")){
              
-             logger.debug(">>calwhtax if "+this.getDetailreceivable().getRow().getData().getReceivable().getService());
+             logger.debug(">>calwhtax if "+this.getDetailreceivable().getRow().getData().getReceivable().getTotal());
              
-             BigDecimal service = new BigDecimal(this.getDetailreceivable().getRow().getData().getReceivable().getService());
+             BigDecimal total = new BigDecimal(this.getDetailreceivable().getRow().getData().getReceivable().getTotal());
              BigDecimal whtaxdata = new BigDecimal(this.getDetailreceivable().getRow().getData().getReceivable().getWhtaxdata());
              whtaxdata = whtaxdata.divide(new BigDecimal("100"));
              
-            this.getDetailreceivable().getRow().getData().getReceivable().setWhtax(service.multiply(whtaxdata).doubleValue());
+            this.getDetailreceivable().getRow().getData().getReceivable().setWhtax(total.multiply(whtaxdata).doubleValue());
             
             caltotalAll();
          }
@@ -603,19 +601,5 @@ public class ATP020300 extends BKBPage {
            
         this.getDetailreceivable().getRow().getData().getReceivable().setTotalall(this.getDetailreceivable().getRow().getData().getReceivable().getTotal() - (whtax + advance));
         
-    }
-    
-    private String getLabelCombotb_currency(String code){
-        
-        String result = "";
-        if(!Utils.NVL(code).equals("")){
-            for(SelectItem si :  BKBListData.getCombotb_currency()){
-                    if(Utils.NVL(code).equals(Utils.NVL(si.getValue()))){
-                        result = si.getLabel();
-                        break;
-                    }
-             }
-        }
-        return result;
     }
 }

@@ -1,5 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package com.scc.pay.db;
@@ -27,8 +28,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Invoicecompany.findAll", query = "SELECT i FROM Invoicecompany i")})
 public class Invoicecompany implements Serializable {
-    @Column(name = "taxid")
-    private String taxid;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -37,6 +36,8 @@ public class Invoicecompany implements Serializable {
     @Basic(optional = false)
     @Column(name = "companyname")
     private String companyname;
+    @Column(name = "taxid")
+    private String taxid;
     @Column(name = "enttime")
     @Temporal(TemporalType.TIMESTAMP)
     private Date enttime;
@@ -51,6 +52,10 @@ public class Invoicecompany implements Serializable {
     private String upduser;
     @Column(name = "remark")
     private String remark;
+    @Column(name = "address")
+    private String address;
+    @Column(name = "transport")
+    private String transport;
 
     public Invoicecompany() {
     }
@@ -78,6 +83,14 @@ public class Invoicecompany implements Serializable {
 
     public void setCompanyname(String companyname) {
         this.companyname = companyname;
+    }
+
+    public String getTaxid() {
+        return taxid;
+    }
+
+    public void setTaxid(String taxid) {
+        this.taxid = taxid;
     }
 
     public Date getEnttime() {
@@ -128,6 +141,22 @@ public class Invoicecompany implements Serializable {
         this.remark = remark;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getTransport() {
+        return transport;
+    }
+
+    public void setTransport(String transport) {
+        this.transport = transport;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -151,14 +180,6 @@ public class Invoicecompany implements Serializable {
     @Override
     public String toString() {
         return "com.scc.pay.db.Invoicecompany[ invcomid=" + invcomid + " ]";
-    }
-
-    public String getTaxid() {
-        return taxid;
-    }
-
-    public void setTaxid(String taxid) {
-        this.taxid = taxid;
     }
     
 }

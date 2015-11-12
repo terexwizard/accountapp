@@ -8,16 +8,22 @@
   
   <p:panelGrid>
     <p:row>
-      <p:column>company id</p:column>
-      <p:column>
-          <p:inputMask id="invcomid" value="#{bKBZZoom.param.invcomid}" 
-                       size="4"  mask="9999" maxlength="4"/>
-      </p:column>
-      <p:column>company name</p:column>
-      <p:column>
-        <p:inputText id="companyname" value="#{bKBZZoom.param.companyname}" 
-                     size="20" />
-      </p:column>
+          <p:column>
+              company id
+          </p:column>
+          <p:column>
+              <p:inputText id="invcomid" value="#{bKBZZoom.param.invcomid}" 
+                           size="4"  maxlength="4"/>
+          </p:column>
+      </p:row>
+      <p:row>
+          <p:column>
+              company name
+          </p:column>
+          <p:column>
+            <p:inputText id="companyname" value="#{bKBZZoom.param.companyname}" 
+                         size="50" />
+          </p:column>
     </p:row>
   </p:panelGrid> 
 </p:panel> 

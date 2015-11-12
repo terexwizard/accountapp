@@ -5,7 +5,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui" 
       xmlns:ui="http://java.sun.com/jsf/facelets">
-  <f:view beforePhase="#{aTP020200.beforePhase}" afterPhase="#{aTP020200.afterPhase}" encoding="UTF-8" >
+  <f:view beforePhase="#{aTP020301.beforePhase}" afterPhase="#{aTP020301.afterPhase}" encoding="UTF-8" >
     <h:head>
       <title></title>
       <h:outputStylesheet name="style.css" library="css" /> 
@@ -32,7 +32,7 @@
                     </p:column>
                     <p:column>
                          <p:inputText label="" id="invcomid" 
-                                      value="#{aTP020200.searchparam.invoicecompany.invcomid}" 
+                                      value="#{aTP020301.searchparam.invoicecompany.invcomid}" 
                                       size="8" maxlength="8" >
                              <p:ajax event="change" onstart="b1_lookup();return false;" />
                          </p:inputText>
@@ -53,7 +53,7 @@
                           </ui:include>
                        
                          <p:inputText label="" id="companyname" 
-                                      value="#{aTP020200.searchparam.invoicecompany.companyname}" 
+                                      value="#{aTP020301.searchparam.invoicecompany.companyname}" 
                                       size="50" maxlength="8" readonly="true"
                                       styleClass="#{bKBStyle.STYLE_INPUT_DISABLE}"
                                       tabindex="-1">
@@ -66,7 +66,7 @@
                       <h:outputLabel value="วันที่"/>
                     </p:column>
                     <p:column>
-                        <p:calendar id="invdate" value="#{aTP020200.searchparam.invdate}"
+                        <p:calendar id="invdate" value="#{aTP020301.searchparam.invdate}"
                                      size="10" maxlength="10" locale="en" showOn="button" 
                                      converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true">
                             <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
@@ -82,7 +82,7 @@
               <p:column>
                   <p:separator />
                       <ui:include src="#{bKBAppVar.COMPO_COMMAND_Q}"  >
-                            <ui:param name="basebean" value="#{aTP020200}"/>
+                            <ui:param name="basebean" value="#{aTP020301}"/>
                             <ui:param name="datatable" value="#{bKBUQuery.tableid} "/>
                       </ui:include>  
                    </p:column>
@@ -92,15 +92,15 @@
           <br/>
 
           <ui:include src="#{bKBAppVar.COMPO_QUERYDATATABLE}"  >
-              <ui:param name="basebean" value="#{aTP020200}"/>
+              <ui:param name="basebean" value="#{aTP020301}"/>
               <ui:param name="formid" value="form1"/>
               <ui:param name="tableid" value="table22"/>
-              <ui:param name="queryname" value="ATP020200Q"/>
+              <ui:param name="queryname" value="ATP020301Q"/>
           </ui:include>
           
         </div>
         <ui:include src="#{bKBAppVar.COMPO_MASG}" >
-          <ui:param name="basebean" value="#{aTP020200}"/>
+          <ui:param name="basebean" value="#{aTP020301}"/>
         </ui:include>
       </h:form>
     </h:body>

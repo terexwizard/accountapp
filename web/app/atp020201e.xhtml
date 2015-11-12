@@ -6,7 +6,7 @@
       xmlns:p="http://primefaces.org/ui" 
       xmlns:ui="http://java.sun.com/jsf/facelets"
        xmlns:func="http://taglib.scc.com/functions">
-  <f:view beforePhase="#{aTP020200.beforePhase}" afterPhase="#{aTP020200.afterPhase}" encoding="UTF-8" >
+  <f:view beforePhase="#{aTP020201.beforePhase}" afterPhase="#{aTP020201.afterPhase}" encoding="UTF-8" >
     <h:head>
       <title></title>
       <h:outputStylesheet name="style.css" library="css" /> 
@@ -49,10 +49,10 @@
                     </p:column>
                     <p:column>
                          <p:inputText label="" id="invcomid" 
-                                      value="#{aTP020200.masterdata.invoicecompany.invcomid}" 
+                                      value="#{aTP020201.masterdata.invoicecompany.invcomid}" 
                                       size="8" maxlength="8" 
                                       required="true"
-                                      disabled="#{aTP020200.modeupdate}">
+                                      disabled="#{aTP020201.modeupdate}">
                              <p:ajax event="change" onstart="b1_lookup();return false;" />
                          </p:inputText>
                         
@@ -64,7 +64,7 @@
                           <ui:param name="lookupreturn" value="companyname#companyname"/>
                         </ui:include>
                         
-                        <p:outputPanel rendered="#{!aTP020200.modeupdate}">
+                        <p:outputPanel rendered="#{!aTP020201.modeupdate}">
                         <ui:include src="#{bKBAppVar.COMPO_ZOOMDATA}" >
                             <ui:param name="formid" value="form1"/>
                             <ui:param name="zoomname" value="zoom1"/>
@@ -75,7 +75,7 @@
                         </p:outputPanel> 
                        
                          <p:inputText label="" id="companyname" 
-                                      value="#{aTP020200.masterdata.invoicecompany.companyname}" 
+                                      value="#{aTP020201.masterdata.invoicecompany.companyname}" 
                                       size="50" maxlength="8" readonly="true"
                                       styleClass="#{bKBStyle.STYLE_INPUT_DISABLE}"
                                       tabindex="-1">
@@ -89,19 +89,19 @@
             
             <br/>
             
-    <p:outputPanel id="#{aTP020200.detailinvoice.detailname}" >
+    <p:outputPanel id="#{aTP020201.detailinvoice.detailname}" >
 
-      <p:dataTable id="#{aTP020200.detailinvoice.tablename}" var="rec" value="#{aTP020200.detailinvoice.listdetailrow}" 
+      <p:dataTable id="#{aTP020201.detailinvoice.tablename}" var="rec" value="#{aTP020201.detailinvoice.listdetailrow}" 
                    rowKey="#{rec}"  
                    paginator="false" emptyMessage="" 
-                   selectionMode="single" selection="#{aTP020200.detailinvoice.selectedrow}"
+                   selectionMode="single" selection="#{aTP020201.detailinvoice.selectedrow}"
                    scrollable="true" scrollHeight="100"
                     editable="false"  rowIndexVar="rowIndex" 
                     styleClass="f1-p-datatable-wide" 
                      style="width:610px;table-layout: fixed;text-align: left;">
 
-          <p:ajax event="rowSelect" listener="#{aTP020200.detailinvoice.selectRow}" 
-                  update=":#{aTP020200.detailinvoice.parentid}:#{aTP020200.detailinvoice.detailrowpanel}" />
+          <p:ajax event="rowSelect" listener="#{aTP020201.detailinvoice.selectRow}" 
+                  update=":#{aTP020201.detailinvoice.parentid}:#{aTP020201.detailinvoice.detailrowpanel}" />
           
           
           <p:column  headerText="seq" style="width:50px;vertical-align: text-top;text-align: center;">
@@ -124,9 +124,14 @@
               #{func:convertDateStringToScreen(rec.data.invoice.invdate)}
           </p:column>
           
-          <p:column  headerText="clear success"  style="width:90px;vertical-align: text-top;" >  
-              <h:selectBooleanCheckbox value="#{rec.data.invoice.clearflag}" disabled="true"/>
+          <p:column  headerText="clear"  style="width:90px;vertical-align: text-top;" >  
+              <h:selectBooleanCheckbox value="#{rec.data.invoice.clearflag}" >
+                  <p:ajax process="@this" update="@this"/>
+              </h:selectBooleanCheckbox>
           </p:column>
+          
+          
+          
       </p:dataTable>
 
     </p:outputPanel>
@@ -135,7 +140,7 @@
     <!--
     //INPUT
     -->
-    <p:outputPanel  id="#{aTP020200.detailinvoice.detailrowpanel}">
+    <p:outputPanel  id="#{aTP020201.detailinvoice.detailrowpanel}" style="display: none;">
        <p:panelGrid style="width:600px;table-layout: fixed;">
             <p:row>
                 <p:column style="width:80px;"/>
@@ -150,7 +155,7 @@
                </p:column>
                <p:column colspan="3">
                    
-                    <p:calendar id="submitdate" value="#{aTP020200.detailinvoice.row.data.submitdate}" 
+                    <p:calendar id="submitdate" value="#{aTP020201.detailinvoice.row.data.submitdate}" 
                                      size="10" maxlength="10" locale="en" showOn="button" 
                                      converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true"
                                      disabled="true">
@@ -169,11 +174,11 @@
                 <p:column >                    
                   
                     <p:inputText label="" id="jobno" 
-                                required="#{aTP020200.detailinvoice.rowinputmode}"
-                                value="#{aTP020200.detailinvoice.row.data.invoice.jobno}" 
+                                required="#{aTP020201.detailinvoice.rowinputmode}"
+                                value="#{aTP020201.detailinvoice.row.data.invoice.jobno}" 
                                 size="15" maxlength="15" 
-                                readonly="#{!aTP020200.detailinvoice.rowinputmode}"
-                                styleClass="#{!aTP020200.detailinvoice.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL}">
+                                readonly="#{!aTP020201.detailinvoice.rowinputmode}"
+                                styleClass="#{!aTP020201.detailinvoice.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL}">
                         <p:ajax event="change" onstart="b2_lookup();return false;"  ></p:ajax>
                    </p:inputText>
                     
@@ -187,7 +192,7 @@
                         <ui:param name="after" value="callBacklookup_daily();"/>
                     </ui:include>
                     
-                    <p:outputPanel rendered="#{aTP020200.detailinvoice.rowinputmode}">
+                    <p:outputPanel rendered="#{aTP020201.detailinvoice.rowinputmode}">
                         <ui:include src="#{bKBAppVar.COMPO_ZOOMDATA}" >
                             <ui:param name="formid" value="form1"/>
                             <ui:param name="zoomname" value="zoom2"/>
@@ -204,7 +209,7 @@
                </p:column>
                <p:column>
                    
-                    <p:calendar id="tmpjobdate" value="#{aTP020200.detailinvoice.row.data.jobdate}" 
+                    <p:calendar id="tmpjobdate" value="#{aTP020201.detailinvoice.row.data.jobdate}" 
                                      size="10" maxlength="10" locale="en" showOn="button" 
                                      converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true"
                                      disabled="true">
@@ -212,12 +217,12 @@
                             <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
                     </p:calendar>
                    
-                    <p:inputText id="jobdate" value="#{aTP020200.detailinvoice.row.data.invoice.jobdate}" 
+                    <p:inputText id="jobdate" value="#{aTP020201.detailinvoice.row.data.invoice.jobdate}" 
                                  style="display: none;"/>
                     
                     <p:commandButton id="btnlookup_daily" value="xx" update="form1:tmpjobdate"
                                            process="@this,form1:jobdate" ajax="true" style="display: none;"
-                                           actionListener="#{aTP020200.checkdatalookup_daily}"  />
+                                           actionListener="#{aTP020201.checkdatalookup_daily}"  />
                </p:column>
            </p:row>
            <p:row>
@@ -225,10 +230,10 @@
                    <h:outputLabel value="invno" /> 
                </p:column>
                <p:column>
-                   <p:inputText id="invno" value="#{aTP020200.detailinvoice.row.data.invoice.invno}" 
+                   <p:inputText id="invno" value="#{aTP020201.detailinvoice.row.data.invoice.invno}" 
                                  size="30"
-                                 readonly="#{!aTP020200.detailinvoice.rowinputmode}"
-                                 styleClass="#{!aTP020200.detailinvoice.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL}">
+                                 readonly="#{!aTP020201.detailinvoice.rowinputmode}"
+                                 styleClass="#{!aTP020201.detailinvoice.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL}">
                     </p:inputText>
                    
                </p:column>
@@ -237,10 +242,10 @@
                </p:column>
                <p:column>
                    
-                    <p:calendar id="invdate" value="#{aTP020200.detailinvoice.row.data.invdate}" 
+                    <p:calendar id="invdate" value="#{aTP020201.detailinvoice.row.data.invdate}" 
                                      size="10" maxlength="10" locale="en" showOn="button" 
                                      converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true"
-                                     disabled="#{!aTP020200.detailinvoice.rowinputmode}">
+                                     disabled="#{!aTP020201.detailinvoice.rowinputmode}">
                             <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
                             <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
                     </p:calendar>
@@ -252,9 +257,9 @@
                    <h:outputLabel value="amount" /> 
                </p:column>
                <p:column>
-                   <p:inputText id="amount" value="#{aTP020200.detailinvoice.row.data.invoice.amount}" 
-                                size="10" readonly="#{!aTP020200.detailinvoice.rowinputmode}"
-                                 styleClass="#{!aTP020200.detailinvoice.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL}" 
+                   <p:inputText id="amount" value="#{aTP020201.detailinvoice.row.data.invoice.amount}" 
+                                size="10" readonly="#{!aTP020201.detailinvoice.rowinputmode}"
+                                 styleClass="#{!aTP020201.detailinvoice.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL}" 
                                  converter="moneyConverter">
                             <p:ajax process="@this" update="@this" />
                         </p:inputText>
@@ -264,10 +269,10 @@
                </p:column>
                <p:column>
                    
-                    <p:calendar id="duedate" value="#{aTP020200.detailinvoice.row.data.duedate}" 
+                    <p:calendar id="duedate" value="#{aTP020201.detailinvoice.row.data.duedate}" 
                                      size="10" maxlength="10" locale="en" showOn="button" 
                                      converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true"
-                                     disabled="#{!aTP020200.detailinvoice.rowinputmode}">
+                                     disabled="#{!aTP020201.detailinvoice.rowinputmode}">
                             <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
                             <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
                         </p:calendar>
@@ -280,9 +285,9 @@
                    <h:outputLabel value="paidAmount" /> 
                </p:column>
                <p:column>
-                   <p:inputText id="paidAmount" value="#{aTP020200.detailinvoice.row.data.invoice.paidAmount}" 
-                                 size="10" readonly="#{!aTP020200.detailinvoice.rowinputmode}"
-                                 styleClass="#{!aTP020200.detailinvoice.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL}" 
+                   <p:inputText id="paidAmount" value="#{aTP020201.detailinvoice.row.data.invoice.paidAmount}" 
+                                 size="10" readonly="#{!aTP020201.detailinvoice.rowinputmode}"
+                                 styleClass="#{!aTP020201.detailinvoice.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL}" 
                                  converter="moneyConverter">
                             <p:ajax process="@this" update="@this" />
                         </p:inputText>
@@ -292,10 +297,10 @@
                </p:column>
                <p:column>
                    
-                    <p:calendar id="receivedDate" value="#{aTP020200.detailinvoice.row.data.receivedDate}" 
+                    <p:calendar id="receivedDate" value="#{aTP020201.detailinvoice.row.data.receivedDate}" 
                                      size="10" maxlength="10" locale="en" showOn="button" 
                                      converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true"
-                                     disabled="#{!aTP020200.detailinvoice.rowinputmode}">
+                                     disabled="#{!aTP020201.detailinvoice.rowinputmode}">
                             <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
                             <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
                         </p:calendar>
@@ -307,8 +312,8 @@
                 <p:column colspan="4" style="text-align: center;">
 
                    <ui:include src="#{bKBAppVar.COMPO_DETAIL_BUTTON_SET}" >
-                       <ui:param name="basebean" value="#{aTP020200}"/>
-                       <ui:param name="dt" value="#{aTP020200.detailinvoice}"/>
+                       <ui:param name="basebean" value="#{aTP020201}"/>
+                       <ui:param name="dt" value="#{aTP020201.detailinvoice}"/>
                        <ui:param name="msgid" value=":form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
                        <ui:param name="msgcf" value="1"/>
                        <ui:param name="btnnamecancel" value="ยกเลิก"/>
@@ -335,7 +340,7 @@
                     <p:row>
                      <p:column style="width:100%;">
                          <ui:include src="#{bKBAppVar.COMPO_COMMAND_E}" >
-                           <ui:param name="basebean" value="#{aTP020200}"/>
+                           <ui:param name="basebean" value="#{aTP020201}"/>
                            <ui:param name="hidedelete" value="1"/>
                          </ui:include>
                      </p:column>
@@ -347,7 +352,7 @@
           <br/>
         </div>
         <ui:include src="#{bKBAppVar.COMPO_MASG}" >
-          <ui:param name="basebean" value="#{aTP020200}"/>
+          <ui:param name="basebean" value="#{aTP020201}"/>
         </ui:include>
       </h:form>
     </h:body>

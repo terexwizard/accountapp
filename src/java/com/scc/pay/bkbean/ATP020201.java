@@ -8,9 +8,9 @@ import com.scc.f1.backingbean.DetailTable;
 import com.scc.pay.business.BusinessFactory;
 import com.scc.f1.business.IBusinessBase;
 import com.scc.f1.util.Utils;
+import com.scc.pay.db.Invoice;
 import com.scc.pay.db.Invoicecompany;
-import com.scc.pay.db.Receivable;
-import java.math.BigDecimal;
+import com.scc.pay.util.CenterUtils;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +18,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
 
 /**
  *
@@ -29,15 +28,15 @@ import javax.faces.model.SelectItem;
 
 @ManagedBean
 @SessionScoped
-public class ATP020300 extends BKBPage {
+public class ATP020201 extends BKBPage {
 
     
     private MainData masterdata ;
     private MainData searchparam;
-    private DetailTable<DetailReceivable> detailreceivable;
+    private DetailTable<DetailInvoice> detailinvoice;
     
-    private static final String PAGE_E  = "atp020300e.xhtml";
-    private static final String PAGE_Q  = "atp020300q.xhtml";
+    private static final String PAGE_E  = "atp020201e.xhtml";
+    private static final String PAGE_Q  = "atp020201q.xhtml";
     
     private Map<String, String> searchselectedrow ;
     
@@ -72,32 +71,30 @@ public class ATP020300 extends BKBPage {
         this.searchparam = searchparam;
     }
 
-    public DetailTable<DetailReceivable> getDetailreceivable() {
-        if(detailreceivable == null){
-            detailreceivable = initDetailReceivable();
+    public DetailTable<DetailInvoice> getDetailinvoice() {
+         if(detailinvoice == null){
+            detailinvoice = initDetailInvoice();
         }
-        return detailreceivable;
+        return detailinvoice;
     }
 
-    public void setDetailreceivable(DetailTable<DetailReceivable> detailreceivable) {
-        this.detailreceivable = detailreceivable;
+    public void setDetailinvoice(DetailTable<DetailInvoice> detailinvoice) {
+        this.detailinvoice = detailinvoice;
     }
-    
-    
 
     
-    private DetailTable<DetailReceivable> initDetailReceivable(){
+    private DetailTable<DetailInvoice> initDetailInvoice(){
         
-           DetailTable<DetailReceivable> detailtable     = new DetailTable<DetailReceivable>(new DetailReceivable());
+           DetailTable<DetailInvoice> detailtable     = new DetailTable<DetailInvoice>(new DetailInvoice());
            
            detailtable.setParentclass(this);
         
            detailtable.setFormid("form1");
            detailtable.setParentid("form1");
-           detailtable.setDetailname("detailreceivable");
+           detailtable.setDetailname("detailinvoice");
            
-           detailtable.setBeforebuttonset("beforeDetailReceivable");
-           detailtable.setAfterbuttonset("afterDetailReceivable");
+           detailtable.setBeforebuttonset("beforeDetailInvoice");
+           detailtable.setAfterbuttonset("afterDetailInvoice");
            
            //DetailRow<DetailRd09PersonCostsD> row  = detailtable.addDetail(null);
            
@@ -107,25 +104,20 @@ public class ATP020300 extends BKBPage {
     }
     
      
-    public void beforeDetailReceivable(String mode) throws Exception{
-        logger.debug(">>beforeDetailReceivable :"+mode);
+    public void beforeDetailInvoice(String mode) throws Exception{
+        logger.debug(">>beforeDetailInvoice :"+mode);
         
         if(mode.equals(DetailTable.ROW_ADD) || mode.equals(DetailTable.ROW_EDIT)){
             
-            //logger.debug(">>beforeDetailInvoice add :"+Utils.formatDateToStringToDBEn(this.getDetailinvoice().getRow().getData().getInvdate()));
-           this.getDetailreceivable().getRow().getData().getReceivable().setInvdate(Utils.formatDateToStringToDBEn(this.getDetailreceivable().getRow().getData().getInvdate()));
-           this.getDetailreceivable().getRow().getData().getReceivable().setCompany(this.getMasterdata().getInvoicecompany().getCompanyname());
-           
-           this.getDetailreceivable().getRow().getData().getReceivable().setSubmitdate(Utils.formatDateToStringToDBEn(this.getDetailreceivable().getRow().getData().getSubmitdate()));
-           
-           this.getDetailreceivable().getRow().getData().setCurrency_disp(getLabelCombotb_currency(this.getDetailreceivable().getRow().getData().getReceivable().getCurrency()));
-           caltotalAll();
+            logger.debug(">>beforeDetailInvoice add :"+Utils.formatDateToStringToDBEn(this.getDetailinvoice().getRow().getData().getInvdate()));
+            
+           this.getDetailinvoice().getRow().getData().getInvoice().setInvdate(Utils.formatDateToStringToDBEn(this.getDetailinvoice().getRow().getData().getInvdate()));
         }
     }
     
-    public void afterDetailReceivable(String mode) throws Exception{
+    public void afterDetailInvoice(String mode) throws Exception{
         
-        logger.debug(">>afterDetailReceivable :"+mode);
+        logger.debug(">>afterDetailInvoice :"+mode);
         
 //        if(mode.equals(DetailTable.ROW_ADD) || mode.equals(DetailTable.ROW_EDIT)){
 //            
@@ -136,7 +128,7 @@ public class ATP020300 extends BKBPage {
         
         if(mode.equals(DetailTable.ROW_NEW)){
             
-            this.getDetailreceivable().getRow().getData().setSubmitdate(Utils.getcurDateTime());
+            this.getDetailinvoice().getRow().getData().setSubmitdate(Utils.getcurDateTime());
         }
     }
     
@@ -144,6 +136,7 @@ public class ATP020300 extends BKBPage {
     public class MainData extends BBBase{
         
         private Invoicecompany  invoicecompany;
+        private Date jobdate;
         private Date invdate;
 
         public Invoicecompany getInvoicecompany() {
@@ -155,6 +148,14 @@ public class ATP020300 extends BKBPage {
 
         public void setInvoicecompany(Invoicecompany invoicecompany) {
             this.invoicecompany = invoicecompany;
+        }
+
+        public Date getJobdate() {
+            return jobdate;
+        }
+
+        public void setJobdate(Date jobdate) {
+            this.jobdate = jobdate;
         }
 
         public Date getInvdate() {
@@ -174,26 +175,32 @@ public class ATP020300 extends BKBPage {
         
     }
     
-  public class DetailReceivable extends BBBase{
-        private Receivable  receivable;
+   public class DetailInvoice extends BBBase{
+        private Invoice  invoice;
         private Date submitdate;
         private Date invdate;
+        private Date jobdate;
         private Date duedate;
         private Date receivedDate;
-        private String currency_disp;
 
-        public Receivable getReceivable() {
-            if(receivable == null){
-                receivable = new Receivable();
+        public Invoice getInvoice() {
+            if(invoice == null){
+                invoice = new Invoice();
             }
-            return receivable;
+            return invoice;
         }
 
-        public void setReceivable(Receivable receivable) {
-            this.receivable = receivable;
+        public void setInvoice(Invoice invoice) {
+            this.invoice = invoice;
         }
-        
-        
+
+        public Date getJobdate() {
+            return jobdate;
+        }
+
+        public void setJobdate(Date jobdate) {
+            this.jobdate = jobdate;
+        }
 
         public Date getInvdate() {
             return invdate;
@@ -226,19 +233,11 @@ public class ATP020300 extends BKBPage {
         public void setSubmitdate(Date submitdate) {
             this.submitdate = submitdate;
         }
-
-        public String getCurrency_disp() {
-            return currency_disp;
-        }
-
-        public void setCurrency_disp(String currency_disp) {
-            this.currency_disp = currency_disp;
-        }
         
   }
     
     
-    public ATP020300() {
+    public ATP020201() {
         setAutoconvertthai(true);
         setShowphase(true);
         
@@ -341,7 +340,7 @@ public class ATP020300 extends BKBPage {
     @Override
     protected void clearAllData(){
             masterdata      = null; 
-            detailreceivable = null;
+            detailinvoice = null;
     }
     
     @Override
@@ -363,7 +362,7 @@ public class ATP020300 extends BKBPage {
             
 //            toDB();
             
-            IBusinessBase ib = BusinessFactory.getBusiness("ATP020300A");
+            IBusinessBase ib = BusinessFactory.getBusiness("ATP020201A");
             
             
             ib.process(this);
@@ -395,7 +394,7 @@ public class ATP020300 extends BKBPage {
     private void update(){
         
         
-        IBusinessBase ib = BusinessFactory.getBusiness("ATP020300U");
+        IBusinessBase ib = BusinessFactory.getBusiness("ATP020201U");
             
             
         ib.process(this);
@@ -425,7 +424,7 @@ public class ATP020300 extends BKBPage {
     public String delete(){
         
         
-        IBusinessBase ib = BusinessFactory.getBusiness("ATP020300D");
+        IBusinessBase ib = BusinessFactory.getBusiness("ATP020201D");
             
             
         ib.process(this);
@@ -489,7 +488,7 @@ public class ATP020300 extends BKBPage {
             HashMap<String, String> hm = new HashMap<String, String>();
             
             hm.put("invcomid", this.getSearchparam().getInvoicecompany().getInvcomid());
-            hm.put("date", Utils.formatDateToStringToDBEn(this.getSearchparam().getInvdate()));
+            hm.put("invdate", Utils.formatDateToStringToDBEn(this.getSearchparam().getInvdate()));
    
             BKBUQuery.getIns().setQueryparam(hm);
             BKBUQuery.getIns().search();
@@ -504,7 +503,7 @@ public class ATP020300 extends BKBPage {
         
         searchselectedrow       = rec;
         
-        IBusinessBase ib = BusinessFactory.getBusiness("ATP020300S");
+        IBusinessBase ib = BusinessFactory.getBusiness("ATP020201S");
         
         ib.process(this);
 
@@ -550,72 +549,13 @@ public class ATP020300 extends BKBPage {
         
     }
     
-    
-    //======================
-    public void calVat(){
-        
-        if(!Utils.NVL(this.getDetailreceivable().getRow().getData().getReceivable().getService()).equals("") &&
-            !Utils.NVL(this.getDetailreceivable().getRow().getData().getReceivable().getVatdata()).equals("")    ){
-            BigDecimal service = new BigDecimal(this.getDetailreceivable().getRow().getData().getReceivable().getService());
-            BigDecimal vatdata = new BigDecimal(this.getDetailreceivable().getRow().getData().getReceivable().getVatdata());
-            vatdata = vatdata.divide(new BigDecimal("100"));
-            
-            
-            
-            this.getDetailreceivable().getRow().getData().getReceivable().setVat(service.multiply(vatdata).doubleValue());
-            
-            
-            BigDecimal total = new BigDecimal(0);
-            if(!Utils.NVL(this.getDetailreceivable().getRow().getData().getReceivable().getReimbursement()).equals("")){
-                total = total.add(new BigDecimal(this.getDetailreceivable().getRow().getData().getReceivable().getReimbursement()));
-            }
-            total = total.add(service);
-            total = total.add(new BigDecimal(this.getDetailreceivable().getRow().getData().getReceivable().getVat()));
-            
-            this.getDetailreceivable().getRow().getData().getReceivable().setTotal(total.doubleValue());
-            
-            calwhtax();
+    public void checkdatalookup_daily(){
+        if(!Utils.NVL(this.getDetailinvoice().getRow().getData().getInvoice().getJobdate()).equals("")){
+            this.getDetailinvoice().getRow().getData().setJobdate(CenterUtils.formatStringToDateToScreen(this.getDetailinvoice().getRow().getData().getInvoice().getJobdate()+543));
         }
     }
     
-    public void calwhtax(){
+     public void calSumAmount(){
         
-        logger.debug(">>calwhtax ");
-        
-         if(!Utils.NVL(this.getDetailreceivable().getRow().getData().getReceivable().getService()).equals("") &&
-                 !Utils.NVL(this.getDetailreceivable().getRow().getData().getReceivable().getWhtaxdata()).equals("")){
-             
-             logger.debug(">>calwhtax if "+this.getDetailreceivable().getRow().getData().getReceivable().getService());
-             
-             BigDecimal service = new BigDecimal(this.getDetailreceivable().getRow().getData().getReceivable().getService());
-             BigDecimal whtaxdata = new BigDecimal(this.getDetailreceivable().getRow().getData().getReceivable().getWhtaxdata());
-             whtaxdata = whtaxdata.divide(new BigDecimal("100"));
-             
-            this.getDetailreceivable().getRow().getData().getReceivable().setWhtax(service.multiply(whtaxdata).doubleValue());
-            
-            caltotalAll();
-         }
-    }
-     
-    private void caltotalAll(){
-        double whtax = this.getDetailreceivable().getRow().getData().getReceivable().getWhtax() == null?0:this.getDetailreceivable().getRow().getData().getReceivable().getWhtax();
-        double advance = this.getDetailreceivable().getRow().getData().getReceivable().getAdvance() == null?0:this.getDetailreceivable().getRow().getData().getReceivable().getAdvance();
-           
-        this.getDetailreceivable().getRow().getData().getReceivable().setTotalall(this.getDetailreceivable().getRow().getData().getReceivable().getTotal() - (whtax + advance));
-        
-    }
-    
-    private String getLabelCombotb_currency(String code){
-        
-        String result = "";
-        if(!Utils.NVL(code).equals("")){
-            for(SelectItem si :  BKBListData.getCombotb_currency()){
-                    if(Utils.NVL(code).equals(Utils.NVL(si.getValue()))){
-                        result = si.getLabel();
-                        break;
-                    }
-             }
-        }
-        return result;
-    }
+    } 
 }

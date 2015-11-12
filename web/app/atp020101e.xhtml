@@ -96,7 +96,7 @@
                         
                        
                          <p:inputText label="" id="companyname" value="#{aTP020101.masterdata.daily.companyname}"
-                                      size="25" maxlength="8" readonly="true"
+                                      size="50" maxlength="8" readonly="true"
                                       styleClass="#{bKBStyle.STYLE_INPUT_DISABLE}"
                                       tabindex="-1">
                         </p:inputText>
@@ -123,10 +123,12 @@
                   <p:row>
                     <p:column>
                       <h:outputLabel value="Job Ref."/>
+                      <h:outputText styleClass="redstar" value="*" />
                     </p:column>
                     <p:column>
                         <p:inputText id="jobref" size="15" maxlength="15"
-                                     value="#{aTP020101.masterdata.daily.jobref}"/>
+                                     value="#{aTP020101.masterdata.daily.jobref}"
+                                     required="true"/>
                     </p:column>
                   </p:row>
                     
@@ -135,7 +137,7 @@
                       <h:outputLabel value="Transecsion No."/>
                     </p:column>
                     <p:column>
-                        <p:inputText id="transecsionno" size="14" maxlength="14"
+                        <p:inputText id="transecsionno" size="15" maxlength="15"
                                      value="#{aTP020101.masterdata.daily.transecsionno}"/>
                     </p:column>
                   </p:row>
@@ -145,7 +147,7 @@
                       <h:outputLabel value="Inv No."/>
                     </p:column>
                     <p:column>
-                        <p:inputText id="invno" size="14" maxlength="14"
+                        <p:inputText id="invno" size="15" maxlength="15"
                                      value="#{aTP020101.masterdata.daily.invno}"/>
                     </p:column>
                   </p:row>

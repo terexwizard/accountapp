@@ -73,6 +73,8 @@ public class Invoice implements Serializable {
     private Double balance;
     @Column(name = "sumbitdate")
     private String sumbitdate;
+    @Column(name = "clearflag")
+    private String clearflag;
 
     public Invoice() {
     }
@@ -223,6 +225,14 @@ public class Invoice implements Serializable {
 
     public void setSumbitdate(String sumbitdate) {
         this.sumbitdate = sumbitdate;
+    }
+
+    public String getClearflag() {
+        return clearflag;
+    }
+
+    public void setClearflag(String clearflag) {
+        this.clearflag = clearflag;
     }
 
     @Override

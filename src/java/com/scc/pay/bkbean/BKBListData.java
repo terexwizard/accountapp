@@ -24,6 +24,7 @@ public class BKBListData extends com.scc.pay.backingbean.BKBListAppData{
     private static List<SelectItem> tb08_coun;        
     private static List<SelectItem> Tb09_industry;
     private static List<SelectItem> rd18_other_ref;
+    private static List<SelectItem> tb_currency;
 
     public static List<SelectItem> getTb13_position_type() {
         
@@ -140,4 +141,12 @@ public class BKBListData extends com.scc.pay.backingbean.BKBListAppData{
         BKBListData.Tb09_industry = Tb09_industry;
     }
     
+    
+      public static List<SelectItem> getCombotb_currency() {
+
+        if(tb_currency == null){
+            tb_currency = DBUtils.getSelectItem("lookup_tb_currency","currencyid", "currencyname");
+        }
+        return tb_currency;
+    }
 }

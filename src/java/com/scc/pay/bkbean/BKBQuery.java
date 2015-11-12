@@ -33,7 +33,8 @@ public class BKBQuery {
     }
     
      public List<SelectItem> getCombotb_currency() {
-        return DBUtils.getSelectItem("lookup_tb_currency","currencyid", "currencyname");
+        //return DBUtils.getSelectItem("lookup_tb_currency","currencyid", "currencyname");
+         return BKBListData.getCombotb_currency();
     }
     
      public List<SelectItem> getCombotb_vat() {

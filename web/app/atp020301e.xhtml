@@ -6,7 +6,7 @@
       xmlns:p="http://primefaces.org/ui" 
       xmlns:ui="http://java.sun.com/jsf/facelets"
        xmlns:func="http://taglib.scc.com/functions">
-  <f:view beforePhase="#{aTP020300.beforePhase}" afterPhase="#{aTP020300.afterPhase}" encoding="UTF-8" >
+  <f:view beforePhase="#{aTP020301.beforePhase}" afterPhase="#{aTP020301.afterPhase}" encoding="UTF-8" >
     <h:head>
       <title></title>
       <h:outputStylesheet name="style.css" library="css" /> 
@@ -47,10 +47,10 @@
                     </p:column>
                     <p:column>
                          <p:inputText label="" id="invcomid" 
-                                      value="#{aTP020300.masterdata.invoicecompany.invcomid}" 
+                                      value="#{aTP020301.masterdata.invoicecompany.invcomid}" 
                                       size="8" maxlength="8" 
                                       required="true"
-                                      disabled="#{aTP020300.modeupdate}">
+                                      disabled="#{aTP020301.modeupdate}">
                              <p:ajax event="change" onstart="b1_lookup();return false;" />
                          </p:inputText>
                         
@@ -62,7 +62,7 @@
                           <ui:param name="lookupreturn" value="companyname#companyname"/>
                         </ui:include>
                         
-                        <p:outputPanel rendered="#{!aTP020300.modeupdate}">
+                        <p:outputPanel rendered="#{!aTP020301.modeupdate}">
                         <ui:include src="#{bKBAppVar.COMPO_ZOOMDATA}" >
                             <ui:param name="formid" value="form1"/>
                             <ui:param name="zoomname" value="zoom1"/>
@@ -72,7 +72,7 @@
                         </p:outputPanel> 
                        
                          <p:inputText label="" id="companyname" 
-                                      value="#{aTP020300.masterdata.invoicecompany.companyname}" 
+                                      value="#{aTP020301.masterdata.invoicecompany.companyname}" 
                                       size="50" maxlength="8" readonly="true"
                                       styleClass="#{bKBStyle.STYLE_INPUT_DISABLE}"
                                       tabindex="-1">
@@ -86,19 +86,19 @@
             
             <br/>
             
-    <p:outputPanel id="#{aTP020300.detailreceivable.detailname}" >
+    <p:outputPanel id="#{aTP020301.detailreceivable.detailname}" >
 
-      <p:dataTable id="#{aTP020300.detailreceivable.tablename}" var="rec" value="#{aTP020300.detailreceivable.listdetailrow}" 
+      <p:dataTable id="#{aTP020301.detailreceivable.tablename}" var="rec" value="#{aTP020301.detailreceivable.listdetailrow}" 
                    rowKey="#{rec}"  
                    paginator="false" emptyMessage="" 
-                   selectionMode="single" selection="#{aTP020300.detailreceivable.selectedrow}"
+                   selectionMode="single" selection="#{aTP020301.detailreceivable.selectedrow}"
                    scrollable="true" scrollHeight="100"
-                   editable="false"  rowIndexVar="rowIndex" 
-                   styleClass="f1-p-datatable-wide" 
-                   style="width:910px;table-layout: fixed;text-align: left;">
+                    editable="false"  rowIndexVar="rowIndex" 
+                    styleClass="f1-p-datatable-wide" 
+                     style="width:910px;table-layout: fixed;text-align: left;">
 
-          <p:ajax event="rowSelect" listener="#{aTP020300.detailreceivable.selectRow}" 
-                  update=":#{aTP020300.detailreceivable.parentid}:#{aTP020300.detailreceivable.detailrowpanel}" />
+          <p:ajax event="rowSelect" listener="#{aTP020301.detailreceivable.selectRow}" 
+                  update=":#{aTP020301.detailreceivable.parentid}:#{aTP020301.detailreceivable.detailrowpanel}" />
           
           
           <p:column  headerText="seq" style="width:50px;vertical-align: text-top;text-align: center;">
@@ -117,7 +117,7 @@
               #{rec.data.receivable.company}
           </p:column>
           
-           <p:column  headerText="reimbursement"  style="vertical-align: text-top;text-align: right;" >  
+           <p:column  headerText="reimbursement"  style="vertical-align: text-top;" >  
               #{func:formatMoney(rec.data.receivable.reimbursement)} #{rec.data.currency_disp}
           </p:column>
           
@@ -133,8 +133,10 @@
               #{func:formatMoney(rec.data.receivable.total)}
           </p:column>
           
-          <p:column  headerText="clear success"  style="width:90px;vertical-align: text-top;" >  
-              <h:selectBooleanCheckbox value="#{rec.data.receivable.clearflag}" disabled="true"/>
+          <p:column  headerText="clear"  style="width:90px;vertical-align: text-top;" >  
+              <h:selectBooleanCheckbox value="#{rec.data.receivable.clearflag}" >
+                  <p:ajax process="@this" update="@this"/>
+              </h:selectBooleanCheckbox>
           </p:column>
       </p:dataTable>
 
@@ -144,7 +146,7 @@
     <!--
     //INPUT
     -->
-    <p:outputPanel  id="#{aTP020300.detailreceivable.detailrowpanel}">
+    <p:outputPanel  id="#{aTP020301.detailreceivable.detailrowpanel}" style="display: none;">
        <p:panelGrid style="width:800px;table-layout: fixed;">
             <p:row>
                 <p:column style="width:80px;"/>
@@ -162,7 +164,7 @@
                </p:column>
                <p:column>
                    
-                    <p:calendar id="submitdate" value="#{aTP020300.detailreceivable.row.data.submitdate}" 
+                    <p:calendar id="submitdate" value="#{aTP020301.detailreceivable.row.data.submitdate}" 
                                      size="10" maxlength="10" locale="en" showOn="button" 
                                      converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true"
                                      disabled="true">
@@ -175,25 +177,43 @@
                    <h:outputLabel value="cover no." /> 
                </p:column>
                <p:column>
-                   <p:inputText id="ref" value="#{aTP020300.detailreceivable.row.data.receivable.ref}" 
+                   <p:inputText id="ref" value="#{aTP020301.detailreceivable.row.data.receivable.ref}" 
                                  size="10"
-                                 readonly="#{!aTP020300.detailreceivable.rowinputmode}"
-                                 styleClass="#{!aTP020300.detailreceivable.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL}">
+                                 readonly="#{!aTP020301.detailreceivable.rowinputmode}"
+                                 styleClass="#{!aTP020301.detailreceivable.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL}">
                     </p:inputText>
                </p:column>
                <p:column>
                    <h:outputLabel value="jobno" /> 
-                   <h:outputText styleClass="redstar" value="*" rendered="#{aTP020300.detailreceivable.rowinputmode}"/>
                </p:column>
                <p:column>
                    
                    <p:inputText id="jobno" label="jobno"
-                                required="#{aTP020300.detailreceivable.rowinputmode}"
-                                value="#{aTP020300.detailreceivable.row.data.receivable.jobno}" 
+                                required="#{aTP020301.detailreceivable.rowinputmode}"
+                                value="#{aTP020301.detailreceivable.row.data.receivable.jobno}" 
                                 size="15" maxlength="15" 
-                                readonly="#{!aTP020300.detailreceivable.rowinputmode}"
-                                styleClass="#{!aTP020300.detailreceivable.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL}">
+                                readonly="#{!aTP020301.detailreceivable.rowinputmode}"
+                                styleClass="#{!aTP020301.detailreceivable.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL}">
+                        <p:ajax event="change" onstart="b2_lookup();return false;"  ></p:ajax>
                    </p:inputText>
+                    
+                    
+                   <ui:include src="#{bKBAppVar.COMPO_LOOKUPDATA}" >
+                        <ui:param name="formid" value="form1"/>
+                        <ui:param name="lookupname" value="b2"/>
+                        <ui:param name="lookupquery" value="lookup_daily"/>
+                        <ui:param name="lookuppara" value="jobno#jobref"/>
+                        <ui:param name="lookupreturn" value="jobno#jobref"/>
+                    </ui:include>
+                    
+                    <p:outputPanel rendered="#{aTP020301.detailreceivable.rowinputmode}">
+                        <ui:include src="#{bKBAppVar.COMPO_ZOOMDATA}" >
+                            <ui:param name="formid" value="form1"/>
+                            <ui:param name="zoomname" value="zoom2"/>
+                            <ui:param name="zoomquery" value="lookup_daily"/>
+                            <ui:param name="zoomreturn" value="jobno#jobref"/>
+                        </ui:include>
+                    </p:outputPanel>
                </p:column>
            </p:row>
            
@@ -204,10 +224,10 @@
                </p:column>
                  <p:column colspan="5">
                    
-                   <p:calendar id="invdate" value="#{aTP020300.detailreceivable.row.data.invdate}" 
+                   <p:calendar id="invdate" value="#{aTP020301.detailreceivable.row.data.invdate}" 
                                      size="10" maxlength="10" locale="en" showOn="button" 
                                      converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true"
-                                     disabled="#{!aTP020300.detailreceivable.rowinputmode}">
+                                     disabled="#{!aTP020301.detailreceivable.rowinputmode}">
                             <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
                             <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
                     </p:calendar>
@@ -218,42 +238,29 @@
            
            
            <p:row>
-               <p:column styleClass="textR">
+                 <p:column styleClass="textR">
                    <h:outputLabel value="reimbursement" /> 
                </p:column>
-               <p:column style="padding: 0px;">
-                   <p:panelGrid>
-                       <p:row>
-                           <p:column>
-                               <p:inputText id="reimbursement" value="#{aTP020300.detailreceivable.row.data.receivable.reimbursement}" 
-                                             size="10"
-                                             readonly="#{!aTP020300.detailreceivable.rowinputmode}"
-                                             styleClass="#{!aTP020300.detailreceivable.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL} iNR"
-                                             converter="moneyConverter">
-                                         <p:ajax process="@this,service,vat" update="@this,vat,total,whtax,totalall" listener="#{aTP020300.calVat}" />
-                                </p:inputText>
-                           </p:column>
-                           <p:column>
-                               <p:selectOneMenu id="currency" value="#{aTP020300.detailreceivable.row.data.receivable.currency}"
-                                             style="width: 80px;"
-                                             styleClass="#{!aTP020300.detailreceivable.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL}">
-                                    <f:selectItems value="#{bKBQuery.combotb_currency}" />
-                              </p:selectOneMenu>
-                            </p:column>
-                       </p:row>
-                  </p:panelGrid>
+               <p:column>
+                   <p:inputText id="reimbursement" value="#{aTP020301.detailreceivable.row.data.receivable.reimbursement}" 
+                                 size="10"
+                                 readonly="#{!aTP020301.detailreceivable.rowinputmode}"
+                                 styleClass="#{!aTP020301.detailreceivable.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL} iNR"
+                                 converter="moneyConverter">
+                             <p:ajax process="@this,service,vat" update="@this,vat,total,whtax,totalall" listener="#{aTP020301.calVat}" />
+                    </p:inputText>
                </p:column>
                <p:column>
                    <h:outputLabel value="service" /> 
                </p:column>
                <p:column>
                    
-                    <p:inputText id="service" value="#{aTP020300.detailreceivable.row.data.receivable.service}" 
+                    <p:inputText id="service" value="#{aTP020301.detailreceivable.row.data.receivable.service}" 
                                  size="10"
-                                 readonly="#{!aTP020300.detailreceivable.rowinputmode}"
-                                 styleClass="#{!aTP020300.detailreceivable.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL} iNR"
+                                 readonly="#{!aTP020301.detailreceivable.rowinputmode}"
+                                 styleClass="#{!aTP020301.detailreceivable.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL} iNR"
                                  converter="moneyConverter">
-                            <p:ajax process="@this,reimbursement,vat" update="@this,vat,total,whtax,totalall" listener="#{aTP020300.calVat}" />
+                            <p:ajax process="@this,reimbursement,vat" update="@this,vat,total,whtax,totalall" listener="#{aTP020301.calVat}" />
                     </p:inputText>
                    
                </p:column>
@@ -263,14 +270,14 @@
                <p:column style="padding: 0px;">
                    
                    <p:panelGrid columns="2">
-                       <p:selectOneMenu value="#{aTP020300.detailreceivable.row.data.receivable.vatdata}" 
-                                        disabled="#{!aTP020300.detailreceivable.rowinputmode}">
+                       <p:selectOneMenu value="#{aTP020301.detailreceivable.row.data.receivable.vatdata}" 
+                                        disabled="#{!aTP020301.detailreceivable.rowinputmode}">
                            <f:selectItem itemLabel="Select...." itemValue="" />
                            <f:selectItems value="#{bKBQuery.combotb_vat}" />
-                           <p:ajax process="@this,reimbursement,service" update="vat,total,whtax,totalall" listener="#{aTP020300.calVat}"/>
+                           <p:ajax process="@this,reimbursement,service" update="vat,total,whtax,totalall" listener="#{aTP020301.calVat}"/>
                        </p:selectOneMenu>
 
-                       <p:inputText id="vat" value="#{aTP020300.detailreceivable.row.data.receivable.vat}" 
+                       <p:inputText id="vat" value="#{aTP020301.detailreceivable.row.data.receivable.vat}" 
                                      size="10"
                                      readonly="true"
                                      styleClass="#{bKBStyle.STYLE_INPUT_DISABLE} iNR">
@@ -286,7 +293,7 @@
                </p:column>
                <p:column>
                    
-                    <p:inputText id="total" value="#{aTP020300.detailreceivable.row.data.receivable.total}" 
+                    <p:inputText id="total" value="#{aTP020301.detailreceivable.row.data.receivable.total}" 
                                  size="10"
                                  readonly="true" tabindex="-1"
                                  styleClass="#{bKBStyle.STYLE_INPUT_DISABLE} iNR"
@@ -300,17 +307,17 @@
                </p:column>
                 <p:column style="padding: 0px;">
                    <p:panelGrid columns="2">
-                   <p:selectOneMenu value="#{aTP020300.detailreceivable.row.data.receivable.whtaxdata}" 
-                                        disabled="#{!aTP020300.detailreceivable.rowinputmode}">
+                   <p:selectOneMenu value="#{aTP020301.detailreceivable.row.data.receivable.whtaxdata}" 
+                                        disabled="#{!aTP020301.detailreceivable.rowinputmode}">
                            <f:selectItem itemLabel="Select...." itemValue="" />
                            <f:selectItems value="#{bKBQuery.combotb_whtax}" />
-                           <p:ajax process="@this,total" update="whtax,totalall" listener="#{aTP020300.calwhtax}"/>
+                           <p:ajax process="@this,total" update="whtax,totalall" listener="#{aTP020301.calwhtax}"/>
                        </p:selectOneMenu>
                    
-                    <p:inputText id="whtax" value="#{aTP020300.detailreceivable.row.data.receivable.whtax}" 
+                    <p:inputText id="whtax" value="#{aTP020301.detailreceivable.row.data.receivable.whtax}" 
                                  size="10"
-                                 readonly="#{!aTP020300.detailreceivable.rowinputmode}"
-                                 styleClass="#{!aTP020300.detailreceivable.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL} iNR"
+                                 readonly="#{!aTP020301.detailreceivable.rowinputmode}"
+                                 styleClass="#{!aTP020301.detailreceivable.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL} iNR"
                                  converter="moneyConverter">
                             <p:ajax process="@this" update="@this" />
                     </p:inputText>
@@ -321,12 +328,12 @@
                </p:column>
                <p:column>
                    
-                    <p:inputText id="advance" value="#{aTP020300.detailreceivable.row.data.receivable.advance}" 
+                    <p:inputText id="advance" value="#{aTP020301.detailreceivable.row.data.receivable.advance}" 
                                  size="10"
-                                 readonly="#{!aTP020300.detailreceivable.rowinputmode}"
-                                 styleClass="#{!aTP020300.detailreceivable.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL} iNR"
+                                 readonly="#{!aTP020301.detailreceivable.rowinputmode}"
+                                 styleClass="#{!aTP020301.detailreceivable.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL} iNR"
                                  converter="moneyConverter">
-                            <p:ajax process="@this" update="@this,totalall" listener="#{aTP020300.calwhtax}"/>
+                            <p:ajax process="@this" update="@this,totalall" listener="#{aTP020301.calwhtax}"/>
                     </p:inputText>
                    
                </p:column>
@@ -337,7 +344,7 @@
                </p:column>
                 <p:column colspan="5">
                    
-                    <p:inputText id="totalall" value="#{aTP020300.detailreceivable.row.data.receivable.totalall}" 
+                    <p:inputText id="totalall" value="#{aTP020301.detailreceivable.row.data.receivable.totalall}" 
                                  size="15"
                                  readonly="true" tabindex="-1" converter="moneyConverter"
                                  styleClass="#{bKBStyle.STYLE_INPUT_DISABLE} iNR">
@@ -348,8 +355,8 @@
                 <p:column colspan="6" style="text-align: center;">
 
                    <ui:include src="#{bKBAppVar.COMPO_DETAIL_BUTTON_SET}" >
-                       <ui:param name="basebean" value="#{aTP020300}"/>
-                       <ui:param name="dt" value="#{aTP020300.detailreceivable}"/>
+                       <ui:param name="basebean" value="#{aTP020301}"/>
+                       <ui:param name="dt" value="#{aTP020301.detailreceivable}"/>
                        <ui:param name="msgid" value=":form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
                        <ui:param name="msgcf" value="1"/>
                        <ui:param name="btnnamecancel" value="ยกเลิก"/>
@@ -379,7 +386,7 @@
                     <p:row>
                      <p:column style="width:100%;">
                          <ui:include src="#{bKBAppVar.COMPO_COMMAND_E}" >
-                           <ui:param name="basebean" value="#{aTP020300}"/>
+                           <ui:param name="basebean" value="#{aTP020301}"/>
                            <ui:param name="hidedelete" value="1"/>
                          </ui:include>
                      </p:column>
@@ -391,7 +398,7 @@
           <br/>
         </div>
         <ui:include src="#{bKBAppVar.COMPO_MASG}" >
-          <ui:param name="basebean" value="#{aTP020300}"/>
+          <ui:param name="basebean" value="#{aTP020301}"/>
         </ui:include>
       </h:form>
     </h:body>

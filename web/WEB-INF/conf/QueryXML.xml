@@ -1161,6 +1161,83 @@
 
 
 <!-- ************************** 
+    ATP020201Q 
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATP020201Q</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT i.invcomid , i.company , ic.remark ,i.invdate 
+        FROM  invoicecompany ic left join invoice i   on (ic.invcomid = i.invcomid) 
+        where i.invcomid is not null 
+        
+            <var name="invcomid" woper="and" > and i.invcomid = '<value/>' </var>
+            <var name="company" woper="and" > and i.company = '<value/>' </var>
+            <var name="invdate" woper="and" > and i.invdate = '<value/>' </var>
+        
+        group by ic.invcomid
+
+       <where>
+           
+
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>invcomid</VarName>
+            <UIName>invcomid</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>company</VarName>
+            <UIName>company</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>invdate</VarName>
+            <UIName>invdate</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>invcomid</FieldName>
+                <Header>invcomid</Header>
+                <Style>width:200px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>company</FieldName>
+                <Header>company</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>remark</FieldName>
+                <Header>remark</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             
+         </Columns>
+
+     </Displays>
+</Query>
+
+<!-- ************************** 
     ATP020300Q 
 - -  ************************** -->
 
@@ -1238,6 +1315,82 @@
 </Query>
 
 
+<!-- ************************** 
+    ATP020301Q 
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATP020301Q</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT i.invcomid , i.company , ic.remark ,i.invdate 
+        FROM  invoicecompany ic left join receivable i   on (ic.invcomid = i.invcomid) 
+        where i.invcomid is not null 
+        
+            <var name="invcomid" woper="and" > and i.invcomid = '<value/>' </var>
+            <var name="company" woper="and" > and i.company = '<value/>' </var>
+            <var name="invdate" woper="and" > and i.invdate = '<value/>' </var>
+        
+        group by ic.invcomid
+
+       <where>
+           
+
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>invcomid</VarName>
+            <UIName>invcomid</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>company</VarName>
+            <UIName>company</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>invdate</VarName>
+            <UIName>invdate</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>invcomid</FieldName>
+                <Header>invcomid</Header>
+                <Style>width:200px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>company</FieldName>
+                <Header>company</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>remark</FieldName>
+                <Header>remark</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             
+         </Columns>
+
+     </Displays>
+</Query>
 
 <!-- ************************** 
     ATP020400Q 

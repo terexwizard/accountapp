@@ -7,9 +7,12 @@ package com.scc.pay.db;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -28,8 +31,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Receivable.findAll", query = "SELECT r FROM Receivable r")})
 public class Receivable implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected ReceivablePK receivablePK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @Column(name = "submitdate")
     private String submitdate;
     @Column(name = "invcomid")
@@ -40,6 +46,9 @@ public class Receivable implements Serializable {
     private String invdate;
     @Column(name = "ref")
     private String ref;
+    @Basic(optional = false)
+    @Column(name = "jobno")
+    private String jobno;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "reimbursement")
     private Double reimbursement;
@@ -71,24 +80,29 @@ public class Receivable implements Serializable {
     private Date updtime;
     @Column(name = "upduser")
     private String upduser;
+    @Column(name = "clearflag")
+    private String clearflag;
+    @Column(name = "currency")
+    private String currency;
 
     public Receivable() {
     }
 
-    public Receivable(ReceivablePK receivablePK) {
-        this.receivablePK = receivablePK;
+    public Receivable(Integer id) {
+        this.id = id;
     }
 
-    public Receivable(int id, String jobno) {
-        this.receivablePK = new ReceivablePK(id, jobno);
+    public Receivable(Integer id, String jobno) {
+        this.id = id;
+        this.jobno = jobno;
     }
 
-    public ReceivablePK getReceivablePK() {
-        return receivablePK;
+    public Integer getId() {
+        return id;
     }
 
-    public void setReceivablePK(ReceivablePK receivablePK) {
-        this.receivablePK = receivablePK;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getSubmitdate() {
@@ -129,6 +143,14 @@ public class Receivable implements Serializable {
 
     public void setRef(String ref) {
         this.ref = ref;
+    }
+
+    public String getJobno() {
+        return jobno;
+    }
+
+    public void setJobno(String jobno) {
+        this.jobno = jobno;
     }
 
     public Double getReimbursement() {
@@ -243,10 +265,26 @@ public class Receivable implements Serializable {
         this.upduser = upduser;
     }
 
+    public String getClearflag() {
+        return clearflag;
+    }
+
+    public void setClearflag(String clearflag) {
+        this.clearflag = clearflag;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (receivablePK != null ? receivablePK.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -257,7 +295,7 @@ public class Receivable implements Serializable {
             return false;
         }
         Receivable other = (Receivable) object;
-        if ((this.receivablePK == null && other.receivablePK != null) || (this.receivablePK != null && !this.receivablePK.equals(other.receivablePK))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -265,7 +303,7 @@ public class Receivable implements Serializable {
 
     @Override
     public String toString() {
-        return "com.scc.pay.db.Receivable[ receivablePK=" + receivablePK + " ]";
+        return "com.scc.pay.db.Receivable[ id=" + id + " ]";
     }
     
 }
