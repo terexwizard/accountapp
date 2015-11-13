@@ -71,10 +71,30 @@ public class Invoice implements Serializable {
     private Integer invid;
     @Column(name = "balance")
     private Double balance;
-    @Column(name = "sumbitdate")
-    private String sumbitdate;
+    @Column(name = "submitdate")
+    private String submitdate;
     @Column(name = "clearflag")
     private String clearflag;
+    @Column(name = "reimbursement")
+    private Double reimbursement;
+    @Column(name = "currency")
+    private String currency;
+    @Column(name = "service")
+    private Double service;
+    @Column(name = "vatdata")
+    private Integer vatdata;
+    @Column(name = "vat")
+    private Double vat;
+    @Column(name = "total")
+    private Double total;
+    @Column(name = "whtaxdata")
+    private Integer whtaxdata;
+    @Column(name = "whtax")
+    private Double whtax;
+    @Column(name = "advance")
+    private Double advance;
+    @Column(name = "totalall")
+    private Double totalall;
 
     public Invoice() {
     }
@@ -219,12 +239,12 @@ public class Invoice implements Serializable {
         this.balance = balance;
     }
 
-    public String getSumbitdate() {
-        return sumbitdate;
+    public String getSubmitdate() {
+        return submitdate;
     }
 
-    public void setSumbitdate(String sumbitdate) {
-        this.sumbitdate = sumbitdate;
+    public void setSubmitdate(String submitdate) {
+        this.submitdate = submitdate;
     }
 
     public String getClearflag() {
@@ -233,6 +253,86 @@ public class Invoice implements Serializable {
 
     public void setClearflag(String clearflag) {
         this.clearflag = clearflag;
+    }
+
+    public Double getReimbursement() {
+        return reimbursement;
+    }
+
+    public void setReimbursement(Double reimbursement) {
+        this.reimbursement = reimbursement;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public Double getService() {
+        return service;
+    }
+
+    public void setService(Double service) {
+        this.service = service;
+    }
+
+    public Integer getVatdata() {
+        return vatdata;
+    }
+
+    public void setVatdata(Integer vatdata) {
+        this.vatdata = vatdata;
+    }
+
+    public Double getVat() {
+        return vat;
+    }
+
+    public void setVat(Double vat) {
+        this.vat = vat;
+    }
+
+    public Double getTotal() {
+        return total;
+    }
+
+    public void setTotal(Double total) {
+        this.total = total;
+    }
+
+    public Integer getWhtaxdata() {
+        return whtaxdata;
+    }
+
+    public void setWhtaxdata(Integer whtaxdata) {
+        this.whtaxdata = whtaxdata;
+    }
+
+    public Double getWhtax() {
+        return whtax;
+    }
+
+    public void setWhtax(Double whtax) {
+        this.whtax = whtax;
+    }
+
+    public Double getAdvance() {
+        return advance;
+    }
+
+    public void setAdvance(Double advance) {
+        this.advance = advance;
+    }
+
+    public Double getTotalall() {
+        return totalall;
+    }
+
+    public void setTotalall(Double totalall) {
+        this.totalall = totalall;
     }
 
     @Override

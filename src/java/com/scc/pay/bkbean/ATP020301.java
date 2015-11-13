@@ -361,7 +361,7 @@ public class ATP020301 extends BKBPage {
             
 //            toDB();
             
-            IBusinessBase ib = BusinessFactory.getBusiness("ATP020301A");
+            IBusinessBase ib = BusinessFactory.getBusiness("ATP020301U");
             
             
             ib.process(this);
@@ -369,7 +369,8 @@ public class ATP020301 extends BKBPage {
             genMessage(ib);
             
             if(ib.isOk()){
-                clearAllData();
+                //clearAllData();
+                searchinvcomid();
             }
             
             
@@ -601,5 +602,21 @@ public class ATP020301 extends BKBPage {
            
         this.getDetailreceivable().getRow().getData().getReceivable().setTotalall(this.getDetailreceivable().getRow().getData().getReceivable().getTotal() - (whtax + advance));
         
+    }
+    
+        
+    public void searchinvcomid(){
+        
+        if(!Utils.NVL(this.getMasterdata().getInvoicecompany().getInvcomid()).equals("")){
+            this.getSearchselectedrow().put("invcomid", this.getMasterdata().getInvoicecompany().getInvcomid());
+
+            IBusinessBase ib = BusinessFactory.getBusiness("ATP020301S");
+
+            ib.process(this);
+
+            if(ib.isOk()){
+
+            }
+        }
     }
 }

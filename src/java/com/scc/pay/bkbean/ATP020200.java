@@ -4,13 +4,16 @@
  */
 package com.scc.pay.bkbean;
 
+import com.scc.f1.backingbean.DetailRow;
 import com.scc.f1.backingbean.DetailTable;
 import com.scc.pay.business.BusinessFactory;
 import com.scc.f1.business.IBusinessBase;
+import com.scc.f1.util.MessageUtil;
 import com.scc.f1.util.Utils;
 import com.scc.pay.db.Invoice;
 import com.scc.pay.db.Invoicecompany;
 import com.scc.pay.util.CenterUtils;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +21,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 
 /**
  *
@@ -95,7 +99,7 @@ public class ATP020200 extends BKBPage {
            
            detailtable.setBeforebuttonset("beforeDetailInvoice");
            detailtable.setAfterbuttonset("afterDetailInvoice");
-           
+           detailtable.setV("validateDetailInvoice");
            //DetailRow<DetailRd09PersonCostsD> row  = detailtable.addDetail(null);
            
            addDetailtable(detailtable);
@@ -112,6 +116,10 @@ public class ATP020200 extends BKBPage {
             logger.debug(">>beforeDetailInvoice add :"+Utils.formatDateToStringToDBEn(this.getDetailinvoice().getRow().getData().getInvdate()));
             
            this.getDetailinvoice().getRow().getData().getInvoice().setInvdate(Utils.formatDateToStringToDBEn(this.getDetailinvoice().getRow().getData().getInvdate()));
+           
+           this.getDetailinvoice().getRow().getData().getInvoice().setSubmitdate(Utils.formatDateToStringToDBEn(this.getDetailinvoice().getRow().getData().getSubmitdate()));
+           this.getDetailinvoice().getRow().getData().setCurrency_disp(getLabelCombotb_currency(this.getDetailinvoice().getRow().getData().getInvoice().getCurrency()));
+           caltotalAll();
         }
     }
     
@@ -130,6 +138,37 @@ public class ATP020200 extends BKBPage {
             
             this.getDetailinvoice().getRow().getData().setSubmitdate(Utils.getcurDateTime());
         }
+    }
+    
+    public boolean validateDetailInvoice(String mode){
+        logger.debug(">>validateDetailInvoice :"+mode);
+        
+        if(mode.equals(DetailTable.ROW_ADD)){
+            
+//            DetailRow<DetailRg40Document> r     = detailrg40document.getSelectedrow();
+//            logger.debug(">>validateDetailRg40Document :"+ "size:"+this.getDetailrg40document().getListdetailrow().size());
+//            
+//            if(r.getData().getFilecontent() == null){
+//                String msg = "";
+//                if(CenterUtils.getcurrentLocal().equals("EN")){
+//                    msg = MessageUtil.getMessage("EP0021");
+//                }else{
+//                    msg = MessageUtil.getMessage("EP0020");
+//                }
+//                addErrorMessage(null, msg, msg);
+//                return false;
+//                
+//            }
+            
+            if(Utils.NVL(this.getMasterdata().getInvoicecompany().getInvcomid()).equals("")){
+                String msg = MessageUtil.getMessage("EP009");
+                addErrorMessage(null, msg, msg);
+                return false;
+                
+            }
+        }
+        
+        return true;
     }
     
     
@@ -182,6 +221,7 @@ public class ATP020200 extends BKBPage {
         private Date jobdate;
         private Date duedate;
         private Date receivedDate;
+        private String currency_disp;
 
         public Invoice getInvoice() {
             if(invoice == null){
@@ -232,6 +272,14 @@ public class ATP020200 extends BKBPage {
 
         public void setSubmitdate(Date submitdate) {
             this.submitdate = submitdate;
+        }
+
+        public String getCurrency_disp() {
+            return currency_disp;
+        }
+
+        public void setCurrency_disp(String currency_disp) {
+            this.currency_disp = currency_disp;
         }
         
   }
@@ -555,5 +603,103 @@ public class ATP020200 extends BKBPage {
         }
     }
     
-      
+     //======================
+    public void calVat(){
+        
+        if(!Utils.NVL(this.getDetailinvoice().getRow().getData().getInvoice().getService()).equals("") &&
+            !Utils.NVL(this.getDetailinvoice().getRow().getData().getInvoice().getVatdata()).equals("")    ){
+            BigDecimal service = new BigDecimal(this.getDetailinvoice().getRow().getData().getInvoice().getService());
+            BigDecimal vatdata = new BigDecimal(this.getDetailinvoice().getRow().getData().getInvoice().getVatdata());
+            vatdata = vatdata.divide(new BigDecimal("100"));
+            
+            
+            
+            this.getDetailinvoice().getRow().getData().getInvoice().setVat(service.multiply(vatdata).doubleValue());
+            
+            
+            BigDecimal total = new BigDecimal(0);
+            if(!Utils.NVL(this.getDetailinvoice().getRow().getData().getInvoice().getReimbursement()).equals("")){
+                total = total.add(new BigDecimal(this.getDetailinvoice().getRow().getData().getInvoice().getReimbursement()));
+            }
+            total = total.add(service);
+            total = total.add(new BigDecimal(this.getDetailinvoice().getRow().getData().getInvoice().getVat()));
+            
+            this.getDetailinvoice().getRow().getData().getInvoice().setTotal(total.doubleValue());
+            
+            calwhtax();
+        }
+    }
+    
+    public void calwhtax(){
+        
+        logger.debug(">>calwhtax ");
+        
+         if(!Utils.NVL(this.getDetailinvoice().getRow().getData().getInvoice().getService()).equals("") &&
+                 !Utils.NVL(this.getDetailinvoice().getRow().getData().getInvoice().getWhtaxdata()).equals("")){
+             
+             logger.debug(">>calwhtax if "+this.getDetailinvoice().getRow().getData().getInvoice().getService());
+             
+             BigDecimal service = new BigDecimal(this.getDetailinvoice().getRow().getData().getInvoice().getService());
+             BigDecimal whtaxdata = new BigDecimal(this.getDetailinvoice().getRow().getData().getInvoice().getWhtaxdata());
+             whtaxdata = whtaxdata.divide(new BigDecimal("100"));
+             
+            this.getDetailinvoice().getRow().getData().getInvoice().setWhtax(service.multiply(whtaxdata).doubleValue());
+            
+            caltotalAll();
+         }else{
+             
+             this.getDetailinvoice().getRow().getData().getInvoice().setWhtax(new Double("0"));
+             
+             caltotalAll();
+         }
+    }
+    
+        
+    public void calwhtax2(){
+        
+        logger.debug(">>calwhtax2 ");
+        
+            
+        caltotalAll();
+         
+    }
+     
+    private void caltotalAll(){
+        if(this.getDetailinvoice().getRow().getData().getInvoice().getTotal() != null){
+            double whtax = this.getDetailinvoice().getRow().getData().getInvoice().getWhtax() == null?0:this.getDetailinvoice().getRow().getData().getInvoice().getWhtax();
+            double advance = this.getDetailinvoice().getRow().getData().getInvoice().getAdvance() == null?0:this.getDetailinvoice().getRow().getData().getInvoice().getAdvance();
+
+            this.getDetailinvoice().getRow().getData().getInvoice().setTotalall(this.getDetailinvoice().getRow().getData().getInvoice().getTotal() - (whtax + advance));
+        }
+    }
+    
+    private String getLabelCombotb_currency(String code){
+        
+        String result = "";
+        if(!Utils.NVL(code).equals("")){
+            for(SelectItem si :  BKBListData.getCombotb_currency()){
+                    if(Utils.NVL(code).equals(Utils.NVL(si.getValue()))){
+                        result = si.getLabel();
+                        break;
+                    }
+             }
+        }
+        return result;
+    }
+    
+    
+    public void searchinvcomid(){
+        
+        if(!Utils.NVL(this.getMasterdata().getInvoicecompany().getInvcomid()).equals("")){
+            this.getSearchselectedrow().put("invcomid", this.getMasterdata().getInvoicecompany().getInvcomid());
+
+            IBusinessBase ib = BusinessFactory.getBusiness("ATP020200S");
+
+            ib.process(this);
+
+            if(ib.isOk()){
+
+            }
+        }
+    }  
 }

@@ -28,6 +28,10 @@
    function callBacklookup_daily(){
         document.getElementById("form1:btnlookup_daily").click();
    }
+      
+   function afterlookup_invoicecompany(){
+            document.getElementById("form1:btn_searchinvcomid").click();
+    }
  //]]>   
       </script>
     </h:head>
@@ -45,7 +49,7 @@
                         
                   <p:row>
                     <p:column>
-                      <h:outputLabel value="invoice company id"/>
+                      <h:outputLabel value="Company Id"/>
                     </p:column>
                     <p:column>
                          <p:inputText label="" id="invcomid" 
@@ -62,6 +66,7 @@
                           <ui:param name="lookupquery" value="lookup_invoicecompany"/>
                           <ui:param name="lookuppara" value="invcomid#invcomid"/>
                           <ui:param name="lookupreturn" value="companyname#companyname"/>
+                          <ui:param name="after" value="afterlookup_invoicecompany();"/>
                         </ui:include>
                         
                         <p:outputPanel rendered="#{!aTP020201.modeupdate}">
@@ -70,6 +75,7 @@
                             <ui:param name="zoomname" value="zoom1"/>
                             <ui:param name="zoomquery" value="lookup_invoicecompany"/>
                             <ui:param name="zoomreturn" value="invcomid#invcomid,companyname#companyname"/>
+                            <ui:param name="after" value="afterlookup_invoicecompany();"/>
                           </ui:include>
 
                         </p:outputPanel> 
@@ -81,6 +87,12 @@
                                       tabindex="-1">
                         </p:inputText>
                         
+                        <p:commandButton id="btn_searchinvcomid" value="submit" 
+                                         actionListener="#{aTP020201.searchinvcomid}" 
+                                         style="display:none;" ajax="true"
+                                         process="@this,:form1:invcomid"
+                                         update="@form">
+                        </p:commandButton> 
                          
                     </p:column>
                   </p:row>
@@ -98,22 +110,22 @@
                    scrollable="true" scrollHeight="100"
                     editable="false"  rowIndexVar="rowIndex" 
                     styleClass="f1-p-datatable-wide" 
-                     style="width:610px;table-layout: fixed;text-align: left;">
+                     style="width:930px;table-layout: fixed;text-align: left;">
 
           <p:ajax event="rowSelect" listener="#{aTP020201.detailinvoice.selectRow}" 
                   update=":#{aTP020201.detailinvoice.parentid}:#{aTP020201.detailinvoice.detailrowpanel}" />
           
           
-          <p:column  headerText="seq" style="width:50px;vertical-align: text-top;text-align: center;">
+           <p:column  headerText="seq" style="width:50px;vertical-align: text-top;text-align: center;">
               #{rowIndex+1}  
           </p:column>
 
-
-          <p:column  headerText="jobno"  style="width:90px;vertical-align: text-top;" >  
-              #{rec.data.invoice.jobno}
+          <p:column  headerText="date"  style="width:90px;vertical-align: text-top;" >  
+              #{func:convertDateStringToScreen(rec.data.invoice.submitdate)}              
           </p:column>
-           <p:column  headerText="jobdate"  style="width:90px;vertical-align: text-top;" >  
-              #{func:convertDateStringToScreen(rec.data.invoice.jobdate)}
+
+          <p:column  headerText="jobno"  style="width:120px;vertical-align: text-top;" >  
+              #{rec.data.invoice.jobno}
           </p:column>
           
            <p:column  headerText="invno"  style="width:90px;vertical-align: text-top;" >  
@@ -122,6 +134,22 @@
           
           <p:column  headerText="invdate"  style="width:90px;vertical-align: text-top;" >  
               #{func:convertDateStringToScreen(rec.data.invoice.invdate)}
+          </p:column>
+          
+           <p:column  headerText="reimbursement"  style="vertical-align: text-top;text-align: right;" >  
+              #{func:formatMoney(rec.data.invoice.reimbursement)} #{rec.data.currency_disp}
+          </p:column>
+          
+           <p:column  headerText="service"  style="width:90px;vertical-align: text-top;" >  
+              #{func:formatMoney(rec.data.invoice.service)}
+          </p:column>
+          
+           <p:column  headerText="vat"  style="width:90px;vertical-align: text-top;" >  
+              #{func:formatMoney(rec.data.invoice.vat)}
+          </p:column>
+          
+            <p:column  headerText="total"  style="width:90px;vertical-align: text-top;" >  
+              #{func:formatMoney(rec.data.invoice.total)}
           </p:column>
           
           <p:column  headerText="clear"  style="width:90px;vertical-align: text-top;" >  
@@ -342,6 +370,7 @@
                          <ui:include src="#{bKBAppVar.COMPO_COMMAND_E}" >
                            <ui:param name="basebean" value="#{aTP020201}"/>
                            <ui:param name="hidedelete" value="1"/>
+                           <ui:param name="hidequery" value="1"/>
                          </ui:include>
                      </p:column>
                    </p:row>

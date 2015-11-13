@@ -182,6 +182,7 @@ public class ATP020201 extends BKBPage {
         private Date jobdate;
         private Date duedate;
         private Date receivedDate;
+        private String currency_disp;
 
         public Invoice getInvoice() {
             if(invoice == null){
@@ -234,6 +235,13 @@ public class ATP020201 extends BKBPage {
             this.submitdate = submitdate;
         }
         
+        public String getCurrency_disp() {
+            return currency_disp;
+        }
+
+        public void setCurrency_disp(String currency_disp) {
+            this.currency_disp = currency_disp;
+        }
   }
     
     
@@ -362,7 +370,7 @@ public class ATP020201 extends BKBPage {
             
 //            toDB();
             
-            IBusinessBase ib = BusinessFactory.getBusiness("ATP020201A");
+            IBusinessBase ib = BusinessFactory.getBusiness("ATP020201U");
             
             
             ib.process(this);
@@ -370,7 +378,8 @@ public class ATP020201 extends BKBPage {
             genMessage(ib);
             
             if(ib.isOk()){
-                clearAllData();
+                //clearAllData();
+                searchinvcomid();
             }
             
             
@@ -558,4 +567,20 @@ public class ATP020201 extends BKBPage {
      public void calSumAmount(){
         
     } 
+     
+         
+    public void searchinvcomid(){
+        
+        if(!Utils.NVL(this.getMasterdata().getInvoicecompany().getInvcomid()).equals("")){
+            this.getSearchselectedrow().put("invcomid", this.getMasterdata().getInvoicecompany().getInvcomid());
+
+            IBusinessBase ib = BusinessFactory.getBusiness("ATP020201S");
+
+            ib.process(this);
+
+            if(ib.isOk()){
+
+            }
+        }
+    }  
 }

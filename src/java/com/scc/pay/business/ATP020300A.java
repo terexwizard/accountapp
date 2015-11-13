@@ -42,10 +42,18 @@ public class ATP020300A extends BusinessImpl {
     
     private void processReceivable(ATP020300 frmi){
         
+        for(DetailRow<DetailReceivable> item: frmi.getDetailreceivable().getListdetailrowdeleted()){
+                Receivable dbu = em.find(Receivable.class, item.getData().getReceivable().getId());
+
+                if(dbu != null){
+                    remove(dbu);
+                }
+          }
+        
         for(DetailRow<DetailReceivable> item :frmi.getDetailreceivable().getListdetailrow()){
             
 
-                
+            if(Utils.NVL(item.getRowstatus()).equals(DetailRow.ROW_STATUS_NEW)){    
                 Receivable dbbean = new Receivable();
                 
                 BeanUtil.copyProperties(dbbean, item.getData().getReceivable());
@@ -62,7 +70,22 @@ public class ATP020300A extends BusinessImpl {
                 dbbean.setUpduser(frmi.getUserid());
 
                 persist(dbbean);
+            }else if(Utils.NVL(item.getRowstatus()).equals(DetailRow.ROW_STATUS_EDIT)){
+                Receivable db = em.find(Receivable.class, item.getData().getReceivable().getId());
+                    
+                BeanUtil.copyProperties(db, item.getData().getReceivable());
 
+                db.setInvcomid(frmi.getMasterdata().getInvoicecompany().getInvcomid());
+                db.setCompany(frmi.getMasterdata().getInvoicecompany().getCompanyname());
+                db.setInvdate(Utils.formatDateToStringToDBEn(item.getData().getInvdate()));
+                db.setSubmitdate(Utils.formatDateToStringToDBEn(item.getData().getSubmitdate()));
+
+                db.setUpdlcnt(addLcnt(db.getUpdlcnt()));
+                db.setUpdtime(Utils.getcurDateTime());
+                db.setUpduser(frmi.getUserid());
+
+                merge(db);
+            }
             
         }
         

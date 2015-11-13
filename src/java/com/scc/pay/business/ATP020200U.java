@@ -49,7 +49,7 @@ public class ATP020200U extends BusinessImpl {
         
         for(DetailRow<DetailInvoice> item :frmi.getDetailinvoice().getListdetailrow()){
             
-                logger.debug(">>terex "+item.getData().getInvoice().getInvid());
+                logger.debug(">>terex "+item.getRowstatus()+" // "+item.getData().getInvoice().getInvid());
             
                 
                 if(Utils.NVL(item.getRowstatus()).equals(DetailRow.ROW_STATUS_EDIT)){
@@ -64,6 +64,7 @@ public class ATP020200U extends BusinessImpl {
                     db.setInvdate(Utils.formatDateToStringToDBEn(item.getData().getInvdate()));
                     db.setDuedate(Utils.formatDateToStringToDBEn(item.getData().getDuedate()));
                     db.setReceivedDate(Utils.formatDateToStringToDBEn(item.getData().getReceivedDate()));
+                    db.setSubmitdate(Utils.formatDateToStringToDBEn(item.getData().getSubmitdate()));
 
                     db.setUpdlcnt(addLcnt(db.getUpdlcnt()));
                     db.setUpdtime(Utils.getcurDateTime());
@@ -81,6 +82,7 @@ public class ATP020200U extends BusinessImpl {
                     dbbean.setInvdate(Utils.formatDateToStringToDBEn(item.getData().getInvdate()));
                     dbbean.setDuedate(Utils.formatDateToStringToDBEn(item.getData().getDuedate()));
                     dbbean.setReceivedDate(Utils.formatDateToStringToDBEn(item.getData().getReceivedDate()));
+                    dbbean.setSubmitdate(Utils.formatDateToStringToDBEn(item.getData().getSubmitdate()));
 
                     dbbean.setEntuser(frmi.getUserid());
                     dbbean.setEnttime(Utils.getcurDateTime());

@@ -8,6 +8,7 @@ import com.scc.f1.Constant;
 import com.scc.f1.dbutil.DBUtils;
 import com.scc.f1.dbutil.QueryXML;
 import com.scc.f1.util.Utils;
+import com.scc.pay.bkbean.BKBListData;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -29,6 +30,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
+import javax.faces.model.SelectItem;
 import org.apache.log4j.Logger;
 
 /**
@@ -634,4 +636,18 @@ public class CenterUtils{
  
     }
     
+            
+    public static String getLabelCombotb_currency(String code){
+        
+        String result = "";
+        if(!Utils.NVL(code).equals("")){
+            for(SelectItem si :  BKBListData.getCombotb_currency()){
+                    if(Utils.NVL(code).equals(Utils.NVL(si.getValue()))){
+                        result = si.getLabel();
+                        break;
+                    }
+             }
+        }
+        return result;
+    }
 }

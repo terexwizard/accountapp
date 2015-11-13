@@ -77,6 +77,8 @@ public class ATP020201S extends BusinessImpl {
               row.setDuedate(CenterUtils.formatStringToDateToScreen(db.getDuedate()));
               row.setReceivedDate(CenterUtils.formatStringToDateToScreen(db.getReceivedDate()));
               row.setJobdate(CenterUtils.formatStringToDateToScreen(db.getJobdate()));
+              row.setSubmitdate(CenterUtils.formatStringToDateToScreen(db.getSubmitdate()));
+              row.setCurrency_disp(CenterUtils.getLabelCombotb_currency(db.getCurrency()));
               
               ld.add(row);
          }

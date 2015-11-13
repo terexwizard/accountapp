@@ -7,6 +7,7 @@ package com.scc.pay.bkbean;
 import com.scc.f1.backingbean.DetailTable;
 import com.scc.pay.business.BusinessFactory;
 import com.scc.f1.business.IBusinessBase;
+import com.scc.f1.util.MessageUtil;
 import com.scc.f1.util.Utils;
 import com.scc.pay.db.Invoicecompany;
 import com.scc.pay.db.Receivable;
@@ -98,7 +99,7 @@ public class ATP020300 extends BKBPage {
            
            detailtable.setBeforebuttonset("beforeDetailReceivable");
            detailtable.setAfterbuttonset("afterDetailReceivable");
-           
+           detailtable.setV("validateDetailReceivable");
            //DetailRow<DetailRd09PersonCostsD> row  = detailtable.addDetail(null);
            
            addDetailtable(detailtable);
@@ -138,6 +139,37 @@ public class ATP020300 extends BKBPage {
             
             this.getDetailreceivable().getRow().getData().setSubmitdate(Utils.getcurDateTime());
         }
+    }
+    
+    public boolean validateDetailReceivable(String mode){
+        logger.debug(">>validateDetailReceivable :"+mode);
+        
+        if(mode.equals(DetailTable.ROW_ADD)){
+            
+//            DetailRow<DetailRg40Document> r     = detailrg40document.getSelectedrow();
+//            logger.debug(">>validateDetailRg40Document :"+ "size:"+this.getDetailrg40document().getListdetailrow().size());
+//            
+//            if(r.getData().getFilecontent() == null){
+//                String msg = "";
+//                if(CenterUtils.getcurrentLocal().equals("EN")){
+//                    msg = MessageUtil.getMessage("EP0021");
+//                }else{
+//                    msg = MessageUtil.getMessage("EP0020");
+//                }
+//                addErrorMessage(null, msg, msg);
+//                return false;
+//                
+//            }
+            
+            if(Utils.NVL(this.getMasterdata().getInvoicecompany().getInvcomid()).equals("")){
+                String msg = MessageUtil.getMessage("EP009");
+                addErrorMessage(null, msg, msg);
+                return false;
+                
+            }
+        }
+        
+        return true;
     }
     
     
@@ -613,11 +645,12 @@ public class ATP020300 extends BKBPage {
     }
      
     private void caltotalAll(){
-        double whtax = this.getDetailreceivable().getRow().getData().getReceivable().getWhtax() == null?0:this.getDetailreceivable().getRow().getData().getReceivable().getWhtax();
-        double advance = this.getDetailreceivable().getRow().getData().getReceivable().getAdvance() == null?0:this.getDetailreceivable().getRow().getData().getReceivable().getAdvance();
-           
-        this.getDetailreceivable().getRow().getData().getReceivable().setTotalall(this.getDetailreceivable().getRow().getData().getReceivable().getTotal() - (whtax + advance));
-        
+        if(this.getDetailreceivable().getRow().getData().getReceivable().getTotal() != null){
+            double whtax = this.getDetailreceivable().getRow().getData().getReceivable().getWhtax() == null?0:this.getDetailreceivable().getRow().getData().getReceivable().getWhtax();
+            double advance = this.getDetailreceivable().getRow().getData().getReceivable().getAdvance() == null?0:this.getDetailreceivable().getRow().getData().getReceivable().getAdvance();
+
+            this.getDetailreceivable().getRow().getData().getReceivable().setTotalall(this.getDetailreceivable().getRow().getData().getReceivable().getTotal() - (whtax + advance));
+        }
     }
     
     private String getLabelCombotb_currency(String code){

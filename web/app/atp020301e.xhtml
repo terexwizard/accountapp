@@ -25,7 +25,9 @@
       
       <script type="text/javascript">   
  //<![CDATA[ 
-   
+    function afterlookup_invoicecompany(){
+            document.getElementById("form1:btn_searchinvcomid").click();
+        }
  //]]>   
       </script>
     </h:head>
@@ -60,6 +62,7 @@
                           <ui:param name="lookupquery" value="lookup_invoicecompany"/>
                           <ui:param name="lookuppara" value="invcomid#invcomid"/>
                           <ui:param name="lookupreturn" value="companyname#companyname"/>
+                          <ui:param name="after" value="afterlookup_invoicecompany();"/>
                         </ui:include>
                         
                         <p:outputPanel rendered="#{!aTP020301.modeupdate}">
@@ -68,6 +71,7 @@
                             <ui:param name="zoomname" value="zoom1"/>
                             <ui:param name="zoomquery" value="lookup_invoicecompany"/>
                             <ui:param name="zoomreturn" value="invcomid#invcomid,companyname#companyname"/>
+                            <ui:param name="after" value="afterlookup_invoicecompany();"/>
                           </ui:include>
                         </p:outputPanel> 
                        
@@ -78,7 +82,12 @@
                                       tabindex="-1">
                         </p:inputText>
                         
-                         
+                         <p:commandButton id="btn_searchinvcomid" value="submit" 
+                                         actionListener="#{aTP020301.searchinvcomid}" 
+                                         style="display:none;" ajax="true"
+                                         process="@this,:form1:invcomid"
+                                         update="@form">
+                        </p:commandButton> 
                     </p:column>
                   </p:row>
                     
@@ -117,7 +126,7 @@
               #{rec.data.receivable.company}
           </p:column>
           
-           <p:column  headerText="reimbursement"  style="vertical-align: text-top;" >  
+           <p:column  headerText="reimbursement"  style="vertical-align: text-top;text-align: right;" >  
               #{func:formatMoney(rec.data.receivable.reimbursement)} #{rec.data.currency_disp}
           </p:column>
           
@@ -388,6 +397,7 @@
                          <ui:include src="#{bKBAppVar.COMPO_COMMAND_E}" >
                            <ui:param name="basebean" value="#{aTP020301}"/>
                            <ui:param name="hidedelete" value="1"/>
+                           <ui:param name="hidequery" value="1"/>
                          </ui:include>
                      </p:column>
                    </p:row>

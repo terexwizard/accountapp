@@ -62,12 +62,21 @@ public class ATP020200A extends BusinessImpl {
     
     private void processInvoice(ATP020200 frmi){
         
+        for(DetailRow<DetailInvoice> item: frmi.getDetailinvoice().getListdetailrowdeleted()){
+                Invoice dbu = em.find(Invoice.class, item.getData().getInvoice().getInvid());
+
+                if(dbu != null){
+                    remove(dbu);
+                }
+          }
+        
         for(DetailRow<DetailInvoice> item :frmi.getDetailinvoice().getListdetailrow()){
             
 //            Invoice db = em.find(Invoice.class, item.getData().getInvoice().getInvid());
 //            
 //            if(db == null){
-                
+               
+            if(Utils.NVL(item.getRowstatus()).equals(DetailRow.ROW_STATUS_NEW)){
                 Invoice dbbean = new Invoice();
                 
                 BeanUtil.copyProperties(dbbean, item.getData().getInvoice());
@@ -77,6 +86,7 @@ public class ATP020200A extends BusinessImpl {
                 dbbean.setInvdate(Utils.formatDateToStringToDBEn(item.getData().getInvdate()));
                 dbbean.setDuedate(Utils.formatDateToStringToDBEn(item.getData().getDuedate()));
                 dbbean.setReceivedDate(Utils.formatDateToStringToDBEn(item.getData().getReceivedDate()));
+                dbbean.setSubmitdate(Utils.formatDateToStringToDBEn(item.getData().getSubmitdate()));
                 
                 dbbean.setEntuser(frmi.getUserid());
                 dbbean.setEnttime(Utils.getcurDateTime());
@@ -85,6 +95,26 @@ public class ATP020200A extends BusinessImpl {
                 dbbean.setUpduser(frmi.getUserid());
 
                 persist(dbbean);
+            }else if(Utils.NVL(item.getRowstatus()).equals(DetailRow.ROW_STATUS_EDIT)){
+                Invoice db = em.find(Invoice.class, item.getData().getInvoice().getInvid());
+                    
+                db.setInvno(item.getData().getInvoice().getInvno());
+                db.setAmount(item.getData().getInvoice().getAmount());
+                db.setPaidAmount(item.getData().getInvoice().getPaidAmount());
+
+                db.setInvcomid(frmi.getMasterdata().getInvoicecompany().getInvcomid());
+                db.setCompany(frmi.getMasterdata().getInvoicecompany().getCompanyname());
+                db.setInvdate(Utils.formatDateToStringToDBEn(item.getData().getInvdate()));
+                db.setDuedate(Utils.formatDateToStringToDBEn(item.getData().getDuedate()));
+                db.setReceivedDate(Utils.formatDateToStringToDBEn(item.getData().getReceivedDate()));
+                db.setSubmitdate(Utils.formatDateToStringToDBEn(item.getData().getSubmitdate()));
+
+                db.setUpdlcnt(addLcnt(db.getUpdlcnt()));
+                db.setUpdtime(Utils.getcurDateTime());
+                db.setUpduser(frmi.getUserid());
+
+                merge(db);
+            }
 //            }else{
 //                
 //                db.setInvno(item.getData().getInvoice().getInvno());

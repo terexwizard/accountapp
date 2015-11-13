@@ -11,12 +11,15 @@ package com.scc.pay.business;
 import com.scc.pay.bkbean.ATP020200;
 import com.scc.f1.business.BusinessImpl;
 import com.scc.f1.util.BeanUtil;
+import com.scc.f1.util.Utils;
 import com.scc.pay.bkbean.ATP020200.DetailInvoice;
+import com.scc.pay.bkbean.BKBListData;
 import com.scc.pay.db.Invoice;
 import com.scc.pay.db.Invoicecompany;
 import com.scc.pay.util.CenterUtils;
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.model.SelectItem;
 import javax.persistence.Query;
 
 
@@ -75,6 +78,8 @@ public class ATP020200S extends BusinessImpl {
               row.setDuedate(CenterUtils.formatStringToDateToScreen(db.getDuedate()));
               row.setReceivedDate(CenterUtils.formatStringToDateToScreen(db.getReceivedDate()));
               row.setJobdate(CenterUtils.formatStringToDateToScreen(db.getJobdate()));
+              row.setSubmitdate(CenterUtils.formatStringToDateToScreen(db.getSubmitdate()));
+              row.setCurrency_disp(CenterUtils.getLabelCombotb_currency(db.getCurrency()));
               
               ld.add(row);
          }
