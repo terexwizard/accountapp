@@ -25,7 +25,9 @@
       
       <script type="text/javascript">   
  //<![CDATA[ 
-   
+        function afterlookup_invoicecompany(){
+            document.getElementById("form1:btn_searcholdregctseqno").click();
+        }
  //]]>   
       </script>
     </h:head>
@@ -60,6 +62,7 @@
                           <ui:param name="lookupquery" value="lookup_invoicecompany"/>
                           <ui:param name="lookuppara" value="invcomid#invcomid"/>
                           <ui:param name="lookupreturn" value="companyname#companyname"/>
+                          <ui:param name="after" value="afterlookup_invoicecompany();"/>
                         </ui:include>
                         
                         <p:outputPanel rendered="#{!aTP020300.modeupdate}">
@@ -68,6 +71,7 @@
                             <ui:param name="zoomname" value="zoom1"/>
                             <ui:param name="zoomquery" value="lookup_invoicecompany"/>
                             <ui:param name="zoomreturn" value="invcomid#invcomid,companyname#companyname"/>
+                            <ui:param name="after" value="afterlookup_invoicecompany();"/>
                           </ui:include>
                         </p:outputPanel> 
                        
@@ -78,6 +82,12 @@
                                       tabindex="-1">
                         </p:inputText>
                         
+                        <p:commandButton id="btn_searcholdregctseqno" value="submit" 
+                                         actionListener="#{aTP020300.searchinvcomid}" 
+                                         style="display:none;" ajax="true"
+                                         process="@this,:form1:invcomid"
+                                         update="@form">
+                        </p:commandButton> 
                          
                     </p:column>
                   </p:row>
@@ -304,7 +314,7 @@
                                         disabled="#{!aTP020300.detailreceivable.rowinputmode}">
                            <f:selectItem itemLabel="Select...." itemValue="" />
                            <f:selectItems value="#{bKBQuery.combotb_whtax}" />
-                           <p:ajax process="@this,total" update="whtax,totalall" listener="#{aTP020300.calwhtax}"/>
+                           <p:ajax process="@this,total,advance" update="whtax,totalall" listener="#{aTP020300.calwhtax}"/>
                        </p:selectOneMenu>
                    
                     <p:inputText id="whtax" value="#{aTP020300.detailreceivable.row.data.receivable.whtax}" 
@@ -312,7 +322,7 @@
                                  readonly="#{!aTP020300.detailreceivable.rowinputmode}"
                                  styleClass="#{!aTP020300.detailreceivable.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL} iNR"
                                  converter="moneyConverter">
-                            <p:ajax process="@this" update="@this" />
+                            <p:ajax process="@this,total,advance" update="@this,totalall" listener="#{aTP020300.calwhtax2}"/>
                     </p:inputText>
                     </p:panelGrid>
                </p:column>
@@ -326,7 +336,7 @@
                                  readonly="#{!aTP020300.detailreceivable.rowinputmode}"
                                  styleClass="#{!aTP020300.detailreceivable.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL} iNR"
                                  converter="moneyConverter">
-                            <p:ajax process="@this" update="@this,totalall" listener="#{aTP020300.calwhtax}"/>
+                            <p:ajax process="@this" update="@this,totalall" listener="#{aTP020300.calwhtax2}"/>
                     </p:inputText>
                    
                </p:column>

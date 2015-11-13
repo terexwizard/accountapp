@@ -594,7 +594,22 @@ public class ATP020300 extends BKBPage {
             this.getDetailreceivable().getRow().getData().getReceivable().setWhtax(service.multiply(whtaxdata).doubleValue());
             
             caltotalAll();
+         }else{
+             
+             this.getDetailreceivable().getRow().getData().getReceivable().setWhtax(new Double("0"));
+             
+             caltotalAll();
          }
+    }
+    
+        
+    public void calwhtax2(){
+        
+        logger.debug(">>calwhtax2 ");
+        
+            
+        caltotalAll();
+         
     }
      
     private void caltotalAll(){
@@ -617,5 +632,21 @@ public class ATP020300 extends BKBPage {
              }
         }
         return result;
+    }
+    
+    
+    public void searchinvcomid(){
+        
+        if(!Utils.NVL(this.getMasterdata().getInvoicecompany().getInvcomid()).equals("")){
+            this.getSearchselectedrow().put("invcomid", this.getMasterdata().getInvoicecompany().getInvcomid());
+
+            IBusinessBase ib = BusinessFactory.getBusiness("ATP020300S");
+
+            ib.process(this);
+
+            if(ib.isOk()){
+
+            }
+        }
     }
 }
