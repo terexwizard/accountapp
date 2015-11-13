@@ -46,17 +46,39 @@
                     <p:column>
                         <p:inputText id="companyname" value="#{aTP010400.masterdata.invoicecompany.companyname}"
                                      required="true" label="companyname"
-                                     size="20"/>
+                                     size="50" maxlength="50"/>
      
                     </p:column>
                   </p:row>
-                    <p:row>
+                  <p:row>
                     <p:column>
                       <h:outputLabel value="taxid"/>
                     </p:column>
                     <p:column>
                         <p:inputText id="taxid" value="#{aTP010400.masterdata.invoicecompany.taxid}"
                                      label="taxid" maxlength="13" size="13"/>
+     
+                    </p:column>
+                  </p:row>
+                  <p:row>
+                      <p:column style="vertical-align: text-top">
+                      <h:outputLabel value="address"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputTextarea id="address" value="#{aTP010400.masterdata.invoicecompany.address}"
+                                     label="address" cols="70" rows="4" maxlength="300"/>
+     
+                    </p:column>
+                  </p:row>
+                  <p:row>
+                    <p:column>
+                      <h:outputLabel value="transport"/>
+                    </p:column>
+                    <p:column>
+                        <p:selectOneMenu id="transport" value="#{aTP010400.masterdata.invoicecompany.transport}" style="width: 120px;">
+                            <f:selectItem itemLabel="Domestic" itemValue="D"/>
+                            <f:selectItem itemLabel="Oversea" itemValue="O"/>
+                        </p:selectOneMenu>
      
                     </p:column>
                   </p:row>

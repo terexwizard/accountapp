@@ -27,7 +27,7 @@
                 <p:column/>
             </p:row>
             <p:row>
-              <p:column>
+               <p:column colspan="2">
                 <p:panelGrid>
                   <p:row>
                     <p:column>
@@ -42,7 +42,8 @@
                       <h:outputLabel value="Description"/>
                     </p:column>
                     <p:column>
-                        <p:inputText id="dscptdesc" value="#{aTP010300.searchparam.tbdescriptioncode.dscptdesc}"/>
+                        <p:inputText id="dscptdesc" value="#{aTP010300.searchparam.tbdescriptioncode.dscptdesc}"
+                                     size="45" maxlength="45"/>
                     </p:column>
                   </p:row>
                 </p:panelGrid>

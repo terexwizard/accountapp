@@ -607,7 +607,8 @@
     <Type></Type>
     <SQL>
         
-       SELECT payvalue,
+       SELECT id,
+            payvalue,
             paydesc 
        FROM tb_payment_type t
 
@@ -668,7 +669,8 @@
     <Type></Type>
     <SQL>
         
-       SELECT revalue,
+       SELECT id,
+            revalue,
             redesc 
        FROM tb_received_type t
 
@@ -730,7 +732,8 @@
     <Type></Type>
     <SQL>
         
-       SELECT revvalue,
+       SELECT id,
+            revvalue,
             revdesc 
        FROM tb_received_voucherno t
 
@@ -792,7 +795,8 @@
     <Type></Type>
     <SQL>
         
-       SELECT payvalue,
+       SELECT id,
+            payvalue,
             paydesc 
        FROM tb_payment_voucherno t
 
@@ -1157,6 +1161,83 @@
 
 
 <!-- ************************** 
+    ATP020201Q 
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATP020201Q</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT i.invcomid , i.company , ic.remark ,i.invdate 
+        FROM  invoicecompany ic left join invoice i   on (ic.invcomid = i.invcomid) 
+        where i.invcomid is not null 
+        
+            <var name="invcomid" woper="and" > and i.invcomid = '<value/>' </var>
+            <var name="company" woper="and" > and i.company = '<value/>' </var>
+            <var name="invdate" woper="and" > and i.invdate = '<value/>' </var>
+        
+        group by ic.invcomid
+
+       <where>
+           
+
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>invcomid</VarName>
+            <UIName>invcomid</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>company</VarName>
+            <UIName>company</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>invdate</VarName>
+            <UIName>invdate</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>invcomid</FieldName>
+                <Header>invcomid</Header>
+                <Style>width:200px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>company</FieldName>
+                <Header>company</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>remark</FieldName>
+                <Header>remark</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             
+         </Columns>
+
+     </Displays>
+</Query>
+
+<!-- ************************** 
     ATP020300Q 
 - -  ************************** -->
 
@@ -1234,6 +1315,82 @@
 </Query>
 
 
+<!-- ************************** 
+    ATP020301Q 
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATP020301Q</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT i.invcomid , i.company , ic.remark ,i.invdate 
+        FROM  invoicecompany ic left join receivable i   on (ic.invcomid = i.invcomid) 
+        where i.invcomid is not null 
+        
+            <var name="invcomid" woper="and" > and i.invcomid = '<value/>' </var>
+            <var name="company" woper="and" > and i.company = '<value/>' </var>
+            <var name="invdate" woper="and" > and i.invdate = '<value/>' </var>
+        
+        group by ic.invcomid
+
+       <where>
+           
+
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>invcomid</VarName>
+            <UIName>invcomid</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>company</VarName>
+            <UIName>company</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>invdate</VarName>
+            <UIName>invdate</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>invcomid</FieldName>
+                <Header>invcomid</Header>
+                <Style>width:200px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>company</FieldName>
+                <Header>company</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>remark</FieldName>
+                <Header>remark</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             
+         </Columns>
+
+     </Displays>
+</Query>
 
 <!-- ************************** 
     ATP020400Q 
@@ -2637,8 +2794,8 @@
        <where>
            
             <var name="bfdate" woper="and" > b.bfdate = '<value/>' </var>
-            <var name="bankidnot2" woper="and" > b.bankid <![CDATA[<>]]> '<value/>' </var>
-            <var name="bankid2" woper="and" > b.bankid = '<value/>' </var>
+            <var name="bankidnot2" woper="and" > t.monetaryusd = 'false'  </var>
+            <var name="bankid2" woper="and" > t.monetaryusd = 'true'  </var>
        
        </where>
     </SQL>
@@ -3555,6 +3712,250 @@
          </Columns>
 
      </Displays>
+</Query>
+
+<!-- ************************** 
+    lookup_combo_voucherno
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_combo_voucherno</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+            SELECT t.payvalue as result,t.paydesc as descrp FROM tb_payment_voucherno t 
+            union 
+            SELECT t.revvalue as result,t.revdesc as descrp FROM tb_received_voucherno t
+
+       <where>
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>voucherno</VarName>
+            <UIName>voucherno</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+<!-- ************************** 
+    lookup_sumdaily_voucherno_us
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_sumdaily_voucherno_us</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+            SELECT d.dailydate,d.companyname,
+                sum(d.amount) as moneyr,
+                sum(d.amount2) as moneyp,
+                count(d.companyname) as shippment,
+                d.receivedamount,d.amount,d.paidamount,d.amount2,d.payby
+            FROM daily d left outer join tb_bank b on (d.payby = b.bankid) 
+            where b.monetaryusd = 'true' 
+            <var name="voucherno" woper="and" >and d.voucherno = '<value/>' </var>
+            <var name="dailydate" woper="and" >and d.dailydate = '<value/>' </var>
+            
+            group by d.companyname,d.dailydate
+            order by d.dailydate
+
+       <where>
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>voucherno</VarName>
+            <UIName>voucherno</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydate</VarName>
+            <UIName>dailydate</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+<!-- ************************** 
+    lookup_sumdaily_voucherno_th
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_sumdaily_voucherno_th</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+            SELECT d.dailydate,d.companyname,
+                sum(d.receivedamount) as moneyr,
+                sum(d.paidamount) as moneyp,
+                count(d.companyname) as shippment,
+                d.receivedamount,d.amount,d.paidamount,d.amount2,d.payby
+            FROM daily d left outer join tb_bank b on (d.payby = b.bankid) 
+            where b.monetaryusd = 'false' 
+            <var name="voucherno" woper="and" >and d.voucherno = '<value/>' </var>
+            <var name="dailydate" woper="and" >and d.dailydate = '<value/>' </var>
+            
+            group by d.companyname,d.dailydate
+            order by d.dailydate
+
+       <where>
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>voucherno</VarName>
+            <UIName>voucherno</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydate</VarName>
+            <UIName>dailydate</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+<!-- ************************** 
+    lookup_daily_cheque
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_daily_cheque</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+            SELECT d.dailydate,
+                d.voucherno,
+                d.docno,
+                concat(d.voucherno,d.docno) vouchernodocno,
+                d.companyname,
+                d.chequeno,
+                d.chequedate,
+                d.receivedamount,
+                d.amount,
+                d.paidamount,
+                d.amount2,
+                d.payby,
+                b.bankname,
+                b.monetaryusd  
+            FROM daily d left outer join tb_bank b on (d.payby = b.bankid) 
+
+       <where>
+           d.cheque = 'true' 
+           <var name="chequedateclear" woper="and" > d.chequedate is not null </var>
+           <var name="chequedatenotclear" woper="and" > d.chequedate is null </var>
+           <var name="chequedate" woper="and" > d.chequedate <![CDATA[=]]> '<value/>' </var>
+           <var name="chequedateold" woper="and" > d.chequedate <![CDATA[<=]]> '<value/>' </var>
+           
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        d.chequedate
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>chequedateclear</VarName>
+            <UIName>chequedateclear</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>chequedatenotclear</VarName>
+            <UIName>chequedatenotclear</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>chequedate</VarName>
+            <UIName>chequedate</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>chequedateold</VarName>
+            <UIName>chequedateold</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
 </Query>
   
 </QueryXML>
