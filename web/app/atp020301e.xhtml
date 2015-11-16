@@ -45,7 +45,7 @@
                         
                   <p:row>
                     <p:column>
-                      <h:outputLabel value="company id"/>
+                      <h:outputLabel value="Company id"/>
                     </p:column>
                     <p:column>
                          <p:inputText label="" id="invcomid" 
@@ -86,7 +86,7 @@
                                          actionListener="#{aTP020301.searchinvcomid}" 
                                          style="display:none;" ajax="true"
                                          process="@this,:form1:invcomid"
-                                         update="@form">
+                                         update="#{aTP020301.detailreceivable.detailname},:form1:#{bKBAppVar.COMPO_ID_MESSAGES}">
                         </p:commandButton> 
                     </p:column>
                   </p:row>
@@ -110,39 +110,35 @@
                   update=":#{aTP020301.detailreceivable.parentid}:#{aTP020301.detailreceivable.detailrowpanel}" />
           
           
-          <p:column  headerText="seq" style="width:50px;vertical-align: text-top;text-align: center;">
+          <p:column  headerText="Seq" style="width:50px;vertical-align: text-top;text-align: center;">
               #{rowIndex+1}  
           </p:column>
 
-          <p:column  headerText="date"  style="width:90px;vertical-align: text-top;" >  
+          <p:column  headerText="Date"  style="width:90px;vertical-align: text-top;" >  
               #{func:convertDateStringToScreen(rec.data.receivable.submitdate)}
           </p:column>
 
-          <p:column  headerText="jobno"  style="width:120px;vertical-align: text-top;" >  
+          <p:column  headerText="Jobno"  style="width:120px;vertical-align: text-top;" >  
               #{rec.data.receivable.jobno}
           </p:column>
           
-           <p:column  headerText="company"  style="vertical-align: text-top;" >  
-              #{rec.data.receivable.company}
-          </p:column>
-          
-           <p:column  headerText="reimbursement"  style="vertical-align: text-top;text-align: right;" >  
+           <p:column  headerText="Reimbursement"  style="vertical-align: text-top;text-align: right;" >  
               #{func:formatMoney(rec.data.receivable.reimbursement)} #{rec.data.currency_disp}
           </p:column>
           
-           <p:column  headerText="service"  style="width:90px;vertical-align: text-top;" >  
+           <p:column  headerText="Service"  style="width:90px;vertical-align: text-top;" >  
               #{func:formatMoney(rec.data.receivable.service)}
           </p:column>
           
-           <p:column  headerText="vat"  style="width:90px;vertical-align: text-top;" >  
+           <p:column  headerText="Vat"  style="width:90px;vertical-align: text-top;" >  
               #{func:formatMoney(rec.data.receivable.vat)}
           </p:column>
           
-            <p:column  headerText="total"  style="width:90px;vertical-align: text-top;" >  
+            <p:column  headerText="Total"  style="width:90px;vertical-align: text-top;" >  
               #{func:formatMoney(rec.data.receivable.total)}
           </p:column>
           
-          <p:column  headerText="clear"  style="width:90px;vertical-align: text-top;" >  
+          <p:column  headerText="Clear"  style="width:90px;vertical-align: text-top;" >  
               <h:selectBooleanCheckbox value="#{rec.data.receivable.clearflag}" >
                   <p:ajax process="@this" update="@this"/>
               </h:selectBooleanCheckbox>

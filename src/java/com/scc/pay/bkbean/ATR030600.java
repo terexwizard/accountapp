@@ -562,6 +562,10 @@ public class ATR030600 extends BKBPage {
                     cell.setCellValue("amount");
                     cell.setCellStyle(hCellstyle);
                     
+                    cell = row.createCell(4);
+                    cell.setCellValue("voucherno");
+                    cell.setCellStyle(hCellstyle);
+                    
                     int size = l.size();
                     for(int i=0;i<size;i++){
                         
@@ -591,7 +595,9 @@ public class ATR030600 extends BKBPage {
                         }
                         cell.setCellStyle(hCellstyleR);
                         
-
+                        cell = row.createCell(4);
+                        cell.setCellValue(getvaluevoucherno(Utils.NVL(hm.get("dailyid"))));
+                        cell.setCellStyle(hCellstyle);
                 }
                     
                     
@@ -630,7 +636,9 @@ public class ATR030600 extends BKBPage {
                         }
                         cell.setCellStyle(hCellstyleR);
                         
-
+                        cell = row.createCell(4);
+                        cell.setCellValue(getvaluevoucherno(Utils.NVL(hm.get("dailyid"))));
+                        cell.setCellStyle(hCellstyle);
                 }
                 
                 //==========================================
@@ -668,5 +676,21 @@ public class ATR030600 extends BKBPage {
         
         
         return isok;
+    }
+    
+    
+    private String getvaluevoucherno(String dailyid){
+        HashMap hm = new HashMap<String, String>();
+        hm.put("dailyid", dailyid);
+
+        List l = CenterUtils.selectData(hm,"lookup_daily");
+        String voucherno_disp = "";
+        if(!l.isEmpty()){
+             hm = (HashMap)l.get(0);
+
+             voucherno_disp = Utils.NVL(hm.get("voucherno_disp"));
+        }
+        
+        return voucherno_disp;
     }
 }

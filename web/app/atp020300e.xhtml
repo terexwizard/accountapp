@@ -45,7 +45,7 @@
                         
                   <p:row>
                     <p:column>
-                      <h:outputLabel value="company id"/>
+                      <h:outputLabel value="Company id"/>
                     </p:column>
                     <p:column>
                          <p:inputText label="" id="invcomid" 
@@ -111,39 +111,35 @@
                   update=":#{aTP020300.detailreceivable.parentid}:#{aTP020300.detailreceivable.detailrowpanel}" />
           
           
-          <p:column  headerText="seq" style="width:50px;vertical-align: text-top;text-align: center;">
+          <p:column  headerText="Seq" style="width:50px;vertical-align: text-top;text-align: center;">
               #{rowIndex+1}  
           </p:column>
 
-          <p:column  headerText="date"  style="width:90px;vertical-align: text-top;" >  
+          <p:column  headerText="Date"  style="width:90px;vertical-align: text-top;" >  
               #{func:convertDateStringToScreen(rec.data.receivable.submitdate)}
           </p:column>
 
-          <p:column  headerText="jobno"  style="width:120px;vertical-align: text-top;" >  
+          <p:column  headerText="Jobno"  style="width:120px;vertical-align: text-top;" >  
               #{rec.data.receivable.jobno}
           </p:column>
           
-           <p:column  headerText="company"  style="vertical-align: text-top;" >  
-              #{rec.data.receivable.company}
-          </p:column>
-          
-           <p:column  headerText="reimbursement"  style="vertical-align: text-top;text-align: right;" >  
+           <p:column  headerText="Reimbursement"  style="vertical-align: text-top;text-align: right;" >  
               #{func:formatMoney(rec.data.receivable.reimbursement)} #{rec.data.currency_disp}
           </p:column>
           
-           <p:column  headerText="service"  style="width:90px;vertical-align: text-top;" >  
+           <p:column  headerText="Service"  style="width:90px;vertical-align: text-top;" >  
               #{func:formatMoney(rec.data.receivable.service)}
           </p:column>
           
-           <p:column  headerText="vat"  style="width:90px;vertical-align: text-top;" >  
+           <p:column  headerText="Vat"  style="width:90px;vertical-align: text-top;" >  
               #{func:formatMoney(rec.data.receivable.vat)}
           </p:column>
           
-            <p:column  headerText="total"  style="width:90px;vertical-align: text-top;" >  
+            <p:column  headerText="Total"  style="width:90px;vertical-align: text-top;" >  
               #{func:formatMoney(rec.data.receivable.total)}
           </p:column>
           
-          <p:column  headerText="clear success"  style="width:90px;vertical-align: text-top;" >  
+          <p:column  headerText="Clear success"  style="width:90px;vertical-align: text-top;" >  
               <h:selectBooleanCheckbox value="#{rec.data.receivable.clearflag}" disabled="true"/>
           </p:column>
       </p:dataTable>
@@ -168,7 +164,7 @@
            
            <p:row>
                <p:column styleClass="textR">
-                   <h:outputLabel value="submit date" /> 
+                   <h:outputLabel value="Submit date" /> 
                </p:column>
                <p:column>
                    
@@ -182,7 +178,7 @@
                    
                </p:column>
                  <p:column>
-                   <h:outputLabel value="cover no." /> 
+                   <h:outputLabel value="Cover no." /> 
                </p:column>
                <p:column>
                    <p:inputText id="ref" value="#{aTP020300.detailreceivable.row.data.receivable.ref}" 
@@ -192,7 +188,7 @@
                     </p:inputText>
                </p:column>
                <p:column>
-                   <h:outputLabel value="jobno" /> 
+                   <h:outputLabel value="Jobno" /> 
                    <h:outputText styleClass="redstar" value="*" rendered="#{aTP020300.detailreceivable.rowinputmode}"/>
                </p:column>
                <p:column>
@@ -210,7 +206,7 @@
            
              <p:row>
                  <p:column styleClass="textR">
-                   <h:outputLabel value="invoice date" /> 
+                   <h:outputLabel value="Invoice date" /> 
                </p:column>
                  <p:column colspan="5">
                    
@@ -229,7 +225,7 @@
            
            <p:row>
                <p:column styleClass="textR">
-                   <h:outputLabel value="reimbursement" /> 
+                   <h:outputLabel value="Reimbursement" /> 
                </p:column>
                <p:column style="padding: 0px;">
                    <p:panelGrid>
@@ -254,7 +250,7 @@
                   </p:panelGrid>
                </p:column>
                <p:column>
-                   <h:outputLabel value="service" /> 
+                   <h:outputLabel value="Service" /> 
                </p:column>
                <p:column>
                    
@@ -268,7 +264,7 @@
                    
                </p:column>
                  <p:column>
-                   <h:outputLabel value="vat" /> 
+                   <h:outputLabel value="Vat" /> 
                </p:column>
                <p:column style="padding: 0px;">
                    
@@ -292,7 +288,7 @@
            
             <p:row>
                <p:column styleClass="textR">
-                   <h:outputLabel value="total" /> 
+                   <h:outputLabel value="Total" /> 
                </p:column>
                <p:column>
                    
@@ -327,7 +323,7 @@
                     </p:panelGrid>
                </p:column>
                <p:column>
-                   <h:outputLabel value="advance" /> 
+                   <h:outputLabel value="Advance" /> 
                </p:column>
                <p:column>
                    
@@ -343,7 +339,7 @@
             </p:row>
             <p:row>                
                  <p:column styleClass="textR">
-                   <h:outputLabel value="net amount" /> 
+                   <h:outputLabel value="Net amount" /> 
                </p:column>
                 <p:column colspan="5">
                    

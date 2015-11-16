@@ -7,6 +7,7 @@ package com.scc.pay.bkbean;
 import com.scc.f1.backingbean.DetailTable;
 import com.scc.pay.business.BusinessFactory;
 import com.scc.f1.business.IBusinessBase;
+import com.scc.f1.util.MessageUtil;
 import com.scc.f1.util.Utils;
 import com.scc.pay.db.Invoice;
 import com.scc.pay.db.Invoicecompany;
@@ -579,7 +580,10 @@ public class ATP020201 extends BKBPage {
             ib.process(this);
 
             if(ib.isOk()){
-
+                if(this.getDetailinvoice().getListdetailrow().isEmpty()){
+                    String msg = MessageUtil.getMessage("EP005");
+                    addInfoMessage(null, msg, msg);
+                }
             }
         }
     }  

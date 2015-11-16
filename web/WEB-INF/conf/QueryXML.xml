@@ -2350,9 +2350,11 @@
     <Type></Type>
     <SQL>
         
-       SELECT d.dailydate,
+       SELECT d.dailyid,
+            d.dailydate,
            DB_DSF(d.dailydate) dailydate_disp,
           d.jobref,
+          concat(d.voucherno,'',d.docno) as voucherno_disp,
           d.docno,
           d.payby,
           b.bankname,
@@ -2365,7 +2367,7 @@
         FROM daily d left outer join tb_bank b on (d.payby = b.bankid)
 
        <where>
-       
+       <var name="dailyid" woper="and" > d.dailyid = '<value/>' </var>
        <var name="dailydate" woper="and" > d.dailydate = '<value/>' </var>
        <var name="jobref" woper="and" > d.jobref = '<value/>' </var>
        
@@ -2377,6 +2379,11 @@
     </SQLOrderBy>
 
     <Params>
+        <Param>
+            <VarName>dailyid</VarName>
+            <UIName>dailyid</UIName>
+            <Operator></Operator>
+        </Param>
         <Param>
             <VarName>dailydate</VarName>
             <UIName>dailydate</UIName>
@@ -3771,7 +3778,7 @@
     <Type></Type>
     <SQL>
         
-            SELECT d.dailydate,d.companyname,
+            SELECT d.dailyid,d.dailydate,d.companyname,
                 sum(d.amount) as moneyr,
                 sum(d.amount2) as moneyp,
                 count(d.companyname) as shippment,
@@ -3781,7 +3788,7 @@
             <var name="voucherno" woper="and" >and d.voucherno = '<value/>' </var>
             <var name="dailydate" woper="and" >and d.dailydate = '<value/>' </var>
             
-            group by d.companyname,d.dailydate
+            group by d.dailyid,d.companyname,d.dailydate
             order by d.dailydate
 
        <where>
@@ -3830,7 +3837,7 @@
     <Type></Type>
     <SQL>
         
-            SELECT d.dailydate,d.companyname,
+            SELECT d.dailyid,d.dailydate,d.companyname,
                 sum(d.receivedamount) as moneyr,
                 sum(d.paidamount) as moneyp,
                 count(d.companyname) as shippment,
@@ -3840,7 +3847,7 @@
             <var name="voucherno" woper="and" >and d.voucherno = '<value/>' </var>
             <var name="dailydate" woper="and" >and d.dailydate = '<value/>' </var>
             
-            group by d.companyname,d.dailydate
+            group by d.dailyid,d.companyname,d.dailydate
             order by d.dailydate
 
        <where>
