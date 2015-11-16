@@ -97,6 +97,8 @@ public class ATP020200A extends BusinessImpl {
                 persist(dbbean);
             }else if(Utils.NVL(item.getRowstatus()).equals(DetailRow.ROW_STATUS_EDIT)){
                 Invoice db = em.find(Invoice.class, item.getData().getInvoice().getInvid());
+                
+                BeanUtil.copyProperties(db, item.getData().getInvoice());
                     
                 db.setInvno(item.getData().getInvoice().getInvno());
                 db.setAmount(item.getData().getInvoice().getAmount());
