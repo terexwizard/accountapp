@@ -368,8 +368,10 @@
 
                        <p:inputText id="vat" value="#{aTP020200.detailinvoice.row.data.invoice.vat}" 
                                      size="10"
-                                     readonly="true"
-                                     styleClass="#{bKBStyle.STYLE_INPUT_DISABLE} iNR">
+                                     readonly="#{!aTP020200.detailinvoice.rowinputmode}"
+                                     styleClass="#{!aTP020200.detailinvoice.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL} iNR"
+                                     converter="moneyConverter">
+                           <p:ajax process="@this,reimbursement,service" update="@this,total,whtax,totalall" listener="#{aTP020200.calVat2}" />
                         </p:inputText>
                    </p:panelGrid>
                </p:column>

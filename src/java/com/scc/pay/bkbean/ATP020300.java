@@ -610,6 +610,25 @@ public class ATP020300 extends BKBPage {
         }
     }
     
+    public void calVat2(){
+        
+        if(!Utils.NVL(this.getDetailreceivable().getRow().getData().getReceivable().getService()).equals("") &&
+            !Utils.NVL(this.getDetailreceivable().getRow().getData().getReceivable().getVat()).equals("")    ){
+            BigDecimal service = new BigDecimal(this.getDetailreceivable().getRow().getData().getReceivable().getService());
+            
+            BigDecimal total = new BigDecimal(0);
+            if(!Utils.NVL(this.getDetailreceivable().getRow().getData().getReceivable().getReimbursement()).equals("")){
+                total = total.add(new BigDecimal(this.getDetailreceivable().getRow().getData().getReceivable().getReimbursement()));
+            }
+            total = total.add(service);
+            total = total.add(new BigDecimal(this.getDetailreceivable().getRow().getData().getReceivable().getVat()));
+            
+            this.getDetailreceivable().getRow().getData().getReceivable().setTotal(total.doubleValue());
+            
+            calwhtax();
+        }
+    }
+    
     public void calwhtax(){
         
         logger.debug(">>calwhtax ");

@@ -630,6 +630,25 @@ public class ATP020200 extends BKBPage {
         }
     }
     
+    public void calVat2(){
+        
+        if(!Utils.NVL(this.getDetailinvoice().getRow().getData().getInvoice().getService()).equals("") &&
+            !Utils.NVL(this.getDetailinvoice().getRow().getData().getInvoice().getVat()).equals("")    ){
+            BigDecimal service = new BigDecimal(this.getDetailinvoice().getRow().getData().getInvoice().getService());
+
+            BigDecimal total = new BigDecimal(0);
+            if(!Utils.NVL(this.getDetailinvoice().getRow().getData().getInvoice().getReimbursement()).equals("")){
+                total = total.add(new BigDecimal(this.getDetailinvoice().getRow().getData().getInvoice().getReimbursement()));
+            }
+            total = total.add(service);
+            total = total.add(new BigDecimal(this.getDetailinvoice().getRow().getData().getInvoice().getVat()));
+            
+            this.getDetailinvoice().getRow().getData().getInvoice().setTotal(total.doubleValue());
+            
+            calwhtax();
+        }
+    }
+    
     public void calwhtax(){
         
         logger.debug(">>calwhtax ");
