@@ -53,7 +53,7 @@
                     </p:column>
                     <p:column>
                         <p:calendar id="dailydate" value="#{aTP020101.masterdata.dailydate}"
-                                     size="10" maxlength="10" locale="en" showOn="button" disabled="true"
+                                     size="10" maxlength="10" locale="en" showOn="button" disabled="false"
                                      converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true">
                             <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
                             <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
