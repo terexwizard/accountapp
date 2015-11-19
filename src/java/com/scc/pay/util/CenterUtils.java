@@ -509,7 +509,7 @@ public class CenterUtils{
         return date;
  
     }
-    
+        
     public static String rangeOfString(String val , String start , String end ){
         
         String result = "";
@@ -636,6 +636,26 @@ public class CenterUtils{
  
     }
     
+    public static Date previousDayEn(Date d,Integer i){  
+        
+        Date date = null; 
+ 
+        Calendar c = Calendar.getInstance();
+        
+        c.setTime(d);
+        c.add(Calendar.DATE, -i);
+  
+        SimpleDateFormat sm = new SimpleDateFormat("yyyyMMdd");
+        
+        try {
+            date = sm.parse(Utils.formatDateToStringToDBEn(c.getTime())); 
+        } catch (ParseException ex) {
+            java.util.logging.Logger.getLogger(CenterUtils.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
+        return date;
+ 
+    }
             
     public static String getLabelCombotb_currency(String code){
         

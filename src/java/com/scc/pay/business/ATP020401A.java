@@ -10,6 +10,7 @@ package com.scc.pay.business;
 import com.scc.f1.business.BusinessImpl;
 import com.scc.f1.util.BeanUtil;
 import com.scc.f1.util.Utils;
+import com.scc.pay.bkbean.ATP020401;
 import com.scc.pay.db.Bringforward;
 import com.scc.pay.db.TbBank;
 import com.scc.pay.util.CenterUtils;
@@ -17,7 +18,6 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import javax.persistence.Query;
@@ -28,7 +28,7 @@ import javax.persistence.Query;
  * @version 1.00.00
  * 12/06/2555 12:50:20
  */
-public class PROCESSBRINGFORWARD extends BusinessImpl {
+public class ATP020401A extends BusinessImpl {
     
     private int bfdate = 0;
 
@@ -37,17 +37,21 @@ public class PROCESSBRINGFORWARD extends BusinessImpl {
         
         
         
-        HashMap<String,String> vhm = (HashMap<String,String>)inobj;
+//        HashMap<String,String> vhm = (HashMap<String,String>)inobj;
+//        
+//        String vuser = vhm.get("vuser");
+//        String vbfdate = vhm.get("vbfdate");
         
-        String vuser = vhm.get("vuser");
-        String vbfdate = vhm.get("vbfdate");
-        logger.debug(">>processBringforward date:" + vhm.get("vbfdate"));
+        ATP020401 frmi = (ATP020401)inobj;
+        String vuser = frmi.getUserid();
+        String vbfdate = Utils.formatDateToStringToDBEn(frmi.getMasterdata().getBfdate());
+        logger.debug(">>" + vbfdate);
         
-        //if(countBringforward(vbfdate)){
+//        if(countBringforward(vbfdate)){
             bfdate = Integer.parseInt(vbfdate);
-            checkLastBringforward();
+//            checkLastBringforward();
             processBringforward(vuser);
-        //}
+//        }
         
         return inobj;
     }
@@ -80,28 +84,15 @@ public class PROCESSBRINGFORWARD extends BusinessImpl {
     
     
     private void processBringforward(String vuser){   
-        if(isDateValid(Utils.NVL(bfdate))){
+//        if(isDateValid(Utils.NVL(bfdate))){
+            processBringforwardInsert(vuser,bfdate);
             
-//             if(bfdate < (Integer.parseInt(Utils.getcurDateDB(false))-2)){ //ไม่ทำวันที่ ปัจจุบัน -2
+//            if(bfdate < (Integer.parseInt(Utils.getcurDateDB(false))-2)){ //ไม่ทำวันที่ ปัจจุบัน -2
 //                bfdate = Integer.parseInt(CenterUtils.nextDayEn(Integer.toString(bfdate),1));
 //                
 //                processBringforward(vuser);
 //            }
-            
-            if(bfdate == (Integer.parseInt(Utils.getcurDateDB(false)))){
-                processBringforwardUpdate(vuser,bfdate);
-            }else{
-            
-                processBringforwardInsert(vuser,bfdate);
-
-                //if(bfdate < (Integer.parseInt(Utils.getcurDateDB(false))-2)){ //ไม่ทำวันที่ ปัจจุบัน -2
-                if(bfdate < (Integer.parseInt(Utils.getcurDateDB(false))-1)){ //ทำถึงวันที่ ปัจจุบัน -1
-                    bfdate = Integer.parseInt(CenterUtils.nextDayEn(Integer.toString(bfdate),1));
-
-                    processBringforward(vuser);
-                }
-            }
-        }
+//        }
     }
     
     private Long checkLastDataBringforward(String bfdate){
@@ -145,56 +136,8 @@ public class PROCESSBRINGFORWARD extends BusinessImpl {
             db.setUpdlcnt(1);
             db.setUpdtime( Utils.getcurDateTime() );
             db.setUpduser(vuser);
-                        
+            
             //==========================
-            //persist(db);
-            
-            Bringforward dbvn = em.find(Bringforward.class, db.getBringforwardPK());
-            if(dbvn == null){
-                persist(db);
-            }else{
-                
-                BeanUtil.copyProperties(dbvn, db);
-                
-                merge(dbvn);
-            }
-            
-        }
-    }
-    
-    
-     
-    private void processBringforwardUpdate(String vuser,int processdate){
-        
-        String sql = "select r FROM Bringforward r "
-                + "where r.bringforwardPK.bfdate = :bfdate ";
-
-        Query query = em.createQuery(sql);
-        query.setParameter("bfdate",Integer.toString(processdate));
-        
-        List<Bringforward> l = query.getResultList();
-        
-        for(Bringforward db : l){
-            
-            em.detach(db);
-            
-            //String nextbfdate = Integer.toString(processdate +1);
-            String nextbfdate = Integer.toString(processdate);
-            
-            db.getBringforwardPK().setBfdate(nextbfdate);
-            db.setReceived(countDailyReceived(nextbfdate,db.getBringforwardPK().getBankid()));
-            db.setPaid(countDailyPaid(nextbfdate,db.getBringforwardPK().getBankid()));
-            
-            Double actualmoney = (db.getActualmoney()+db.getReceived()) - db.getPaid();
-            db.setActualmoney(actualmoney);
-            
-            db.setUpdlcnt(1);
-            db.setUpdtime( Utils.getcurDateTime() );
-            db.setUpduser(vuser);
-                        
-            //==========================
-            //persist(db);
-            
             Bringforward dbvn = em.find(Bringforward.class, db.getBringforwardPK());
             if(dbvn == null){
                 persist(db);

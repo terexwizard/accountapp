@@ -8,9 +8,11 @@ package com.scc.pay.business;
 
 import com.scc.pay.bkbean.ATP020100;
 import com.scc.f1.business.BusinessImpl;
+import com.scc.f1.business.IBusinessBase;
 import com.scc.f1.util.BeanUtil;
 import com.scc.f1.util.Utils;
 import com.scc.pay.db.Daily;
+import java.util.HashMap;
 
 
 /**
@@ -29,6 +31,14 @@ public class ATP020100U extends BusinessImpl {
       logger.debug(">>" + frmi.getUserid());
       
       updateDaily(frmi);
+      
+      //===========================
+        HashMap<String,String> vhm = new HashMap<String,String>();
+        vhm.put("vuser", frmi.getUserid());
+        vhm.put("vbfdate", Utils.formatDateToStringToDBEn(frmi.getMasterdata().getDailydate()));
+        
+        IBusinessBase ib = BusinessFactory.getBusiness("PROCESSBRINGFORWARD");
+        ib.processBackground(vhm);
       
       frmi.setOk(true);
       return inobj;
