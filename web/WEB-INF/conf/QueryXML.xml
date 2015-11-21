@@ -203,7 +203,20 @@
         select bankid,
             bankname,
             banknamesh,
-            bankdesc
+            bankdesc,
+            monetaryusd,
+            fixdeposit,
+            case
+                when (fixdeposit = 'Y') then 'Yes'
+                when (fixdeposit = 'N') then 'No'
+                else ''
+            end fixdeposit_disp,
+            sort ,
+            case
+                when (t.fixdeposit = 'N') then '0'
+                when (t.fixdeposit = 'Y') then '1'
+                else '3'
+            end fixdeposit_sort 
         from tb_bank t
 
        <where>
@@ -211,11 +224,12 @@
        <var name="bankid" woper="and" > t.bankid = '<value/>' </var>
        <var name="bankname" woper="and" > t.bankname like '%<value/>%' </var>
        <var name="banknamesh" woper="and" > t.banknamesh like '%<value/>%' </var>
+       <var name="fixdeposit" woper="and" > t.fixdeposit = '<value/>' </var>
        
        </where>
     </SQL>
     <SQLOrderBy>
-        t.bankid
+        ISNULL(sort),fixdeposit_sort asc,CONVERT(t.sort,UNSIGNED INTEGER) asc
     </SQLOrderBy>
 
     <Params>
@@ -234,20 +248,32 @@
             <UIName>banknamesh</UIName>
             <Operator></Operator>
         </Param>
+        <Param>
+            <VarName>fixdeposit</VarName>
+            <UIName>fixdeposit</UIName>
+            <Operator></Operator>
+        </Param>
     </Params>
 
      <Displays>
          <Columns>
              <Column>
                 <FieldName>bankname</FieldName>
-                <Header>bank name</Header>
+                <Header>Bank name</Header>
                 <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
              </Column>
              <Column>
-                <FieldName>banknamesh</FieldName>
-                <Header>bank name short</Header>
+                <FieldName>fixdeposit_disp</FieldName>
+                <Header>Fixed deposit account</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>sort</FieldName>
+                <Header>Sort</Header>
                 <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>

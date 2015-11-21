@@ -1,5 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package com.scc.pay.db;
@@ -29,8 +30,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "TbBank.findAll", query = "SELECT t FROM TbBank t")})
 public class TbBank implements Serializable {
-    @Column(name = "monetaryusd")
-    private String monetaryusd;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,6 +42,12 @@ public class TbBank implements Serializable {
     private String banknamesh;
     @Column(name = "bankdesc")
     private String bankdesc;
+    @Column(name = "monetaryusd")
+    private String monetaryusd;
+    @Column(name = "fixdeposit")
+    private String fixdeposit;
+    @Column(name = "sort")
+    private String sort;
     @Column(name = "enttime")
     @Temporal(TemporalType.TIMESTAMP)
     private Date enttime;
@@ -93,6 +98,30 @@ public class TbBank implements Serializable {
 
     public void setBankdesc(String bankdesc) {
         this.bankdesc = bankdesc;
+    }
+
+    public String getMonetaryusd() {
+        return monetaryusd;
+    }
+
+    public void setMonetaryusd(String monetaryusd) {
+        this.monetaryusd = monetaryusd;
+    }
+
+    public String getFixdeposit() {
+        return fixdeposit;
+    }
+
+    public void setFixdeposit(String fixdeposit) {
+        this.fixdeposit = fixdeposit;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
     }
 
     public Date getEnttime() {
@@ -158,14 +187,6 @@ public class TbBank implements Serializable {
     @Override
     public String toString() {
         return "com.scc.pay.db.TbBank[ bankid=" + bankid + " ]";
-    }
-
-    public String getMonetaryusd() {
-        return monetaryusd;
-    }
-
-    public void setMonetaryusd(String monetaryusd) {
-        this.monetaryusd = monetaryusd;
     }
     
 }

@@ -356,6 +356,7 @@ public class ATP010100 extends BKBPage {
             
             hm.put("bankname", this.getSearchparam().getTbbank().getBankname());
             hm.put("banknamesh", this.getSearchparam().getTbbank().getBanknamesh());
+            hm.put("fixdeposit", this.getSearchparam().getTbbank().getFixdeposit());
    
             BKBUQuery.getIns().setQueryparam(hm);
             BKBUQuery.getIns().search();

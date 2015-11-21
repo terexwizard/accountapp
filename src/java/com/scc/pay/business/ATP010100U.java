@@ -8,6 +8,7 @@ package com.scc.pay.business;
 
 import com.scc.pay.bkbean.ATP010100;
 import com.scc.f1.business.BusinessImpl;
+import com.scc.f1.util.BeanUtil;
 import com.scc.f1.util.Utils;
 import com.scc.f1.util.MessageUtil;
 import com.scc.pay.db.TbBank;
@@ -45,11 +46,13 @@ public class ATP010100U extends BusinessImpl {
         return inobj;
       }
       
-      record.setBankname(recordn.getBankname());
-      record.setBanknamesh(recordn.getBanknamesh());
-      record.setBankdesc(recordn.getBankdesc());
+//      record.setBankname(recordn.getBankname());
+//      record.setBanknamesh(recordn.getBanknamesh());
+//      record.setBankdesc(recordn.getBankdesc());
+//      
+//      record.setMonetaryusd(recordn.getMonetaryusd());
       
-      record.setMonetaryusd(recordn.getMonetaryusd());
+      BeanUtil.copyProperties(record, recordn);
       
       record.setUpdlcnt(addLcnt(record.getUpdlcnt()));
       record.setUpdtime(Utils.getcurDateTime());
