@@ -35,8 +35,10 @@ import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.hssf.util.Region;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.ClientAnchor;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Drawing;
@@ -490,10 +492,24 @@ public class ATR030100 extends BKBPage {
                 HSSFCellStyle hCellstyle = hWBook.createCellStyle();                          //กำหนด style cell
                 hCellstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         //กำหนด ตัวอักษรให้อยู่กึ่งกลาง
                 hCellstyle.setFont(font16);                                                  //เรียกใช้ style font
+                CenterUtils.setCellBorder(hCellstyle);
                 
                 HSSFCellStyle hCellstyleL = hWBook.createCellStyle();                          //กำหนด style cell
                 hCellstyleL.setAlignment(HSSFCellStyle.ALIGN_LEFT);                         //กำหนด ตัวอักษรให้อยู่ซ้าย
                 hCellstyleL.setFont(font16);                                                  //เรียกใช้ style font
+                CenterUtils.setCellBorder(hCellstyleL);
+                
+                HSSFCellStyle hCellstyleR = hWBook.createCellStyle();                          //กำหนด style cell
+                hCellstyleR.setAlignment(HSSFCellStyle.ALIGN_RIGHT);                         //กำหนด ตัวอักษรให้อยู่ซ้าย
+                hCellstyleR.setFont(font16);                                                  //เรียกใช้ style font
+                CenterUtils.setCellBorder(hCellstyleR);
+                
+                HSSFCellStyle hCellstyleHColor = hWBook.createCellStyle();                         
+                hCellstyleHColor.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         
+                hCellstyleHColor.setFont(font16);                   
+                hCellstyleHColor.setFillForegroundColor(HSSFColor.LIGHT_GREEN.index);
+                hCellstyleHColor.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+                CenterUtils.setCellBorder(hCellstyleHColor);
                 
                 Font font18B = hWBook.createFont();                                           //กำหนด font style
                 font18B.setFontHeightInPoints((short)18);                                     //กำหนดขนาดของ font
@@ -516,6 +532,12 @@ public class ATR030100 extends BKBPage {
 //			    	hSheet.setColumnWidth((short)3,(short)(ONEPIXEL*110));
 //			    	hSheet.setColumnWidth((short)4,(short)(ONEPIXEL*100));
 //                }
+                
+                
+                hSheet.setColumnWidth(2,10000);
+                hSheet.setColumnWidth(3,10000);
+                hSheet.setColumnWidth(4,10000);
+                hSheet.setColumnWidth(6,14000);
                 
                 hSheet.addMergedRegion(new Region(2,(short)0,2,(short)2));
 
@@ -552,65 +574,62 @@ public class ATR030100 extends BKBPage {
                     row = hSheet.createRow(4);      
                     cell = row.createCell(0);
                     cell.setCellValue("#");
-                    cell.setCellStyle(hCellstyle);
+                    cell.setCellStyle(hCellstyleHColor);
 
 
                     cell = row.createCell(1);
-                    cell.setCellValue("dailydate");
-                    cell.setCellStyle(hCellstyle);
+                    cell.setCellValue("Dailydate");
+                    cell.setCellStyle(hCellstyleHColor);
+
+//                    cell = row.createCell(2);
+//                    cell.setCellValue("dailytype");
+//                    cell.setCellStyle(hCellstyle);
 
                     cell = row.createCell(2);
-                    cell.setCellValue("dailytype");
-                    cell.setCellStyle(hCellstyle);
+                    cell.setCellValue("Description");
+                    cell.setCellStyle(hCellstyleHColor);
 
                     cell = row.createCell(3);
-                    cell.setCellValue("descriptioncode");
-                    cell.setCellStyle(hCellstyle);
-
+                    cell.setCellValue("Voucherno_disp");
+                    cell.setCellStyle(hCellstyleHColor);
+                    
                     cell = row.createCell(4);
-                    cell.setCellValue("voucherno_disp");
-                    cell.setCellStyle(hCellstyle);
+                    cell.setCellValue("Jobref");
+                    cell.setCellStyle(hCellstyleHColor);
                     
                     cell = row.createCell(5);
-                    cell.setCellValue("jobref");
-                    cell.setCellStyle(hCellstyle);
+                    cell.setCellValue("Transecsionno");
+                    cell.setCellStyle(hCellstyleHColor);
                     
                     cell = row.createCell(6);
-                    cell.setCellValue("transecsionno");
-                    cell.setCellStyle(hCellstyle);
-                    
-                    cell = row.createCell(7);
-                    cell.setCellValue("bankname");
-                    cell.setCellStyle(hCellstyle);
-                    
-                    cell = row.createCell(8);
-                    cell.setCellValue("exchangerate");
-                    cell.setCellStyle(hCellstyle);
+                    cell.setCellValue("Bankname");
+                    cell.setCellStyle(hCellstyleHColor);
+//                    
+//                    cell = row.createCell(8);
+//                    cell.setCellValue("exchangerate");
+//                    cell.setCellStyle(hCellstyle);
                     
                                   
-                    cell = row.createCell(9);
-                    cell.setCellValue("amount");
-                    cell.setCellStyle(hCellstyle);
+                    cell = row.createCell(7);
+                    cell.setCellValue("Amount");
+                    cell.setCellStyle(hCellstyleHColor);
                     
-                    cell = row.createCell(10);
-                    cell.setCellValue("receivedamount");
-                    cell.setCellStyle(hCellstyle);
-
+                    cell = row.createCell(8);
+                    cell.setCellValue("Receivedamount");
+                    cell.setCellStyle(hCellstyleHColor);
                     
-
-                    
-                    
-                    cell = row.createCell(11);
-                    cell.setCellValue("currencyname");
-                    cell.setCellStyle(hCellstyle);
-                    
-                    cell = row.createCell(12);
-                    cell.setCellValue("remark");
-                    cell.setCellStyle(hCellstyle);
-                    
-                    cell = row.createCell(13);
-                    cell.setCellValue("receivesuccess");
-                    cell.setCellStyle(hCellstyle);
+//                    
+//                    cell = row.createCell(11);
+//                    cell.setCellValue("currencyname");
+//                    cell.setCellStyle(hCellstyle);
+//                    
+//                    cell = row.createCell(12);
+//                    cell.setCellValue("remark");
+//                    cell.setCellStyle(hCellstyle);
+//                    
+//                    cell = row.createCell(13);
+//                    cell.setCellValue("receivesuccess");
+//                    cell.setCellStyle(hCellstyle);
 
                     //==================
                     BigDecimal amount = new BigDecimal(0);
@@ -631,57 +650,57 @@ public class ATR030100 extends BKBPage {
                         cell.setCellValue(Utils.NVL(hm.get("dailydate")));
                         cell.setCellStyle(hCellstyleL);
                         
+//                        cell = row.createCell(2);
+//                        cell.setCellValue(Utils.NVL(hm.get("dailytype")));
+//                        cell.setCellStyle(hCellstyleL);
+                        
                         cell = row.createCell(2);
-                        cell.setCellValue(Utils.NVL(hm.get("dailytype")));
+                        cell.setCellValue(Utils.NVL(hm.get("dscptdesc")));
                         cell.setCellStyle(hCellstyleL);
                         
                         cell = row.createCell(3);
-                        cell.setCellValue(Utils.NVL(hm.get("descriptioncode")));
-                        cell.setCellStyle(hCellstyleL);
-                        
-                        cell = row.createCell(4);
                         cell.setCellValue(Utils.NVL(hm.get("voucherno_disp")));
                         cell.setCellStyle(hCellstyleL);
                         
-                        cell = row.createCell(5);
+                        cell = row.createCell(4);
                         cell.setCellValue(Utils.NVL(hm.get("jobref")));
                         cell.setCellStyle(hCellstyleL);
 
-                        cell = row.createCell(6);
+                        cell = row.createCell(5);
                         cell.setCellValue(Utils.NVL(hm.get("transecsionno")));
-                        cell.setCellStyle(hCellstyleL);
+                        cell.setCellStyle(hCellstyle);
                                                 
-                        cell = row.createCell(7);
+                        cell = row.createCell(6);
                         cell.setCellValue( Utils.NVL(hm.get("bankname")));
                         cell.setCellStyle(hCellstyleL);
                         
-                        cell = row.createCell(8);
-                        cell.setCellValue(format(Utils.NVL(hm.get("exchangerate"))));
-                        cell.setCellStyle(hCellstyleL);
+//                        cell = row.createCell(8);
+//                        cell.setCellValue(format(Utils.NVL(hm.get("exchangerate"))));
+//                        cell.setCellStyle(hCellstyleL);
                         
-                        cell = row.createCell(9);
+                        cell = row.createCell(7);
                         cell.setCellValue(format(Utils.NVL(hm.get("amount"))));
                         cell.setCellStyle(hCellstyleL);
                         
-                        cell = row.createCell(10);
+                        cell = row.createCell(8);
                         cell.setCellValue(format( Utils.NVL(hm.get("receivedamount"))));
                         cell.setCellStyle(hCellstyleL);
                         
-                        cell = row.createCell(11);
-                        cell.setCellValue(Utils.NVL(hm.get("currencyname")));
-                        cell.setCellStyle(hCellstyleL);
+//                        cell = row.createCell(11);
+//                        cell.setCellValue(Utils.NVL(hm.get("currencyname")));
+//                        cell.setCellStyle(hCellstyleL);
                         
-                        cell = row.createCell(12);
-                        cell.setCellValue(Utils.NVL(hm.get("remark")));
-                        cell.setCellStyle(hCellstyleL);
+//                        cell = row.createCell(12);
+//                        cell.setCellValue(Utils.NVL(hm.get("remark")));
+//                        cell.setCellStyle(hCellstyleL);
                         
 //                        cell = row.createCell(13);
 //                        cell.setCellValue(Utils.NVL(hm.get("receivesuccess")));
 //                        cell.setCellStyle(hCellstyleL);
                         
-                        if(Utils.NVL(hm.get("receivesuccess")).equals("Y")){
-                            insertImage(hWBook,hSheet,i,13);
-                        }
+//                        if(Utils.NVL(hm.get("receivesuccess")).equals("Y")){
+//                            insertImage(hWBook,hSheet,i,13);
+//                        }
                         
                         
                         
@@ -699,23 +718,40 @@ public class ATR030100 extends BKBPage {
                     
                     
                     //=======Footer======
-                    row = hSheet.createRow(5+size);  
+                    
+                    
+                    hSheet.addMergedRegion(new Region(5+size,(short)0,5+size,(short)7));
+                    
+                    row = hSheet.createRow(5+size); 
+
+                    cell = row.createCell(0);
+                    cell.setCellValue("Received Amount USD");
+                    cell.setCellStyle(hCellstyleR);
+                    
+                    for(int i=1;i<8;i++){
+                        cell = row.createCell(i);
+                        cell.setCellStyle(hCellstyleR);
+                    }
+                    
+                    
 
                     cell = row.createCell(8);
-                    cell.setCellValue("Received Amount USD");
-                    cell.setCellStyle(hCellstyleL);
-
-                    cell = row.createCell(9);
                     cell.setCellValue(format(amount.toString()));
                     cell.setCellStyle(hCellstyleL);
                     
+                    hSheet.addMergedRegion(new Region(6+size,(short)0,6+size,(short)7));
                     row = hSheet.createRow(6+size);  
 
-                    cell = row.createCell(9);
+                    cell = row.createCell(0);
                     cell.setCellValue("Received Amount THB");
-                    cell.setCellStyle(hCellstyleL);
+                    cell.setCellStyle(hCellstyleR);
+                    
+                    for(int i=1;i<8;i++){
+                        cell = row.createCell(i);
+                        cell.setCellStyle(hCellstyleR);
+                    }
 
-                    cell = row.createCell(10);
+                    cell = row.createCell(8);
                     cell.setCellValue(format(receivedamount.toString()));
                     cell.setCellStyle(hCellstyleL);
 

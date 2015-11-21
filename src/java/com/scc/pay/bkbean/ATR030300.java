@@ -18,7 +18,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
@@ -30,21 +29,16 @@ import java.text.DecimalFormat;
 import java.math.BigDecimal;
 
 import javax.faces.context.FacesContext;
-import org.apache.commons.io.IOUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.hssf.util.Region;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-import org.apache.poi.ss.usermodel.ClientAnchor;
-import org.apache.poi.ss.usermodel.CreationHelper;
-import org.apache.poi.ss.usermodel.Drawing;
 import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.Picture;
-import org.apache.poi.ss.usermodel.Workbook;
 
 /**
  *
@@ -492,10 +486,24 @@ public class ATR030300 extends BKBPage {
                 HSSFCellStyle hCellstyle = hWBook.createCellStyle();                          //กำหนด style cell
                 hCellstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         //กำหนด ตัวอักษรให้อยู่กึ่งกลาง
                 hCellstyle.setFont(font16);                                                  //เรียกใช้ style font
+                CenterUtils.setCellBorder(hCellstyle);
+                
+                HSSFCellStyle hCellstyleHColor = hWBook.createCellStyle();                         
+                hCellstyleHColor.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         
+                hCellstyleHColor.setFont(font16);                   
+                hCellstyleHColor.setFillForegroundColor(HSSFColor.LIGHT_GREEN.index);
+                hCellstyleHColor.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+                CenterUtils.setCellBorder(hCellstyleHColor);
                 
                 HSSFCellStyle hCellstyleL = hWBook.createCellStyle();                          //กำหนด style cell
                 hCellstyleL.setAlignment(HSSFCellStyle.ALIGN_LEFT);                         //กำหนด ตัวอักษรให้อยู่ซ้าย
                 hCellstyleL.setFont(font16);                                                  //เรียกใช้ style font
+                CenterUtils.setCellBorder(hCellstyleL);
+                
+                HSSFCellStyle hCellstyleR = hWBook.createCellStyle();                          //กำหนด style cell
+                hCellstyleR.setAlignment(HSSFCellStyle.ALIGN_RIGHT);                         //กำหนด ตัวอักษรให้อยู่ซ้าย
+                hCellstyleR.setFont(font16);                                                  //เรียกใช้ style font
+                CenterUtils.setCellBorder(hCellstyleR);
                 
                 Font font18B = hWBook.createFont();                                           //กำหนด font style
                 font18B.setFontHeightInPoints((short)18);                                     //กำหนดขนาดของ font
@@ -505,6 +513,10 @@ public class ATR030300 extends BKBPage {
                 HSSFCellStyle hCellstyleCB = hWBook.createCellStyle();                          //กำหนด style cell
                 hCellstyleCB.setAlignment(HSSFCellStyle.ALIGN_LEFT);                         //กำหนด ตัวอักษรให้อยู่ซ้าย
                 hCellstyleCB.setFont(font18B);                                                  //เรียกใช้ style font
+                
+                HSSFCellStyle hCellstyleHBC = hWBook.createCellStyle();                          //กำหนด style cell
+                hCellstyleHBC.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         //กำหนด ตัวอักษรให้อยู่ซ้าย
+                hCellstyleHBC.setFont(font18B);                                                  //เรียกใช้ style font
 
                 
 //                if (!Utils.NVL(this.getMasterdata().getSortoption()).equals("1")){
@@ -519,11 +531,21 @@ public class ATR030300 extends BKBPage {
 //			    	hSheet.setColumnWidth((short)4,(short)(ONEPIXEL*100));
 //                }
                 
+                hSheet.setColumnWidth(0,10000);
+                
                 //=======Header============ 
+                hSheet.addMergedRegion(new Region(0,(short)0,0,(short)2));
+                HSSFRow row = hSheet.createRow(0);      
+                cell = row.createCell(0);
+                cell.setCellValue("Cash Flow Status");
+                cell.setCellStyle(hCellstyleHBC);
+                
+                
+                
                 String header = "Date : " + CenterUtils.formatDateToStringShowTime(Utils.getcurDateTime());
 
                 hSheet.addMergedRegion(new Region(1,(short)0,1,(short)2));
-                HSSFRow row = hSheet.createRow(1);      
+                row = hSheet.createRow(1);      
                 cell = row.createCell(0);
                 cell.setCellValue(header);
                 cell.setCellStyle(hCellstyleCB);
@@ -559,15 +581,28 @@ public class ATR030300 extends BKBPage {
                     row = hSheet.createRow(4);      
                     cell = row.createCell(0);
                     cell.setCellValue("Detail");
-                    cell.setCellStyle(hCellstyle);
+                    cell.setCellStyle(hCellstyleHColor);
 
+
+                    cell = row.createCell(1);
+                    cell.setCellValue("BATH");
+                    cell.setCellStyle(hCellstyleHColor);
 
                     cell = row.createCell(2);
-                    cell.setCellValue("BATH");
+                    cell.setCellValue("USD");
+                    cell.setCellStyle(hCellstyleHColor);
+                    
+                    row = hSheet.createRow(5);      
+                    cell = row.createCell(0);
+                    cell.setCellValue("BF");
+                    cell.setCellStyle(hCellstyleCB);
+                    
+                    cell = row.createCell(1);
+                    cell.setCellValue("");
                     cell.setCellStyle(hCellstyle);
 
-                    cell = row.createCell(3);
-                    cell.setCellValue("USD");
+                    cell = row.createCell(2);
+                    cell.setCellValue("");
                     cell.setCellStyle(hCellstyle);
                     
                     
@@ -578,18 +613,18 @@ public class ATR030300 extends BKBPage {
 
                         hm = (HashMap)l.get(i);
 
-                        row = hSheet.createRow(5+i);
+                        row = hSheet.createRow(6+i);
                         cell = row.createCell(0);
                         cell.setCellValue(Utils.NVL(hm.get("redesc")));
                         cell.setCellStyle(hCellstyleL);
                         
-                        cell = row.createCell(2);
+                        cell = row.createCell(1);
                         cell.setCellValue(format(Utils.NVL(hm.get("receivedamount"))));
-                        cell.setCellStyle(hCellstyleL);
+                        cell.setCellStyle(hCellstyleR);
                         
-                        cell = row.createCell(3);
+                        cell = row.createCell(2);
                         cell.setCellValue(format(Utils.NVL(hm.get("amount"))));
-                        cell.setCellStyle(hCellstyleL);
+                        cell.setCellStyle(hCellstyleR);
                         
                         
                         totalrevth = totalrevth.add(new BigDecimal(Utils.NVL(hm.get("receivedamount")).equals("")?"0":Utils.NVL(hm.get("receivedamount"))));
@@ -599,18 +634,18 @@ public class ATR030300 extends BKBPage {
                 }
                  
                 //=========Total=============== 
-                row = hSheet.createRow(size+5);
+                row = hSheet.createRow(size+6);
                 cell = row.createCell(0);
                 cell.setCellValue("Total");
-                cell.setCellStyle(hCellstyleL);   
+                cell.setCellStyle(hCellstyleR);   
                 
-                cell = row.createCell(2);
+                cell = row.createCell(1);
                 cell.setCellValue(format(totalrevth.toString()));
-                cell.setCellStyle(hCellstyleL);
+                cell.setCellStyle(hCellstyleR);
 
-                cell = row.createCell(3);
+                cell = row.createCell(2);
                 cell.setCellValue(format(totalrevus.toString()));
-                cell.setCellStyle(hCellstyleL);
+                cell.setCellStyle(hCellstyleR);
                 //=========================    
                     
                 //Query Data sumdaily_paiddall
@@ -619,7 +654,7 @@ public class ATR030300 extends BKBPage {
                 hm2.put("dailydatefn", Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatefn()));
 
                 List l2 = CenterUtils.selectData(hm2,"sumdaily_paiddall");
-                int rowpad = (size+7);
+                int rowpad = (size+8);
                 if(!l2.isEmpty()){
 
                     
@@ -629,6 +664,19 @@ public class ATR030300 extends BKBPage {
                     cell.setCellValue("Paid");
                     cell.setCellStyle(hCellstyleCB);
                     
+                    row = hSheet.createRow(rowpad+1);      
+                    cell = row.createCell(0);
+                    cell.setCellValue("Detail");
+                    cell.setCellStyle(hCellstyleHColor);
+                    cell = row.createCell(1);
+                    cell.setCellValue("BATH");
+                    cell.setCellStyle(hCellstyleHColor);
+
+                    cell = row.createCell(2);
+                    cell.setCellValue("USD");
+                    cell.setCellStyle(hCellstyleHColor);
+                    //===================
+                    
                     BigDecimal totalpaidth = new BigDecimal(0);
                     BigDecimal totalpaidus = new BigDecimal(0);
                     int size2 = l2.size();
@@ -636,18 +684,18 @@ public class ATR030300 extends BKBPage {
 
                         hm2 = (HashMap)l2.get(i);
 
-                        row = hSheet.createRow((rowpad+1)+i);      
+                        row = hSheet.createRow((rowpad+2)+i);      
                         cell = row.createCell(0);
                         cell.setCellValue(Utils.NVL(hm2.get("paydesc")));
                         cell.setCellStyle(hCellstyleL);
 
-                        cell = row.createCell(2);
+                        cell = row.createCell(1);
                         cell.setCellValue(format(Utils.NVL(hm2.get("paidamount"))));
-                        cell.setCellStyle(hCellstyleL);
+                        cell.setCellStyle(hCellstyleR);
                         
-                        cell = row.createCell(3);
+                        cell = row.createCell(2);
                         cell.setCellValue(format(Utils.NVL(hm2.get("amount2"))));
-                        cell.setCellStyle(hCellstyleL);
+                        cell.setCellStyle(hCellstyleR);
 
                         totalpaidth = totalpaidth.add(new BigDecimal(Utils.NVL(hm2.get("paidamount")).equals("")?"0":Utils.NVL(hm2.get("paidamount"))));
                         totalpaidus = totalpaidus.add(new BigDecimal(Utils.NVL(hm2.get("amount2")).equals("")?"0":Utils.NVL(hm2.get("amount2"))));
@@ -655,18 +703,18 @@ public class ATR030300 extends BKBPage {
                     }
                     
                     //=========Total=============== 
-                    row = hSheet.createRow(rowpad+size2+1);
+                    row = hSheet.createRow(rowpad+1+size2+1);
                     cell = row.createCell(0);
                     cell.setCellValue("Total");
-                    cell.setCellStyle(hCellstyleL);   
+                    cell.setCellStyle(hCellstyleR);   
+
+                    cell = row.createCell(1);
+                    cell.setCellValue(format(totalpaidth.toString()));
+                    cell.setCellStyle(hCellstyleR);
 
                     cell = row.createCell(2);
-                    cell.setCellValue(format(totalpaidth.toString()));
-                    cell.setCellStyle(hCellstyleL);
-
-                    cell = row.createCell(3);
                     cell.setCellValue(format(totalpaidus.toString()));
-                    cell.setCellStyle(hCellstyleL);
+                    cell.setCellStyle(hCellstyleR);
                     //=========================  
                 }
                 

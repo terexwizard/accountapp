@@ -21,14 +21,11 @@
       <br/>
       <h:form id="form1" >
         <div align="center">
-          <p:panelGrid>
-            <p:row>
-                <p:column style="width: 150px;"/>
-                <p:column/>
-            </p:row>
-            <p:row>
-              <p:column>
                 <p:panelGrid>
+                    <p:row>
+                        <p:column style="width: 150px;"/>
+                        <p:column/>
+                    </p:row>
                   <p:row>
                     <p:column>
                       <h:outputLabel value="Paymenttype Code"/>
@@ -42,13 +39,11 @@
                       <h:outputLabel value="Description"/>
                     </p:column>
                     <p:column>
-                        <p:inputText id="paydesc" value="#{aTP010700.searchparam.tbpaymenttype.paydesc}"/>
+                        <p:inputText id="paydesc" value="#{aTP010700.searchparam.tbpaymenttype.paydesc}"
+                                      size="45" maxlength="45"/>
                     </p:column>
                   </p:row>
                 </p:panelGrid>
-              </p:column>
-            </p:row>
-          </p:panelGrid>
             
           <p:panelGrid>
            <p:row>

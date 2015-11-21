@@ -32,6 +32,8 @@ import java.util.StringTokenizer;
 import java.util.logging.Level;
 import javax.faces.model.SelectItem;
 import org.apache.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.util.HSSFColor;
 
 /**
  *
@@ -266,13 +268,13 @@ public class CenterUtils{
             return "";
         }
         
-        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm a", Locale.ENGLISH);
         dateFormat.setLenient(false);
         
         String date = Utils.convertDateStringToScreen(Utils.formatDateToStringToDBEn(dt),"/");
         String time = dateFormat.format(dt);
         
-        return date+" เวลา "+time+" น.";
+        return date+" at "+time+" ";
     }
     
      public static boolean checkPasswordASCII(String s){ 
@@ -669,5 +671,20 @@ public class CenterUtils{
              }
         }
         return result;
+    }
+    
+    public static void setCellBorder(HSSFCellStyle hCellStyle){
+        
+        //-- set Border
+        hCellStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);
+        hCellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        hCellStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        hCellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);
+
+        //-- set Color Border
+        hCellStyle.setTopBorderColor(HSSFColor.BLACK.index);
+        hCellStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+        hCellStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+        hCellStyle.setRightBorderColor(HSSFColor.BLACK.index);
     }
 }
