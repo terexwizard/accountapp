@@ -37,6 +37,7 @@ import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.hssf.util.Region;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.ClientAnchor;
@@ -492,15 +493,29 @@ public class ATR030400 extends BKBPage {
                 HSSFCellStyle hCellstyle = hWBook.createCellStyle();                          //กำหนด style cell
                 hCellstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         //กำหนด ตัวอักษรให้อยู่กึ่งกลาง
                 hCellstyle.setFont(font16);                                                  //เรียกใช้ style font
+                CenterUtils.setCellBorder(hCellstyle);
                 
                 HSSFCellStyle hCellstyleL = hWBook.createCellStyle();                          //กำหนด style cell
                 hCellstyleL.setAlignment(HSSFCellStyle.ALIGN_LEFT);                         //กำหนด ตัวอักษรให้อยู่ซ้าย
                 hCellstyleL.setFont(font16);                                                  //เรียกใช้ style font
+                CenterUtils.setCellBorder(hCellstyleL);
                 
                 Font font18B = hWBook.createFont();                                           //กำหนด font style
                 font18B.setFontHeightInPoints((short)18);                                     //กำหนดขนาดของ font
                 font18B.setFontName("TH SarabunPSK");
                 font18B.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);                              //กำหนด font ให้เป็นตัวหนา
+                
+                HSSFCellStyle hCellstyleR = hWBook.createCellStyle();                         
+                hCellstyleR.setAlignment(HSSFCellStyle.ALIGN_RIGHT);                        
+                hCellstyleR.setFont(font16);                                                
+                CenterUtils.setCellBorder(hCellstyleR);
+                
+                HSSFCellStyle hCellstyleHColor = hWBook.createCellStyle();                         
+                hCellstyleHColor.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         
+                hCellstyleHColor.setFont(font16);                   
+                hCellstyleHColor.setFillForegroundColor(HSSFColor.LIGHT_GREEN.index);
+                hCellstyleHColor.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+                CenterUtils.setCellBorder(hCellstyleHColor);
                 
                 HSSFCellStyle hCellstyleCB = hWBook.createCellStyle();                          //กำหนด style cell
                 hCellstyleCB.setAlignment(HSSFCellStyle.ALIGN_LEFT);                         //กำหนด ตัวอักษรให้อยู่ซ้าย
@@ -553,15 +568,15 @@ public class ATR030400 extends BKBPage {
                     row = hSheet.createRow(4);      
                     cell = row.createCell(0);
                     cell.setCellValue("Bankname");
-                    cell.setCellStyle(hCellstyleCB);
+                    cell.setCellStyle(hCellstyleHColor);
                          
                     cell = row.createCell(1);
                     cell.setCellValue("Received");
-                    cell.setCellStyle(hCellstyle);
+                    cell.setCellStyle(hCellstyleHColor);
 
                     cell = row.createCell(2);
                     cell.setCellValue("Paid");
-                    cell.setCellStyle(hCellstyle);
+                    cell.setCellStyle(hCellstyleHColor);
                     
                     
                     BigDecimal receivedamount = new BigDecimal(0);
@@ -578,11 +593,11 @@ public class ATR030400 extends BKBPage {
                         
                         cell = row.createCell(1);
                         cell.setCellValue(format(Utils.NVL(hm.get("receivedamount"))));
-                        cell.setCellStyle(hCellstyleL);
+                        cell.setCellStyle(hCellstyleR);
                         
                         cell = row.createCell(2);
                         cell.setCellValue(format(Utils.NVL(hm.get("paidamount"))));
-                        cell.setCellStyle(hCellstyleL);
+                        cell.setCellStyle(hCellstyleR);
                         
                         
                         receivedamount = receivedamount.add(new BigDecimal(Utils.NVL(hm.get("receivedamount")).equals("")?"0":Utils.NVL(hm.get("receivedamount"))));
@@ -599,11 +614,11 @@ public class ATR030400 extends BKBPage {
                 
                 cell = row.createCell(1);
                 cell.setCellValue(format(receivedamount.toString()));
-                cell.setCellStyle(hCellstyleL);
+                cell.setCellStyle(hCellstyleR);
 
                 cell = row.createCell(2);
                 cell.setCellValue(format(paidamount.toString()));
-                cell.setCellStyle(hCellstyleL);
+                cell.setCellStyle(hCellstyleR);
                 //=========================    
                     
                 //Query Data sumdailybank_us
@@ -635,11 +650,11 @@ public class ATR030400 extends BKBPage {
 
                         cell = row.createCell(1);
                         cell.setCellValue(format(Utils.NVL(hm2.get("amount"))));
-                        cell.setCellStyle(hCellstyleL);
+                        cell.setCellStyle(hCellstyleR);
                         
                         cell = row.createCell(2);
                         cell.setCellValue(format(Utils.NVL(hm2.get("amount2"))));
-                        cell.setCellStyle(hCellstyleL);
+                        cell.setCellStyle(hCellstyleR);
 
                         amount = amount.add(new BigDecimal(Utils.NVL(hm2.get("amount")).equals("")?"0":Utils.NVL(hm2.get("amount"))));
                         amount2 = amount2.add(new BigDecimal(Utils.NVL(hm2.get("amount2")).equals("")?"0":Utils.NVL(hm2.get("amount2"))));
@@ -654,11 +669,11 @@ public class ATR030400 extends BKBPage {
 
                     cell = row.createCell(1);
                     cell.setCellValue(format(amount.toString()));
-                    cell.setCellStyle(hCellstyleL);
+                    cell.setCellStyle(hCellstyleR);
 
                     cell = row.createCell(2);
                     cell.setCellValue(format(amount2.toString()));
-                    cell.setCellStyle(hCellstyleL);
+                    cell.setCellStyle(hCellstyleR);
                     //=========================  
                 }
                 

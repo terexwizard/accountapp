@@ -37,6 +37,7 @@ import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.hssf.util.Region;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.ClientAnchor;
@@ -493,14 +494,24 @@ public class ATR030600 extends BKBPage {
                 HSSFCellStyle hCellstyle = hWBook.createCellStyle();                          //กำหนด style cell
                 hCellstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         //กำหนด ตัวอักษรให้อยู่กึ่งกลาง
                 hCellstyle.setFont(font16);       
+                CenterUtils.setCellBorder(hCellstyle);
                 
                 HSSFCellStyle hCellstyleL = hWBook.createCellStyle();                          //กำหนด style cell
                 hCellstyleL.setAlignment(HSSFCellStyle.ALIGN_LEFT);                         //กำหนด ตัวอักษรให้อยู่ซ้าย
                 hCellstyleL.setFont(font16);       
+                CenterUtils.setCellBorder(hCellstyleL);
                 
                 HSSFCellStyle hCellstyleR = hWBook.createCellStyle();                          //กำหนด style cell
                 hCellstyleR.setAlignment(HSSFCellStyle.ALIGN_RIGHT);                         //กำหนด ตัวอักษรให้อยู่ซ้าย
-                hCellstyleR.setFont(font16);   
+                hCellstyleR.setFont(font16);                                                  //เรียกใช้ style font
+                CenterUtils.setCellBorder(hCellstyleR);
+                
+                HSSFCellStyle hCellstyleHColor = hWBook.createCellStyle();                         
+                hCellstyleHColor.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         
+                hCellstyleHColor.setFont(font16);                   
+                hCellstyleHColor.setFillForegroundColor(HSSFColor.LIGHT_GREEN.index);
+                hCellstyleHColor.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+                CenterUtils.setCellBorder(hCellstyleHColor);
                 
                 Font font18B = hWBook.createFont();                                           //กำหนด font style
                 font18B.setFontHeightInPoints((short)18);                                     //กำหนดขนาดของ font
@@ -547,24 +558,24 @@ public class ATR030600 extends BKBPage {
                     hSheet.setColumnWidth((short)0,(short)(ONEPIXEL*300));
                     row = hSheet.createRow(4);      
                     cell = row.createCell(0);
-                    cell.setCellValue("dailydate");
-                    cell.setCellStyle(hCellstyleCB);
+                    cell.setCellValue("Dailydate");
+                    cell.setCellStyle(hCellstyleHColor);
                     
                     cell = row.createCell(1);
-                    cell.setCellValue("companyname");
-                    cell.setCellStyle(hCellstyle);
+                    cell.setCellValue("Companyname");
+                    cell.setCellStyle(hCellstyleHColor);
                          
                     cell = row.createCell(2);
-                    cell.setCellValue("shippment");
-                    cell.setCellStyle(hCellstyle);
+                    cell.setCellValue("Shippment");
+                    cell.setCellStyle(hCellstyleHColor);
 
                     cell = row.createCell(3);
-                    cell.setCellValue("amount");
-                    cell.setCellStyle(hCellstyle);
+                    cell.setCellValue("Amount");
+                    cell.setCellStyle(hCellstyleHColor);
                     
                     cell = row.createCell(4);
-                    cell.setCellValue("voucherno");
-                    cell.setCellStyle(hCellstyle);
+                    cell.setCellValue("Voucherno");
+                    cell.setCellStyle(hCellstyleHColor);
                     
                     int size = l.size();
                     for(int i=0;i<size;i++){

@@ -13,6 +13,7 @@ import com.scc.f1.util.Utils;
 import com.scc.f1.util.MessageUtil;
 import com.scc.pay.db.TbBank;
 import com.scc.pay.util.AppMessage;
+import javax.persistence.Query;
 
 
 /**
@@ -46,6 +47,9 @@ public class ATP010100U extends BusinessImpl {
         return inobj;
       }
       
+              checkMinDataBringforward();
+        checkMaxDataBringforward();
+      
 //      record.setBankname(recordn.getBankname());
 //      record.setBanknamesh(recordn.getBanknamesh());
 //      record.setBankdesc(recordn.getBankdesc());
@@ -63,5 +67,25 @@ public class ATP010100U extends BusinessImpl {
       return inobj;
     }
     
+    private String checkMinDataBringforward(){
+        String sql = "select min(r.bringforwardPK.bfdate) as mindate FROM Bringforward r ";
+
+        Query query = em.createQuery(sql);
+        
+        String mindate = (String)query.getSingleResult();
+        logger.debug(">>checkMinDataBringforward "+mindate);
+        
+        return mindate;
+    }
     
+    private String checkMaxDataBringforward(){
+        String sql = "select max(r.bringforwardPK.bfdate) as maxdate FROM Bringforward r ";
+
+        Query query = em.createQuery(sql);
+        
+        String maxdate = (String)query.getSingleResult();
+        logger.debug(">>checkMaxDataBringforward "+maxdate);
+        
+        return maxdate;
+    }
 }

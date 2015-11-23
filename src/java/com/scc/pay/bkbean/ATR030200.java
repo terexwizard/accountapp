@@ -571,6 +571,11 @@ public class ATR030200 extends BKBPage {
                     cell.setCellStyle(hCellstyleCB);
                     
                     
+                    row = hSheet.createRow(3);      
+                    cell = row.createCell(0);
+                    cell.setCellValue("Daily Received");
+                    cell.setCellStyle(hCellstyleCB);
+                    
 
                     row = hSheet.createRow(4);      
                     cell = row.createCell(0);
@@ -684,11 +689,11 @@ public class ATR030200 extends BKBPage {
                         
                         cell = row.createCell(6);
                         cell.setCellValue(format(Utils.NVL(hm.get("amount2"))));
-                        cell.setCellStyle(hCellstyleL);
+                        cell.setCellStyle(hCellstyleR);
                         
                         cell = row.createCell(7);
                         cell.setCellValue(format( Utils.NVL(hm.get("paidamount"))));
-                        cell.setCellStyle(hCellstyleL);
+                        cell.setCellStyle(hCellstyleR);
                         
 //                        cell = row.createCell(11);
 //                        cell.setCellValue(Utils.NVL(hm.get("currencyname")));
@@ -736,7 +741,7 @@ public class ATR030200 extends BKBPage {
 
                     cell = row.createCell(7);
                     cell.setCellValue(format(amount.toString()));
-                    cell.setCellStyle(hCellstyleL);
+                    cell.setCellStyle(hCellstyleR);
                     
                     
                     hSheet.addMergedRegion(new Region(6+size,(short)0,6+size,(short)6));
@@ -753,7 +758,7 @@ public class ATR030200 extends BKBPage {
 
                     cell = row.createCell(7);
                     cell.setCellValue(format(receivedamount.toString()));
-                    cell.setCellStyle(hCellstyleL);
+                    cell.setCellStyle(hCellstyleR);
 
                     
                 ByteArrayOutputStream bOutput = new ByteArrayOutputStream();

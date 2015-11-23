@@ -1851,7 +1851,13 @@
             t.bankname,
             t.banknamesh,
             t.bankdesc,
-            t.monetaryusd 
+            t.monetaryusd,
+            t.fixdeposit,
+            case
+                    when (t.fixdeposit = 'N') then '0'
+                    when (t.fixdeposit = 'Y') then '1'
+                    else '3'
+             end fixdeposit_sort 
         FROM tb_bank t
 
        <where>
@@ -1861,7 +1867,7 @@
        </where>
     </SQL>
     <SQLOrderBy>
-        t.bankid
+        ISNULL(t.sort),fixdeposit_sort asc,CONVERT(t.sort,UNSIGNED INTEGER) asc        
     </SQLOrderBy>
 
     <Params>
@@ -2823,7 +2829,13 @@
             t.bankname,
             b.received received,
             b.paid paid,
-            b.actualmoney actualmoney 
+            b.actualmoney actualmoney ,
+            t.fixdeposit,
+            case
+                    when (t.fixdeposit = 'N') then '0'
+                    when (t.fixdeposit = 'Y') then '1'
+                    else '3'
+             end fixdeposit_sort  
         FROM bringforward b left outer join tb_bank t on (b.bankid = t.bankid)
 
        <where>
@@ -2835,7 +2847,7 @@
        </where>
     </SQL>
     <SQLOrderBy>
-        b.bfdate,t.bankid
+        b.bfdate,ISNULL(t.sort),fixdeposit_sort asc,CONVERT(t.sort,UNSIGNED INTEGER) asc
     </SQLOrderBy>
 
     <Params>
@@ -3539,7 +3551,12 @@
          case
           when c.paidamount is null then '0.00'
           else c.paidamount
-         end paidamount
+         end paidamount,
+         case
+                when (b.fixdeposit = 'N') then '0'
+                when (b.fixdeposit = 'Y') then '1'
+                else '3'
+         end fixdeposit_sort 
 
 
         FROM tb_bank b left outer join
@@ -3554,7 +3571,7 @@
             order by d.payby ) c on (b.bankid = c.bankid)
             
         where b.monetaryusd = 'false'
-        order by b.bankid
+        order by ISNULL(b.sort),fixdeposit_sort asc,CONVERT(b.sort,UNSIGNED INTEGER) asc                
        <where>
        </where>
     </SQL>
@@ -3604,7 +3621,12 @@
          case
           when c.amount2 is null then '0.00'
           else c.amount2
-         end amount2 
+         end amount2,
+         case
+                when (b.fixdeposit = 'N') then '0'
+                when (b.fixdeposit = 'Y') then '1'
+                else '3'
+         end fixdeposit_sort  
 
         FROM tb_bank b left outer join
         
@@ -3618,7 +3640,7 @@
         order by d.payby ) c on (b.bankid = c.bankid)
          
         where b.monetaryusd = 'true'
-        order by b.bankid
+        order by ISNULL(b.sort),fixdeposit_sort asc,CONVERT(b.sort,UNSIGNED INTEGER) asc
         
        <where>
        </where>

@@ -11,6 +11,7 @@ import com.scc.f1.business.BusinessImpl;
 import com.scc.f1.util.MessageUtil;
 import com.scc.pay.db.TbBank;
 import com.scc.pay.util.AppMessage;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,7 +28,7 @@ public class ATP010100D extends BusinessImpl {
         
         ATP010100 frmi = (ATP010100)inobj;
         
-        logger.debug(">>" + frmi.getUserid());
+        logger.debug(">>doProcess :" + frmi.getMasterdata().getTbbank().getBankid());
         
         TbBank record = frmi.getMasterdata().getTbbank();
         
@@ -46,10 +47,21 @@ public class ATP010100D extends BusinessImpl {
 
         remove(recordu);
         
-        frmi.setOk(true);
+        deleteBringforward(frmi);
         
+        frmi.setOk(true);
+                        
         return inobj;
     }
     
+    private void deleteBringforward(ATP010100 frmi){
+        String sql = "delete FROM Bringforward r "
+                + "where r.bringforwardPK.bankid = :bankid";
+
+        Query query = em.createQuery(sql);
+        query.setParameter("bankid", frmi.getMasterdata().getTbbank().getBankid());
+        
+        query.executeUpdate();
+    }
     
 }

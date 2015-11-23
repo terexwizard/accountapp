@@ -33,12 +33,12 @@ public class ATP020100U extends BusinessImpl {
       updateDaily(frmi);
       
       //===========================
-        HashMap<String,String> vhm = new HashMap<String,String>();
-        vhm.put("vuser", frmi.getUserid());
-        vhm.put("vbfdate", Utils.formatDateToStringToDBEn(frmi.getMasterdata().getDailydate()));
-        
-        IBusinessBase ib = BusinessFactory.getBusiness("PROCESSBRINGFORWARD");
-        ib.processBackground(vhm);
+//        HashMap<String,String> vhm = new HashMap<String,String>();
+//        vhm.put("vuser", frmi.getUserid());
+//        vhm.put("vbfdate", Utils.formatDateToStringToDBEn(frmi.getMasterdata().getDailydate()));
+//        
+//        IBusinessBase ib = BusinessFactory.getBusiness("PROCESSBRINGFORWARD");
+//        ib.processBackground(vhm);
       
       frmi.setOk(true);
       return inobj;
@@ -46,16 +46,43 @@ public class ATP020100U extends BusinessImpl {
     
     private void updateDaily(ATP020100 frmi){
         
-        Daily db = em.find(Daily.class, frmi.getMasterdata().getDaily().getDailyid());
-        
-        if(db != null){
-            BeanUtil.copyProperties(db, frmi.getMasterdata().getDaily());
+        //แก้ไขวันที่ ลบของเก่า insert ของใหม่
+        if(!Utils.NVL(frmi.getMasterdata().getDaily().getDailyid()).equals(Utils.formatDateToStringToDBEn(frmi.getMasterdata().getDailydate()))){
+            Daily db = em.find(Daily.class, frmi.getMasterdata().getDaily().getDailyid());
             
-            db.setUpdlcnt(addLcnt(db.getUpdlcnt()));
-            db.setUpdtime(Utils.getcurDateTime());
-            db.setUpduser(frmi.getUserid());
-            merge(db);
+            remove(db);
+            
+            insertDaily(frmi);
+        }else{
+        
+            Daily db = em.find(Daily.class, frmi.getMasterdata().getDaily().getDailyid());
+
+            if(db != null){
+                BeanUtil.copyProperties(db, frmi.getMasterdata().getDaily());
+
+                db.setUpdlcnt(addLcnt(db.getUpdlcnt()));
+                db.setUpdtime(Utils.getcurDateTime());
+                db.setUpduser(frmi.getUserid());
+                merge(db);
+            }
         }
+    }
+    
+    private void insertDaily(ATP020100 frmi){
+        
+        Daily db = new Daily();
+        
+        BeanUtil.copyProperties(db, frmi.getMasterdata().getDaily());
+        
+        db.setDailydate(Utils.formatDateToStringToDBEn(frmi.getMasterdata().getDailydate()));
+        
+        db.setEntuser(frmi.getUserid());
+        db.setEnttime(Utils.getcurDateTime());
+        db.setUpdlcnt(1);
+        db.setUpdtime( Utils.getcurDateTime() );
+        db.setUpduser(frmi.getUserid());
+        
+        persist(db);
     }
     
 }
