@@ -443,6 +443,25 @@ public class ATP020101 extends BKBPage {
     }
     
     //======================
+    public void calexchangerate(){
+        logger.debug(">>calexchangerate2 "+this.getMasterdata().getDaily().getPayby());
+        logger.debug(">>calexchangerate2 "+this.getMasterdata().getDaily().getCurrency());
+        logger.debug(">>calexchangerate2 "+this.getMasterdata().getDaily().getExchangerate() );
+        logger.debug(">>calexchangerate2 "+this.getMasterdata().getDaily().getAmount2());
+        
+
+                if(this.getMasterdata().isMonetaryusd()){
+                    this.getMasterdata().getDaily().setPaidamount(null);
+                }else{
+                    if(this.getMasterdata().getDaily().getExchangerate() != null && this.getMasterdata().getDaily().getAmount2() != null){
+                        Double x = this.getMasterdata().getDaily().getExchangerate() * this.getMasterdata().getDaily().getAmount2();
+
+                        this.getMasterdata().getDaily().setPaidamount(x);
+                    }
+                }
+        
+    }
+    
     
     public void calamount(){
         logger.debug(">>calamount2 "+this.getMasterdata().getDaily().getPayby());
@@ -460,6 +479,7 @@ public class ATP020101 extends BKBPage {
                         this.getMasterdata().getDaily().setPaidamount(x);
                     }else{
 
+                        this.getMasterdata().getDaily().setPaidamount(null);
                         this.getMasterdata().getDaily().setAmount2(null);
 
                         String msg = MessageUtil.getMessage("EP001");

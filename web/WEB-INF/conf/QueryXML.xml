@@ -2829,6 +2829,10 @@
             t.bankname,
             b.received received,
             b.paid paid,
+            b.bpchqrcv,
+            b.bpchqpaid,
+            b.btchqrcv,
+            b.btchqpaid,
             b.actualmoney actualmoney ,
             t.fixdeposit,
             case

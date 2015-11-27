@@ -80,6 +80,10 @@ public class ATP010100A extends BusinessImpl {
             
             db.setPaid(0.0);
             db.setReceived(0.0);
+            db.setBpchqrcv(0.0);
+            db.setBpchqpaid(0.0);
+            db.setBtchqrcv(0.0);
+            db.setBtchqpaid(0.0);
             db.setActualmoney(0.0);
             db.setEntuser(user);
             db.setEnttime(Utils.getcurDateTime());

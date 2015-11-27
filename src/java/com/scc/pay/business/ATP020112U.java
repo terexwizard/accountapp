@@ -9,10 +9,12 @@ package com.scc.pay.business;
 
 import com.scc.f1.backingbean.DetailRow;
 import com.scc.f1.business.BusinessImpl;
+import com.scc.f1.business.IBusinessBase;
 import com.scc.f1.util.Utils;
 import com.scc.pay.bkbean.ATP020112;
 import com.scc.pay.bkbean.ATP020112.DetailDaily;
 import com.scc.pay.db.Daily;
+import java.util.HashMap;
 
 /**
  *
@@ -52,6 +54,16 @@ public class ATP020112U extends BusinessImpl {
                         db.setUpdtime(Utils.getcurDateTime());
                         db.setUpduser(frmi.getUserid());
                         merge(db);
+                        
+                        
+                        //===========================
+                        HashMap<String,String> vhm = new HashMap<String,String>();
+                        vhm.put("vuser", frmi.getUserid());
+                        vhm.put("vbfdate", item.getData().getDaily().getDailydate());
+
+                        IBusinessBase ib = BusinessFactory.getBusiness("PROCESSBRINGFORWARD");
+                        ib.processBackground(vhm);
+                        
                     }
                     
                 }

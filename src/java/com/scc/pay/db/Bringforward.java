@@ -35,6 +35,14 @@ public class Bringforward implements Serializable {
     private Double received;
     @Column(name = "paid")
     private Double paid;
+    @Column(name = "bpchqrcv")
+    private Double bpchqrcv;
+    @Column(name = "bpchqpaid")
+    private Double bpchqpaid;
+    @Column(name = "btchqrcv")
+    private Double btchqrcv;
+    @Column(name = "btchqpaid")
+    private Double btchqpaid;
     @Column(name = "actualmoney")
     private Double actualmoney;
     @Column(name = "enttime")
@@ -83,6 +91,38 @@ public class Bringforward implements Serializable {
 
     public void setPaid(Double paid) {
         this.paid = paid;
+    }
+
+    public Double getBpchqrcv() {
+        return bpchqrcv;
+    }
+
+    public void setBpchqrcv(Double bpchqrcv) {
+        this.bpchqrcv = bpchqrcv;
+    }
+
+    public Double getBpchqpaid() {
+        return bpchqpaid;
+    }
+
+    public void setBpchqpaid(Double bpchqpaid) {
+        this.bpchqpaid = bpchqpaid;
+    }
+
+    public Double getBtchqrcv() {
+        return btchqrcv;
+    }
+
+    public void setBtchqrcv(Double btchqrcv) {
+        this.btchqrcv = btchqrcv;
+    }
+
+    public Double getBtchqpaid() {
+        return btchqpaid;
+    }
+
+    public void setBtchqpaid(Double btchqpaid) {
+        this.btchqpaid = btchqpaid;
     }
 
     public Double getActualmoney() {
