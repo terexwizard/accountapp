@@ -26,14 +26,14 @@
                 <p:panelGrid>
                     <p:row>
                     <p:column>
-                      <h:outputLabel value="bankname"/>
+                      <h:outputLabel value="Bankname"/>
                     </p:column>
                     <p:column style="padding: 0px;">
                         <p:panelGrid>
                             <p:row>
                                 <p:column>
                                     <p:inputText id="bankname" value="#{aTP010100.masterdata.tbbank.bankname}"
-                                                 required="true"/>
+                                                 required="true" size="45" maxlength="45"/>
                                 </p:column>
                                 <p:column>
                                     <h:outputLabel value="Monetary USD"/>
@@ -48,20 +48,45 @@
                     
                 <p:row>
                     <p:column>
-                      <h:outputLabel value="banknamesh"/>
+                      <h:outputLabel value="Banknamesh"/>
                     </p:column>
                     <p:column>
-                        <p:inputText id="banknamesh" value="#{aTP010100.masterdata.tbbank.banknamesh}"/>
+                        <p:inputText id="banknamesh" value="#{aTP010100.masterdata.tbbank.banknamesh}"
+                                     size="45" maxlength="45"/>
      
                     </p:column>
                   </p:row>
 
                 <p:row>
                     <p:column>
-                      <h:outputLabel value="remank"/>
+                      <h:outputLabel value="Remank"/>
                     </p:column>
                     <p:column>
                         <p:inputText id="bankdesc" value="#{aTP010100.masterdata.tbbank.bankdesc}"/>
+     
+                    </p:column>
+                  </p:row>
+                    
+                  <p:row>
+                    <p:column>
+                      <h:outputLabel value="Fixed deposit account"/>
+                    </p:column>
+                    <p:column>
+                        <p:selectOneMenu id="fixdeposit" value="#{aTP010100.masterdata.tbbank.fixdeposit}"
+                                         required="false" label="Fixed deposit account">  
+                            <f:selectItem itemLabel="Select...." itemValue="" />
+                            <f:selectItem itemValue="Y" itemLabel="Yes"/>
+                            <f:selectItem itemValue="N" itemLabel="No"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                  </p:row>
+                  <p:row>
+                    <p:column>
+                      <h:outputLabel value="Sort"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="sort" value="#{aTP010100.masterdata.tbbank.sort}"
+                                     size="3" maxlength="3"/>
      
                     </p:column>
                   </p:row>

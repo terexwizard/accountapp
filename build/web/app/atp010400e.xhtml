@@ -39,14 +39,14 @@
                   </p:row>
                     
                 <p:row>
-                    <p:column>
+                    <p:column style="vertical-align: text-top;">
                       <h:outputLabel value="company name"/>
                       <h:outputText styleClass="redstar" value="*" />
                     </p:column>
                     <p:column>
-                        <p:inputText id="companyname" value="#{aTP010400.masterdata.invoicecompany.companyname}"
+                        <p:inputTextarea id="companyname" value="#{aTP010400.masterdata.invoicecompany.companyname}"
                                      required="true" label="companyname"
-                                     size="50" maxlength="50"/>
+                                     rows="4" cols="70" maxlength="200"/>
      
                     </p:column>
                   </p:row>

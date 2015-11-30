@@ -21,36 +21,43 @@
       <br/>
       <h:form id="form1" >
         <div align="center">
-          <p:panelGrid>
-            <p:row>
-                <p:column style="width: 150px;"/>
-                <p:column/>
-            </p:row>
-            <p:row>
-              <p:column>
                 <p:panelGrid>
+                    <p:row>
+                        <p:column style="width: 150px;"/>
+                        <p:column/>
+                   </p:row>
                   <p:row>
                     <p:column>
-                      <h:outputLabel value="bankname"/>
+                      <h:outputLabel value="Bankname"/>
                     </p:column>
                     <p:column>
                         <p:inputText id="bankname" value="#{aTP010100.searchparam.tbbank.bankname}"
-                                label="bankname" />
+                                label="bankname" size="45" maxlength="45"/>
                     </p:column>
                   </p:row>
                   <p:row>
                     <p:column>
-                      <h:outputLabel value="banknamesh"/>
+                      <h:outputLabel value="Banknamesh"/>
                     </p:column>
                     <p:column>
                         <p:inputText id="banknamesh" value="#{aTP010100.searchparam.tbbank.banknamesh}"
-                                      label="banknamesh"/>
+                                      label="banknamesh" size="45" maxlength="45"/>
+                    </p:column>
+                  </p:row>
+                  <p:row>
+                    <p:column>
+                      <h:outputLabel value="Fixed deposit account"/>
+                    </p:column>
+                    <p:column>
+                        <p:selectOneMenu id="fixdeposit" value="#{aTP010100.searchparam.tbbank.fixdeposit}"
+                                         required="false" label="Fixed deposit account">  
+                            <f:selectItem itemLabel="Select...." itemValue="" />
+                            <f:selectItem itemValue="Y" itemLabel="Yes"/>
+                            <f:selectItem itemValue="N" itemLabel="No"/>
+                        </p:selectOneMenu>
                     </p:column>
                   </p:row>
                 </p:panelGrid>
-              </p:column>
-            </p:row>
-          </p:panelGrid>
             
           <p:panelGrid>
            <p:row>

@@ -27,38 +27,44 @@
                         <p:column/>
                     </p:row>
                    <p:row>
-                    <p:column>
+                    <p:column style="vertical-align: text-top;">
                       <h:outputLabel value="Company Id"/>
                     </p:column>
-                    <p:column>
-                         <p:inputText label="" id="invcomid" 
-                                      value="#{aTP020200.searchparam.invoicecompany.invcomid}" 
-                                      size="8" maxlength="8" >
-                             <p:ajax event="change" onstart="b1_lookup();return false;" />
-                         </p:inputText>
-                        
-                         <ui:include src="#{bKBAppVar.COMPO_LOOKUPDATA}" >
-                          <ui:param name="formid" value="form1"/>
-                          <ui:param name="lookupname" value="b1"/>
-                          <ui:param name="lookupquery" value="lookup_invoicecompany"/>
-                          <ui:param name="lookuppara" value="invcomid#invcomid"/>
-                          <ui:param name="lookupreturn" value="companyname#companyname"/>
-                        </ui:include>
-                        
-                        <ui:include src="#{bKBAppVar.COMPO_ZOOMDATA}" >
-                            <ui:param name="formid" value="form1"/>
-                            <ui:param name="zoomname" value="zoom1"/>
-                            <ui:param name="zoomquery" value="lookup_invoicecompany"/>
-                            <ui:param name="zoomreturn" value="invcomid#invcomid,companyname#companyname"/>
-                          </ui:include>
-                       
-                         <p:inputText label="" id="companyname" 
-                                      value="#{aTP020200.searchparam.invoicecompany.companyname}" 
-                                      size="50" maxlength="8" readonly="true"
-                                      styleClass="#{bKBStyle.STYLE_INPUT_DISABLE}"
-                                      tabindex="-1">
-                        </p:inputText>
-                         
+                    <p:column style="padding: 0px;">
+                        <p:panelGrid>
+                             <p:row>
+                                 <p:column style="vertical-align: text-top;">
+                                     <p:inputText label="" id="invcomid" 
+                                                  value="#{aTP020200.searchparam.invoicecompany.invcomid}" 
+                                                  size="8" maxlength="8" >
+                                         <p:ajax event="change" onstart="b1_lookup();return false;" />
+                                     </p:inputText>
+
+                                     <ui:include src="#{bKBAppVar.COMPO_LOOKUPDATA}" >
+                                      <ui:param name="formid" value="form1"/>
+                                      <ui:param name="lookupname" value="b1"/>
+                                      <ui:param name="lookupquery" value="lookup_invoicecompany"/>
+                                      <ui:param name="lookuppara" value="invcomid#invcomid"/>
+                                      <ui:param name="lookupreturn" value="companyname#companyname"/>
+                                    </ui:include>
+
+                                    <ui:include src="#{bKBAppVar.COMPO_ZOOMDATA}" >
+                                        <ui:param name="formid" value="form1"/>
+                                        <ui:param name="zoomname" value="zoom1"/>
+                                        <ui:param name="zoomquery" value="lookup_invoicecompany"/>
+                                        <ui:param name="zoomreturn" value="invcomid#invcomid,companyname#companyname"/>
+                                      </ui:include>
+                                   </p:column>
+                                    <p:column style="padding: 0px;">
+                                         <p:inputTextarea label="" id="companyname" 
+                                                      value="#{aTP020200.searchparam.invoicecompany.companyname}" 
+                                                      rows="4" cols="60" readonly="true"
+                                                      styleClass="#{bKBStyle.STYLE_INPUT_DISABLE}"
+                                                      tabindex="-1">
+                                        </p:inputTextarea>
+                                     </p:column>
+                            </p:row>
+                        </p:panelGrid>
                     </p:column>
                    </p:row>
                   <p:row>

@@ -34,7 +34,7 @@
        
         <div align="center">
 
-            <p:panelGrid style="width: 700px;">
+            <p:panelGrid style="width: 850px;">
                  <p:row>
                     <p:column style="width: 200px;"/>
                     <p:column/>
@@ -53,7 +53,7 @@
                     </p:column>
                     <p:column>
                         <p:calendar id="dailydate" value="#{aTP020100.masterdata.dailydate}"
-                                    size="10" maxlength="10" locale="en" showOn="button" disabled="true"
+                                    size="10" maxlength="10" locale="en" showOn="button" disabled="false"
                                      converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true">
                             <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
                             <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
@@ -63,43 +63,50 @@
                   </p:row>
                     
                  <p:row>
-                    <p:column>
+                    <p:column style="vertical-align: text-top;">
                       <h:outputLabel value="Received From"/>
                        <h:outputText styleClass="redstar" value="*" />
                     </p:column>
-                    <p:column>
-                        <p:inputText label="Received From" id="companyid" value="#{aTP020100.masterdata.daily.companyid}"
-                                      size="8" maxlength="8" 
-                                      required="true" 
-                                      disabled="#{aTP010200.modeupdate}">
-                             <p:ajax event="change" onstart="b1_lookup();return false;" />
-                         </p:inputText>
-                        
-                        
-                         <ui:include src="#{bKBAppVar.COMPO_LOOKUPDATA}" >
-                          <ui:param name="formid" value="form1"/>
-                          <ui:param name="lookupname" value="b1"/>
-                          <ui:param name="lookupquery" value="lookup_invoicecompany"/>
-                          <ui:param name="lookuppara" value="companyid#invcomid"/>
-                          <ui:param name="lookupreturn" value="companyname#companyname"/>
-                        </ui:include>
-                        
-                        <p:outputPanel rendered="#{!aTP020100.modeupdate}">
-                        <ui:include src="#{bKBAppVar.COMPO_ZOOMDATA}" >
-                            <ui:param name="formid" value="form1"/>
-                            <ui:param name="zoomname" value="zoom1"/>
-                            <ui:param name="zoomquery" value="lookup_invoicecompany"/>
-                            <ui:param name="zoomreturn" value="companyid#invcomid,companyname#companyname"/>
-                          </ui:include>
+                     <p:column style="padding: 0px;">
+                         <p:panelGrid>
+                             <p:row>
+                                 <p:column style="vertical-align: text-top;">
+                                    <p:inputText label="Received From" id="companyid" value="#{aTP020100.masterdata.daily.companyid}"
+                                                  size="8" maxlength="8" 
+                                                  required="true" 
+                                                  disabled="#{aTP010200.modeupdate}">
+                                         <p:ajax event="change" onstart="b1_lookup();return false;" />
+                                     </p:inputText>
 
-                        </p:outputPanel> 
-                        
-                       
-                        <p:inputText label="" id="companyname" value="#{aTP020100.masterdata.daily.companyname}"
-                                      size="50" maxlength="8" readonly="true"
-                                      styleClass="#{bKBStyle.STYLE_INPUT_DISABLE}"
-                                      tabindex="-1">
-                        </p:inputText>
+
+                                     <ui:include src="#{bKBAppVar.COMPO_LOOKUPDATA}" >
+                                      <ui:param name="formid" value="form1"/>
+                                      <ui:param name="lookupname" value="b1"/>
+                                      <ui:param name="lookupquery" value="lookup_invoicecompany"/>
+                                      <ui:param name="lookuppara" value="companyid#invcomid"/>
+                                      <ui:param name="lookupreturn" value="companyname#companyname"/>
+                                    </ui:include>
+
+                                    <p:outputPanel rendered="#{!aTP020100.modeupdate}">
+                                    <ui:include src="#{bKBAppVar.COMPO_ZOOMDATA}" >
+                                        <ui:param name="formid" value="form1"/>
+                                        <ui:param name="zoomname" value="zoom1"/>
+                                        <ui:param name="zoomquery" value="lookup_invoicecompany"/>
+                                        <ui:param name="zoomreturn" value="companyid#invcomid,companyname#companyname"/>
+                                      </ui:include>
+
+                                    </p:outputPanel> 
+                                 </p:column>
+                                 <p:column style="padding: 0px;">
+
+                                    <p:inputTextarea label="" id="companyname" value="#{aTP020100.masterdata.daily.companyname}"
+                                                  rows="4" cols="70" readonly="true"
+                                                  styleClass="#{bKBStyle.STYLE_INPUT_DISABLE}"
+                                                  tabindex="-1">
+                                    </p:inputTextarea>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
                     </p:column>
                   </p:row>
                     
@@ -123,12 +130,11 @@
                   <p:row>
                     <p:column>
                       <h:outputLabel value="Job Ref."/>
-                      <h:outputText styleClass="redstar" value="*" />
                     </p:column>
                     <p:column>
                         <p:inputText id="jobref" size="15" maxlength="15"
                                      value="#{aTP020100.masterdata.daily.jobref}"
-                                     required="true"/>
+                                     required="false"/>
                     </p:column>
                   </p:row>
                     
@@ -277,14 +283,16 @@
                                     <h:outputLabel value="EXCHANGE RATE"/>
                                 </p:column>
                                 <p:column>
-                                    <p:inputText id="exchangerate" size="6" maxlength="6" onkeydown="num();"
-                                                 styleClass="iNR" converter="moneyConverter"
+                                    <p:inputText id="exchangerate" size="7" maxlength="7" onkeydown="num();"
+                                                 styleClass="iNR" converter="moneyConverter4digi"
                                              value="#{aTP020100.masterdata.daily.exchangerate}">
-                                        <p:ajax process="@this" update="@this"/>
+                                        <p:ajax process="@this,payby,currency,amount" 
+                                                 update="@this,amount,receivedamount,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" 
+                                                 listener="#{aTP020100.calexchangerate}" />
                                     </p:inputText>
                                 </p:column>
                                 <p:column>
-                                    <p:inputText id="amount" size="10" maxlength="10" value="#{aTP020100.masterdata.daily.amount}"
+                                    <p:inputText id="amount" size="17" maxlength="15" value="#{aTP020100.masterdata.daily.amount}"
                                                   converter="moneyConverter" styleClass="iNR">
                                          <p:ajax process="@this,payby,currency,exchangerate" 
                                                  update="@this,exchangerate,receivedamount,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" 
@@ -301,7 +309,7 @@
                       <h:outputLabel value="Received Amount"/>
                     </p:column>
                     <p:column>
-                        <p:inputText id="receivedamount" size="14" maxlength="14" disabled="true"
+                        <p:inputText id="receivedamount" size="17" maxlength="15" disabled="true"
                                       value="#{aTP020100.masterdata.daily.receivedamount}"
                                       converter="moneyConverter" styleClass="iNR">
                             <p:ajax process="@this" update="@this" />

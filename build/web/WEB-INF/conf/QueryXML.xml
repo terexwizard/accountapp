@@ -203,7 +203,20 @@
         select bankid,
             bankname,
             banknamesh,
-            bankdesc
+            bankdesc,
+            monetaryusd,
+            fixdeposit,
+            case
+                when (fixdeposit = 'Y') then 'Yes'
+                when (fixdeposit = 'N') then 'No'
+                else ''
+            end fixdeposit_disp,
+            sort ,
+            case
+                when (t.fixdeposit = 'N') then '0'
+                when (t.fixdeposit = 'Y') then '1'
+                else '3'
+            end fixdeposit_sort 
         from tb_bank t
 
        <where>
@@ -211,11 +224,12 @@
        <var name="bankid" woper="and" > t.bankid = '<value/>' </var>
        <var name="bankname" woper="and" > t.bankname like '%<value/>%' </var>
        <var name="banknamesh" woper="and" > t.banknamesh like '%<value/>%' </var>
+       <var name="fixdeposit" woper="and" > t.fixdeposit = '<value/>' </var>
        
        </where>
     </SQL>
     <SQLOrderBy>
-        t.bankid
+        ISNULL(sort),fixdeposit_sort asc,CONVERT(t.sort,UNSIGNED INTEGER) asc
     </SQLOrderBy>
 
     <Params>
@@ -234,20 +248,32 @@
             <UIName>banknamesh</UIName>
             <Operator></Operator>
         </Param>
+        <Param>
+            <VarName>fixdeposit</VarName>
+            <UIName>fixdeposit</UIName>
+            <Operator></Operator>
+        </Param>
     </Params>
 
      <Displays>
          <Columns>
              <Column>
                 <FieldName>bankname</FieldName>
-                <Header>bank name</Header>
+                <Header>Bank name</Header>
                 <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
              </Column>
              <Column>
-                <FieldName>banknamesh</FieldName>
-                <Header>bank name short</Header>
+                <FieldName>fixdeposit_disp</FieldName>
+                <Header>Fixed deposit account</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>sort</FieldName>
+                <Header>Sort</Header>
                 <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
@@ -1825,7 +1851,13 @@
             t.bankname,
             t.banknamesh,
             t.bankdesc,
-            t.monetaryusd 
+            t.monetaryusd,
+            t.fixdeposit,
+            case
+                    when (t.fixdeposit = 'N') then '0'
+                    when (t.fixdeposit = 'Y') then '1'
+                    else '3'
+             end fixdeposit_sort 
         FROM tb_bank t
 
        <where>
@@ -1835,7 +1867,7 @@
        </where>
     </SQL>
     <SQLOrderBy>
-        t.bankid
+        ISNULL(t.sort),fixdeposit_sort asc,CONVERT(t.sort,UNSIGNED INTEGER) asc        
     </SQLOrderBy>
 
     <Params>
@@ -2350,9 +2382,11 @@
     <Type></Type>
     <SQL>
         
-       SELECT d.dailydate,
+       SELECT d.dailyid,
+            d.dailydate,
            DB_DSF(d.dailydate) dailydate_disp,
           d.jobref,
+          concat(d.voucherno,'',d.docno) as voucherno_disp,
           d.docno,
           d.payby,
           b.bankname,
@@ -2365,7 +2399,7 @@
         FROM daily d left outer join tb_bank b on (d.payby = b.bankid)
 
        <where>
-       
+       <var name="dailyid" woper="and" > d.dailyid = '<value/>' </var>
        <var name="dailydate" woper="and" > d.dailydate = '<value/>' </var>
        <var name="jobref" woper="and" > d.jobref = '<value/>' </var>
        
@@ -2377,6 +2411,11 @@
     </SQLOrderBy>
 
     <Params>
+        <Param>
+            <VarName>dailyid</VarName>
+            <UIName>dailyid</UIName>
+            <Operator></Operator>
+        </Param>
         <Param>
             <VarName>dailydate</VarName>
             <UIName>dailydate</UIName>
@@ -2612,6 +2651,7 @@
         SELECT DB_DSF(t.dailydate) dailydate,
             t.dailytype,
             t.descriptioncode,
+            d.dscptdesc,
             concat(t.voucherno,'',t.docno) as voucherno_disp,
             t.jobref,
             t.transecsionno,
@@ -2630,7 +2670,7 @@
             end receivesuccess
         FROM daily t left outer join tb_bank b on (payby = b.bankid)
             left outer join tb_currency c on (t.currency = c.currencyid)
-
+            left outer join tb_descriptioncode d on (t.descriptioncode = d.dsrptvalue) 
        <where> 
            t.paidamount = 0.00 and t.amount2 = 0.00 
        <var name="dailydatest" woper="and" > t.dailydate <![CDATA[>=]]>  '<value/>' </var>
@@ -2699,6 +2739,7 @@
         SELECT DB_DSF(t.dailydate) dailydate,
             t.dailytype,
             t.descriptioncode,
+            d.dscptdesc,
             concat(t.voucherno,'',t.docno) as voucherno_disp,
             t.jobref,
             t.transecsionno,
@@ -2717,7 +2758,7 @@
             end paymentsuccess
         FROM daily t left outer join tb_bank b on (payby = b.bankid)
             left outer join tb_currency c on (t.currency = c.currencyid)
-
+            left outer join tb_descriptioncode d on (t.descriptioncode = d.dsrptvalue) 
        <where> 
            t.receivedamount = 0.00 and t.amount = 0.00 
        <var name="dailydatest" woper="and" > t.dailydate <![CDATA[>=]]>  '<value/>' </var>
@@ -2788,7 +2829,17 @@
             t.bankname,
             b.received received,
             b.paid paid,
-            b.actualmoney actualmoney 
+            b.bpchqrcv,
+            b.bpchqpaid,
+            b.btchqrcv,
+            b.btchqpaid,
+            b.actualmoney actualmoney ,
+            t.fixdeposit,
+            case
+                    when (t.fixdeposit = 'N') then '0'
+                    when (t.fixdeposit = 'Y') then '1'
+                    else '3'
+             end fixdeposit_sort  
         FROM bringforward b left outer join tb_bank t on (b.bankid = t.bankid)
 
        <where>
@@ -2800,7 +2851,7 @@
        </where>
     </SQL>
     <SQLOrderBy>
-        b.bfdate,t.bankid
+        b.bfdate,ISNULL(t.sort),fixdeposit_sort asc,CONVERT(t.sort,UNSIGNED INTEGER) asc
     </SQLOrderBy>
 
     <Params>
@@ -3504,7 +3555,12 @@
          case
           when c.paidamount is null then '0.00'
           else c.paidamount
-         end paidamount
+         end paidamount,
+         case
+                when (b.fixdeposit = 'N') then '0'
+                when (b.fixdeposit = 'Y') then '1'
+                else '3'
+         end fixdeposit_sort 
 
 
         FROM tb_bank b left outer join
@@ -3519,7 +3575,7 @@
             order by d.payby ) c on (b.bankid = c.bankid)
             
         where b.monetaryusd = 'false'
-        order by b.bankid
+        order by ISNULL(b.sort),fixdeposit_sort asc,CONVERT(b.sort,UNSIGNED INTEGER) asc                
        <where>
        </where>
     </SQL>
@@ -3569,7 +3625,12 @@
          case
           when c.amount2 is null then '0.00'
           else c.amount2
-         end amount2 
+         end amount2,
+         case
+                when (b.fixdeposit = 'N') then '0'
+                when (b.fixdeposit = 'Y') then '1'
+                else '3'
+         end fixdeposit_sort  
 
         FROM tb_bank b left outer join
         
@@ -3583,7 +3644,7 @@
         order by d.payby ) c on (b.bankid = c.bankid)
          
         where b.monetaryusd = 'true'
-        order by b.bankid
+        order by ISNULL(b.sort),fixdeposit_sort asc,CONVERT(b.sort,UNSIGNED INTEGER) asc
         
        <where>
        </where>
@@ -3771,7 +3832,7 @@
     <Type></Type>
     <SQL>
         
-            SELECT d.dailydate,d.companyname,
+            SELECT d.dailyid,d.dailydate,d.companyname,
                 sum(d.amount) as moneyr,
                 sum(d.amount2) as moneyp,
                 count(d.companyname) as shippment,
@@ -3781,7 +3842,7 @@
             <var name="voucherno" woper="and" >and d.voucherno = '<value/>' </var>
             <var name="dailydate" woper="and" >and d.dailydate = '<value/>' </var>
             
-            group by d.companyname,d.dailydate
+            group by d.dailyid,d.companyname,d.dailydate
             order by d.dailydate
 
        <where>
@@ -3830,7 +3891,7 @@
     <Type></Type>
     <SQL>
         
-            SELECT d.dailydate,d.companyname,
+            SELECT d.dailyid,d.dailydate,d.companyname,
                 sum(d.receivedamount) as moneyr,
                 sum(d.paidamount) as moneyp,
                 count(d.companyname) as shippment,
@@ -3840,7 +3901,7 @@
             <var name="voucherno" woper="and" >and d.voucherno = '<value/>' </var>
             <var name="dailydate" woper="and" >and d.dailydate = '<value/>' </var>
             
-            group by d.companyname,d.dailydate
+            group by d.dailyid,d.companyname,d.dailydate
             order by d.dailydate
 
        <where>
