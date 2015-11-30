@@ -292,7 +292,7 @@
                                     </p:inputText>
                                 </p:column>
                                 <p:column>
-                                    <p:inputText id="amount" size="10" maxlength="10" value="#{aTP020100.masterdata.daily.amount}"
+                                    <p:inputText id="amount" size="17" maxlength="15" value="#{aTP020100.masterdata.daily.amount}"
                                                   converter="moneyConverter" styleClass="iNR">
                                          <p:ajax process="@this,payby,currency,exchangerate" 
                                                  update="@this,exchangerate,receivedamount,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" 
@@ -309,7 +309,7 @@
                       <h:outputLabel value="Received Amount"/>
                     </p:column>
                     <p:column>
-                        <p:inputText id="receivedamount" size="14" maxlength="14" disabled="true"
+                        <p:inputText id="receivedamount" size="17" maxlength="15" disabled="true"
                                       value="#{aTP020100.masterdata.daily.receivedamount}"
                                       converter="moneyConverter" styleClass="iNR">
                             <p:ajax process="@this" update="@this" />

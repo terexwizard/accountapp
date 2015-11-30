@@ -33,12 +33,13 @@ public class ATP020100U extends BusinessImpl {
       updateDaily(frmi);
       
       //===========================
-//        HashMap<String,String> vhm = new HashMap<String,String>();
-//        vhm.put("vuser", frmi.getUserid());
-//        vhm.put("vbfdate", Utils.formatDateToStringToDBEn(frmi.getMasterdata().getDailydate()));
-//        
-//        IBusinessBase ib = BusinessFactory.getBusiness("PROCESSBRINGFORWARD");
-//        ib.processBackground(vhm);
+        HashMap<String,Object> vhm = new HashMap<String,Object>();
+        vhm.put("user", frmi.getUserid());
+        vhm.put("dailydate", Utils.formatDateToStringToDBEn(frmi.getMasterdata().getDailydate()));
+        vhm.put("form", frmi.getMasterdata().getDaily());
+
+        IBusinessBase ib = BusinessFactory.getBusiness("PROCESSBRINGFORWARDUPDATE");
+        ib.processBackground(vhm);
       
       frmi.setOk(true);
       return inobj;
@@ -47,7 +48,7 @@ public class ATP020100U extends BusinessImpl {
     private void updateDaily(ATP020100 frmi){
         
         //แก้ไขวันที่ ลบของเก่า insert ของใหม่
-        if(!Utils.NVL(frmi.getMasterdata().getDaily().getDailyid()).equals(Utils.formatDateToStringToDBEn(frmi.getMasterdata().getDailydate()))){
+        if(!Utils.NVL(frmi.getMasterdata().getDaily().getDailydate()).equals(Utils.formatDateToStringToDBEn(frmi.getMasterdata().getDailydate()))){
             Daily db = em.find(Daily.class, frmi.getMasterdata().getDaily().getDailyid());
             
             remove(db);
