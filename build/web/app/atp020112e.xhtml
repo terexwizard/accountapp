@@ -189,10 +189,10 @@
                      <h:outputLabel value="#{rec.data.daily.companyname}" title="#{rec.data.daily.companyname}"/>
                   </p:column>                  
                   
-                  <p:column style="width:80px;" headerText="คำสั่ง"> 
+                  <p:column style="width:80px;" headerText="คำสั่ง" rendered="#{aTP020112.masterdata.cheque eq 'N'}"> 
 
                                                     
-                    <p:rowEditor>
+                      <p:rowEditor>
                         <p:ajaxStatus oncomplete="autoClickRow('hide',#{rec.rowindex});" />
                     </p:rowEditor>
 

@@ -22,15 +22,28 @@ public class NewMain {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         // TODO code application logic here
-        String d = "25570102";
+        String d = "25570102";System.out.println(d.substring(0, 6));
+//        
+//        DecimalFormat df2 = new DecimalFormat( "#,##0.00" );
+//        
+//        System.out.println(df2.format(new BigDecimal("12345")));
+//        
+//        System.out.println(nextDayEn("20150929",1));
+//        for(int i=3;i>0;i--){
+//            Calendar c = Calendar.getInstance();   
+//            c.set(Integer.parseInt(Utils.getcurYear()), Integer.parseInt(Utils.getcurMonth())-1, 1);
+//            c.add(Calendar.MONTH, -i);
+//            
+//            System.out.println(">>"+i+" : "+Utils.formatDateToStringToDBEn(c.getTime()));
+//            
+//        }
         
-        DecimalFormat df2 = new DecimalFormat( "#,##0.00" );
         
-        System.out.println(df2.format(new BigDecimal("12345")));
-        
-        System.out.println(nextDayEn("20150929",1));
+        SimpleDateFormat sm = new SimpleDateFormat("yyyyMM");
+        Date date = sm.parse("201512");
+        System.out.println(new SimpleDateFormat("MMM yyyy").format(date.getTime()));
     }
     
     public static String nextDayEn(String d,Integer i){  

@@ -4018,5 +4018,334 @@
      <ZoomFile></ZoomFile>
      <ZoomTitle></ZoomTitle>
 </Query>
+
+
+<!-- ************************** 
+    lookup_data_invoice
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_data_invoice</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+            SELECT   jobno,
+                jobdate,
+                invcomid,
+                company,
+                invno, 
+                invdate,
+                DB_DSF(invdate) as invdate_disp,
+                amount, 
+                duedate, 
+                paid_amount,
+                received_date, 
+                invid,
+                balance, 
+                submitdate,
+                clearflag, 
+                reimbursement,
+                currency,
+                service,
+                vatdata,
+                vat,
+                total, 
+                whtaxdata,
+                whtax,
+                advance,
+                totalall 
+            FROM invoice
+
+       <where>
+           <var name="invcomid" woper="and" > invcomid = '<value/>' </var>
+           <var name="invdatest" woper="and" > invdate <![CDATA[>=]]> '<value/>' </var>
+           <var name="invdatefn" woper="and" > invdate <![CDATA[<=]]> '<value/>' </var>
+           <var name="clearflagY" woper="and" > clearflag is not null </var>
+           <var name="clearflagN" woper="and" > clearflag is null </var>
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        invcomid,invdate
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>invcomid</VarName>
+            <UIName>invcomid</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>invdatest</VarName>
+            <UIName>invdatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>invdatefn</VarName>
+            <UIName>invdatefn</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>clearflagY</VarName>
+            <UIName>clearflagY</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>clearflagN</VarName>
+            <UIName>clearflagN</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+<!-- ************************** 
+    lookup_sumdata_invoice
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_sumdata_invoice</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+            SELECT sum(totalall) 
+            FROM invoice
+
+       <where>
+           <var name="invcomid" woper="and" > invcomid = '<value/>' </var>
+           <var name="invdatest" woper="and" > invdate <![CDATA[>=]]> '<value/>' </var>
+           <var name="invdatefn" woper="and" > invdate <![CDATA[<=]]> '<value/>' </var>
+           <var name="clearflagY" woper="and" > clearflag is not null </var>
+           <var name="clearflagN" woper="and" > clearflag is null </var>
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        invcomid,invdate
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>invcomid</VarName>
+            <UIName>invcomid</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>invdatest</VarName>
+            <UIName>invdatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>invdatefn</VarName>
+            <UIName>invdatefn</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>clearflagY</VarName>
+            <UIName>clearflagY</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>clearflagN</VarName>
+            <UIName>clearflagN</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+<!-- ************************** 
+    lookup_data_receivable
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_data_receivable</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+            SELECT  submitdate,
+                  invcomid,
+                  company,
+                  invdate,
+                  DB_DSF(invdate) as invdate_disp,
+                  ref,
+                  jobno,
+                  reimbursement,
+                  service,
+                  vatdata,
+                  vat,
+                  total,
+                  whtaxdata,
+                  whtax,
+                  advance,
+                  totalall,
+                  enttime,
+                  entuser,
+                  updlcnt,
+                  updtime,
+                  upduser,
+                  clearflag,
+                  currency 
+            FROM receivable
+
+       <where>
+           <var name="invcomid" woper="and" > invcomid = '<value/>' </var>
+           <var name="invdatest" woper="and" > invdate <![CDATA[>=]]> '<value/>' </var>
+           <var name="invdatefn" woper="and" > invdate <![CDATA[<=]]> '<value/>' </var>
+           <var name="clearflagY" woper="and" > clearflag is not null </var>
+           <var name="clearflagN" woper="and" > clearflag is null </var>
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        invcomid,invdate
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>invcomid</VarName>
+            <UIName>invcomid</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>invdatest</VarName>
+            <UIName>invdatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>invdatefn</VarName>
+            <UIName>invdatefn</UIName>
+            <Operator></Operator>
+        </Param>
+         <Param>
+            <VarName>clearflagY</VarName>
+            <UIName>clearflagY</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>clearflagN</VarName>
+            <UIName>clearflagN</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+<!-- ************************** 
+    lookup_sumdata_receivable
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_sumdata_receivable</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+            SELECT sum(totalall) 
+            FROM receivable
+
+       <where>
+           <var name="invcomid" woper="and" > invcomid = '<value/>' </var>
+           <var name="invdatest" woper="and" > invdate <![CDATA[>=]]> '<value/>' </var>
+           <var name="invdatefn" woper="and" > invdate <![CDATA[<=]]> '<value/>' </var>
+           <var name="clearflagY" woper="and" > clearflag is not null </var>
+           <var name="clearflagN" woper="and" > clearflag is null </var>
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        invcomid,invdate
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>invcomid</VarName>
+            <UIName>invcomid</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>invdatest</VarName>
+            <UIName>invdatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>invdatefn</VarName>
+            <UIName>invdatefn</UIName>
+            <Operator></Operator>
+        </Param>
+         <Param>
+            <VarName>clearflagY</VarName>
+            <UIName>clearflagY</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>clearflagN</VarName>
+            <UIName>clearflagN</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
   
 </QueryXML>

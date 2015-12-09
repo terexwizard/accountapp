@@ -112,4 +112,59 @@
         </DataItemList>
     </Rdb>
     
+      <Rdb>
+        <TranCode>month</TranCode> 
+        <Description></Description>
+        <DataItemList>
+            <DataItem>
+                <Code>01</Code>
+                <Text>January</Text>
+            </DataItem>
+            <DataItem>
+                <Code>02</Code>
+                <Text>February</Text>
+            </DataItem>
+            <DataItem>
+                <Code>03</Code>
+                <Text>March</Text>
+            </DataItem>
+            <DataItem>
+                <Code>04</Code>
+                <Text>April</Text>
+            </DataItem>
+            <DataItem>
+                <Code>05</Code>
+                <Text>May</Text>
+            </DataItem>
+            <DataItem>
+                <Code>06</Code>
+                <Text>June</Text>
+            </DataItem>
+            <DataItem>
+                <Code>07</Code>
+                <Text>July</Text>
+            </DataItem>
+            <DataItem>
+                <Code>08</Code>
+                <Text>August</Text>
+            </DataItem>
+            <DataItem>
+                <Code>09</Code>
+                <Text>September</Text>
+            </DataItem>
+            <DataItem>
+                <Code>10</Code>
+                <Text>October</Text>
+            </DataItem>
+            <DataItem>
+                <Code>11</Code>
+                <Text>November</Text>
+            </DataItem>
+            <DataItem>
+                <Code>12</Code>
+                <Text>December</Text>
+            </DataItem>
+        </DataItemList>
+    </Rdb>
+    
 </RdbXML>
