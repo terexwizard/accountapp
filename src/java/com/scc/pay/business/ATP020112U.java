@@ -56,12 +56,21 @@ public class ATP020112U extends BusinessImpl {
                         merge(db);
                         
                         
+//                        //===========================
+//                        HashMap<String,String> vhm = new HashMap<String,String>();
+//                        vhm.put("vuser", frmi.getUserid());
+//                        vhm.put("vbfdate", item.getData().getDaily().getDailydate());
+//
+//                        IBusinessBase ib = BusinessFactory.getBusiness("PROCESSBRINGFORWARD");
+//                        ib.processBackground(vhm);
+                        
                         //===========================
-                        HashMap<String,String> vhm = new HashMap<String,String>();
-                        vhm.put("vuser", frmi.getUserid());
-                        vhm.put("vbfdate", item.getData().getDaily().getDailydate());
+                        HashMap<String,Object> vhm = new HashMap<String,Object>();
+                        vhm.put("user", frmi.getUserid());
+                        vhm.put("dailydate", Utils.formatDateToStringToDBEn(item.getData().getTmpchequedate()));
+                        vhm.put("form", item.getData().getDaily());
 
-                        IBusinessBase ib = BusinessFactory.getBusiness("PROCESSBRINGFORWARD");
+                        IBusinessBase ib = BusinessFactory.getBusiness("PROCESSBRINGFORWARDUPDATE");
                         ib.processBackground(vhm);
                         
                     }

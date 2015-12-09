@@ -707,7 +707,7 @@ public class ATP020112 extends BKBPage {
                     
                     clearAllData();
                     initialValue();
-                    redirectPage(PAGE_E);
+                    //redirectPage(PAGE_E);
                     
                 }
             }
@@ -835,7 +835,7 @@ public class ATP020112 extends BKBPage {
 
 
         if(ib.isOk()){
-            
+           
             clearAllData();
             initialValue();
             

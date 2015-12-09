@@ -6,8 +6,11 @@ package com.scc.pay.bkbean;
 
 
 import com.scc.f1.dbutil.DBUtils;
-import java.util.HashMap;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.model.SelectItem;
@@ -73,4 +76,26 @@ public class BKBQuery {
         return DBUtils.getSelectItem("lookup_combo_voucherno","result", "result");
     }
     
+     
+    public List<SelectItem> getComboYear(){
+        
+        Locale myLocale = new Locale("en","US");
+        String syear = new SimpleDateFormat( "yyyyMMdd", myLocale ).format(new Date());
+        syear = String.valueOf(Integer.parseInt(syear.substring(0,4)));
+        
+        int year = Integer.parseInt(syear);
+        
+        List<SelectItem> selectItems = new ArrayList<SelectItem>();
+        
+        int loop = 10;
+        
+        for(int x = (year-loop);x < (year+loop) ;x++){
+            selectItems.add(new SelectItem(Integer.toString(x) , Integer.toString(x)));
+        }
+        
+        
+        
+        return selectItems;
+        
+    }
 }

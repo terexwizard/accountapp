@@ -687,4 +687,23 @@ public class CenterUtils{
         hCellStyle.setLeftBorderColor(HSSFColor.BLACK.index);
         hCellStyle.setRightBorderColor(HSSFColor.BLACK.index);
     }
+    
+    public static String convertStringMonthYear(String yearmonth){
+        String result = "";
+        try {
+            SimpleDateFormat sm = new SimpleDateFormat("yyyyMM");
+            Date date = sm.parse(yearmonth);
+            
+            result = new SimpleDateFormat("MMM yyyy").format(date.getTime());
+            logger.debug(">>convertStringMonthYear :"+result);
+            
+            
+            
+        } catch (ParseException ex) {
+            java.util.logging.Logger.getLogger(CenterUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return result;
+    }
+    
 }

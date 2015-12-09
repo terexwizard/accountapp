@@ -131,10 +131,13 @@ public class PROCESSBRINGFORWARD extends BusinessImpl {
         
         for(Bringforward db : l){
             
+            
             em.detach(db);
             
             //String nextbfdate = Integer.toString(processdate +1);
             String nextbfdate = CenterUtils.nextDayEn(Integer.toString(processdate),1);
+            
+            logger.debug(">>processBringforwardInsert "+processdate+" "+nextbfdate);
             
             db.getBringforwardPK().setBfdate(nextbfdate);
             db.setReceived(countDailyReceived(nextbfdate,db.getBringforwardPK().getBankid()));
@@ -142,7 +145,7 @@ public class PROCESSBRINGFORWARD extends BusinessImpl {
             db.setBpchqrcv(countChequeClearDailyReceived(nextbfdate,db.getBringforwardPK().getBankid(),true));
             db.setBpchqpaid(countChequeClearDailyPaid(nextbfdate,db.getBringforwardPK().getBankid(),true));
             db.setBtchqrcv(countChequeClearDailyReceived(nextbfdate,db.getBringforwardPK().getBankid(),false));
-            db.setBtchqpaid(countChequeClearDailyReceived(nextbfdate,db.getBringforwardPK().getBankid(),false));
+            db.setBtchqpaid(countChequeClearDailyPaid(nextbfdate,db.getBringforwardPK().getBankid(),false));
             
             //Double actualmoney = (db.getActualmoney()+db.getReceived()) - db.getPaid();
             Double actualmoney = (db.getActualmoney()+db.getReceived()+db.getBpchqrcv()+db.getBtchqpaid()) - db.getPaid()-db.getBpchqpaid()-db.getBtchqrcv();
@@ -193,7 +196,7 @@ public class PROCESSBRINGFORWARD extends BusinessImpl {
             db.setBpchqrcv(countChequeClearDailyReceived(nextbfdate,db.getBringforwardPK().getBankid(),true));
             db.setBpchqpaid(countChequeClearDailyPaid(nextbfdate,db.getBringforwardPK().getBankid(),true));
             db.setBtchqrcv(countChequeClearDailyReceived(nextbfdate,db.getBringforwardPK().getBankid(),false));
-            db.setBtchqpaid(countChequeClearDailyReceived(nextbfdate,db.getBringforwardPK().getBankid(),false));
+            db.setBtchqpaid(countChequeClearDailyPaid(nextbfdate,db.getBringforwardPK().getBankid(),false));
             
             //Double actualmoney = (db.getActualmoney()+db.getReceived()) - db.getPaid();
             Double actualmoney = (db.getActualmoney()+db.getReceived()+db.getBpchqrcv()+db.getBtchqpaid()) - db.getPaid()-db.getBpchqpaid()-db.getBtchqrcv();
@@ -229,13 +232,13 @@ public class PROCESSBRINGFORWARD extends BusinessImpl {
                }else{
                    sql += "sum(r.receivedamount) FROM Daily r ";
                }
-               sql += "where r.dailydate = :dailydate and r.payby = :payby "
-                       + "and r.cheque = :cheque";
+               sql += "where r.dailydate = :dailydate and r.payby = :payby ";
+                       //+ "and r.cheque = :cheque";
 
         Query query = em.createQuery(sql);
         query.setParameter("dailydate",dailydate);
         query.setParameter("payby",new BigDecimal(payby).doubleValue());
-        query.setParameter("cheque","false");
+        //query.setParameter("cheque","false");
         Double sum = (Double)query.getSingleResult();
         
         logger.debug(">>countDailyReceived "+sum);
@@ -257,13 +260,13 @@ public class PROCESSBRINGFORWARD extends BusinessImpl {
                       sql += "sum(r.paidamount) FROM Daily r ";
                   }
                         
-                sql += "where r.dailydate = :dailydate and r.payby = :payby "
-                        + "and r.cheque = :cheque";
+                sql += "where r.dailydate = :dailydate and r.payby = :payby ";
+                        //+ "and r.cheque = :cheque";
 
         Query query = em.createQuery(sql);
         query.setParameter("dailydate",dailydate);
         query.setParameter("payby",new BigDecimal(payby).doubleValue());
-        query.setParameter("cheque","false");
+        //query.setParameter("cheque","false");
         Double sum = (Double)query.getSingleResult();
         
         logger.debug(">>countDailyPaid "+sum);
@@ -283,18 +286,25 @@ public class PROCESSBRINGFORWARD extends BusinessImpl {
                    sql += "sum(r.amount) FROM Daily r ";
                }else{
                    sql += "sum(r.receivedamount) FROM Daily r ";
-               }
-               sql += "where r.dailydate = :dailydate and r.payby = :payby "
-                       + "and r.cheque = :cheque ";
+               }               
                
                if(vclear){
-                   sql += "and r.chequedate is not null"; //cheque clear
+                   sql += "where r.chequedate = :chequedate and r.payby = :payby ";
+                   sql += "and r.chequedate is not null "; //cheque clear
                }else{
-                   sql += "and r.chequedate is null"; //cheque not clear
+                   sql += "where r.dailydate = :dailydate and r.payby = :payby ";
+                   sql += "and r.chequedate is null "; //cheque not clear
                }
+               
+               sql += "and r.cheque = :cheque ";
 
         Query query = em.createQuery(sql);
-        query.setParameter("dailydate",dailydate);
+        if(vclear){
+            query.setParameter("chequedate",dailydate);
+        }else{
+            query.setParameter("dailydate",dailydate);
+        }
+        
         query.setParameter("payby",new BigDecimal(payby).doubleValue());
         query.setParameter("cheque","true");
         Double sum = (Double)query.getSingleResult();
@@ -316,19 +326,24 @@ public class PROCESSBRINGFORWARD extends BusinessImpl {
                       sql += "sum(r.amount2) FROM Daily r ";
                   }else{
                       sql += "sum(r.paidamount) FROM Daily r ";
-                  }
-                        
-                sql += "where r.dailydate = :dailydate and r.payby = :payby "
-                        + "and r.cheque = :cheque ";
+                  }                                              
 
                 if(vclear){
-                   sql += "and r.chequedate is not null"; //cheque clear
+                   sql += "where r.chequedate = :chequedate and r.payby = :payby ";
+                   sql += "and r.chequedate is not null "; //cheque clear
                 }else{
-                   sql += "and r.chequedate is null"; //cheque not clear
+                   sql += "where r.dailydate = :dailydate and r.payby = :payby ";
+                   sql += "and r.chequedate is null "; //cheque not clear
                 }
                 
+                sql += "and r.cheque = :cheque ";
+                
         Query query = em.createQuery(sql);
-        query.setParameter("dailydate",dailydate);
+        if(vclear){
+            query.setParameter("chequedate",dailydate);
+        }else{
+            query.setParameter("dailydate",dailydate);
+        }
         query.setParameter("payby",new BigDecimal(payby).doubleValue());
         query.setParameter("cheque","true");
         Double sum = (Double)query.getSingleResult();
@@ -340,7 +355,7 @@ public class PROCESSBRINGFORWARD extends BusinessImpl {
         }else{        
             return sum;
         }
-    }            
+    }         
     
     private boolean checkmonetaryusd(int payby){
         

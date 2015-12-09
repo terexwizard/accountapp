@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+  <f:view beforePhase="#{aTR030900.beforePhase}" afterPhase="#{aTR030900.afterPhase}" encoding="UTF-8" >
+    <h:head>
+      <title></title>
+      <h:outputStylesheet name="style.css" library="css" /> 
+      <h:outputStylesheet name="style_s.css" library="css" />
+      <h:outputScript name="f1common.js" library="js" />
+      <script type="text/javascript">   
+ //<![CDATA[ 
+   
+ //]]>   
+      </script>
+    </h:head>
+    <h:body>
+      <br/>
+      <h:form id="form1" >
+       
+        <div align="center">
+
+                <p:panelGrid>
+                  <p:row>
+                        <p:column>
+                          <h:outputLabel value="Status"/>
+                        </p:column>
+                        <p:column>
+                            <h:selectOneRadio value="#{aTR030900.masterdata.rdoflag}">
+                                <f:selectItem itemLabel="Clear" itemValue="Y"/>
+                                <f:selectItem itemLabel="Not Clear" itemValue="N"/>
+                            </h:selectOneRadio>
+                        </p:column>
+                  </p:row>
+                  <p:row>
+                        <p:column>
+                          <h:outputLabel value="Month / Year"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu  value="#{aTR030900.masterdata.month}" style="width: 150px;">
+                                <f:selectItems value="#{bKBRdb.month}"/>
+                            </p:selectOneMenu>
+                            &nbsp;
+                            <p:selectOneMenu  value="#{aTR030900.masterdata.year}">
+                                <f:selectItems value="#{bKBQuery.comboYear}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                  </p:row>
+                </p:panelGrid>
+            
+            
+            <br/>  
+            <div align="center">
+                   <p:panelGrid>
+                    <p:row>
+                     <p:column style="width:100%;">
+                         <ui:include src="#{bKBAppVar.COMPO_COMMAND_E}" >
+                           <ui:param name="basebean" value="#{aTR030900}"/>
+                           <ui:param name="btn_img_add" value="f1-p-commandbutton-cs-excel"/>
+                           <ui:param name="hidequery" value="1"/>
+                         </ui:include>
+                     </p:column>
+                   </p:row>
+               </p:panelGrid>
+            </div>
+            
+            
+          <br/>
+        </div>
+        <ui:include src="#{bKBAppVar.COMPO_MASG}" >
+          <ui:param name="basebean" value="#{aTR030900}"/>
+        </ui:include>
+      </h:form>
+    </h:body>
+  </f:view>
+</html>

@@ -61,10 +61,23 @@ public class ATP020112S extends BusinessImpl {
         }
         
         if(!Utils.NVL(frmi.getMasterdata().getDailydate()).equals("")){
-            sql += " and t.dailydate >= :dailydate ";
+
+            if(Utils.NVL(frmi.getMasterdata().getCheque()).equals("C")){
+                sql += " and t.chequedate >= :dailydate ";
+            }else if(Utils.NVL(frmi.getMasterdata().getCheque()).equals("N")){
+                sql += " and t.dailydate >= :dailydate ";
+            }
+            
+            
         }
         if(!Utils.NVL(frmi.getMasterdata().getDailydatefn()).equals("")){
-            sql += " and t.dailydate <= :dailydatefn ";
+            
+            if(Utils.NVL(frmi.getMasterdata().getCheque()).equals("C")){
+                sql += " and t.chequedate <= :dailydatefn ";
+            }else if(Utils.NVL(frmi.getMasterdata().getCheque()).equals("N")){
+                sql += " and t.dailydate <= :dailydatefn ";
+            }
+            
         }
         
         Query query = em.createQuery(sql);

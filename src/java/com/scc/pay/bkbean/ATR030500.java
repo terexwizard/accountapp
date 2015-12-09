@@ -619,14 +619,52 @@ public class ATR030500 extends BKBPage {
                     cell.setCellValue("Actual Money");
                     cell.setCellStyle(hCellstyleHColor);
                     
-                    hSheet.addMergedRegion(new Region(5,(short)0,6,(short)0));
-                    hSheet.addMergedRegion(new Region(5,(short)1,6,(short)1));
-                    hSheet.addMergedRegion(new Region(5,(short)2,6,(short)2));
-                    hSheet.addMergedRegion(new Region(5,(short)3,6,(short)3));
-                    hSheet.addMergedRegion(new Region(5,(short)8,6,(short)8));
+                    hSheet.addMergedRegion(new Region(5,(short)0,7,(short)0));
+                    hSheet.addMergedRegion(new Region(5,(short)1,7,(short)1));
+                    hSheet.addMergedRegion(new Region(5,(short)2,7,(short)2));
+                    hSheet.addMergedRegion(new Region(5,(short)3,7,(short)3));
+                    hSheet.addMergedRegion(new Region(5,(short)8,7,(short)8));
                     
-                    //hSheet.addMergedRegion(new Region(3,(short)0,3,(short)2));
+                    
+                    hSheet.addMergedRegion(new Region(6,(short)4,6,(short)5));
+                    hSheet.addMergedRegion(new Region(6,(short)6,6,(short)7));
                     row = hSheet.createRow(6);      
+                   
+                    cell = row.createCell(0);
+                    cell.setCellValue("");
+                    cell.setCellStyle(hCellstyleHColor);
+                    
+                    cell = row.createCell(1);
+                    cell.setCellValue("");
+                    cell.setCellStyle(hCellstyleHColor);
+                         
+                    cell = row.createCell(2);
+                    cell.setCellValue("");
+                    cell.setCellStyle(hCellstyleHColor);
+                    
+                    cell = row.createCell(4);
+                    cell.setCellValue("Previous Cheque Clear");
+                    cell.setCellStyle(hCellstyleHColor);
+                    
+                    cell = row.createCell(5);
+                    cell.setCellValue("");
+                    cell.setCellStyle(hCellstyleHColor);
+                    
+                    cell = row.createCell(6);
+                    cell.setCellValue("Today Cheque Not Clear");
+                    cell.setCellStyle(hCellstyleHColor);
+                    
+                    cell = row.createCell(7);
+                    cell.setCellValue("");
+                    cell.setCellStyle(hCellstyleHColor);
+                    
+                    cell = row.createCell(8);
+                    cell.setCellValue("");
+                    cell.setCellStyle(hCellstyleHColor);
+                    
+                    //============================================
+                    //hSheet.addMergedRegion(new Region(3,(short)0,3,(short)2));
+                    row = hSheet.createRow(7);      
                    
                     cell = row.createCell(0);
                     cell.setCellValue("");
@@ -742,7 +780,7 @@ public class ATR030500 extends BKBPage {
                     
                     String[] fixdepositN = alN.get(i);
                     
-                    row = hSheet.createRow(7+i);
+                    row = hSheet.createRow(8+i);
                     cell = row.createCell(0);
                     cell.setCellValue(Utils.NVL(fixdepositN[0]));
                     cell.setCellStyle(hCellstyleL);
@@ -787,7 +825,7 @@ public class ATR030500 extends BKBPage {
                     
                     
                 //=========Total=============== 
-                row = hSheet.createRow(sizealN+7);
+                row = hSheet.createRow(sizealN+8);
                 cell = row.createCell(0);
                 cell.setCellValue("Total (BATH)");
                 cell.setCellStyle(hCellstyleR);   
@@ -809,7 +847,7 @@ public class ATR030500 extends BKBPage {
                     
                     String[] fixdepositY = alY.get(i);
                     
-                    row = hSheet.createRow(sizealN+1+7+i);
+                    row = hSheet.createRow(sizealN+1+8+i);
                     cell = row.createCell(0);
                     cell.setCellValue(Utils.NVL(fixdepositY[0]));
                     cell.setCellStyle(hCellstyleL);
@@ -854,7 +892,7 @@ public class ATR030500 extends BKBPage {
                     
                     
                 //=========Total=============== 
-                row = hSheet.createRow(sizealN+sizealY+1+7);
+                row = hSheet.createRow(sizealN+sizealY+1+8);
                 cell = row.createCell(0);
                 cell.setCellValue("Total Fix Deposit (BATH)");
                 cell.setCellStyle(hCellstyleR);   
@@ -868,7 +906,7 @@ public class ATR030500 extends BKBPage {
                 cell.setCellValue(format(actualmoneyY.toString()));
                 cell.setCellStyle(hCellstyleR);
                 
-                row = hSheet.createRow(sizealN+sizealY+2+7);
+                row = hSheet.createRow(sizealN+sizealY+2+8);
                 cell = row.createCell(0);
                 cell.setCellValue("Total All (BATH)");
                 cell.setCellStyle(hCellstyleR);   
@@ -896,7 +934,7 @@ public class ATR030500 extends BKBPage {
 
                 List l2 = CenterUtils.selectData(hm2,"search_bringforward");
                 
-                int rowpad = (size+8)+2;
+                int rowpad = (size+9)+2;
                 int size2 = l2.size();
                     for(int i=0;i<size2;i++){
                         
