@@ -5,12 +5,14 @@
 package com.scc.pay.util;
 
 import com.scc.f1.util.Utils;
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 import java.util.logging.Level;
 
 /**
@@ -41,9 +43,26 @@ public class NewMain {
 //        }
         
         
-        SimpleDateFormat sm = new SimpleDateFormat("yyyyMM");
-        Date date = sm.parse("201512");
-        System.out.println(new SimpleDateFormat("MMM yyyy").format(date.getTime()));
+//        SimpleDateFormat sm = new SimpleDateFormat("yyyyMM");
+//        Date date = sm.parse("201512");
+//        System.out.println(new SimpleDateFormat("MMM yyyy").format(date.getTime()));
+        
+        System.out.println(new SimpleDateFormat("yyyyMMdd-HH-mm-ss").format(Utils.getcurDateTime().getTime()));
+        
+        
+        Map<Integer, String> testMap = new TreeMap<Integer, String>();
+        testMap.put(10, "a");
+        testMap.put(20, "b");
+        testMap.put(30, "c");
+        testMap.put(40, "d");
+        for (Entry<Integer, String> entry : testMap.entrySet()) {
+            //if (entry.getValue().equals("c")) {
+                System.out.println(entry.getKey());
+            //}
+        }
+
+
+
     }
     
     public static String nextDayEn(String d,Integer i){  
