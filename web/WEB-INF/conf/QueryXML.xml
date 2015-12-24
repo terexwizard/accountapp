@@ -2650,6 +2650,7 @@
         
         SELECT DB_DSF(t.dailydate) dailydate,
             t.dailytype,
+            i.companyname,
             t.descriptioncode,
             d.dscptdesc,
             concat(t.voucherno,'',t.docno) as voucherno_disp,
@@ -2660,6 +2661,17 @@
             b.monetaryusd,
             t.receivedamount,
             t.amount,
+        
+            case
+              when b.monetaryusd = 'true' then t.amount
+              else '0.00'
+            end amount_us,
+            case
+              when b.monetaryusd = 'false' then t.receivedamount
+              else '0.00'
+            end receivedamount_th,
+        
+        
             t.exchangerate,
             t.currency,
             c.currencyname,
@@ -2671,6 +2683,7 @@
         FROM daily t left outer join tb_bank b on (payby = b.bankid)
             left outer join tb_currency c on (t.currency = c.currencyid)
             left outer join tb_descriptioncode d on (t.descriptioncode = d.dsrptvalue) 
+            left outer join invoicecompany i on (i.invcomid = t.companyid) 
        <where> 
            t.paidamount = 0.00 and t.amount2 = 0.00 
        <var name="dailydatest" woper="and" > t.dailydate <![CDATA[>=]]>  '<value/>' </var>
@@ -2738,6 +2751,7 @@
         
         SELECT DB_DSF(t.dailydate) dailydate,
             t.dailytype,
+            i.companyname,
             t.descriptioncode,
             d.dscptdesc,
             concat(t.voucherno,'',t.docno) as voucherno_disp,
@@ -2748,6 +2762,19 @@
             b.monetaryusd,
             t.paidamount,
             t.amount2,
+        
+            
+            case
+              when b.monetaryusd = 'true' then t.amount2
+              else '0.00'
+            end amount2_us,
+            case
+              when b.monetaryusd = 'false' then t.paidamount
+              else '0.00'
+            end paidamount_th,
+        
+        
+        
             t.exchangerate,
             t.currency,
             c.currencyname,
@@ -2759,6 +2786,7 @@
         FROM daily t left outer join tb_bank b on (payby = b.bankid)
             left outer join tb_currency c on (t.currency = c.currencyid)
             left outer join tb_descriptioncode d on (t.descriptioncode = d.dsrptvalue) 
+            left outer join invoicecompany i on (i.invcomid = t.companyid)  
        <where> 
            t.receivedamount = 0.00 and t.amount = 0.00 
        <var name="dailydatest" woper="and" > t.dailydate <![CDATA[>=]]>  '<value/>' </var>
@@ -3536,6 +3564,97 @@
 
 
 <!-- ************************** 
+    sumbringforward_th
+- -  ************************** -->
+
+<Query>
+    <TranCode>sumbringforward_th</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+            SELECT CAST(sum(actualmoney) AS CHAR) as sumbf_th 
+            FROM bringforward b left outer join tb_bank t on (b.bankid = t.bankid)
+            where t.monetaryusd = 'false' 
+                <var name="bfdate" woper="and" >and b.bfdate <![CDATA[=]]>  '<value/>' </var>     
+       <where>
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>bfdate</VarName>
+            <UIName>bfdate</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+<!-- ************************** 
+    sumbringforward_us
+- -  ************************** -->
+
+<Query>
+    <TranCode>sumbringforward_us</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+            SELECT CAST(sum(actualmoney) AS CHAR) as sumbf_us 
+            FROM bringforward b left outer join tb_bank t on (b.bankid = t.bankid)
+            where t.monetaryusd = 'true' 
+                <var name="bfdate" woper="and" >and b.bfdate <![CDATA[=]]>  '<value/>' </var>     
+       <where>
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>bfdate</VarName>
+            <UIName>bfdate</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+<!-- ************************** 
     sumdailybank_th
 - -  ************************** -->
 <Query>
@@ -4126,13 +4245,13 @@
     <Type></Type>
     <SQL>
         
-            SELECT sum(totalall) 
+            SELECT sum(totalall) as sumdata  
             FROM invoice
 
        <where>
            <var name="invcomid" woper="and" > invcomid = '<value/>' </var>
            <var name="invdatest" woper="and" > invdate <![CDATA[>=]]> '<value/>' </var>
-           <var name="invdatefn" woper="and" > invdate <![CDATA[<=]]> '<value/>' </var>
+           <var name="invdatefn" woper="and" > invdate <![CDATA[<]]> '<value/>' </var>
            <var name="clearflagY" woper="and" > clearflag is not null </var>
            <var name="clearflagN" woper="and" > clearflag is null </var>
        </where>
@@ -4289,13 +4408,13 @@
     <Type></Type>
     <SQL>
         
-            SELECT sum(totalall) 
+            SELECT sum(totalall) as sumdata  
             FROM receivable
 
        <where>
            <var name="invcomid" woper="and" > invcomid = '<value/>' </var>
            <var name="invdatest" woper="and" > invdate <![CDATA[>=]]> '<value/>' </var>
-           <var name="invdatefn" woper="and" > invdate <![CDATA[<=]]> '<value/>' </var>
+           <var name="invdatefn" woper="and" > invdate <![CDATA[<]]> '<value/>' </var>
            <var name="clearflagY" woper="and" > clearflag is not null </var>
            <var name="clearflagN" woper="and" > clearflag is null </var>
        </where>

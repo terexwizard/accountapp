@@ -476,12 +476,12 @@ public class ATR030300 extends BKBPage {
 
                 Font font16 = hWBook.createFont();                                           //กำหนด font style
                 font16.setFontHeightInPoints((short)16);                                     //กำหนดขนาดของ font
-                font16.setFontName("TH SarabunPSK");                                         //กำหนด font
+                font16.setFontName("CordiaUPC");                                         //กำหนด font
                 font16.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);                              //กำหนด font ให้เป็นตัวหนา
 
                 Font font14 = hWBook.createFont();                                           //กำหนด font style
                 font14.setFontHeightInPoints((short)14);                                     //กำหนดขนาดของ font
-                font14.setFontName("TH SarabunPSK");                                         //กำหนด font
+                font14.setFontName("CordiaUPC");                                         //กำหนด font
 
                 HSSFCellStyle hCellstyle = hWBook.createCellStyle();                          //กำหนด style cell
                 hCellstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         //กำหนด ตัวอักษรให้อยู่กึ่งกลาง
@@ -507,7 +507,7 @@ public class ATR030300 extends BKBPage {
                 
                 Font font18B = hWBook.createFont();                                           //กำหนด font style
                 font18B.setFontHeightInPoints((short)18);                                     //กำหนดขนาดของ font
-                font18B.setFontName("TH SarabunPSK");
+                font18B.setFontName("CordiaUPC");
                 font18B.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);                              //กำหนด font ให้เป็นตัวหนา
                 
                 HSSFCellStyle hCellstyleCB = hWBook.createCellStyle();                          //กำหนด style cell
@@ -551,8 +551,7 @@ public class ATR030300 extends BKBPage {
                 cell.setCellStyle(hCellstyleCB);
                 
                 
-                String condition = "Condition :"+Utils.convertDateStringToScreen(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()),"/") 
-                        +"-"+Utils.convertDateStringToScreen(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatefn()),"/");
+                String condition = "Condition :"+Utils.convertDateStringToScreen(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()),"/");
                 
                 
                 hSheet.addMergedRegion(new Region(2,(short)0,2,(short)2));
@@ -564,10 +563,12 @@ public class ATR030300 extends BKBPage {
                 //Query Data
                 HashMap hm = new HashMap<String, String>();
                 hm.put("dailydatest", Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()));
-                hm.put("dailydatefn", Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatefn()));
+                hm.put("dailydatefn", Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()));
 
                 List l = CenterUtils.selectData(hm,"sumdaily_receivedall");
 
+                BigDecimal bfth = new BigDecimal(0);
+                BigDecimal bfus = new BigDecimal(0);
                 if(!l.isEmpty()){
 
                     
@@ -597,13 +598,33 @@ public class ATR030300 extends BKBPage {
                     cell.setCellValue("BF");
                     cell.setCellStyle(hCellstyleCB);
                     
+                    //Query Data th
+                    HashMap hmpreth = new HashMap<String, String>();
+                    hmpreth.put("bfdate", CenterUtils.previousDayEn(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()),1));
+                    List lpreth = CenterUtils.selectData(hmpreth,"sumbringforward_th");
+                    if(!lpreth.isEmpty()){
+                        hmpreth = (HashMap)lpreth.get(0);
+                        
+                        bfth = bfth.add(new BigDecimal(Utils.NVL(hmpreth.get("sumbf_th")).equals("")?"0":Utils.NVL(hmpreth.get("sumbf_th"))));
+                    }
+                    
                     cell = row.createCell(1);
-                    cell.setCellValue("");
-                    cell.setCellStyle(hCellstyle);
+                    cell.setCellValue(format(bfth.toString()));
+                    cell.setCellStyle(hCellstyleR);
 
+                    //Query Data us
+                    HashMap hmpreus = new HashMap<String, String>();
+                    hmpreus.put("bfdate", CenterUtils.previousDayEn(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()),1));
+                    List lprethus = CenterUtils.selectData(hmpreus,"sumbringforward_us");
+                    if(!lprethus.isEmpty()){
+                        hmpreus = (HashMap)lprethus.get(0);
+                        
+                        bfus = bfus.add(new BigDecimal(Utils.NVL(hmpreus.get("sumbf_us")).equals("")?"0":Utils.NVL(hmpreus.get("sumbf_us"))));
+                    }
+                    
                     cell = row.createCell(2);
-                    cell.setCellValue("");
-                    cell.setCellStyle(hCellstyle);
+                    cell.setCellValue(format(bfus.toString()));
+                    cell.setCellStyle(hCellstyleR);
                     
                     
                     BigDecimal totalrevth = new BigDecimal(0);
@@ -651,7 +672,7 @@ public class ATR030300 extends BKBPage {
                 //Query Data sumdaily_paiddall
                 HashMap hm2 = new HashMap<String, String>();
                 hm2.put("dailydatest", Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()));
-                hm2.put("dailydatefn", Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatefn()));
+                hm2.put("dailydatefn", Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()));
 
                 List l2 = CenterUtils.selectData(hm2,"sumdaily_paiddall");
                 int rowpad = (size+8);
@@ -716,15 +737,41 @@ public class ATR030300 extends BKBPage {
                     cell.setCellValue(format(totalpaidus.toString()));
                     cell.setCellStyle(hCellstyleR);
                     //=========================  
-                }
-                
-   
+                    
+                    
+                    row = hSheet.createRow(rowpad+1+size2+1+2);
+                    cell = row.createCell(0);
+                    cell.setCellValue("CF");
+                    cell.setCellStyle(hCellstyleR);   
 
                     
+                    BigDecimal tmpbfth = new BigDecimal(0);
+                    tmpbfth = tmpbfth.add(bfth);
+                    tmpbfth = tmpbfth.add(totalrevth);    
+                    tmpbfth = tmpbfth.subtract(totalpaidth);
+                            
+                    
+                    BigDecimal tmpbfus = new BigDecimal(0);
+                    tmpbfus = tmpbfus.add(bfus);
+                    tmpbfus = tmpbfus.add(totalrevus);    
+                    tmpbfus = tmpbfus.subtract(totalpaidus); 
+                    
+                    cell = row.createCell(1);
+                    cell.setCellValue(format(  tmpbfth.toString()    ));
+                    cell.setCellStyle(hCellstyleR);
+
+                    cell = row.createCell(2);
+                    cell.setCellValue(format( tmpbfus.toString() ));
+                    cell.setCellStyle(hCellstyleR);
+                }
+                
+                
+
+   
                 ByteArrayOutputStream bOutput = new ByteArrayOutputStream();
                 hWBook.write(bOutput);
 
-                FaceUtil.getDownloadfile(bOutput, "ATR030300data.xls");
+                FaceUtil.getDownloadfile(bOutput, "ATR030300_"+CenterUtils.formatfileNameDatetime()+".xls");
                 
             }else{
                 String msg = "ไม่พบข้อมูล";
@@ -751,7 +798,7 @@ public class ATR030300 extends BKBPage {
     private boolean validategenDataExcel(){
        boolean isok = true;
        
-       if((this.getMasterdata().getDailydatest() == null && this.getMasterdata().getDailydatefn() == null)){
+       if((this.getMasterdata().getDailydatest() == null)){
                 
             String msg = MessageUtil.getMessage("EP006");
             addErrorMessage(null,msg,msg);
@@ -759,27 +806,35 @@ public class ATR030300 extends BKBPage {
 
         }
        
-       if((this.getMasterdata().getDailydatest() != null && this.getMasterdata().getDailydatefn() == null) ||
-                (this.getMasterdata().getDailydatest() == null && this.getMasterdata().getDailydatefn() != null)){
-                
-            String msg = MessageUtil.getMessage("EP007");
-            addErrorMessage(null,msg,msg);
-            return false;
-
-        }
-       
-        if(this.getMasterdata().getDailydatest() != null && this.getMasterdata().getDailydatefn() != null){
-
-                String s = Utils.NVL(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()));
-                String e = Utils.NVL(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatefn()));
-
-                if(Integer.parseInt(s) > Integer.parseInt(e)){
-                    String msg = MessageUtil.getMessage("EP007");
-                    addErrorMessage(null,msg,msg);
-                    return false;
-                }
-
-         }
+//       if((this.getMasterdata().getDailydatest() == null && this.getMasterdata().getDailydatefn() == null)){
+//                
+//            String msg = MessageUtil.getMessage("EP006");
+//            addErrorMessage(null,msg,msg);
+//            return false;
+//
+//        }
+//       
+//       if((this.getMasterdata().getDailydatest() != null && this.getMasterdata().getDailydatefn() == null) ||
+//                (this.getMasterdata().getDailydatest() == null && this.getMasterdata().getDailydatefn() != null)){
+//                
+//            String msg = MessageUtil.getMessage("EP007");
+//            addErrorMessage(null,msg,msg);
+//            return false;
+//
+//        }
+//       
+//        if(this.getMasterdata().getDailydatest() != null && this.getMasterdata().getDailydatefn() != null){
+//
+//                String s = Utils.NVL(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()));
+//                String e = Utils.NVL(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatefn()));
+//
+//                if(Integer.parseInt(s) > Integer.parseInt(e)){
+//                    String msg = MessageUtil.getMessage("EP007");
+//                    addErrorMessage(null,msg,msg);
+//                    return false;
+//                }
+//
+//         }
         
         
         return isok;

@@ -482,12 +482,12 @@ public class ATR030100 extends BKBPage {
 
                 Font font16 = hWBook.createFont();                                           //กำหนด font style
                 font16.setFontHeightInPoints((short)16);                                     //กำหนดขนาดของ font
-                font16.setFontName("TH SarabunPSK");                                         //กำหนด font
+                font16.setFontName("CordiaUPC");                                         //กำหนด font
                 font16.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);                              //กำหนด font ให้เป็นตัวหนา
 
                 Font font14 = hWBook.createFont();                                           //กำหนด font style
                 font14.setFontHeightInPoints((short)14);                                     //กำหนดขนาดของ font
-                font14.setFontName("TH SarabunPSK");                                         //กำหนด font
+                font14.setFontName("CordiaUPC");                                         //กำหนด font
 
                 HSSFCellStyle hCellstyle = hWBook.createCellStyle();                          //กำหนด style cell
                 hCellstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         //กำหนด ตัวอักษรให้อยู่กึ่งกลาง
@@ -513,7 +513,7 @@ public class ATR030100 extends BKBPage {
                 
                 Font font18B = hWBook.createFont();                                           //กำหนด font style
                 font18B.setFontHeightInPoints((short)18);                                     //กำหนดขนาดของ font
-                font18B.setFontName("TH SarabunPSK");
+                font18B.setFontName("CordiaUPC");
                 font18B.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);                              //กำหนด font ให้เป็นตัวหนา
                 
                 HSSFCellStyle hCellstyleCB = hWBook.createCellStyle();                          //กำหนด style cell
@@ -534,9 +534,10 @@ public class ATR030100 extends BKBPage {
 //                }
                 
                 
-                hSheet.setColumnWidth(2,10000);
+                hSheet.setColumnWidth(2,14000);
                 hSheet.setColumnWidth(3,10000);
                 hSheet.setColumnWidth(4,10000);
+                hSheet.setColumnWidth(5,14000);
                 hSheet.setColumnWidth(6,14000);
                 
                 hSheet.addMergedRegion(new Region(2,(short)0,2,(short)2));
@@ -572,7 +573,7 @@ public class ATR030100 extends BKBPage {
                     
                     row = hSheet.createRow(3);      
                     cell = row.createCell(0);
-                    cell.setCellValue("Daily Payment");
+                    cell.setCellValue("Daily Received");
                     cell.setCellStyle(hCellstyleCB);
                     
 
@@ -586,28 +587,28 @@ public class ATR030100 extends BKBPage {
                     cell.setCellValue("Dailydate");
                     cell.setCellStyle(hCellstyleHColor);
 
-//                    cell = row.createCell(2);
-//                    cell.setCellValue("dailytype");
-//                    cell.setCellStyle(hCellstyle);
-
                     cell = row.createCell(2);
-                    cell.setCellValue("Description");
+                    cell.setCellValue("Received From");
                     cell.setCellStyle(hCellstyleHColor);
 
                     cell = row.createCell(3);
-                    cell.setCellValue("Voucherno_disp");
+                    cell.setCellValue("Description");
                     cell.setCellStyle(hCellstyleHColor);
-                    
+
                     cell = row.createCell(4);
-                    cell.setCellValue("Jobref");
+                    cell.setCellValue("Voucherno");
                     cell.setCellStyle(hCellstyleHColor);
                     
                     cell = row.createCell(5);
-                    cell.setCellValue("Transecsionno");
+                    cell.setCellValue("Jobref");
                     cell.setCellStyle(hCellstyleHColor);
                     
                     cell = row.createCell(6);
-                    cell.setCellValue("Bankname");
+                    cell.setCellValue("Transecsionno");
+                    cell.setCellStyle(hCellstyleHColor);
+                    
+                    cell = row.createCell(7);
+                    cell.setCellValue("Bank Account");
                     cell.setCellStyle(hCellstyleHColor);
 //                    
 //                    cell = row.createCell(8);
@@ -615,12 +616,12 @@ public class ATR030100 extends BKBPage {
 //                    cell.setCellStyle(hCellstyle);
                     
                                   
-                    cell = row.createCell(7);
-                    cell.setCellValue("Amount");
+                    cell = row.createCell(8);
+                    cell.setCellValue("Amount in USD");
                     cell.setCellStyle(hCellstyleHColor);
                     
-                    cell = row.createCell(8);
-                    cell.setCellValue("Receivedamount");
+                    cell = row.createCell(9);
+                    cell.setCellValue("Amount in Bath");
                     cell.setCellStyle(hCellstyleHColor);
                     
 //                    
@@ -655,27 +656,27 @@ public class ATR030100 extends BKBPage {
                         cell.setCellValue(Utils.NVL(hm.get("dailydate")));
                         cell.setCellStyle(hCellstyleL);
                         
-//                        cell = row.createCell(2);
-//                        cell.setCellValue(Utils.NVL(hm.get("dailytype")));
-//                        cell.setCellStyle(hCellstyleL);
-                        
                         cell = row.createCell(2);
-                        cell.setCellValue(Utils.NVL(hm.get("dscptdesc")));
+                        cell.setCellValue(Utils.NVL(hm.get("companyname")));
                         cell.setCellStyle(hCellstyleL);
                         
                         cell = row.createCell(3);
-                        cell.setCellValue(Utils.NVL(hm.get("voucherno_disp")));
+                        cell.setCellValue(Utils.NVL(hm.get("dscptdesc")));
                         cell.setCellStyle(hCellstyleL);
                         
                         cell = row.createCell(4);
+                        cell.setCellValue(Utils.NVL(hm.get("voucherno_disp")));
+                        cell.setCellStyle(hCellstyleL);
+                        
+                        cell = row.createCell(5);
                         cell.setCellValue(Utils.NVL(hm.get("jobref")));
                         cell.setCellStyle(hCellstyleL);
 
-                        cell = row.createCell(5);
+                        cell = row.createCell(6);
                         cell.setCellValue(Utils.NVL(hm.get("transecsionno")));
                         cell.setCellStyle(hCellstyle);
                                                 
-                        cell = row.createCell(6);
+                        cell = row.createCell(7);
                         cell.setCellValue( Utils.NVL(hm.get("bankname")));
                         cell.setCellStyle(hCellstyleL);
                         
@@ -683,12 +684,12 @@ public class ATR030100 extends BKBPage {
 //                        cell.setCellValue(format(Utils.NVL(hm.get("exchangerate"))));
 //                        cell.setCellStyle(hCellstyleL);
                         
-                        cell = row.createCell(7);
-                        cell.setCellValue(format(Utils.NVL(hm.get("amount"))));
+                        cell = row.createCell(8);
+                        cell.setCellValue(format(Utils.NVL(hm.get("amount_us"))));
                         cell.setCellStyle(hCellstyleR);
                         
-                        cell = row.createCell(8);
-                        cell.setCellValue(format( Utils.NVL(hm.get("receivedamount"))));
+                        cell = row.createCell(9);
+                        cell.setCellValue(format( Utils.NVL(hm.get("receivedamount_th"))));
                         cell.setCellStyle(hCellstyleR);
                         
 //                        cell = row.createCell(11);
@@ -725,7 +726,7 @@ public class ATR030100 extends BKBPage {
                     //=======Footer======
                     
                     
-                    hSheet.addMergedRegion(new Region(5+size,(short)0,5+size,(short)7));
+                    hSheet.addMergedRegion(new Region(5+size,(short)0,5+size,(short)8));
                     
                     row = hSheet.createRow(5+size); 
 
@@ -733,30 +734,30 @@ public class ATR030100 extends BKBPage {
                     cell.setCellValue("Received Amount USD");
                     cell.setCellStyle(hCellstyleR);
                     
-                    for(int i=1;i<8;i++){
+                    for(int i=1;i<9;i++){
                         cell = row.createCell(i);
                         cell.setCellStyle(hCellstyleR);
                     }
                     
                     
 
-                    cell = row.createCell(8);
+                    cell = row.createCell(9);
                     cell.setCellValue(format(amount.toString()));
                     cell.setCellStyle(hCellstyleR);
                     
-                    hSheet.addMergedRegion(new Region(6+size,(short)0,6+size,(short)7));
+                    hSheet.addMergedRegion(new Region(6+size,(short)0,6+size,(short)8));
                     row = hSheet.createRow(6+size);  
 
                     cell = row.createCell(0);
                     cell.setCellValue("Received Amount THB");
                     cell.setCellStyle(hCellstyleR);
                     
-                    for(int i=1;i<8;i++){
+                    for(int i=1;i<9;i++){
                         cell = row.createCell(i);
                         cell.setCellStyle(hCellstyleR);
                     }
 
-                    cell = row.createCell(8);
+                    cell = row.createCell(9);
                     cell.setCellValue(format(receivedamount.toString()));
                     cell.setCellStyle(hCellstyleR);
 
@@ -764,7 +765,7 @@ public class ATR030100 extends BKBPage {
                 ByteArrayOutputStream bOutput = new ByteArrayOutputStream();
                 hWBook.write(bOutput);
 
-                FaceUtil.getDownloadfile(bOutput, "ATR030100data.xls");
+                FaceUtil.getDownloadfile(bOutput, "ATR030100_"+CenterUtils.formatfileNameDatetime()+".xls");
                 
             }else{
                 String msg = "ไม่พบข้อมูล";

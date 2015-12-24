@@ -262,6 +262,47 @@ public class CenterUtils{
 
     }  
     
+     public static String getENMonth(int intMonth, int opt) {
+            Hashtable tblMonth = new Hashtable();
+            switch (opt) {
+                    case 0:
+                            tblMonth.put("1", "January");
+                            tblMonth.put("2", "February");
+                            tblMonth.put("3", "March");
+                            tblMonth.put("4", "April");
+                            tblMonth.put("5", "May");
+                            tblMonth.put("6", "June");
+                            tblMonth.put("7", "July");
+                            tblMonth.put("8", "August");
+                            tblMonth.put("9", "September");
+                            tblMonth.put("10", "October");
+                            tblMonth.put("10", "November");
+                            tblMonth.put("12", "December");
+                            break;
+                    case 1:
+                            tblMonth.put("1", "ม.ค.");
+                            tblMonth.put("2", "ก.พ.");
+                            tblMonth.put("3", "มี.ค.");
+                            tblMonth.put("4", "เม.ย.");
+                            tblMonth.put("5", "พ.ค.");
+                            tblMonth.put("6", "มิ.ย.");
+                            tblMonth.put("7", "ก.ค.");
+                            tblMonth.put("8", "ส.ค.");
+                            tblMonth.put("9", "ก.ย.");
+                            tblMonth.put("10", "ต.ค.");
+                            tblMonth.put("11", "พ.ย.");
+                            tblMonth.put("12", "ธ.ค.");
+                            break;
+                    default:
+            }
+
+           logger.debug(">>getENMonth "+intMonth); 
+            
+            return tblMonth.get(String.valueOf(intMonth)).toString();
+
+
+    }  
+    
     public static String formatDateToStringShowTime(Date dt){
         
         if(dt==null){
@@ -704,6 +745,10 @@ public class CenterUtils{
         }
         
         return result;
+    }
+    
+    public static String formatfileNameDatetime(){
+        return new SimpleDateFormat("yyyyMMdd-HH-mm-ss").format(Utils.getcurDateTime().getTime());
     }
     
 }

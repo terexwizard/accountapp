@@ -482,12 +482,12 @@ public class ATR030800 extends BKBPage {
 
                 Font font16 = hWBook.createFont();                                           //กำหนด font style
                 font16.setFontHeightInPoints((short)16);                                     //กำหนดขนาดของ font
-                font16.setFontName("TH SarabunPSK");                                         //กำหนด font
+                font16.setFontName("CordiaUPC");                                         //กำหนด font
                 font16.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);                              //กำหนด font ให้เป็นตัวหนา
 
                 Font font14 = hWBook.createFont();                                           //กำหนด font style
                 font14.setFontHeightInPoints((short)14);                                     //กำหนดขนาดของ font
-                font14.setFontName("TH SarabunPSK");                                         //กำหนด font
+                font14.setFontName("CordiaUPC");                                         //กำหนด font
 
                 HSSFCellStyle hCellstyle = hWBook.createCellStyle();                          //กำหนด style cell
                 hCellstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         //กำหนด ตัวอักษรให้อยู่กึ่งกลาง
@@ -513,7 +513,7 @@ public class ATR030800 extends BKBPage {
                 
                 Font font18B = hWBook.createFont();                                           //กำหนด font style
                 font18B.setFontHeightInPoints((short)18);                                     //กำหนดขนาดของ font
-                font18B.setFontName("TH SarabunPSK");
+                font18B.setFontName("CordiaUPC");
                 font18B.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);                              //กำหนด font ให้เป็นตัวหนา
                 
                 HSSFCellStyle hCellstyleCB = hWBook.createCellStyle();                          //กำหนด style cell
@@ -556,6 +556,10 @@ public class ATR030800 extends BKBPage {
                 }  
                 
                 //=============Process Data===================
+                ArrayList alallcompany = new ArrayList();
+                ArrayList aldateheader = new ArrayList();
+                ArrayList alcompanyrowx = new ArrayList();
+                
                  for(int i=3;i>0;i--){
                     Calendar c = Calendar.getInstance();   
                     c.set(Integer.parseInt(this.getMasterdata().getYear()), Integer.parseInt(this.getMasterdata().getMonth())-1, 1);
@@ -567,6 +571,7 @@ public class ATR030800 extends BKBPage {
                     String d = Utils.formatDateToStringToDBEn(c.getTime()).substring(0, 6);
                     String st = d+"01";
                     String fn = d+"31";
+                    aldateheader.add(d);
                     
                     for(int j=0;j<sizecompany;j++){
                         
@@ -586,7 +591,8 @@ public class ATR030800 extends BKBPage {
                         List lcompanymonth = CenterUtils.selectData(hmmonth,"lookup_data_invoice");
                         
                         hmdata.put(Utils.NVL(i)+"_"+companyid, lcompanymonth);
-                        hmdata.put(Utils.NVL(i)+"_date", CenterUtils.convertStringMonthYear(d));
+                        //hmdata.put(Utils.NVL(i)+"_date", CenterUtils.convertStringMonthYear(d));
+                        hmdata.put(Utils.NVL(i)+"_date", d);
                     }
                 }
                  
@@ -600,6 +606,7 @@ public class ATR030800 extends BKBPage {
                     String d = Utils.formatDateToStringToDBEn(c.getTime()).substring(0, 6);
                     String st = d+"01";
                     String fn = d+"31";
+                    aldateheader.add(d);
                     
                     for(int j=0;j<sizecompany;j++){
                         
@@ -619,7 +626,8 @@ public class ATR030800 extends BKBPage {
                         List lcompanymonth = CenterUtils.selectData(hmmonth,"lookup_data_invoice");
                         
                         hmdata.put(Utils.NVL(0)+"_"+companyid, lcompanymonth);
-                         hmdata.put(Utils.NVL(0)+"_date", CenterUtils.convertStringMonthYear(d));
+                        //hmdata.put(Utils.NVL(0)+"_date", CenterUtils.convertStringMonthYear(d));
+                        hmdata.put(Utils.NVL(0)+"_date", d);
                     }
                 //=================================================
                 
@@ -633,6 +641,9 @@ public class ATR030800 extends BKBPage {
                         String companyid = hmcompany.get(Utils.NVL(j));  
                         //HSSFSheet hSheet = hWBook.getSheetAt(rowdatasheet+j);
                         logger.debug(">>sheet name "+this.replaceName(companyid+"_"+hmcompany.get(j+"name")));
+                        alcompanyrowx = new ArrayList();
+                        alcompanyrowx.add(companyid);
+                        alcompanyrowx.add(hmcompany.get(j+"name"));
                         
                         HSSFSheet hSheet = hWBook.createSheet(this.replaceName(companyid+"_"+hmcompany.get(j+"name")));
                         
@@ -684,6 +695,10 @@ public class ATR030800 extends BKBPage {
                         
                         List lcompanymonth = (List)hmdata.get(Utils.NVL(i)+"_"+companyid);
                         String date = (String)hmdata.get(Utils.NVL(i)+"_date");
+                        if(i==3){
+                            alcompanyrowx.add(date);
+                        }
+                        date = CenterUtils.convertStringMonthYear(date);
                         sizelcompanymonth = lcompanymonth.size();
                         
                          if(sizelcompanymonth == 0){
@@ -712,6 +727,8 @@ public class ATR030800 extends BKBPage {
                             cell = row.createCell(4);
                             cell.setCellValue("0.00");
                             cell.setCellStyle(hCellstyleR);
+                            
+                            alcompanyrowx.add("0.00");
                         }else{
                             for(int k=0;k<sizelcompanymonth;k++){
                                 HashMap hmcompanymonth = new HashMap<String, String>();
@@ -777,12 +794,20 @@ public class ATR030800 extends BKBPage {
                             cell = row.createCell(4);
                             if(i==3){
                                 cell.setCellValue(format(sumtotal3.toString()));
+                                
+                                alcompanyrowx.add(sumtotal3.toString());
                             }else if(i==2){
                                 cell.setCellValue(format(sumtotal2.toString()));
+                                
+                                alcompanyrowx.add(sumtotal2.toString());
                             }else if(i==1){
                                 cell.setCellValue(format(sumtotal1.toString()));
+                                
+                                alcompanyrowx.add(sumtotal1.toString());
                             }else if(i==0){
                                 cell.setCellValue(format(sumtotal0.toString()));
+                                
+                                alcompanyrowx.add(sumtotal0.toString());
                             }
                             cell.setCellStyle(hCellstyleR); 
                         
@@ -811,13 +836,97 @@ public class ATR030800 extends BKBPage {
                     cell = row.createCell(4);
                     cell.setCellValue(format(sumtotalall.toString()));
                     cell.setCellStyle(hCellstyleR); 
+                    
+                    
+                    if(companyid.equals("0001")){
+                        logger.debug(">>terex xx"+sumtotalall.toString());
+                    }
+                    
+                    alcompanyrowx.add(sumtotalall.toString());
+                    
+                    alallcompany.add(alcompanyrowx);
                 } 
-                      
+                     
+                
+                //================สรุปหน้าเปิด===================================
+                HSSFSheet hSheet = hWBook.getSheetAt(0);
+                
+                    String header = "Date : " + CenterUtils.formatDateToStringShowTime(Utils.getcurDateTime());
+
+                    hSheet.addMergedRegion(new Region(0,(short)0,0,(short)2));
+                    HSSFRow row = hSheet.createRow(0);      
+                    cell = row.createCell(0);
+                    cell.setCellValue(header);
+                    cell.setCellStyle(hCellstyleCB);
+
+
+                    String condition = "Condition : "+CenterUtils.getENMonth(Integer.parseInt(this.getMasterdata().getMonth()),0)+" "+this.getMasterdata().getYear()+" Status : "+(this.getMasterdata().getRdoflag().equals("Y")?"Clear":"Not Clear");
+                    hSheet.addMergedRegion(new Region(1,(short)0,1,(short)2));
+                    row = hSheet.createRow(1);      
+                    cell = row.createCell(0);
+                    cell.setCellValue(condition);
+                    cell.setCellStyle(hCellstyleCB);
+                    
+                    //========================================
+                
+                    row = hSheet.createRow(2);
+                    cell = row.createCell(0);
+                    cell.setCellValue("Customer");
+                    cell.setCellStyle(hCellstyleHColor);
+                    
+                    cell = row.createCell(1);
+                    cell.setCellValue("Balance "+CenterUtils.convertStringMonthYear(Utils.NVL(aldateheader.get(0))));
+                    cell.setCellStyle(hCellstyleHColor);
+                    
+                int size = alallcompany.size();
+                for(int i=0;i<size;i++){
+                    
+                    ArrayList alcompanyrowxx = (ArrayList)alallcompany.get(i);
+                    
+//                    if(Utils.NVL(alcompanyrowxx.get(0)).equals("0001")){
+//                        logger.debug(">>terex xx"+alcompanyrowxx.size());
+//                        
+//                        for(int x=0;x<alcompanyrowxx.size();x++){
+//                            logger.debug(">>terex xx"+Utils.NVL(alcompanyrowxx.get(x)));
+//                        }
+//                        
+//                    }
+                    
+                    hSheet.setColumnWidth(0,15000);
+                    row = hSheet.createRow(i+3);
+                    cell = row.createCell(0);
+                    cell.setCellValue(Utils.NVL(alcompanyrowxx.get(1)));
+                    cell.setCellStyle(hCellstyleL);
+                                        
+                    cell = row.createCell(1);
+                    cell.setCellValue(format(Utils.NVL(alcompanyrowxx.get(6))));
+                    cell.setCellStyle(hCellstyleR);
+                    
+//                    cell = row.createCell(1);
+//                    cell.setCellValue(format(this.sumdata_invoice(Utils.NVL(alcompanyrowxx.get(0)),Utils.NVL(alcompanyrowxx.get(2)))));
+//                    cell.setCellStyle(hCellstyleR);
+//                    
+//                    cell = row.createCell(2);
+//                    cell.setCellValue(format(Utils.NVL(alcompanyrowxx.get(3))));
+//                    cell.setCellStyle(hCellstyleR);
+//                    
+//                    cell = row.createCell(3);
+//                    cell.setCellValue(format(Utils.NVL(alcompanyrowxx.get(4))));
+//                    cell.setCellStyle(hCellstyleR);
+//                    
+//                    cell = row.createCell(4);
+//                    cell.setCellValue(format(Utils.NVL(alcompanyrowxx.get(5))));
+//                    cell.setCellStyle(hCellstyleR); 
+//                    
+//                    cell = row.createCell(5);
+//                    cell.setCellValue(format(Utils.NVL(alcompanyrowxx.get(6))));
+//                    cell.setCellStyle(hCellstyleR); 
+                }     
                 
                 ByteArrayOutputStream bOutput = new ByteArrayOutputStream();
                 hWBook.write(bOutput);
 
-                FaceUtil.getDownloadfile(bOutput, "ATR030800data.xls");
+                FaceUtil.getDownloadfile(bOutput, "ATR030800_"+CenterUtils.formatfileNameDatetime()+".xls");
 
             }catch(FileNotFoundException e){    
                 e.printStackTrace();
@@ -848,6 +957,31 @@ public class ATR030800 extends BKBPage {
         String result = name.replace("[", "");
         result = result.replace("]", "");
         result = result.replace("/", "");
+        
+        return result;
+    }
+    
+    
+    private String sumdata_invoice(String companyid,String date){
+        
+        String result = "0.00";
+        
+        HashMap hmmonth = new HashMap<String, String>();
+        hmmonth.put("invcomid", companyid);
+        hmmonth.put("invdatefn", date+"01");
+        if(this.getMasterdata().getRdoflag().equals("Y")){
+            hmmonth.put("clearflagY", "Y");
+        }else{
+            hmmonth.put("clearflagN", "N");
+        }
+        List lcompanymonth = CenterUtils.selectData(hmmonth,"lookup_sumdata_invoice");
+        
+        if(!lcompanymonth.isEmpty()){
+            hmmonth = (HashMap)lcompanymonth.get(0);
+            
+            result = Utils.NVL(hmmonth.get("sumdata"));
+        }
+        
         
         return result;
     }

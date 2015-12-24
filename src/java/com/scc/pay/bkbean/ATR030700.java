@@ -495,12 +495,12 @@ public class ATR030700 extends BKBPage {
 
                 Font font16 = hWBook.createFont();                                           //กำหนด font style
                 font16.setFontHeightInPoints((short)16);                                     //กำหนดขนาดของ font
-                font16.setFontName("TH SarabunPSK");                                         //กำหนด font
+                font16.setFontName("CordiaUPC");                                         //กำหนด font
                 font16.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);                              //กำหนด font ให้เป็นตัวหนา
 
                 Font font14 = hWBook.createFont();                                           //กำหนด font style
                 font14.setFontHeightInPoints((short)14);                                     //กำหนดขนาดของ font
-                font14.setFontName("TH SarabunPSK");                                         //กำหนด font
+                font14.setFontName("CordiaUPC");                                         //กำหนด font
 
                 HSSFCellStyle hCellstyle = hWBook.createCellStyle();                          //กำหนด style cell
                 hCellstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         //กำหนด ตัวอักษรให้อยู่กึ่งกลาง
@@ -526,7 +526,7 @@ public class ATR030700 extends BKBPage {
                 
                 Font font18B = hWBook.createFont();                                           //กำหนด font style
                 font18B.setFontHeightInPoints((short)18);                                     //กำหนดขนาดของ font
-                font18B.setFontName("TH SarabunPSK");
+                font18B.setFontName("CordiaUPC");
                 font18B.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);                              //กำหนด font ให้เป็นตัวหนา
                 
                 HSSFCellStyle hCellstyleCB = hWBook.createCellStyle();                          //กำหนด style cell
@@ -801,7 +801,7 @@ public class ATR030700 extends BKBPage {
                 ByteArrayOutputStream bOutput = new ByteArrayOutputStream();
                 hWBook.write(bOutput);
 
-                FaceUtil.getDownloadfile(bOutput, "ATR030700data.xls");
+                FaceUtil.getDownloadfile(bOutput, "ATR030700_"+CenterUtils.formatfileNameDatetime()+".xls");
                 
 //            }else{
 //                String msg = "ไม่พบข้อมูล";
