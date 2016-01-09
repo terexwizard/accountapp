@@ -9,7 +9,9 @@ import static com.scc.f1.backingbean.BKBPageImpl.SEARCH_ACTION_NEW;
 import static com.scc.f1.backingbean.BKBPageImpl.SEARCH_ACTION_REQUERY;
 import com.scc.pay.business.BusinessFactory;
 import com.scc.f1.business.IBusinessBase;
+import com.scc.f1.util.MessageUtil;
 import com.scc.f1.util.Utils;
+import com.scc.pay.db.Daily;
 import com.scc.pay.util.CenterUtils;
 import com.scc.pay.util.FaceUtil;
 import java.io.ByteArrayOutputStream;
@@ -26,7 +28,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.TreeMap;
 
 import javax.faces.context.FacesContext;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -93,7 +94,7 @@ public class ATR030900 extends BKBPage {
     
     
     public class MainData extends BBBase{
-        
+        private Daily daily = null;
         private String month = "";
         private String year = "";
         private String rdoflag = "";
@@ -121,7 +122,16 @@ public class ATR030900 extends BKBPage {
         public void setRdoflag(String rdoflag) {
             this.rdoflag = rdoflag;
         }
-        
+         public Daily getDaily() {
+            if(daily == null){
+                daily = new Daily();
+            }
+            return daily;
+        }
+
+        public void setDaily(Daily daily) {
+            this.daily = daily;
+        }
 
     }
     
@@ -267,7 +277,7 @@ public class ATR030900 extends BKBPage {
 //            
 //        }
         
-        logger.debug(">>terex "+validategenDataExcel());
+        //logger.debug(">>terex "+validategenDataExcel());
         
         if(validategenDataExcel()){
             genDataExcel();
@@ -483,26 +493,26 @@ public class ATR030900 extends BKBPage {
 
                 Font font16 = hWBook.createFont();                                           //กำหนด font style
                 font16.setFontHeightInPoints((short)16);                                     //กำหนดขนาดของ font
-                font16.setFontName("CordiaUPC");                                         //กำหนด font
+                font16.setFontName("Angsana New");                                         //กำหนด font
                 font16.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);                              //กำหนด font ให้เป็นตัวหนา
 
                 Font font14 = hWBook.createFont();                                           //กำหนด font style
                 font14.setFontHeightInPoints((short)14);                                     //กำหนดขนาดของ font
-                font14.setFontName("CordiaUPC");                                         //กำหนด font
+                font14.setFontName("Angsana New");                                         //กำหนด font
 
                 HSSFCellStyle hCellstyle = hWBook.createCellStyle();                          //กำหนด style cell
                 hCellstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         //กำหนด ตัวอักษรให้อยู่กึ่งกลาง
-                hCellstyle.setFont(font16);       
+                hCellstyle.setFont(font14);       
                 CenterUtils.setCellBorder(hCellstyle);
                 
                 HSSFCellStyle hCellstyleL = hWBook.createCellStyle();                          //กำหนด style cell
                 hCellstyleL.setAlignment(HSSFCellStyle.ALIGN_LEFT);                         //กำหนด ตัวอักษรให้อยู่ซ้าย
-                hCellstyleL.setFont(font16);      
+                hCellstyleL.setFont(font14);      
                 CenterUtils.setCellBorder(hCellstyleL);
                 
                 HSSFCellStyle hCellstyleR = hWBook.createCellStyle();                          //กำหนด style cell
                 hCellstyleR.setAlignment(HSSFCellStyle.ALIGN_RIGHT);                         //กำหนด ตัวอักษรให้อยู่ซ้าย
-                hCellstyleR.setFont(font16);                                                  //เรียกใช้ style font
+                hCellstyleR.setFont(font14);                                                  //เรียกใช้ style font
                 CenterUtils.setCellBorder(hCellstyleR);
                 
                 HSSFCellStyle hCellstyleHColor = hWBook.createCellStyle();                         
@@ -513,8 +523,8 @@ public class ATR030900 extends BKBPage {
                 CenterUtils.setCellBorder(hCellstyleHColor);
                 
                 Font font18B = hWBook.createFont();                                           //กำหนด font style
-                font18B.setFontHeightInPoints((short)18);                                     //กำหนดขนาดของ font
-                font18B.setFontName("CordiaUPC");
+                font18B.setFontHeightInPoints((short)16);                                     //กำหนดขนาดของ font
+                font18B.setFontName("Angsana New");
                 font18B.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);                              //กำหนด font ให้เป็นตัวหนา
                 
                 HSSFCellStyle hCellstyleCB = hWBook.createCellStyle();                          //กำหนด style cell
@@ -540,6 +550,7 @@ public class ATR030900 extends BKBPage {
                 List lcompany = new ArrayList();
                 HashMap hm = new HashMap<String, String>();
                 HashMap<String, String> hmcompany = new HashMap<String, String>();
+                hmcompany.put("invcomid", this.getMasterdata().getDaily().getCompanyid());
                 lcompany = CenterUtils.selectData(hmcompany,"lookup_invoicecompany");
 
                 int sizecompany = lcompany.size();
@@ -1159,7 +1170,15 @@ public class ATR030900 extends BKBPage {
     private boolean validategenDataExcel(){
        boolean isok = true;
        
-        
+         if(Utils.NVL(this.getMasterdata().getRdoflag()).equals("") &&
+             Utils.NVL(this.getMasterdata().getDaily().getCompanyid()).equals("") &&
+             (Utils.NVL(this.getMasterdata().getMonth()).equals("") || Utils.NVL(this.getMasterdata().getYear()).equals(""))    ){
+                
+            String msg = MessageUtil.getMessage("EP011");
+            addErrorMessage(null,msg,msg);
+            return false;
+
+        }
         
         return isok;
     }

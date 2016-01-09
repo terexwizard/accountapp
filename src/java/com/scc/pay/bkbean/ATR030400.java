@@ -483,31 +483,31 @@ public class ATR030400 extends BKBPage {
 
                 Font font16 = hWBook.createFont();                                           //กำหนด font style
                 font16.setFontHeightInPoints((short)16);                                     //กำหนดขนาดของ font
-                font16.setFontName("CordiaUPC");                                         //กำหนด font
+                font16.setFontName("Angsana New");                                         //กำหนด font
                 font16.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);                              //กำหนด font ให้เป็นตัวหนา
 
                 Font font14 = hWBook.createFont();                                           //กำหนด font style
                 font14.setFontHeightInPoints((short)14);                                     //กำหนดขนาดของ font
-                font14.setFontName("CordiaUPC");                                         //กำหนด font
+                font14.setFontName("Angsana New");                                         //กำหนด font
 
                 HSSFCellStyle hCellstyle = hWBook.createCellStyle();                          //กำหนด style cell
                 hCellstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         //กำหนด ตัวอักษรให้อยู่กึ่งกลาง
-                hCellstyle.setFont(font16);                                                  //เรียกใช้ style font
+                hCellstyle.setFont(font14);                                                  //เรียกใช้ style font
                 CenterUtils.setCellBorder(hCellstyle);
                 
                 HSSFCellStyle hCellstyleL = hWBook.createCellStyle();                          //กำหนด style cell
                 hCellstyleL.setAlignment(HSSFCellStyle.ALIGN_LEFT);                         //กำหนด ตัวอักษรให้อยู่ซ้าย
-                hCellstyleL.setFont(font16);                                                  //เรียกใช้ style font
+                hCellstyleL.setFont(font14);                                                  //เรียกใช้ style font
                 CenterUtils.setCellBorder(hCellstyleL);
                 
                 Font font18B = hWBook.createFont();                                           //กำหนด font style
-                font18B.setFontHeightInPoints((short)18);                                     //กำหนดขนาดของ font
-                font18B.setFontName("CordiaUPC");
+                font18B.setFontHeightInPoints((short)16);                                     //กำหนดขนาดของ font
+                font18B.setFontName("Angsana New");
                 font18B.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);                              //กำหนด font ให้เป็นตัวหนา
                 
                 HSSFCellStyle hCellstyleR = hWBook.createCellStyle();                         
                 hCellstyleR.setAlignment(HSSFCellStyle.ALIGN_RIGHT);                        
-                hCellstyleR.setFont(font16);                                                
+                hCellstyleR.setFont(font14);                                                
                 CenterUtils.setCellBorder(hCellstyleR);
                 
                 HSSFCellStyle hCellstyleHColor = hWBook.createCellStyle();                         

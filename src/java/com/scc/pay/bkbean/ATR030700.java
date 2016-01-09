@@ -9,6 +9,7 @@ import static com.scc.f1.backingbean.BKBPageImpl.SEARCH_ACTION_NEW;
 import static com.scc.f1.backingbean.BKBPageImpl.SEARCH_ACTION_REQUERY;
 import com.scc.pay.business.BusinessFactory;
 import com.scc.f1.business.IBusinessBase;
+import com.scc.f1.util.MessageUtil;
 import com.scc.f1.util.Utils;
 import com.scc.pay.db.Daily;
 import com.scc.pay.util.CenterUtils;
@@ -288,7 +289,7 @@ public class ATR030700 extends BKBPage {
 //            
 //        }
         
-        logger.debug(">>terex "+validategenDataExcel());
+        //logger.debug(">>terex "+validategenDataExcel());
         
         if(validategenDataExcel()){
             genDataExcel();
@@ -495,38 +496,38 @@ public class ATR030700 extends BKBPage {
 
                 Font font16 = hWBook.createFont();                                           //กำหนด font style
                 font16.setFontHeightInPoints((short)16);                                     //กำหนดขนาดของ font
-                font16.setFontName("CordiaUPC");                                         //กำหนด font
+                font16.setFontName("Angsana New");                                         //กำหนด font
                 font16.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);                              //กำหนด font ให้เป็นตัวหนา
 
                 Font font14 = hWBook.createFont();                                           //กำหนด font style
                 font14.setFontHeightInPoints((short)14);                                     //กำหนดขนาดของ font
-                font14.setFontName("CordiaUPC");                                         //กำหนด font
+                font14.setFontName("Angsana New");                                         //กำหนด font
 
                 HSSFCellStyle hCellstyle = hWBook.createCellStyle();                          //กำหนด style cell
                 hCellstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         //กำหนด ตัวอักษรให้อยู่กึ่งกลาง
-                hCellstyle.setFont(font16);       
+                hCellstyle.setFont(font14);       
                 CenterUtils.setCellBorder(hCellstyle);
                 
                 HSSFCellStyle hCellstyleL = hWBook.createCellStyle();                          //กำหนด style cell
                 hCellstyleL.setAlignment(HSSFCellStyle.ALIGN_LEFT);                         //กำหนด ตัวอักษรให้อยู่ซ้าย
-                hCellstyleL.setFont(font16);      
+                hCellstyleL.setFont(font14);      
                 CenterUtils.setCellBorder(hCellstyleL);
                 
                 HSSFCellStyle hCellstyleR = hWBook.createCellStyle();                          //กำหนด style cell
                 hCellstyleR.setAlignment(HSSFCellStyle.ALIGN_RIGHT);                         //กำหนด ตัวอักษรให้อยู่ซ้าย
-                hCellstyleR.setFont(font16);                                                  //เรียกใช้ style font
+                hCellstyleR.setFont(font14);                                                  //เรียกใช้ style font
                 CenterUtils.setCellBorder(hCellstyleR);
                 
                 HSSFCellStyle hCellstyleHColor = hWBook.createCellStyle();                         
                 hCellstyleHColor.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         
-                hCellstyleHColor.setFont(font16);                   
+                hCellstyleHColor.setFont(font14);                   
                 hCellstyleHColor.setFillForegroundColor(HSSFColor.LIGHT_GREEN.index);
                 hCellstyleHColor.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
                 CenterUtils.setCellBorder(hCellstyleHColor);
                 
                 Font font18B = hWBook.createFont();                                           //กำหนด font style
-                font18B.setFontHeightInPoints((short)18);                                     //กำหนดขนาดของ font
-                font18B.setFontName("CordiaUPC");
+                font18B.setFontHeightInPoints((short)16);                                     //กำหนดขนาดของ font
+                font18B.setFontName("Angsana New");
                 font18B.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);                              //กำหนด font ให้เป็นตัวหนา
                 
                 HSSFCellStyle hCellstyleCB = hWBook.createCellStyle();                          //กำหนด style cell
@@ -616,6 +617,7 @@ public class ATR030700 extends BKBPage {
                         hmold = new HashMap<String, String>();
 //                        hmold.put("chequedateold", Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()));
                         hmold.put("chequedatenotclear", Utils.NVL(this.getMasterdata().getType()));
+                        hmold.put("companyid", this.getMasterdata().getDaily().getCompanyid());
 
                         lold = CenterUtils.selectData(hmold,"lookup_daily_cheque");
 
@@ -692,6 +694,7 @@ public class ATR030700 extends BKBPage {
 //                            hm.put("chequedateold", Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()));
 //                        }else{
                             hm.put("chequedate", Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()));
+                            hm.put("companyid", this.getMasterdata().getDaily().getCompanyid());
 //                        }
 
                         List l = CenterUtils.selectData(hm,"lookup_daily_cheque");
@@ -828,7 +831,14 @@ public class ATR030700 extends BKBPage {
     private boolean validategenDataExcel(){
        boolean isok = true;
        
-        
+         if((this.getMasterdata().getDailydatest() == null ) &&
+             Utils.NVL(this.getMasterdata().getDaily().getCompanyid()).equals("")){
+                
+            String msg = MessageUtil.getMessage("EP011");
+            addErrorMessage(null,msg,msg);
+            return false;
+
+        }
         
         return isok;
     }

@@ -235,7 +235,7 @@ public class CenterUtils{
                             tblMonth.put("8", "สิงหาคม");
                             tblMonth.put("9", "กันยายน");
                             tblMonth.put("10", "ตุลาคม");
-                            tblMonth.put("10", "พฤศจิกายน");
+                            tblMonth.put("11", "พฤศจิกายน");
                             tblMonth.put("12", "ธันวาคม");
                             break;
                     case 1:
@@ -276,7 +276,7 @@ public class CenterUtils{
                             tblMonth.put("8", "August");
                             tblMonth.put("9", "September");
                             tblMonth.put("10", "October");
-                            tblMonth.put("10", "November");
+                            tblMonth.put("11", "November");
                             tblMonth.put("12", "December");
                             break;
                     case 1:

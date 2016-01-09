@@ -28,6 +28,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import java.text.DecimalFormat;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import javax.faces.context.FacesContext;
 import org.apache.commons.io.IOUtils;
@@ -286,7 +287,7 @@ public class ATR030600 extends BKBPage {
 //            
 //        }
         
-        logger.debug(">>terex "+validategenDataExcel());
+        //logger.debug(">>terex "+validategenDataExcel());
         
         if(validategenDataExcel()){
             genDataExcel();
@@ -484,38 +485,38 @@ public class ATR030600 extends BKBPage {
 
                 Font font16 = hWBook.createFont();                                           //กำหนด font style
                 font16.setFontHeightInPoints((short)16);                                     //กำหนดขนาดของ font
-                font16.setFontName("CordiaUPC");                                         //กำหนด font
+                font16.setFontName("Angsana New");                                         //กำหนด font
                 font16.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);                              //กำหนด font ให้เป็นตัวหนา
 
                 Font font14 = hWBook.createFont();                                           //กำหนด font style
                 font14.setFontHeightInPoints((short)14);                                     //กำหนดขนาดของ font
-                font14.setFontName("CordiaUPC");                                         //กำหนด font
+                font14.setFontName("Angsana New");                                         //กำหนด font
 
                 HSSFCellStyle hCellstyle = hWBook.createCellStyle();                          //กำหนด style cell
                 hCellstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         //กำหนด ตัวอักษรให้อยู่กึ่งกลาง
-                hCellstyle.setFont(font16);       
+                hCellstyle.setFont(font14);       
                 CenterUtils.setCellBorder(hCellstyle);
                 
                 HSSFCellStyle hCellstyleL = hWBook.createCellStyle();                          //กำหนด style cell
                 hCellstyleL.setAlignment(HSSFCellStyle.ALIGN_LEFT);                         //กำหนด ตัวอักษรให้อยู่ซ้าย
-                hCellstyleL.setFont(font16);       
+                hCellstyleL.setFont(font14);       
                 CenterUtils.setCellBorder(hCellstyleL);
                 
                 HSSFCellStyle hCellstyleR = hWBook.createCellStyle();                          //กำหนด style cell
                 hCellstyleR.setAlignment(HSSFCellStyle.ALIGN_RIGHT);                         //กำหนด ตัวอักษรให้อยู่ซ้าย
-                hCellstyleR.setFont(font16);                                                  //เรียกใช้ style font
+                hCellstyleR.setFont(font14);                                                  //เรียกใช้ style font
                 CenterUtils.setCellBorder(hCellstyleR);
                 
                 HSSFCellStyle hCellstyleHColor = hWBook.createCellStyle();                         
                 hCellstyleHColor.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         
-                hCellstyleHColor.setFont(font16);                   
+                hCellstyleHColor.setFont(font14);                   
                 hCellstyleHColor.setFillForegroundColor(HSSFColor.LIGHT_GREEN.index);
                 hCellstyleHColor.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
                 CenterUtils.setCellBorder(hCellstyleHColor);
                 
                 Font font18B = hWBook.createFont();                                           //กำหนด font style
-                font18B.setFontHeightInPoints((short)18);                                     //กำหนดขนาดของ font
-                font18B.setFontName("CordiaUPC");
+                font18B.setFontHeightInPoints((short)16);                                     //กำหนดขนาดของ font
+                font18B.setFontName("Angsana New");
                 font18B.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);                              //กำหนด font ให้เป็นตัวหนา
                 
                 HSSFCellStyle hCellstyleCB = hWBook.createCellStyle();                          //กำหนด style cell
@@ -548,8 +549,12 @@ public class ATR030600 extends BKBPage {
                 HashMap hm = new HashMap<String, String>();
                 hm.put("dailydate", Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()));
                 hm.put("voucherno", Utils.NVL(this.getMasterdata().getDaily().getVoucherno()));
+                hm.put("companyid", this.getMasterdata().getDaily().getCompanyid());
 
                 List l = CenterUtils.selectData(hm,"lookup_sumdaily_voucherno_th");
+                
+                BigDecimal totalth = new BigDecimal(0);
+                BigDecimal totalus = new BigDecimal(0);
 
                 if(!l.isEmpty()){
 
@@ -601,8 +606,12 @@ public class ATR030600 extends BKBPage {
                         logger.debug(">>terex "+hm.get("moneyr"));
                         if(!Utils.NVL(hm.get("moneyr")).equals("0.0")){
                             cell.setCellValue(format(Utils.NVL(hm.get("moneyr"))));
+                            
+                            totalth = totalth.add(new BigDecimal(Utils.NVL(hm.get("moneyr")).equals("")?"0":Utils.NVL(hm.get("moneyr"))));
                         }else{
                             cell.setCellValue(format(Utils.NVL(hm.get("moneyp"))));
+                            
+                            totalth = totalth.add(new BigDecimal(Utils.NVL(hm.get("moneyp")).equals("")?"0":Utils.NVL(hm.get("moneyp"))));
                         }
                         cell.setCellStyle(hCellstyleR);
                         
@@ -611,11 +620,35 @@ public class ATR030600 extends BKBPage {
                         cell.setCellStyle(hCellstyle);
                 }
                     
+                //=============total th
+                int paddingHeader = 4;
+                if(size > 0){
+                    row = hSheet.createRow(size+paddingHeader+1);
+                    for(int i=0;i<2;i++){
+                            cell = row.createCell(i);
+                            cell.setCellStyle(hCellstyleR);
+                    }
+
+                    cell = row.createCell(2);
+                    cell.setCellValue("Total in Thai");
+                    cell.setCellStyle(hCellstyleR);
+
+
+                    cell = row.createCell(3);
+                    cell.setCellValue(format(totalth.toString()));
+                    cell.setCellStyle(hCellstyleR); 
+                    
+                    cell = row.createCell(4);
+                    cell.setCellValue("");
+                    cell.setCellStyle(hCellstyleR); 
+                }
+                
                     
                 //Query Data2
                 HashMap hm2 = new HashMap<String, String>();
                 hm2.put("dailydate", Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()));
                 hm2.put("voucherno", Utils.NVL(this.getMasterdata().getDaily().getVoucherno()));
+                hm2.put("companyid", this.getMasterdata().getDaily().getCompanyid());
                 List l2 = CenterUtils.selectData(hm2,"lookup_sumdaily_voucherno_us");
                 
                 
@@ -626,7 +659,7 @@ public class ATR030600 extends BKBPage {
                         hm2 = (HashMap)l2.get(i);
 
                         hSheet.autoSizeColumn(1);
-                        row = hSheet.createRow((rowpad+1)+i);
+                        row = hSheet.createRow((rowpad+1+1)+i);
                         cell = row.createCell(0);
                         cell.setCellValue(Utils.convertDateStringToScreen(Utils.NVL(hm2.get("dailydate")),"/"));
                         cell.setCellStyle(hCellstyleL);
@@ -641,17 +674,42 @@ public class ATR030600 extends BKBPage {
                         
                         cell = row.createCell(3);
                         if(!Utils.NVL(hm2.get("moneyr")).equals("0.0")){
-                            cell.setCellValue(format(Utils.NVL(hm2.get("moneyr")))+" $");
+                            cell.setCellValue(format(Utils.NVL(hm2.get("moneyr"))));
+                            
+                            totalus = totalus.add(new BigDecimal(Utils.NVL(hm2.get("moneyr")).equals("")?"0":Utils.NVL(hm2.get("moneyr"))));
                         }else{
-                            cell.setCellValue(format(Utils.NVL(hm2.get("moneyp")))+" $");
+                            cell.setCellValue(format(Utils.NVL(hm2.get("moneyp"))));
+                            
+                            totalus = totalus.add(new BigDecimal(Utils.NVL(hm2.get("moneyp")).equals("")?"0":Utils.NVL(hm2.get("moneyp"))));
                         }
                         cell.setCellStyle(hCellstyleR);
                         
                         cell = row.createCell(4);
-                        cell.setCellValue(getvaluevoucherno(Utils.NVL(hm.get("dailyid"))));
-                        cell.setCellStyle(hCellstyle);
+                        cell.setCellValue(getvaluevoucherno(Utils.NVL(hm2.get("dailyid"))));
+                        cell.setCellStyle(hCellstyle);                        
                 }
                 
+                    
+                //=============total us
+                if(size2 > 0){
+                    row = hSheet.createRow((rowpad+1+1)+size2);
+                    for(int i=0;i<2;i++){
+                            cell = row.createCell(i);
+                            cell.setCellStyle(hCellstyleR);
+                    }
+
+                    cell = row.createCell(2);
+                    cell.setCellValue("Total in USD");
+                    cell.setCellStyle(hCellstyleR);
+
+                    cell = row.createCell(3);
+                    cell.setCellValue(format(totalus.toString()));
+                    cell.setCellStyle(hCellstyleR);  
+                    
+                    cell = row.createCell(4);
+                    cell.setCellValue("");
+                    cell.setCellStyle(hCellstyleR); 
+                }
                 //==========================================
                     
                 ByteArrayOutputStream bOutput = new ByteArrayOutputStream();
@@ -684,7 +742,14 @@ public class ATR030600 extends BKBPage {
     private boolean validategenDataExcel(){
        boolean isok = true;
        
-        
+         if((this.getMasterdata().getDailydatest() == null ) &&
+             Utils.NVL(this.getMasterdata().getDaily().getCompanyid()).equals("")){
+                
+            String msg = MessageUtil.getMessage("EP011");
+            addErrorMessage(null,msg,msg);
+            return false;
+
+        }
         
         return isok;
     }
