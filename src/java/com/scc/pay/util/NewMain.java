@@ -5,11 +5,11 @@
 package com.scc.pay.util;
 
 import com.scc.f1.util.Utils;
+import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -61,7 +61,7 @@ public class NewMain {
             //}
         }
 
-
+        System.out.println(new DateFormatSymbols().getMonths()[12-1]);
 
     }
     

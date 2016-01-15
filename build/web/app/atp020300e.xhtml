@@ -129,6 +129,10 @@
               #{rec.data.receivable.jobno}
           </p:column>
           
+          <p:column  headerText="Inv No"  style="width:120px;vertical-align: text-top;" >  
+              #{rec.data.receivable.invoiceno}
+          </p:column>
+          
            <p:column  headerText="Reimbursement"  style="vertical-align: text-top;text-align: right;" >  
               #{func:formatMoney(rec.data.receivable.reimbursement)} #{rec.data.currency_disp}
           </p:column>
@@ -211,10 +215,10 @@
            
            
              <p:row>
-                 <p:column styleClass="textR">
+               <p:column styleClass="textR">
                    <h:outputLabel value="Invoice date" /> 
                </p:column>
-                 <p:column colspan="5">
+               <p:column >
                    
                    <p:calendar id="invdate" value="#{aTP020300.detailreceivable.row.data.invdate}" 
                                      size="10" maxlength="10" locale="en" showOn="button" 
@@ -223,6 +227,16 @@
                             <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
                             <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
                     </p:calendar>
+               </p:column>
+               <p:column>
+                   <h:outputLabel value="Invoice No" /> 
+               </p:column>
+               <p:column colspan="2">                                      
+                   <p:inputText id="invoiceno" value="#{aTP020300.detailreceivable.row.data.receivable.invoiceno}" 
+                         size="15" maxlength="15"
+                         readonly="#{!aTP020300.detailreceivable.rowinputmode}"
+                         styleClass="#{!aTP020300.detailreceivable.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL} iNL">
+                    </p:inputText>
                </p:column>
            </p:row>
            
@@ -277,7 +291,7 @@
                    <p:panelGrid columns="2">
                        <p:selectOneMenu value="#{aTP020300.detailreceivable.row.data.receivable.vatdata}" 
                                         disabled="#{!aTP020300.detailreceivable.rowinputmode}">
-                           <f:selectItem itemLabel="Select...." itemValue="" />
+                           <f:selectItem itemLabel="Select...." itemValue="0" />
                            <f:selectItems value="#{bKBQuery.combotb_vat}" />
                            <p:ajax process="@this,reimbursement,service" update="vat,total,whtax,totalall" listener="#{aTP020300.calVat}"/>
                        </p:selectOneMenu>

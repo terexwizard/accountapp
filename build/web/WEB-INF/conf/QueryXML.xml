@@ -378,7 +378,7 @@
        </where>
     </SQL>
     <SQLOrderBy>
-        t.id
+        t.dscptdesc 
     </SQLOrderBy>
 
     <Params>
@@ -436,8 +436,12 @@
        <where>
            
        <var name="invcomid" woper="and" > t.invcomid = '<value/>' </var>
-       <var name="companyname" woper="and" > t.companyname like '%<value/>%' </var>
+       <var name="companyname" woper="and" > t.companyname like '%<value/>%' </var>       
        <var name="taxid" woper="and" > t.taxid = '<value/>' </var>
+       
+       <var name="companynamenotlike" woper="and" > t.companyname = '<value/>' </var>
+       <var name="invcomidupdate" woper="or" > (t.invcomid = '<value/>' </var>
+       <var name="companynameupdate" woper="or" > t.companyname = '<value/>' )</var>
        
        </where>
     </SQL>
@@ -455,10 +459,26 @@
             <VarName>companyname</VarName>
             <UIName>companyname</UIName>
             <Operator></Operator>
-        </Param>
+        </Param>        
         <Param>
             <VarName>taxid</VarName>
             <UIName>taxid</UIName>
+            <Operator></Operator>
+        </Param>
+        
+        <Param>
+            <VarName>companynamenotlike</VarName>
+            <UIName>companynamenotlike</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>invcomidupdate</VarName>
+            <UIName>invcomidupdate</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>companynameupdate</VarName>
+            <UIName>companynameupdate</UIName>
             <Operator></Operator>
         </Param>
     </Params>
@@ -2074,7 +2094,7 @@
        </where>
     </SQL>
     <SQLOrderBy>
-        t.id
+        t.dsrptvalue
     </SQLOrderBy>
 
     <Params>
@@ -2125,7 +2145,7 @@
        </where>
     </SQL>
     <SQLOrderBy>
-        t.id
+        t.revalue
     </SQLOrderBy>
 
     <Params>
@@ -2175,7 +2195,7 @@
        </where>
     </SQL>
     <SQLOrderBy>
-        t.id
+        t.payvalue
     </SQLOrderBy>
 
     <Params>
@@ -2226,7 +2246,7 @@
        </where>
     </SQL>
     <SQLOrderBy>
-        t.id
+        t.revvalue
     </SQLOrderBy>
 
     <Params>
@@ -2277,7 +2297,7 @@
        </where>
     </SQL>
     <SQLOrderBy>
-        t.id
+        t.payvalue
     </SQLOrderBy>
 
     <Params>
@@ -2369,6 +2389,132 @@
 </Query>
 
 
+<!-- ************************** 
+    lookup_invoicecompany_invoice
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_invoicecompany_invoice</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+         SELECT distinct t.invcomid,
+            t.companyname,
+            t.remark
+        FROM  invoice i left outer join invoicecompany t  on (i.invcomid = t.invcomid)
+
+       <where>
+       
+       <var name="invcomid" woper="and" > t.invcomid = '<value/>' </var>
+       <var name="companyname" woper="and" > t.companyname like '%<value/>%' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.invcomid
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>invcomid</VarName>
+            <UIName>invcomid</UIName>
+            <Operator></Operator>
+        </Param>
+         <Param>
+            <VarName>companyname</VarName>
+            <UIName>companyname</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>invcomid</FieldName>
+                <Header>company id</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+             <Column>
+                <FieldName>companyname</FieldName>
+                <Header>companyname</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile>zoom_invoicecompany.xhtml</ZoomFile>
+     <ZoomTitle>ตารางชื่อบริษัท</ZoomTitle>
+</Query>
+
+
+<!-- ************************** 
+    lookup_invoicecompany_receivable
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_invoicecompany_receivable</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+         SELECT distinct t.invcomid,
+            t.companyname,
+            t.remark
+        FROM  receivable i left outer join invoicecompany t  on (i.invcomid = t.invcomid)
+
+       <where>
+       
+       <var name="invcomid" woper="and" > t.invcomid = '<value/>' </var>
+       <var name="companyname" woper="and" > t.companyname like '%<value/>%' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        t.invcomid
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>invcomid</VarName>
+            <UIName>invcomid</UIName>
+            <Operator></Operator>
+        </Param>
+         <Param>
+            <VarName>companyname</VarName>
+            <UIName>companyname</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>invcomid</FieldName>
+                <Header>company id</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+             <Column>
+                <FieldName>companyname</FieldName>
+                <Header>companyname</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile>zoom_invoicecompany.xhtml</ZoomFile>
+     <ZoomTitle>ตารางชื่อบริษัท</ZoomTitle>
+</Query>
 
 
 <!-- ************************** 
@@ -2690,11 +2836,12 @@
        <var name="dailydatefn" woper="and" > t.dailydate <![CDATA[<=]]>  '<value/>' </var>
        <var name="jobref" woper="and" > t.jobref = '<value/>' </var>
        <var name="receivesuccess" woper="and" > t.receivesuccess = '<value/>' </var>
+       <var name="companyid" woper="and" > t.companyid = '<value/>' </var>
        
        </where>
     </SQL>
     <SQLOrderBy>
-        t.dailydate
+        t.dailydate,t.voucherno,t.docno
     </SQLOrderBy>
 
     <Params>
@@ -2716,6 +2863,11 @@
         <Param>
             <VarName>receivesuccess</VarName>
             <UIName>receivesuccess</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>companyid</VarName>
+            <UIName>companyid</UIName>
             <Operator></Operator>
         </Param>
     </Params>
@@ -2793,11 +2945,12 @@
        <var name="dailydatefn" woper="and" > t.dailydate <![CDATA[<=]]>  '<value/>' </var>
        <var name="jobref" woper="and" > t.jobref = '<value/>' </var>
        <var name="paymentsuccess" woper="and" > t.paymentsuccess = '<value/>' </var>
+       <var name="companyid" woper="and" > t.companyid = '<value/>' </var>
        
        </where>
     </SQL>
     <SQLOrderBy>
-        t.dailydate
+        t.dailydate,t.voucherno,t.docno
     </SQLOrderBy>
 
     <Params>
@@ -2821,6 +2974,11 @@
             <UIName>paymentsuccess</UIName>
             <Operator></Operator>
         </Param>
+         <Param>
+            <VarName>companyid</VarName>
+            <UIName>companyid</UIName>
+            <Operator></Operator>
+        </Param>
     </Params>
      <Displays>
          <Columns>
@@ -2839,6 +2997,601 @@
      <ZoomTitle></ZoomTitle>
 </Query>
 
+
+<!-- ************************** 
+    ATR031000_WAREHOUSE_RECEIVE
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATR031000_WAREHOUSE_RECEIVE</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT d.payby,t.bankname 
+        FROM daily d left outer join tb_bank t on (d.payby = t.bankid )
+        where d.paidamount = 0.00 and d.amount2 = 0.00 and d.dailytype = 'WHI'
+            <var name="dailydateyst" woper="and" >and d.dailydate <![CDATA[>=]]> '<value/>' </var>
+            <var name="dailydateyfn" woper="and" >and d.dailydate <![CDATA[<=]]> '<value/>' </var>
+            <var name="dailydatemst" woper="and" >and d.dailydate <![CDATA[>=]]> '<value/>' </var>
+            <var name="dailydatemfn" woper="and" >and d.dailydate <![CDATA[<=]]> '<value/>' </var>
+        group by d.payby
+
+       <where>       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydateyst</VarName>
+            <UIName>dailydateyst</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydateyfn</VarName>
+            <UIName>dailydateyfn</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatemst</VarName>
+            <UIName>dailydatemst</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatemfn</VarName>
+            <UIName>dailydatemfn</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+
+<!-- ************************** 
+    ATR031000_WAREHOUSE_SUMRECEIVE
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATR031000_WAREHOUSE_SUMRECEIVE</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT sum(amount) amount
+        FROM daily d 
+        where d.paidamount = 0.00 and d.amount2 = 0.00 and d.dailytype = 'WHI'
+            <var name="dailydatedst" woper="and" >and d.dailydate <![CDATA[>=]]> '<value/>' </var>
+            <var name="dailydatedfn" woper="and" >and d.dailydate <![CDATA[<=]]> '<value/>' </var>
+            <var name="payby" woper="and" >and d.payby = '<value/>' </var>
+
+       <where>       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydatedst</VarName>
+            <UIName>dailydatedst</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatedfn</VarName>
+            <UIName>dailydatedfn</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>payby</VarName>
+            <UIName>payby</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+<!-- ************************** 
+    ATR031000_WAREHOUSE_PAYMENT
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATR031000_WAREHOUSE_PAYMENT</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT d.descriptioncode,t.dsrptvalue,t.dscptdesc 
+        FROM daily d left outer join tb_descriptioncode t on  (d.descriptioncode = t.dsrptvalue)
+        where d.receivedamount = 0.00 and d.amount = 0.00 and d.dailytype = 'WHE'
+            <var name="dailydateyst" woper="and" >and d.dailydate <![CDATA[>=]]> '<value/>' </var>
+            <var name="dailydateyfn" woper="and" >and d.dailydate <![CDATA[<=]]> '<value/>' </var>
+            <var name="dailydatemst" woper="and" >and d.dailydate <![CDATA[>=]]> '<value/>' </var>
+            <var name="dailydatemfn" woper="and" >and d.dailydate <![CDATA[<=]]> '<value/>' </var>
+        group by d.payby
+
+       <where>       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydateyst</VarName>
+            <UIName>dailydateyst</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydateyfn</VarName>
+            <UIName>dailydateyfn</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatemst</VarName>
+            <UIName>dailydatemst</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatemfn</VarName>
+            <UIName>dailydatemfn</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+
+<!-- ************************** 
+    ATR031000_WAREHOUSE_SUMPAYMENT
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATR031000_WAREHOUSE_SUMPAYMENT</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT sum(amount2) amount2 
+        FROM daily d 
+        where d.receivedamount = 0.00 and d.amount = 0.00 and d.dailytype = 'WHE'
+            <var name="dailydatedst" woper="and" >and d.dailydate <![CDATA[>=]]> '<value/>' </var>
+            <var name="dailydatedfn" woper="and" >and d.dailydate <![CDATA[<=]]> '<value/>' </var>
+            <var name="descriptioncode" woper="and" >and d.descriptioncode = '<value/>' </var>
+
+       <where>       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydatedst</VarName>
+            <UIName>dailydatedst</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatedfn</VarName>
+            <UIName>dailydatedfn</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>descriptioncode</VarName>
+            <UIName>descriptioncode</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+
+<!-- ************************** 
+    ATR031300_RECEIVE
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATR031300_RECEIVE</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT d.companyid,
+            d.companyname,
+            count(d.companyid) countcompany,
+            sum(d.amount) sumdata 
+        FROM daily d
+        where d.paidamount = 0.00 and d.amount2 = 0.00
+            <var name="dailydatest" woper="and" >and d.dailydate <![CDATA[>=]]> '<value/>' </var>
+            <var name="dailydatefn" woper="and" >and d.dailydate <![CDATA[<=]]> '<value/>' </var>
+        group by d.companyid,d.companyname
+
+       <where>       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydatest</VarName>
+            <UIName>dailydatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatefn</VarName>
+            <UIName>dailydatefn</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+
+<!-- ************************** 
+    ATR031300_PAYMENT
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATR031300_PAYMENT</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT d.companyid,
+            d.companyname,
+            count(d.companyid) countcompany,
+            sum(d.amount2) sumdata 
+        FROM daily d 
+        where d.receivedamount = 0.00 and d.amount = 0.00
+            <var name="dailydatest" woper="and" >and d.dailydate <![CDATA[>=]]> '<value/>' </var>
+            <var name="dailydatefn" woper="and" >and d.dailydate <![CDATA[<=]]> '<value/>' </var>
+        group by d.companyid,d.companyname
+
+       <where>       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydatest</VarName>
+            <UIName>dailydatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatefn</VarName>
+            <UIName>dailydatefn</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+<!-- ************************** 
+    ATR031400_RECEIVE
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATR031400_RECEIVE</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT distinct d.companyid,
+            d.companyname
+        FROM daily d
+        where d.paidamount = 0.00 and d.amount2 = 0.00 and d.dailytype = 'DEP'
+            <var name="dailydatest" woper="and" >and d.dailydate <![CDATA[>=]]> '<value/>' </var>
+            <var name="dailydatefn" woper="and" >and d.dailydate <![CDATA[<=]]> '<value/>' </var>
+        group by d.companyid
+
+       <where>       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydatest</VarName>
+            <UIName>dailydatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatefn</VarName>
+            <UIName>dailydatefn</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+<!-- ************************** 
+    ATR031400_SUMRECEIVE
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATR031400_SUMRECEIVE</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT sum(amount) sumdata 
+        FROM daily d
+        where d.paidamount = 0.00 and d.amount2 = 0.00 and d.dailytype = 'DEP'
+            <var name="dailydatest" woper="and" >and d.dailydate <![CDATA[>=]]> '<value/>' </var>
+            <var name="dailydatefn" woper="and" >and d.dailydate <![CDATA[<=]]> '<value/>' </var>
+            <var name="companyid" woper="and" >and d.companyid = '<value/>' </var>
+
+       <where>       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydatest</VarName>
+            <UIName>dailydatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatefn</VarName>
+            <UIName>dailydatefn</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>companyid</VarName>
+            <UIName>companyid</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+<!-- ************************** 
+    ATR031400_PAYMENT
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATR031400_PAYMENT</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT distinct d.companyid,
+            d.companyname
+        FROM daily d 
+        where d.receivedamount = 0.00 and d.amount = 0.00 and d.dailytype = 'DEPOSIT'
+            <var name="dailydatest" woper="and" >and d.dailydate <![CDATA[>=]]> '<value/>' </var>
+            <var name="dailydatefn" woper="and" >and d.dailydate <![CDATA[<=]]> '<value/>' </var>
+        group by d.companyid
+
+       <where>       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydatest</VarName>
+            <UIName>dailydatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatefn</VarName>
+            <UIName>dailydatefn</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+<!-- ************************** 
+    ATR031400_SUMPAYMENT
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATR031400_SUMPAYMENT</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT sum(amount2) sumdata  
+        FROM daily d 
+        where d.receivedamount = 0.00 and d.amount = 0.00 and d.dailytype = 'DEPOSIT'
+            <var name="dailydatest" woper="and" >and d.dailydate <![CDATA[>=]]> '<value/>' </var>
+            <var name="dailydatefn" woper="and" >and d.dailydate <![CDATA[<=]]> '<value/>' </var>
+            <var name="companyid" woper="and" >and d.companyid = '<value/>' </var>
+
+       <where>       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydatest</VarName>
+            <UIName>dailydatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatefn</VarName>
+            <UIName>dailydatefn</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>companyid</VarName>
+            <UIName>companyid</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
 
 <!-- ************************** 
     search_bringforward
@@ -3960,6 +4713,7 @@
             where b.monetaryusd = 'true' 
             <var name="voucherno" woper="and" >and d.voucherno = '<value/>' </var>
             <var name="dailydate" woper="and" >and d.dailydate = '<value/>' </var>
+            <var name="companyid" woper="and" >and d.companyid = '<value/>' </var>
             
             group by d.dailyid,d.companyname,d.dailydate
             order by d.dailydate
@@ -3979,6 +4733,11 @@
         <Param>
             <VarName>dailydate</VarName>
             <UIName>dailydate</UIName>
+            <Operator></Operator>
+        </Param>
+         <Param>
+            <VarName>companyid</VarName>
+            <UIName>companyid</UIName>
             <Operator></Operator>
         </Param>
     </Params>
@@ -4019,6 +4778,7 @@
             where b.monetaryusd = 'false' 
             <var name="voucherno" woper="and" >and d.voucherno = '<value/>' </var>
             <var name="dailydate" woper="and" >and d.dailydate = '<value/>' </var>
+            <var name="companyid" woper="and" >and d.companyid = '<value/>' </var>
             
             group by d.dailyid,d.companyname,d.dailydate
             order by d.dailydate
@@ -4038,6 +4798,11 @@
         <Param>
             <VarName>dailydate</VarName>
             <UIName>dailydate</UIName>
+            <Operator></Operator>
+        </Param>
+         <Param>
+            <VarName>companyid</VarName>
+            <UIName>companyid</UIName>
             <Operator></Operator>
         </Param>
     </Params>
@@ -4092,7 +4857,7 @@
            <var name="chequedatenotclear" woper="and" > d.chequedate is null </var>
            <var name="chequedate" woper="and" > d.chequedate <![CDATA[=]]> '<value/>' </var>
            <var name="chequedateold" woper="and" > d.chequedate <![CDATA[<=]]> '<value/>' </var>
-           
+           <var name="companyid" woper="and" > d.companyid = '<value/>' </var>
        </where>
     </SQL>
     <SQLOrderBy>
@@ -4118,6 +4883,11 @@
         <Param>
             <VarName>chequedateold</VarName>
             <UIName>chequedateold</UIName>
+            <Operator></Operator>
+        </Param>
+         <Param>
+            <VarName>companyid</VarName>
+            <UIName>companyid</UIName>
             <Operator></Operator>
         </Param>
     </Params>
@@ -4349,7 +5119,7 @@
        </where>
     </SQL>
     <SQLOrderBy>
-        invcomid,invdate
+        invcomid,invdate,ref
     </SQLOrderBy>
 
     <Params>

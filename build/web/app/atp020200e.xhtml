@@ -55,7 +55,7 @@
                         <p:panelGrid>
                              <p:row>
                                  <p:column style="vertical-align: text-top;">
-                                     <p:inputText label="" id="invcomid" 
+                                     <p:inputText label="Company Id" id="invcomid" 
                                                   value="#{aTP020200.masterdata.invoicecompany.invcomid}" 
                                                   size="8" maxlength="8" 
                                                   required="true"
@@ -116,7 +116,7 @@
                    scrollable="true" scrollHeight="100"
                     editable="false"  rowIndexVar="rowIndex" 
                     styleClass="f1-p-datatable-wide" 
-                     style="width:930px;table-layout: fixed;text-align: left;">
+                     style="width:1050px;table-layout: fixed;text-align: left;">
 
           <p:ajax event="rowSelect" listener="#{aTP020200.detailinvoice.selectRow}" 
                   update=":#{aTP020200.detailinvoice.parentid}:#{aTP020200.detailinvoice.detailrowpanel}" />
@@ -134,7 +134,7 @@
               #{rec.data.invoice.jobno}
           </p:column>
           
-           <p:column  headerText="Invno"  style="width:90px;vertical-align: text-top;" >  
+           <p:column  headerText="Invno"  style="width:180px;vertical-align: text-top;" >  
               #{rec.data.invoice.invno}
           </p:column>
           
@@ -217,42 +217,47 @@
               <p:column styleClass="textR">
                    <h:outputLabel value="Invno" /> 
                </p:column>
-               <p:column>
-                   <p:inputText id="invno" value="#{aTP020200.detailinvoice.row.data.invoice.invno}" 
-                                size="15" maxlength="15"
-                                 readonly="#{!aTP020200.detailinvoice.rowinputmode}"
-                                 styleClass="#{!aTP020200.detailinvoice.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL}">
-                    </p:inputText>
-                   
-               </p:column>
-               <p:column>
-                   <h:outputLabel value="Invdate" /> 
-               </p:column>
-              <p:column>
-                   
-                    <p:calendar id="invdate" value="#{aTP020200.detailinvoice.row.data.invdate}" 
-                                     size="10" maxlength="10" locale="en" showOn="button" 
-                                     converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true"
-                                     disabled="#{!aTP020200.detailinvoice.rowinputmode}">
-                            <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
-                            <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
-                    </p:calendar>
-                   
-               </p:column>
-                <p:column>
-                   <h:outputLabel value="Duedate" /> 
-               </p:column>
-               <p:column>
-                   
-                    <p:calendar id="duedate" value="#{aTP020200.detailinvoice.row.data.duedate}" 
-                                     size="10" maxlength="10" locale="en" showOn="button" 
-                                     converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true"
-                                     disabled="#{!aTP020200.detailinvoice.rowinputmode}">
-                            <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
-                            <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
-                        </p:calendar>
-                   
-               </p:column>
+              <p:column colspan="5" style="padding:0px;">
+                  <p:panelGrid>
+                      <p:row>
+                          <p:column>
+                                 <p:inputText id="invno" value="#{aTP020200.detailinvoice.row.data.invoice.invno}" 
+                                            size="28" maxlength="25"
+                                             readonly="#{!aTP020200.detailinvoice.rowinputmode}"
+                                             styleClass="#{!aTP020200.detailinvoice.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL}">
+                                </p:inputText>
+                          </p:column>
+                            <p:column>
+                               <h:outputLabel value="Invdate" /> 
+                           </p:column>
+                          <p:column>
+
+                                <p:calendar id="invdate" value="#{aTP020200.detailinvoice.row.data.invdate}" 
+                                                 size="10" maxlength="10" locale="en" showOn="button" 
+                                                 converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true"
+                                                 disabled="#{!aTP020200.detailinvoice.rowinputmode}">
+                                        <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
+                                        <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
+                                </p:calendar>
+
+                           </p:column>
+                            <p:column>
+                               <h:outputLabel value="Duedate" /> 
+                           </p:column>
+                           <p:column>
+
+                                <p:calendar id="duedate" value="#{aTP020200.detailinvoice.row.data.duedate}" 
+                                                 size="10" maxlength="10" locale="en" showOn="button" 
+                                                 converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true"
+                                                 disabled="#{!aTP020200.detailinvoice.rowinputmode}">
+                                        <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
+                                        <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
+                                    </p:calendar>
+
+                           </p:column>
+                      </p:row>
+                  </p:panelGrid>
+               </p:column>             
            </p:row> 
            
            <ui:remove>
@@ -368,7 +373,7 @@
                    <p:panelGrid columns="2">
                        <p:selectOneMenu value="#{aTP020200.detailinvoice.row.data.invoice.vatdata}" 
                                         disabled="#{!aTP020200.detailinvoice.rowinputmode}">
-                           <f:selectItem itemLabel="Select...." itemValue="" />
+                           <f:selectItem itemLabel="Select...." itemValue="0" />
                            <f:selectItems value="#{bKBQuery.combotb_vat}" />
                            <p:ajax process="@this,reimbursement,service" update="vat,total,whtax,totalall" listener="#{aTP020200.calVat}"/>
                        </p:selectOneMenu>
