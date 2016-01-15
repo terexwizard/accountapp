@@ -550,7 +550,10 @@ public class ATR030300 extends BKBPage {
                 cell.setCellValue(header);
                 cell.setCellStyle(hCellstyleCB);
                 
-                
+                cell = row.createCell(6);
+                cell.setCellValue("ATR030300");
+                cell.setCellStyle(hCellstyleCB);
+                                
                 String condition = "Condition :"+Utils.convertDateStringToScreen(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()),"/");
                 
                 

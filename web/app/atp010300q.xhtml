@@ -16,6 +16,14 @@
 
  //]]>   
       </script>
+         <style>
+
+
+        table tr1{
+           border-color: #95461d !important;
+       }
+
+      </style>
     </h:head>
     <h:body>
       <br/>
@@ -55,11 +63,28 @@
            <p:row>
               <p:column>
                   <p:separator />
-                      <ui:include src="#{bKBAppVar.COMPO_COMMAND_Q}"  >
-                                <ui:param name="basebean" value="#{aTP010300}"/>
-                                <ui:param name="datatable" value="#{bKBUQuery.tableid} "/>
-                      </ui:include>  
-                   </p:column>
+                  
+                  
+                  
+                 <p:panelGrid>
+                      <p:row>
+                          <p:column style="padding: 0px;">
+                                  <ui:include src="#{bKBAppVar.COMPO_COMMAND_Q}"  >
+                                            <ui:param name="basebean" value="#{aTP010300}"/>
+                                            <ui:param name="datatable" value="#{bKBUQuery.tableid} "/>
+                                  </ui:include> 
+                          </p:column>
+                          <p:column style="padding: 0px;">
+                              <p:commandButton value="" ajax="false"
+                                                   process="@this"  styleClass="f1-p-commandbutton-cs-excel"
+                                                   actionListener="#{aTP010300.genDataExcel}"/>
+                          </p:column>
+                        </p:row>
+                  </p:panelGrid>
+                  
+                  
+                  
+               </p:column>
             </p:row>
           </p:panelGrid>
             

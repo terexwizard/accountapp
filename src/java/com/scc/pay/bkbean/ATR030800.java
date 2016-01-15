@@ -551,7 +551,8 @@ public class ATR030800 extends BKBPage {
                 HashMap hm = new HashMap<String, String>();
                 HashMap<String, String> hmcompany = new HashMap<String, String>();
                 hmcompany.put("invcomid", this.getMasterdata().getDaily().getCompanyid());
-                lcompany = CenterUtils.selectData(hmcompany,"lookup_invoicecompany");
+                //lcompany = CenterUtils.selectData(hmcompany,"lookup_invoicecompany");
+                lcompany = CenterUtils.selectData(hmcompany,"lookup_invoicecompany_invoice");
 
                 int sizecompany = lcompany.size();
                 hmcompany.put("sizecompany",  Utils.NVL(sizecompany));
@@ -871,7 +872,10 @@ public class ATR030800 extends BKBPage {
                     cell.setCellValue(header);
                     cell.setCellStyle(hCellstyleCB);
 
-
+                    cell = row.createCell(6);
+                    cell.setCellValue("ATR030800");
+                    cell.setCellStyle(hCellstyleCB);
+                    
                     String condition = "Condition : "+CenterUtils.getENMonth(Integer.parseInt(this.getMasterdata().getMonth()),0)+" "+this.getMasterdata().getYear()+" Status : "+(this.getMasterdata().getRdoflag().equals("Y")?"Clear":"Not Clear");
                     hSheet.addMergedRegion(new Region(1,(short)0,1,(short)2));
                     row = hSheet.createRow(1);      

@@ -6,9 +6,12 @@ package com.scc.pay.bkbean;
 
 import com.scc.pay.business.BusinessFactory;
 import com.scc.f1.business.IBusinessBase;
+import com.scc.f1.util.MessageUtil;
 import com.scc.f1.util.Utils;
 import com.scc.pay.db.Invoicecompany;
+import com.scc.pay.util.CenterUtils;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -234,38 +237,73 @@ public class ATP010400 extends BKBPage {
     private boolean validateAdd(){
         boolean isok = true;
 
+        
+        //Query Data
+        HashMap hm = new HashMap<String, String>();
+        //hm.put("invcomid", Utils.NVL(this.getMasterdata().getInvoicecompany().getInvcomid()));
+        hm.put("companynamenotlike", Utils.NVL(this.getMasterdata().getInvoicecompany().getCompanyname()));
+
+        List l = CenterUtils.selectData(hm,"ATP010400Q");        
+        if(!l.isEmpty()){
+            String msg = MessageUtil.getMessage("EP008");
+            addErrorMessage(null, msg, msg);
+            return false;
+        }
 
         return isok;
     }
     
     private void update(){
         
-        
-        IBusinessBase ib = BusinessFactory.getBusiness("ATP010400U");
-            
-            
-        ib.process(this);
+         if(validateUpdate()){
+            IBusinessBase ib = BusinessFactory.getBusiness("ATP010400U");
 
-        genMessage(ib);
 
-        if(ib.isOk()){
+            ib.process(this);
 
-            setModeupdate(false);
-            setModeadd(false);
-            setModequery(true);
-            
-            searchaction = SEARCH_ACTION_REQUERY;
-            
-           
-            redirectPage(PAGE_Q);
-            
-            BKBUQuery.getIns().autoResearch();
-            
-            
+            genMessage(ib);
+
+            if(ib.isOk()){
+
+                setModeupdate(false);
+                setModeadd(false);
+                setModequery(true);
+
+                searchaction = SEARCH_ACTION_REQUERY;
+
+
+                redirectPage(PAGE_Q);
+
+                BKBUQuery.getIns().autoResearch();
+
+
+            }
         }
         
         
+    }
+    
+    private boolean validateUpdate(){
+        boolean isok = true;
+
         
+        //Query Data
+        HashMap hm = new HashMap<String, String>();
+        //hm.put("invcomid", Utils.NVL(this.getMasterdata().getInvoicecompany().getInvcomid()));
+        hm.put("companynamenotlike", Utils.NVL(this.getMasterdata().getInvoicecompany().getCompanyname()));
+        hm.put("invcomidupdate", Utils.NVL(this.getMasterdata().getInvoicecompany().getInvcomid()));
+        hm.put("companynameupdate", Utils.NVL(this.getMasterdata().getInvoicecompany().getCompanyname()));
+
+        List l = CenterUtils.selectData(hm,"ATP010400Q"); 
+        
+        logger.debug(">>validateUpdate "+l.size());
+        if(l.size() > 1){
+            String msg = MessageUtil.getMessage("EP008");
+            addErrorMessage(null, msg, msg);
+            return false;
+        }
+
+        return isok;
     }
     
     public String delete(){

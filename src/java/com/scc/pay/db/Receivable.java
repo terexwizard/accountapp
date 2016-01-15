@@ -46,7 +46,6 @@ public class Receivable implements Serializable {
     private String invdate;
     @Column(name = "ref")
     private String ref;
-    @Basic(optional = false)
     @Column(name = "jobno")
     private String jobno;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -84,17 +83,14 @@ public class Receivable implements Serializable {
     private String clearflag;
     @Column(name = "currency")
     private String currency;
+    @Column(name = "invoiceno")
+    private String invoiceno;
 
     public Receivable() {
     }
 
     public Receivable(Integer id) {
         this.id = id;
-    }
-
-    public Receivable(Integer id, String jobno) {
-        this.id = id;
-        this.jobno = jobno;
     }
 
     public Integer getId() {
@@ -279,6 +275,14 @@ public class Receivable implements Serializable {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public String getInvoiceno() {
+        return invoiceno;
+    }
+
+    public void setInvoiceno(String invoiceno) {
+        this.invoiceno = invoiceno;
     }
 
     @Override

@@ -89,7 +89,8 @@ public class BKBQuery {
         
         int loop = 10;
         
-        for(int x = (year-loop);x < (year+loop) ;x++){
+        //for(int x = (year-loop);x < (year+loop) ;x++){
+        for(int x = (year);x > (year-loop) ;x--){
             selectItems.add(new SelectItem(Integer.toString(x) , Integer.toString(x)));
         }
         

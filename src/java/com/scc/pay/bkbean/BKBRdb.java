@@ -76,4 +76,8 @@ public class BKBRdb {
     public List<SelectItem> getMonth() {
             return RdbXML.getSelectItem("month");
     }
+    
+    public List<SelectItem> getTitle_active() {
+            return RdbXML.getSelectItem("title_active");
+    }
 }

@@ -564,6 +564,10 @@ public class ATR030100 extends BKBPage {
                     cell.setCellValue(header);
                     cell.setCellStyle(hCellstyleCB);
                     
+                    cell = row.createCell(6);
+                    cell.setCellValue("ATR030100");
+                    cell.setCellStyle(hCellstyleCB);
+                    
                     String condition = "Condition :"+Utils.convertDateStringToScreen(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()),"/") 
                         +"-"+Utils.convertDateStringToScreen(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatefn()),"/");
                     
@@ -727,7 +731,7 @@ public class ATR030100 extends BKBPage {
                     //=======Footer======
                     
                     
-                    hSheet.addMergedRegion(new Region(5+size,(short)0,5+size,(short)8));
+                    hSheet.addMergedRegion(new Region(5+size,(short)0,5+size,(short)7));
                     
                     row = hSheet.createRow(5+size); 
 
@@ -735,15 +739,19 @@ public class ATR030100 extends BKBPage {
                     cell.setCellValue("Received Amount USD");
                     cell.setCellStyle(hCellstyleR);
                     
-                    for(int i=1;i<9;i++){
+                    for(int i=1;i<8;i++){
                         cell = row.createCell(i);
                         cell.setCellStyle(hCellstyleR);
                     }
                     
                     
 
-                    cell = row.createCell(9);
+                    cell = row.createCell(8);
                     cell.setCellValue(format(amount.toString()));
+                    cell.setCellStyle(hCellstyleR);
+                    
+                    cell = row.createCell(9);
+                    cell.setCellValue("");
                     cell.setCellStyle(hCellstyleR);
                     
                     hSheet.addMergedRegion(new Region(6+size,(short)0,6+size,(short)8));

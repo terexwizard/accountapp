@@ -523,6 +523,11 @@ public class ATR030500 extends BKBPage {
                 hCellstyleCB.setFont(font18B);                                                  //เรียกใช้ style font
 
                 
+                HSSFCellStyle hCellstyleRB = hWBook.createCellStyle();                         
+                hCellstyleRB.setAlignment(HSSFCellStyle.ALIGN_RIGHT);                         
+                hCellstyleRB.setFont(font18B);                                                 
+                CenterUtils.setCellBorder(hCellstyleRB);
+                
 //                if (!Utils.NVL(this.getMasterdata().getSortoption()).equals("1")){
 //                    		hSheet.addMergedRegion(new Region(0,(short)0,0,(short)4));
 //			    	hSheet.addMergedRegion(new Region(1,(short)0,1,(short)4));
@@ -551,6 +556,10 @@ public class ATR030500 extends BKBPage {
                 cell.setCellStyle(hCellstyleCB);
                 
                 
+                cell = row.createCell(6);
+                cell.setCellValue("ATR030500");
+                cell.setCellStyle(hCellstyleCB);
+                                
                 String condition = "Condition :"+Utils.convertDateStringToScreen(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()),"/");
                 
                 
@@ -701,7 +710,22 @@ public class ATR030500 extends BKBPage {
 
                     
                     BigDecimal actualmoneyN = new BigDecimal(0);
+                    BigDecimal actualmoneyN1 = new BigDecimal(0);
+                    BigDecimal actualmoneyN2 = new BigDecimal(0);
+                    BigDecimal actualmoneyN3 = new BigDecimal(0);
+                    BigDecimal actualmoneyN4 = new BigDecimal(0);
+                    BigDecimal actualmoneyN5 = new BigDecimal(0);
+                    BigDecimal actualmoneyN6 = new BigDecimal(0);
+                    BigDecimal actualmoneyN7 = new BigDecimal(0);
                     BigDecimal actualmoneyY = new BigDecimal(0);
+                    BigDecimal actualmoneyY1 = new BigDecimal(0);
+                    BigDecimal actualmoneyY2 = new BigDecimal(0);
+                    BigDecimal actualmoneyY3 = new BigDecimal(0);
+                    BigDecimal actualmoneyY4 = new BigDecimal(0);
+                    BigDecimal actualmoneyY5 = new BigDecimal(0);
+                    BigDecimal actualmoneyY6 = new BigDecimal(0);
+                    BigDecimal actualmoneyY7 = new BigDecimal(0);
+                    
                     int size = l.size();
                     ArrayList<String[]> alN = new ArrayList<String[]>();
                     ArrayList<String[]> alY = new ArrayList<String[]>();
@@ -820,6 +844,13 @@ public class ATR030500 extends BKBPage {
 
 
                     actualmoneyN = actualmoneyN.add(new BigDecimal(Utils.NVL(fixdepositN[8]).equals("")?"0":Utils.NVL(fixdepositN[8])));
+                    actualmoneyN1 = actualmoneyN1.add(new BigDecimal(Utils.NVL(fixdepositN[1]).equals("")?"0":Utils.NVL(fixdepositN[1])));
+                    actualmoneyN2 = actualmoneyN2.add(new BigDecimal(Utils.NVL(fixdepositN[2]).equals("")?"0":Utils.NVL(fixdepositN[2])));
+                    actualmoneyN3 = actualmoneyN3.add(new BigDecimal(Utils.NVL(fixdepositN[3]).equals("")?"0":Utils.NVL(fixdepositN[3])));
+                    actualmoneyN4 = actualmoneyN4.add(new BigDecimal(Utils.NVL(fixdepositN[4]).equals("")?"0":Utils.NVL(fixdepositN[4])));
+                    actualmoneyN5 = actualmoneyN5.add(new BigDecimal(Utils.NVL(fixdepositN[5]).equals("")?"0":Utils.NVL(fixdepositN[5])));
+                    actualmoneyN6 = actualmoneyN6.add(new BigDecimal(Utils.NVL(fixdepositN[6]).equals("")?"0":Utils.NVL(fixdepositN[6])));
+                    actualmoneyN7 = actualmoneyN7.add(new BigDecimal(Utils.NVL(fixdepositN[7]).equals("")?"0":Utils.NVL(fixdepositN[7])));
 
                 }    
                     
@@ -830,14 +861,42 @@ public class ATR030500 extends BKBPage {
                 cell.setCellValue("Total (BATH)");
                 cell.setCellStyle(hCellstyleR);   
                 
-                for(int i=1;i<8;i++){
-                        cell = row.createCell(i);
-                        cell.setCellStyle(hCellstyleR);
-                }
+//                for(int i=1;i<8;i++){
+//                        cell = row.createCell(i);
+//                        cell.setCellStyle(hCellstyleR);
+//                }
+                
+                cell = row.createCell(1);
+                cell.setCellValue(format(actualmoneyN1.toString()));
+                cell.setCellStyle(hCellstyleRB);
+                
+                cell = row.createCell(2);
+                cell.setCellValue(format(actualmoneyN2.toString()));
+                cell.setCellStyle(hCellstyleRB);
+                
+                cell = row.createCell(3);
+                cell.setCellValue(format(actualmoneyN3.toString()));
+                cell.setCellStyle(hCellstyleRB);
+                
+                cell = row.createCell(4);
+                cell.setCellValue(format(actualmoneyN4.toString()));
+                cell.setCellStyle(hCellstyleRB);
+                
+                cell = row.createCell(5);
+                cell.setCellValue(format(actualmoneyN5.toString()));
+                cell.setCellStyle(hCellstyleRB);
+                
+                cell = row.createCell(6);
+                cell.setCellValue(format(actualmoneyN6.toString()));
+                cell.setCellStyle(hCellstyleRB);
+                
+                cell = row.createCell(7);
+                cell.setCellValue(format(actualmoneyN7.toString()));
+                cell.setCellStyle(hCellstyleRB);
                 
                 cell = row.createCell(8);
                 cell.setCellValue(format(actualmoneyN.toString()));
-                cell.setCellStyle(hCellstyleR);
+                cell.setCellStyle(hCellstyleRB);
                 
                 
                 //=====================================
@@ -887,6 +946,13 @@ public class ATR030500 extends BKBPage {
 
 
                     actualmoneyY = actualmoneyY.add(new BigDecimal(Utils.NVL(fixdepositY[8]).equals("")?"0":Utils.NVL(fixdepositY[8])));
+                    actualmoneyY1 = actualmoneyY1.add(new BigDecimal(Utils.NVL(fixdepositY[1]).equals("")?"0":Utils.NVL(fixdepositY[1])));
+                    actualmoneyY2 = actualmoneyY2.add(new BigDecimal(Utils.NVL(fixdepositY[2]).equals("")?"0":Utils.NVL(fixdepositY[2])));
+                    actualmoneyY3 = actualmoneyY3.add(new BigDecimal(Utils.NVL(fixdepositY[3]).equals("")?"0":Utils.NVL(fixdepositY[3])));
+                    actualmoneyY4 = actualmoneyY4.add(new BigDecimal(Utils.NVL(fixdepositY[4]).equals("")?"0":Utils.NVL(fixdepositY[4])));
+                    actualmoneyY5 = actualmoneyY5.add(new BigDecimal(Utils.NVL(fixdepositY[5]).equals("")?"0":Utils.NVL(fixdepositY[5])));
+                    actualmoneyY6 = actualmoneyY6.add(new BigDecimal(Utils.NVL(fixdepositY[6]).equals("")?"0":Utils.NVL(fixdepositY[6])));
+                    actualmoneyY7 = actualmoneyY7.add(new BigDecimal(Utils.NVL(fixdepositY[7]).equals("")?"0":Utils.NVL(fixdepositY[7])));
 
                 }    
                     
@@ -897,28 +963,83 @@ public class ATR030500 extends BKBPage {
                 cell.setCellValue("Total Fix Deposit (BATH)");
                 cell.setCellStyle(hCellstyleR);   
                 
-                for(int i=1;i<8;i++){
-                        cell = row.createCell(i);
-                        cell.setCellStyle(hCellstyleR);
-                }
+//                for(int i=1;i<8;i++){
+//                        cell = row.createCell(i);
+//                        cell.setCellStyle(hCellstyleR);
+//                }
+                
+                cell = row.createCell(1);
+                cell.setCellValue(format(actualmoneyY1.toString()));
+                cell.setCellStyle(hCellstyleRB);
+                
+                cell = row.createCell(2);
+                cell.setCellValue(format(actualmoneyY2.toString()));
+                cell.setCellStyle(hCellstyleRB);
+                
+                cell = row.createCell(3);
+                cell.setCellValue(format(actualmoneyY3.toString()));
+                cell.setCellStyle(hCellstyleRB);
+                
+                cell = row.createCell(4);
+                cell.setCellValue(format(actualmoneyY4.toString()));
+                cell.setCellStyle(hCellstyleRB);
+                
+                cell = row.createCell(5);
+                cell.setCellValue(format(actualmoneyY5.toString()));
+                cell.setCellStyle(hCellstyleRB);
+                
+                cell = row.createCell(6);
+                cell.setCellValue(format(actualmoneyY6.toString()));
+                cell.setCellStyle(hCellstyleRB);
+                
+                cell = row.createCell(7);
+                cell.setCellValue(format(actualmoneyY7.toString()));
+                cell.setCellStyle(hCellstyleRB);
                 
                 cell = row.createCell(8);
                 cell.setCellValue(format(actualmoneyY.toString()));
-                cell.setCellStyle(hCellstyleR);
+                cell.setCellStyle(hCellstyleRB);
                 
-                row = hSheet.createRow(sizealN+sizealY+2+8);
-                cell = row.createCell(0);
-                cell.setCellValue("Total All (BATH)");
-                cell.setCellStyle(hCellstyleR);   
-                
-                for(int i=1;i<8;i++){
-                        cell = row.createCell(i);
-                        cell.setCellStyle(hCellstyleR);
-                }
-                
-                cell = row.createCell(8);
-                cell.setCellValue(format(actualmoneyN.add(actualmoneyY).toString()));
-                cell.setCellStyle(hCellstyleR);
+//                row = hSheet.createRow(sizealN+sizealY+2+8);
+//                cell = row.createCell(0);
+//                cell.setCellValue("Total All (BATH)");
+//                cell.setCellStyle(hCellstyleR);   
+//                
+////                for(int i=1;i<8;i++){
+////                        cell = row.createCell(i);
+////                        cell.setCellStyle(hCellstyleR);
+////                }
+//                cell = row.createCell(1);
+//                cell.setCellValue(format(actualmoneyN1.add(actualmoneyY1).toString()));
+//                cell.setCellStyle(hCellstyleRB);
+//                
+//                cell = row.createCell(2);
+//                cell.setCellValue(format(actualmoneyN2.add(actualmoneyY2).toString()));
+//                cell.setCellStyle(hCellstyleRB);
+//                
+//                cell = row.createCell(3);
+//                cell.setCellValue(format(actualmoneyN3.add(actualmoneyY3).toString()));
+//                cell.setCellStyle(hCellstyleRB);
+//                
+//                cell = row.createCell(4);
+//                cell.setCellValue(format(actualmoneyN4.add(actualmoneyY4).toString()));
+//                cell.setCellStyle(hCellstyleRB);
+//                
+//                cell = row.createCell(5);
+//                cell.setCellValue(format(actualmoneyN5.add(actualmoneyY5).toString()));
+//                cell.setCellStyle(hCellstyleRB);
+//                
+//                cell = row.createCell(6);
+//                cell.setCellValue(format(actualmoneyN6.add(actualmoneyY6).toString()));
+//                cell.setCellStyle(hCellstyleRB);
+//                
+//                cell = row.createCell(7);
+//                cell.setCellValue(format(actualmoneyN7.add(actualmoneyY7).toString()));
+//                cell.setCellStyle(hCellstyleRB);
+//                
+//                cell = row.createCell(8);
+//                cell.setCellValue(format(actualmoneyN.add(actualmoneyY).toString()));
+//                cell.setCellStyle(hCellstyleRB);
 
                 //=====================================    
                 //Query Data2

@@ -544,7 +544,10 @@ public class ATR030400 extends BKBPage {
                 cell.setCellValue(header);
                 cell.setCellStyle(hCellstyleCB);
                 
-                
+                cell = row.createCell(6);
+                cell.setCellValue("ATR030400");
+                cell.setCellStyle(hCellstyleCB);
+                                
                 String condition = "Condition :"+Utils.convertDateStringToScreen(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()),"/");
                 
                 

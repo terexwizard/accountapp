@@ -546,6 +546,10 @@ public class ATR030700 extends BKBPage {
                 cell.setCellValue(header);
                 cell.setCellStyle(hCellstyleCB);
                 
+                cell = row.createCell(6);
+                cell.setCellValue("ATR030700");
+                cell.setCellStyle(hCellstyleCB);
+                    
                 String type = "";
                 if(Utils.NVL(this.getMasterdata().getType()).equals("C")){
                     type = "CLEARING CHEQUE";

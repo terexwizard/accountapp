@@ -33,7 +33,7 @@
                     <p:column>
                          <p:inputText id="invcomid" value="#{aTP010400.searchparam.invoicecompany.invcomid}"
                                      label="company id"
-                                      maxlength="4" size="4"/>
+                                      maxlength="8" size="8"/>
                     </p:column>
                   </p:row>
                   <p:row>
@@ -41,7 +41,7 @@
                       <h:outputLabel value="company name"/>
                     </p:column>
                     <p:column>
-                        <p:inputTextarea id="companyname" value="#{aTP010400.masterdata.invoicecompany.companyname}"
+                        <p:inputTextarea id="companyname" value="#{aTP010400.searchparam.invoicecompany.companyname}"
                                      required="false" label="companyname"
                                      rows="4" cols="70" maxlength="200"/>
                     </p:column>
