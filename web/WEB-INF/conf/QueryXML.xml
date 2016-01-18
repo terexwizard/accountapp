@@ -3594,6 +3594,140 @@
 </Query>
 
 <!-- ************************** 
+    ATR031500_RECEIVE  oin
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATR031500_RECEIVE</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT DB_DSF(d.dailydate) dailydate,
+            d.companyid,
+            d.companyname,
+            d.jobref,
+            b.bankname,
+            b.monetaryusd,
+            d.amount,
+            d.receivedamount,
+            d.exchangerate,
+            concat(d.voucherno,'',d.docno) as voucherno_disp 
+        FROM daily d left outer join tb_bank b on (d.payby = b.bankid) 
+        where d.paidamount = 0.00 and d.amount2 = 0.00 
+            <var name="dailydatest" woper="and" >and d.dailydate <![CDATA[>=]]> '<value/>' </var>
+            <var name="dailydatefn" woper="and" >and d.dailydate <![CDATA[<=]]> '<value/>' </var>
+            <var name="dailytype" woper="and" >and d.dailytype = '<value/>' </var>
+
+       <where>       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydatest</VarName>
+            <UIName>dailydatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatefn</VarName>
+            <UIName>dailydatefn</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailytype</VarName>
+            <UIName>dailytype</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+<!-- ************************** 
+    ATR031500_PAYMENT  oin
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATR031500_PAYMENT</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT DB_DSF(d.dailydate) dailydate,
+            d.companyid,
+            d.companyname,dailydate,
+            d.jobref,
+            b.bankname,
+            b.monetaryusd,
+            d.amount2,
+            d.paidamount,
+            d.exchangerate,
+            concat(d.voucherno,'',d.docno) as voucherno_disp 
+        FROM daily d  left outer join tb_bank b on (d.payby = b.bankid) 
+        where d.receivedamount = 0.00 and d.amount = 0.00
+            <var name="dailydatest" woper="and" >and d.dailydate <![CDATA[>=]]> '<value/>' </var>
+            <var name="dailydatefn" woper="and" >and d.dailydate <![CDATA[<=]]> '<value/>' </var>
+            <var name="dailytype" woper="and" >and d.dailytype = '<value/>' </var>
+
+       <where>       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydatest</VarName>
+            <UIName>dailydatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatefn</VarName>
+            <UIName>dailydatefn</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailytype</VarName>
+            <UIName>dailytype</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+<!-- ************************** 
     search_bringforward
 - -  ************************** -->
 
