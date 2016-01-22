@@ -120,7 +120,7 @@ public class PROCESSBRINGFORWARD extends BusinessImpl {
     
     
     private void processBringforwardInsert(String vuser,int processdate){
-        
+               
         String sql = "select r FROM Bringforward r "
                 + "where r.bringforwardPK.bfdate = :bfdate ";
 
@@ -147,10 +147,18 @@ public class PROCESSBRINGFORWARD extends BusinessImpl {
             db.setBtchqrcv(countChequeClearDailyReceived(nextbfdate,db.getBringforwardPK().getBankid(),false));
             db.setBtchqpaid(countChequeClearDailyPaid(nextbfdate,db.getBringforwardPK().getBankid(),false));
             
+            if(db.getBringforwardPK().getBankid() == 3){
+                logger.debug(">>processBringforwardInsert terex "+nextbfdate+" // "+db.getActualmoney());
+                logger.debug(">>processBringforwardInsert terex "+nextbfdate+" // getActualmoney:"+db.getActualmoney()+
+                        " // getReceived:"+db.getReceived()+" // db.getBpchqrcv:"+db.getBpchqrcv()+
+                        " // getBtchqpaid:"+db.getBtchqpaid()+" // getPaid:"+db.getPaid()
+                        +" // getBpchqpaid:"+db.getBpchqpaid()+" // getBtchqrcv:"+db.getBtchqrcv());
+            }
+            
             //Double actualmoney = (db.getActualmoney()+db.getReceived()) - db.getPaid();
             Double actualmoney = (db.getActualmoney()+db.getReceived()+db.getBpchqrcv()+db.getBtchqpaid()) - db.getPaid()-db.getBpchqpaid()-db.getBtchqrcv();
             db.setActualmoney(actualmoney);
-            
+                        
             db.setUpdlcnt(1);
             db.setUpdtime( Utils.getcurDateTime() );
             db.setUpduser(vuser);

@@ -28,7 +28,9 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import javax.faces.model.SelectItem;
 import org.apache.log4j.Logger;
@@ -749,6 +751,129 @@ public class CenterUtils{
     
     public static String formatfileNameDatetime(){
         return new SimpleDateFormat("yyyyMMdd-HH-mm-ss").format(Utils.getcurDateTime().getTime());
+    }
+    
+   public static ArrayList<String> getWeekofYear(int yyyy,int mm){
+        
+            Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+            cal.set(Calendar.YEAR, yyyy);
+            cal.set(Calendar.MONTH, (mm-1));
+            
+            System.out.println(cal.getTime());
+            System.out.println(cal.getActualMaximum(Calendar.DATE));
+            
+            int maxdayformonth = cal.getActualMaximum(Calendar.DATE);
+            TreeMap<String,String> tm = new TreeMap<String,String>();
+            String weeks = "";
+            int weeknum = 0;
+            Date date = new Date();
+            for(int i=1;i<=maxdayformonth;i++){
+                
+                try {
+                    String d = Utils.NVL(i).length()==1?"0"+Utils.NVL(i):Utils.NVL(i);
+                    String m = Utils.NVL(mm).length()==1?"0"+Utils.NVL(mm):Utils.NVL(mm);
+                    String input = yyyy+m+d;
+                    
+                    //System.out.println(input);
+                    String format = "yyyyMMdd";
+                    SimpleDateFormat df = new SimpleDateFormat(format);
+                    date = df.parse(input);
+                    
+                    Calendar calw = Calendar.getInstance();
+                    calw.setTime(date);
+                    
+                    int week = calw.get(Calendar.WEEK_OF_YEAR);
+                    //System.out.println(week);
+                    
+                    if(Utils.NVL(weeks).equals("")){
+                        weeks = input;
+                    }
+                    
+                    if(weeknum == 0){
+                        weeknum = week;
+                    }
+                    
+                    if(weeknum != week){
+                        weeks += "-"+Utils.formatDateToStringToDBEn(CenterUtils.previousDayEn(date,1));
+                        
+                        tm.put(weeks, weeks);
+                        weeks = "";
+                        weeknum = 0;
+                        
+                        weeks = input;
+                    }
+
+                    
+                } catch (ParseException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            
+            weeks += "-"+Utils.formatDateToStringToDBEn(date);
+            tm.put(weeks, weeks);
+            
+            
+            System.out.println("====================");
+            
+            ArrayList<String> al = new ArrayList<String>();
+            for (Map.Entry<String, String> entry : tm.entrySet()) {
+                System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());                
+                al.add(Utils.NVL(entry.getValue()));
+            }
+            
+            
+            return al;
+    }
+    
+    
+    public static String[] getDayofWeekofYear(int yyyy,int month,int weekofyear){
+        
+        logger.debug(">>getDayofWeekofYear "+yyyy+" // "+month+" // "+weekofyear);
+                int monthSelect = (month-1);
+                Calendar calori = Calendar.getInstance(Locale.ENGLISH);
+                calori.set(Calendar.YEAR, yyyy);
+                calori.set(Calendar.MONTH, monthSelect);
+            
+                Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+                cal.set(Calendar.YEAR, yyyy);
+                
+                
+                cal.set(Calendar.WEEK_OF_YEAR, weekofyear);
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+                cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+                String dst = formatter.format(cal.getTime());
+                cal.add(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
+                String dfn = formatter.format(cal.getTime());
+                
+                String yyst = dst.substring(0,4);
+                String mmst = dst.substring(4,6);
+                String ddst = dst.substring(6,8);
+                logger.debug(">>ddst "+yyst+"//"+mmst+"//"+ddst);
+                
+                String yyfn = dfn.substring(0,4);
+                String mmfn = dfn.substring(4,6);
+                String ddfn = dfn.substring(6,8);
+                System.out.println(">>dfn "+yyfn+"//"+mmfn+"//"+ddfn);
+                
+                logger.debug(">>dfn "+calori.getActualMinimum(Calendar.DATE));
+                logger.debug(">>dfn "+calori.getActualMaximum(Calendar.DATE));
+                
+                String m = Utils.NVL(monthSelect).length()==1?"0"+Utils.NVL(monthSelect+1):Utils.NVL(monthSelect+1);
+                if(!mmst.equals(m)){
+                    String d = Utils.NVL(calori.getActualMinimum(Calendar.DATE)).length()==1?"0"+Utils.NVL(calori.getActualMinimum(Calendar.DATE)):Utils.NVL(calori.getActualMinimum(Calendar.DATE));
+                    dst = yyst+mmst+d;
+                }
+                
+                if(!mmfn.equals(m)){
+                    String d = Utils.NVL(calori.getActualMaximum(Calendar.DATE)).length()==1?"0"+Utils.NVL(calori.getActualMaximum(Calendar.DATE)):Utils.NVL(calori.getActualMaximum(Calendar.DATE));
+                    dfn = yyfn+mmst+d;
+                }
+                
+                logger.debug(">>ddst c:"+dst);
+                logger.debug(">>dfn c:"+dfn);
+                
+                String[] result = {dst,dfn};
+                return result;
     }
     
 }

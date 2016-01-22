@@ -266,7 +266,7 @@
                                     <h:outputLabel value="EXCHANGE RATE"/>
                                 </p:column>
                                 <p:column>
-                                    <p:inputText id="exchangerate" size="7" maxlength="7" onkeydown="num();"
+                                    <p:inputText id="exchangerate" size="7" maxlength="7" 
                                                  styleClass="iNR" converter="moneyConverter4digi"
                                                  value="#{aTP020101.masterdata.daily.exchangerate}" >
                                         <p:ajax process="@this,payby,currency,amount2" 

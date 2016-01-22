@@ -1438,6 +1438,91 @@
      </Displays>
 </Query>
 
+
+<!-- ************************** 
+    ATP020302Q 
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATP020302Q</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT r.id,
+            r.submitdate,
+            db_dsf(r.submitdate) submitdate_disp,
+            r.invcomid,
+            r.company,
+            t.companyname,
+            r.currency,
+            money(r.totalall) totalall,
+            c.currencyname
+        FROM accountdb.receivable r left outer join tb_currency c on (r.currency = c.currencyid)
+            left outer join invoicecompany t  on (r.invcomid = t.invcomid)
+        
+            
+        
+       <where>
+            r.jobno is null 
+            <var name="invcomid" woper="and" >  r.invcomid = '<value/>' </var>
+            <var name="submitdate" woper="and" >  r.submitdate = '<value/>' </var>
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        r.invdate,r.invcomid
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>invcomid</VarName>
+            <UIName>invcomid</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>submitdate</VarName>
+            <UIName>submitdate</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName>submitdate_disp</FieldName>
+                <Header>Date</Header>
+                <Style>width:200px;</Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>companyname</FieldName>
+                <Header>Company</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>totalall</FieldName>
+                <Header>Totalall</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+             <Column>
+                <FieldName>currencyname</FieldName>
+                <Header>currencyname</Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai>1</SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+</Query>
+
 <!-- ************************** 
     ATP020400Q 
 - -  ************************** -->
@@ -3250,6 +3335,126 @@
 </Query>
 
 
+<!-- ************************** 
+    ATR031200_PAYMENT
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATR031200_PAYMENT</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT distinct d.companyid,d.companyname 
+        FROM daily d 
+        where d.receivedamount = 0.00 and d.amount = 0.00 and dailytype = 'ADV'
+            <var name="dailydatedst" woper="and" >and d.dailydate <![CDATA[>=]]> '<value/>' </var>
+            <var name="dailydatedfn" woper="and" >and d.dailydate <![CDATA[<=]]> '<value/>' </var>
+            <var name="companyid" woper="and" >and d.companyid = '<value/>' </var>
+
+       <where>       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        d.companyid
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydatedst</VarName>
+            <UIName>dailydatedst</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatedfn</VarName>
+            <UIName>dailydatedfn</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>companyid</VarName>
+            <UIName>companyid</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+<!-- ************************** 
+    ATR031200_PAYMENT_DATA
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATR031200_PAYMENT_DATA</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT d.companyname,d.jobref,
+            DB_DSF(d.dailydate) dailydate,
+            concat(d.voucherno,'',d.docno) as voucherno_disp,
+            d.amount2 
+        FROM daily d 
+        where d.receivedamount = 0.00 and d.amount = 0.00 and dailytype = 'ADV'
+            <var name="dailydatedst" woper="and" >and d.dailydate <![CDATA[>=]]> '<value/>' </var>
+            <var name="dailydatedfn" woper="and" >and d.dailydate <![CDATA[<=]]> '<value/>' </var>
+            <var name="companyid" woper="and" >and d.companyid = '<value/>' </var>
+
+       <where>       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        d.companyid,d.dailydate,d.voucherno,d.docno
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydatedst</VarName>
+            <UIName>dailydatedst</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatedfn</VarName>
+            <UIName>dailydatedfn</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>companyid</VarName>
+            <UIName>companyid</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
 
 <!-- ************************** 
     ATR031300_RECEIVE
@@ -3673,7 +3878,7 @@
         
         SELECT DB_DSF(d.dailydate) dailydate,
             d.companyid,
-            d.companyname,dailydate,
+            d.companyname,
             d.jobref,
             b.bankname,
             b.monetaryusd,
@@ -5083,8 +5288,8 @@
 
        <where>
            <var name="invcomid" woper="and" > invcomid = '<value/>' </var>
-           <var name="invdatest" woper="and" > invdate <![CDATA[>=]]> '<value/>' </var>
-           <var name="invdatefn" woper="and" > invdate <![CDATA[<=]]> '<value/>' </var>
+           <var name="invdatest" woper="and" > submitdate <![CDATA[>=]]> '<value/>' </var>
+           <var name="invdatefn" woper="and" > submitdate <![CDATA[<=]]> '<value/>' </var>
            <var name="clearflagY" woper="and" > clearflag is not null </var>
            <var name="clearflagN" woper="and" > clearflag is null </var>
        </where>

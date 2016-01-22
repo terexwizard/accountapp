@@ -29,8 +29,8 @@ import javax.persistence.Query;
  * @author xtra
  * @version 1.00.00
  * 12/06/2555 12:50:20
- */
-public class PROCESSBRINGFORWARDUPDATE extends BusinessImpl {    
+ */          
+public class PROCESSBRINGFORWARDUPDATECHEQUE extends BusinessImpl {    
 
     @Override
     protected Object doProcess(Object inobj) {
@@ -42,9 +42,9 @@ public class PROCESSBRINGFORWARDUPDATE extends BusinessImpl {
         String user = (String)vhm.get("user");
         String dailydate = (String)vhm.get("dailydate");
         Daily frmi = (Daily)vhm.get("form");
-        logger.debug(">>processbringforwardupdate user:" + user);
-        logger.debug(">>processbringforwardupdate dailydate:" + dailydate);
-        logger.debug(">>processbringforwardupdate dailydate:" + frmi.getPayby());
+        logger.debug(">>processbringforwardupdatecheque user:" + user);
+        logger.debug(">>processbringforwardupdatecheque dailydate:" + dailydate);
+        logger.debug(">>processbringforwardupdatecheque dailydate:" + frmi.getPayby());
         
         
         processBringforward( frmi , dailydate,user);
@@ -61,8 +61,8 @@ public class PROCESSBRINGFORWARDUPDATE extends BusinessImpl {
 
                  //ลบแล้วคำนวณใหม่
                 String sql = "delete FROM Bringforward r "
-                        + "where r.bringforwardPK.bfdate >= :bfdate ";
-                        //+ "where r.bringforwardPK.bfdate > :bfdate ";
+                        //+ "where r.bringforwardPK.bfdate >= :bfdate ";
+                        + "where r.bringforwardPK.bfdate > :bfdate ";
 
                 Query query = em.createQuery(sql);
                 query.setParameter("bfdate",dailydate);
