@@ -8,8 +8,10 @@ import com.scc.f1.util.Utils;
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -50,18 +52,21 @@ public class NewMain {
         System.out.println(new SimpleDateFormat("yyyyMMdd-HH-mm-ss").format(Utils.getcurDateTime().getTime()));
         
         
-        Map<Integer, String> testMap = new TreeMap<Integer, String>();
-        testMap.put(10, "a");
-        testMap.put(20, "b");
-        testMap.put(30, "c");
-        testMap.put(40, "d");
-        for (Entry<Integer, String> entry : testMap.entrySet()) {
-            //if (entry.getValue().equals("c")) {
-                System.out.println(entry.getKey());
-            //}
-        }
+//        Map<Integer, String> testMap = new TreeMap<Integer, String>();
+//        testMap.put(10, "a");
+//        testMap.put(20, "b");
+//        testMap.put(30, "c");
+//        testMap.put(40, "d");
+//        for (Entry<Integer, String> entry : testMap.entrySet()) {
+//            //if (entry.getValue().equals("c")) {
+//                System.out.println(entry.getKey());
+//            //}
+//        }
 
         System.out.println(new DateFormatSymbols().getMonths()[12-1]);
+        
+        
+        getWeekofYear(2016, 2);
 
     }
     
@@ -85,4 +90,79 @@ public class NewMain {
         return Utils.formatDateToStringToDBEn(date);
  
     }
+    
+    public static ArrayList<String> getWeekofYear(int yyyy,int mm){
+        
+            Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+            cal.set(Calendar.YEAR, yyyy);
+            cal.set(Calendar.MONTH, (mm-1));
+            
+            System.out.println(cal.getTime());
+            System.out.println(cal.getActualMaximum(Calendar.DATE));
+            
+            int maxdayformonth = cal.getActualMaximum(Calendar.DATE);
+            TreeMap<String,String> tm = new TreeMap<String,String>();
+            String weeks = "";
+            int weeknum = 0;
+            Date date = new Date();
+            for(int i=1;i<=maxdayformonth;i++){
+                
+                try {
+                    String d = Utils.NVL(i).length()==1?"0"+Utils.NVL(i):Utils.NVL(i);
+                    String m = Utils.NVL(mm).length()==1?"0"+Utils.NVL(mm):Utils.NVL(mm);
+                    String input = yyyy+m+d;
+                    
+                    //System.out.println(input);
+                    String format = "yyyyMMdd";
+                    SimpleDateFormat df = new SimpleDateFormat(format);
+                    date = df.parse(input);
+                    
+                    Calendar calw = Calendar.getInstance();
+                    calw.setTime(date);
+                    
+                    int week = calw.get(Calendar.WEEK_OF_YEAR);
+                    //System.out.println(week);
+                    
+                    if(Utils.NVL(weeks).equals("")){
+                        weeks = input;
+                    }
+                    
+                    if(weeknum == 0){
+                        weeknum = week;
+                    }
+                    
+                    if(weeknum != week){
+                        weeks += "-"+Utils.formatDateToStringToDBEn(CenterUtils.previousDayEn(date,1));
+                        
+                        tm.put(weeks, weeks);
+                        weeks = "";
+                        weeknum = 0;
+                        
+                        weeks = input;
+                    }
+
+                    
+                } catch (ParseException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            
+            weeks += "-"+Utils.formatDateToStringToDBEn(date);
+            tm.put(weeks, weeks);
+            
+            
+            System.out.println("====================");
+            
+            ArrayList<String> al = new ArrayList<String>();
+            for (Map.Entry<String, String> entry : tm.entrySet()) {
+                System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());                
+                al.add(Utils.NVL(entry.getValue()));
+            }
+            
+            
+            return al;
+    }
+    
+    
+    
 }
