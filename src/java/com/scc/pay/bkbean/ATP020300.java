@@ -213,6 +213,8 @@ public class ATP020300 extends BKBPage {
         private Date duedate;
         private Date receivedDate;
         private String currency_disp;
+        private Date eta;
+        private Date etd;
 
         public Receivable getReceivable() {
             if(receivable == null){
@@ -265,6 +267,22 @@ public class ATP020300 extends BKBPage {
 
         public void setCurrency_disp(String currency_disp) {
             this.currency_disp = currency_disp;
+        }
+
+        public Date getEta() {
+            return eta;
+        }
+
+        public void setEta(Date eta) {
+            this.eta = eta;
+        }
+
+        public Date getEtd() {
+            return etd;
+        }
+
+        public void setEtd(Date etd) {
+            this.etd = etd;
         }
         
   }
@@ -521,7 +539,7 @@ public class ATP020300 extends BKBPage {
             HashMap<String, String> hm = new HashMap<String, String>();
             
             hm.put("invcomid", this.getSearchparam().getInvoicecompany().getInvcomid());
-            hm.put("date", Utils.formatDateToStringToDBEn(this.getSearchparam().getInvdate()));
+            hm.put("submitdate", Utils.formatDateToStringToDBEn(this.getSearchparam().getInvdate()));
    
             BKBUQuery.getIns().setQueryparam(hm);
             BKBUQuery.getIns().search();

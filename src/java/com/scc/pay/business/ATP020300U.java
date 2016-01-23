@@ -61,6 +61,8 @@ public class ATP020300U extends BusinessImpl {
                     db.setCompany(frmi.getMasterdata().getInvoicecompany().getCompanyname());
                     db.setInvdate(Utils.formatDateToStringToDBEn(item.getData().getInvdate()));
                     db.setSubmitdate(Utils.formatDateToStringToDBEn(item.getData().getSubmitdate()));
+                    db.setEta(Utils.formatDateToStringToDBEn(item.getData().getEta()));
+                    db.setEtd(Utils.formatDateToStringToDBEn(item.getData().getEtd()));
 
                     db.setUpdlcnt(addLcnt(db.getUpdlcnt()));
                     db.setUpdtime(Utils.getcurDateTime());
@@ -77,6 +79,8 @@ public class ATP020300U extends BusinessImpl {
                     dbbean.setCompany(frmi.getMasterdata().getInvoicecompany().getCompanyname());
                     dbbean.setInvdate(Utils.formatDateToStringToDBEn(item.getData().getInvdate()));
                     dbbean.setSubmitdate(Utils.formatDateToStringToDBEn(item.getData().getSubmitdate()));
+                    dbbean.setEta(Utils.formatDateToStringToDBEn(item.getData().getEta()));
+                    dbbean.setEtd(Utils.formatDateToStringToDBEn(item.getData().getEtd()));
 
                     dbbean.setEntuser(frmi.getUserid());
                     dbbean.setEnttime(Utils.getcurDateTime());

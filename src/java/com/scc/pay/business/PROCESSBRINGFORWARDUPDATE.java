@@ -61,8 +61,8 @@ public class PROCESSBRINGFORWARDUPDATE extends BusinessImpl {
 
                  //ลบแล้วคำนวณใหม่
                 String sql = "delete FROM Bringforward r "
-                        + "where r.bringforwardPK.bfdate >= :bfdate ";
-                        //+ "where r.bringforwardPK.bfdate > :bfdate ";
+                        //+ "where r.bringforwardPK.bfdate >= :bfdate ";
+                        + "where r.bringforwardPK.bfdate > :bfdate ";
 
                 Query query = em.createQuery(sql);
                 query.setParameter("bfdate",dailydate);

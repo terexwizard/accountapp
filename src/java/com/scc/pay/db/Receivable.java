@@ -85,6 +85,12 @@ public class Receivable implements Serializable {
     private String currency;
     @Column(name = "invoiceno")
     private String invoiceno;
+    @Column(name = "consignee")
+    private String consignee;
+    @Column(name = "etd")
+    private String etd;
+    @Column(name = "eta")
+    private String eta;
 
     public Receivable() {
     }
@@ -283,6 +289,30 @@ public class Receivable implements Serializable {
 
     public void setInvoiceno(String invoiceno) {
         this.invoiceno = invoiceno;
+    }
+
+    public String getConsignee() {
+        return consignee;
+    }
+
+    public void setConsignee(String consignee) {
+        this.consignee = consignee;
+    }
+
+    public String getEtd() {
+        return etd;
+    }
+
+    public void setEtd(String etd) {
+        this.etd = etd;
+    }
+
+    public String getEta() {
+        return eta;
+    }
+
+    public void setEta(String eta) {
+        this.eta = eta;
     }
 
     @Override

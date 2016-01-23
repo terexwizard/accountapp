@@ -76,6 +76,8 @@ public class ATP020300S extends BusinessImpl {
               
               row.setInvdate(CenterUtils.formatStringToDateToScreen(db.getInvdate()));
               row.setSubmitdate(CenterUtils.formatStringToDateToScreen(db.getSubmitdate()));
+              row.setEta(CenterUtils.formatStringToDateToScreen(db.getEta()));
+              row.setEtd(CenterUtils.formatStringToDateToScreen(db.getEtd()));
               row.setCurrency_disp(getLabelCombotb_currency(db.getCurrency()));
               
               ld.add(row);

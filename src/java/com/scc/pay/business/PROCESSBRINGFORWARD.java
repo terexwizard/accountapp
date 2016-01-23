@@ -88,7 +88,7 @@ public class PROCESSBRINGFORWARD extends BusinessImpl {
 //                
 //                processBringforward(vuser);
 //            }
-            
+            logger.debug(">>processBringforward loop:"+bfdate+" // "+Utils.getcurDateDB(false));
             if(bfdate == (Integer.parseInt(Utils.getcurDateDB(false)))){
                 processBringforwardUpdate(vuser,bfdate);
             }else{
@@ -182,6 +182,8 @@ public class PROCESSBRINGFORWARD extends BusinessImpl {
     
      
     private void processBringforwardUpdate(String vuser,int processdate){
+        
+        logger.debug(">>processBringforwardUpdate "+processdate);
         
         String sql = "select r FROM Bringforward r "
                 + "where r.bringforwardPK.bfdate = :bfdate ";

@@ -536,7 +536,7 @@ public class ATP020200 extends BKBPage {
             HashMap<String, String> hm = new HashMap<String, String>();
             
             hm.put("invcomid", this.getSearchparam().getInvoicecompany().getInvcomid());
-            hm.put("invdate", Utils.formatDateToStringToDBEn(this.getSearchparam().getInvdate()));
+            hm.put("submitdate", Utils.formatDateToStringToDBEn(this.getSearchparam().getInvdate()));
    
             BKBUQuery.getIns().setQueryparam(hm);
             BKBUQuery.getIns().search();
