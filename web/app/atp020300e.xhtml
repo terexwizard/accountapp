@@ -241,6 +241,47 @@
            </p:row>
            
            
+            <p:row>
+               <p:column styleClass="textR">
+                   <h:outputLabel value="Consignee" /> 
+               </p:column>
+               <p:column colspan="5">                                      
+                   <p:inputText id="consignee" value="#{aTP020300.detailreceivable.row.data.receivable.consignee}" 
+                         size="54" maxlength="45"
+                         readonly="#{!aTP020300.detailreceivable.rowinputmode}"
+                         styleClass="#{!aTP020300.detailreceivable.rowinputmode?bKBStyle.STYLE_INPUT_DISABLE:bKBStyle.STYLE_INPUT_NORMAL} iNL">
+                    </p:inputText>
+               </p:column>
+           </p:row>
+           <p:row>
+               <p:column styleClass="textR">
+                   <h:outputLabel value="ETD" /> 
+               </p:column>
+               <p:column >
+                   
+                   <p:calendar id="etd" value="#{aTP020300.detailreceivable.row.data.etd}" 
+                                     size="10" maxlength="10" locale="en" showOn="button" 
+                                     converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true"
+                                     disabled="#{!aTP020300.detailreceivable.rowinputmode}">
+                            <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
+                            <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
+                    </p:calendar>
+               </p:column>
+               <p:column>
+                   <h:outputLabel value="ETA" /> 
+               </p:column>
+               <p:column colspan="2">                                      
+                   <p:calendar id="eta" value="#{aTP020300.detailreceivable.row.data.eta}" 
+                                     size="10" maxlength="10" locale="en" showOn="button" 
+                                     converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true"
+                                     disabled="#{!aTP020300.detailreceivable.rowinputmode}">
+                            <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
+                            <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
+                    </p:calendar>
+               </p:column>
+           </p:row>
+           
+           
            
            
            <p:row>

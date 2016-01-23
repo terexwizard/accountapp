@@ -1145,7 +1145,7 @@
         
             <var name="invcomid" woper="and" > and i.invcomid = '<value/>' </var>
             <var name="company" woper="and" > and i.company = '<value/>' </var>
-            <var name="invdate" woper="and" > and i.invdate = '<value/>' </var>
+            <var name="submitdate" woper="and" > and i.submitdate = '<value/>' </var>
         
         group by ic.invcomid
 
@@ -1170,8 +1170,8 @@
             <Operator></Operator>
         </Param>
         <Param>
-            <VarName>invdate</VarName>
-            <UIName>invdate</UIName>
+            <VarName>submitdate</VarName>
+            <UIName>submitdate</UIName>
             <Operator></Operator>
         </Param>
     </Params>
@@ -1180,21 +1180,21 @@
          <Columns>
              <Column>
                 <FieldName>invcomid</FieldName>
-                <Header>invcomid</Header>
+                <Header>Company id</Header>
                 <Style>width:200px;</Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
              </Column>
              <Column>
                 <FieldName>company</FieldName>
-                <Header>company</Header>
+                <Header>Company Name</Header>
                 <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
              </Column>
              <Column>
                 <FieldName>remark</FieldName>
-                <Header>remark</Header>
+                <Header>Remark</Header>
                 <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
@@ -1300,7 +1300,7 @@
         
             <var name="invcomid" woper="and" > and i.invcomid = '<value/>' </var>
             <var name="company" woper="and" > and i.company = '<value/>' </var>
-            <var name="invdate" woper="and" > and i.invdate = '<value/>' </var>
+            <var name="submitdate" woper="and" > and i.submitdate = '<value/>' </var>
         
         group by ic.invcomid
 
@@ -1325,8 +1325,8 @@
             <Operator></Operator>
         </Param>
         <Param>
-            <VarName>invdate</VarName>
-            <UIName>invdate</UIName>
+            <VarName>submitdate</VarName>
+            <UIName>submitdate</UIName>
             <Operator></Operator>
         </Param>
     </Params>
@@ -1335,21 +1335,21 @@
          <Columns>
              <Column>
                 <FieldName>invcomid</FieldName>
-                <Header>invcomid</Header>
+                <Header>Company id</Header>
                 <Style>width:200px;</Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
              </Column>
              <Column>
                 <FieldName>company</FieldName>
-                <Header>company</Header>
+                <Header>Company Name</Header>
                 <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
              </Column>
              <Column>
                 <FieldName>remark</FieldName>
-                <Header>remark</Header>
+                <Header>Remark</Header>
                 <Style></Style>
                 <SortBy></SortBy>
                 <SortByThai>1</SortByThai>
@@ -5451,8 +5451,8 @@
 
        <where>
            <var name="invcomid" woper="and" > invcomid = '<value/>' </var>
-           <var name="invdatest" woper="and" > invdate <![CDATA[>=]]> '<value/>' </var>
-           <var name="invdatefn" woper="and" > invdate <![CDATA[<=]]> '<value/>' </var>
+           <var name="invdatest" woper="and" > submitdate <![CDATA[>=]]> '<value/>' </var>
+           <var name="invdatefn" woper="and" > submitdate <![CDATA[<=]]> '<value/>' </var>
            <var name="clearflagY" woper="and" > clearflag is not null </var>
            <var name="clearflagN" woper="and" > clearflag is null </var>
        </where>
@@ -5522,8 +5522,8 @@
 
        <where>
            <var name="invcomid" woper="and" > invcomid = '<value/>' </var>
-           <var name="invdatest" woper="and" > invdate <![CDATA[>=]]> '<value/>' </var>
-           <var name="invdatefn" woper="and" > invdate <![CDATA[<]]> '<value/>' </var>
+           <var name="invdatest" woper="and" > submitdate <![CDATA[>=]]> '<value/>' </var>
+           <var name="invdatefn" woper="and" > submitdate <![CDATA[<]]> '<value/>' </var>
            <var name="clearflagY" woper="and" > clearflag is not null </var>
            <var name="clearflagN" woper="and" > clearflag is null </var>
        </where>
