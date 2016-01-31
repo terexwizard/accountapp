@@ -25,6 +25,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import java.text.DecimalFormat;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -748,6 +749,13 @@ public class ATR030900 extends BKBPage {
                 hCellstyleHColor.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
                 CenterUtils.setCellBorder(hCellstyleHColor);
                 
+                HSSFCellStyle hCellstyleRColorBlue = hWBook.createCellStyle();                          //กำหนด style cell
+                hCellstyleRColorBlue.setAlignment(HSSFCellStyle.ALIGN_RIGHT);                         //กำหนด ตัวอักษรให้อยู่ซ้าย
+                hCellstyleRColorBlue.setFont(font14);  
+                hCellstyleRColorBlue.setFillForegroundColor(HSSFColor.LIGHT_BLUE.index);
+                hCellstyleRColorBlue.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+                CenterUtils.setCellBorder(hCellstyleRColorBlue);
+                
                 Font font18B = hWBook.createFont();                                           //กำหนด font style
                 font18B.setFontHeightInPoints((short)16);                                     //กำหนดขนาดของ font
                 font18B.setFontName("Angsana New");
@@ -902,6 +910,7 @@ public class ATR030900 extends BKBPage {
                         hSheet.setColumnWidth(8, 10000);
                         hSheet.setColumnWidth(9, 10000);
                         hSheet.setColumnWidth(10, 10000);
+                        hSheet.setColumnWidth(11, 10000);
                         hSheet.setDefaultRowHeight(new Short("500"));
                         
                         
@@ -987,7 +996,7 @@ public class ATR030900 extends BKBPage {
                             
                             //เดือนนั้นไม่มีค่า
                             //sum total
-                            hSheet.addMergedRegion(new Region(rowpadformheader+rowdata,(short)0,rowpadformheader+rowdata,(short)9));
+                            hSheet.addMergedRegion(new Region(rowpadformheader+rowdata,(short)0,rowpadformheader+rowdata,(short)10));
                             row = hSheet.createRow(rowpadformheader+rowdata);
                             cell = row.createCell(0);
                             cell.setCellValue("Total "+date);
@@ -1039,9 +1048,114 @@ public class ATR030900 extends BKBPage {
                             
                             alcompanyrowx.add("0.00");
                         }else{
+                            
+                            String groupbyrefno = "";
+                            BigDecimal cmreimbursement = new BigDecimal(0);
+                            BigDecimal cmservice = new BigDecimal(0);
+                            BigDecimal cmvat = new BigDecimal(0);
+                            BigDecimal cmtotal = new BigDecimal(0);
+                            BigDecimal cmwhtax = new BigDecimal(0);
+                            BigDecimal cmadvance = new BigDecimal(0);
+                            BigDecimal cmtotalall = new BigDecimal(0);
+                            
                             for(int k=0;k<sizelcompanymonth;k++){
                                 HashMap hmcompanymonth = new HashMap<String, String>();
                                 hmcompanymonth = (HashMap)lcompanymonth.get(k);
+                                
+                                if(Utils.NVL(groupbyrefno).equals("")){
+                                    groupbyrefno = Utils.NVL(hmcompanymonth.get("ref"));
+                                }
+                                
+                                  
+                                
+                                logger.debug(">>terex cal group "+groupbyrefno+" // "+Utils.NVL(hmcompanymonth.get("ref")));
+                                if(!Utils.NVL(groupbyrefno).equals(Utils.NVL(hmcompanymonth.get("ref")))){
+                                    
+                                    rowdata++;
+                                    logger.debug(">>terex cal group if " +rowpadformheader+rowdata);
+                                    hSheet.addMergedRegion(new Region(rowpadformheader+rowdata,(short)0,rowpadformheader+rowdata,(short)4));
+                                    row = hSheet.createRow(rowpadformheader+rowdata);
+                                    cell = row.createCell(0);
+                                    cell.setCellValue("Total");
+                                    cell.setCellStyle(hCellstyleRColorBlue);
+
+                                    cell = row.createCell(1);
+                                    cell.setCellValue("");
+                                    cell.setCellStyle(hCellstyleRColorBlue);
+
+                                    cell = row.createCell(2);
+                                    cell.setCellValue("");
+                                    cell.setCellStyle(hCellstyleRColorBlue);
+
+                                    cell = row.createCell(3);
+                                    cell.setCellValue("");
+                                    cell.setCellStyle(hCellstyleRColorBlue);
+
+                                    cell = row.createCell(4);
+                                    cell.setCellValue("");
+                                    cell.setCellStyle(hCellstyleRColorBlue);
+
+                                    cell = row.createCell(5);
+                                    cell.setCellValue(format(Utils.NVL(cmreimbursement)));
+                                    cell.setCellStyle(hCellstyleRColorBlue);
+
+                                    cell = row.createCell(6);
+                                    cell.setCellValue(format(Utils.NVL(cmservice)));
+                                    cell.setCellStyle(hCellstyleRColorBlue);
+
+                                    cell = row.createCell(7);
+                                    cell.setCellValue(format(Utils.NVL(cmvat)));
+                                    cell.setCellStyle(hCellstyleRColorBlue);
+
+                                    cell = row.createCell(8);
+                                    cell.setCellValue(format(Utils.NVL(cmtotal)));
+                                    cell.setCellStyle(hCellstyleRColorBlue);
+
+                                    cell = row.createCell(9);
+                                    cell.setCellValue(format(Utils.NVL(cmwhtax)));
+                                    cell.setCellStyle(hCellstyleRColorBlue);
+
+                                    cell = row.createCell(10);
+                                    cell.setCellValue(format(Utils.NVL(cmadvance)));
+                                    cell.setCellStyle(hCellstyleRColorBlue);
+
+                                    cell = row.createCell(11);
+                                    cell.setCellValue(format(Utils.NVL(cmtotalall)));
+                                    cell.setCellStyle(hCellstyleRColorBlue);
+                                    
+                                    
+                                    groupbyrefno = Utils.NVL(hmcompanymonth.get("ref"));
+                                    cmreimbursement = new BigDecimal(0);
+                                    cmservice = new BigDecimal(0);
+                                    cmvat = new BigDecimal(0);
+                                    cmtotal = new BigDecimal(0);
+                                    cmwhtax = new BigDecimal(0);
+                                    cmadvance = new BigDecimal(0);
+                                    cmtotalall = new BigDecimal(0);
+//                                    rowdata++;
+//                                    rowdata++;
+                                }else{
+//                                    logger.debug(">>terex cal group else");
+//                                    
+//                                    groupbyrefno = Utils.NVL(hmcompanymonth.get("ref"));
+//                                    cmreimbursement = cmreimbursement.add(new BigDecimal(Utils.NVL(hmcompanymonth.get("reimbursement")).equals("")?"0":Utils.NVL(hmcompanymonth.get("reimbursement"))));
+//                                    cmservice = cmservice.add(new BigDecimal(Utils.NVL(hmcompanymonth.get("service")).equals("")?"0":Utils.NVL(hmcompanymonth.get("service"))));
+//                                    cmvat = cmvat.add(new BigDecimal(Utils.NVL(hmcompanymonth.get("vat")).equals("")?"0":Utils.NVL(hmcompanymonth.get("vat"))));
+//                                    cmtotal = cmtotal.add(new BigDecimal(Utils.NVL(hmcompanymonth.get("total")).equals("")?"0":Utils.NVL(hmcompanymonth.get("total"))));
+//                                    cmwhtax = cmwhtax.add(new BigDecimal(Utils.NVL(hmcompanymonth.get("whtax")).equals("")?"0":Utils.NVL(hmcompanymonth.get("whtax"))));
+//                                    cmadvance = cmadvance.add(new BigDecimal(Utils.NVL(hmcompanymonth.get("advance")).equals("")?"0":Utils.NVL(hmcompanymonth.get("advance"))));
+//                                    cmtotalall = cmtotalall.add(new BigDecimal(Utils.NVL(hmcompanymonth.get("totalall")).equals("")?"0":Utils.NVL(hmcompanymonth.get("totalall"))));
+//                                    
+                                }
+
+                                cmreimbursement = cmreimbursement.add(new BigDecimal(Utils.NVL(hmcompanymonth.get("reimbursement")).equals("")?"0":Utils.NVL(hmcompanymonth.get("reimbursement"))));
+                                cmservice = cmservice.add(new BigDecimal(Utils.NVL(hmcompanymonth.get("service")).equals("")?"0":Utils.NVL(hmcompanymonth.get("service"))));
+                                cmvat = cmvat.add(new BigDecimal(Utils.NVL(hmcompanymonth.get("vat")).equals("")?"0":Utils.NVL(hmcompanymonth.get("vat"))));
+                                cmtotal = cmtotal.add(new BigDecimal(Utils.NVL(hmcompanymonth.get("total")).equals("")?"0":Utils.NVL(hmcompanymonth.get("total"))));
+                                cmwhtax = cmwhtax.add(new BigDecimal(Utils.NVL(hmcompanymonth.get("whtax")).equals("")?"0":Utils.NVL(hmcompanymonth.get("whtax"))));
+                                cmadvance = cmadvance.add(new BigDecimal(Utils.NVL(hmcompanymonth.get("advance")).equals("")?"0":Utils.NVL(hmcompanymonth.get("advance"))));
+                                cmtotalall = cmtotalall.add(new BigDecimal(Utils.NVL(hmcompanymonth.get("totalall")).equals("")?"0":Utils.NVL(hmcompanymonth.get("totalall"))));
+                                  
 
                                 rowdata++;
                                 row = hSheet.createRow(rowpadformheader+rowdata);
@@ -1094,7 +1208,7 @@ public class ATR030900 extends BKBPage {
                                 cell.setCellValue(format(Utils.NVL(hmcompanymonth.get("totalall"))));
                                 cell.setCellStyle(hCellstyleR);  
 
-
+                                                                
                                 sumtotalall = sumtotalall.add(new BigDecimal(Utils.NVL(hmcompanymonth.get("totalall")).equals("")?"0":Utils.NVL(hmcompanymonth.get("totalall"))));
                                 if(i==3){
                                     sumtotal3 = sumtotal3.add(new BigDecimal(Utils.NVL(hmcompanymonth.get("totalall")).equals("")?"0":Utils.NVL(hmcompanymonth.get("totalall"))));
@@ -1107,6 +1221,68 @@ public class ATR030900 extends BKBPage {
                                 }
                             }
                             
+                            //=========ค่ารวมครั้งสุดท้าย==========
+                            rowdata++;
+                            hSheet.addMergedRegion(new Region(rowpadformheader+rowdata,(short)0,rowpadformheader+rowdata,(short)4));
+                            row = hSheet.createRow(rowpadformheader+rowdata);
+                            cell = row.createCell(0);
+                            cell.setCellValue("Total");
+                            cell.setCellStyle(hCellstyleRColorBlue);
+
+                            cell = row.createCell(1);
+                            cell.setCellValue("");
+                            cell.setCellStyle(hCellstyleRColorBlue);
+
+                            cell = row.createCell(2);
+                            cell.setCellValue("");
+                            cell.setCellStyle(hCellstyleRColorBlue);
+
+                            cell = row.createCell(3);
+                            cell.setCellValue("");
+                            cell.setCellStyle(hCellstyleRColorBlue);
+
+                            cell = row.createCell(4);
+                            cell.setCellValue("");
+                            cell.setCellStyle(hCellstyleRColorBlue);
+
+                            cell = row.createCell(5);
+                            cell.setCellValue(format(Utils.NVL(cmreimbursement)));
+                            cell.setCellStyle(hCellstyleRColorBlue);
+
+                            cell = row.createCell(6);
+                            cell.setCellValue(format(Utils.NVL(cmservice)));
+                            cell.setCellStyle(hCellstyleRColorBlue);
+
+                            cell = row.createCell(7);
+                            cell.setCellValue(format(Utils.NVL(cmvat)));
+                            cell.setCellStyle(hCellstyleRColorBlue);
+
+                            cell = row.createCell(8);
+                            cell.setCellValue(format(Utils.NVL(cmtotal)));
+                            cell.setCellStyle(hCellstyleRColorBlue);
+
+                            cell = row.createCell(9);
+                            cell.setCellValue(format(Utils.NVL(cmwhtax)));
+                            cell.setCellStyle(hCellstyleRColorBlue);
+
+                            cell = row.createCell(10);
+                            cell.setCellValue(format(Utils.NVL(cmadvance)));
+                            cell.setCellStyle(hCellstyleRColorBlue);
+
+                            cell = row.createCell(11);
+                            cell.setCellValue(format(Utils.NVL(cmtotalall)));
+                            cell.setCellStyle(hCellstyleRColorBlue);
+
+
+                            groupbyrefno = "";
+                            cmreimbursement = new BigDecimal(0);
+                            cmservice = new BigDecimal(0);
+                            cmvat = new BigDecimal(0);
+                            cmtotal = new BigDecimal(0);
+                            cmwhtax = new BigDecimal(0);
+                            cmadvance = new BigDecimal(0);
+                            cmtotalall = new BigDecimal(0);
+                            //=======================
                             
                             //sum total
                             rowdata++;

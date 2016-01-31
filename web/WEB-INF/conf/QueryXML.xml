@@ -3348,7 +3348,7 @@
         
         SELECT distinct d.companyid,d.companyname 
         FROM daily d 
-        where d.receivedamount = 0.00 and d.amount = 0.00 and dailytype = 'ADV'
+        where d.receivedamount = 0.00 and d.amount = 0.00 and d.voucherno = 'ADV'
             <var name="dailydatedst" woper="and" >and d.dailydate <![CDATA[>=]]> '<value/>' </var>
             <var name="dailydatedfn" woper="and" >and d.dailydate <![CDATA[<=]]> '<value/>' </var>
             <var name="companyid" woper="and" >and d.companyid = '<value/>' </var>
@@ -3823,7 +3823,7 @@
         where d.paidamount = 0.00 and d.amount2 = 0.00 
             <var name="dailydatest" woper="and" >and d.dailydate <![CDATA[>=]]> '<value/>' </var>
             <var name="dailydatefn" woper="and" >and d.dailydate <![CDATA[<=]]> '<value/>' </var>
-            <var name="dailytype" woper="and" >and d.dailytype = '<value/>' </var>
+            <var name="voucherno" woper="and" >and d.voucherno = '<value/>' </var>
 
        <where>       
        </where>
@@ -3843,8 +3843,8 @@
             <Operator></Operator>
         </Param>
         <Param>
-            <VarName>dailytype</VarName>
-            <UIName>dailytype</UIName>
+            <VarName>voucherno</VarName>
+            <UIName>voucherno</UIName>
             <Operator></Operator>
         </Param>
     </Params>
@@ -3890,7 +3890,7 @@
         where d.receivedamount = 0.00 and d.amount = 0.00
             <var name="dailydatest" woper="and" >and d.dailydate <![CDATA[>=]]> '<value/>' </var>
             <var name="dailydatefn" woper="and" >and d.dailydate <![CDATA[<=]]> '<value/>' </var>
-            <var name="dailytype" woper="and" >and d.dailytype = '<value/>' </var>
+            <var name="voucherno" woper="and" >and d.voucherno = '<value/>' </var>
 
        <where>       
        </where>
@@ -3910,8 +3910,264 @@
             <Operator></Operator>
         </Param>
         <Param>
-            <VarName>dailytype</VarName>
-            <UIName>dailytype</UIName>
+            <VarName>voucherno</VarName>
+            <UIName>voucherno</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+<!-- ************************** 
+    ATR031500_SUM_RECEIVE_TH
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATR031500_SUM_RECEIVE_TH</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT sum(d.receivedamount) receivedamount
+        FROM daily d left outer join tb_bank b on (d.payby = b.bankid) 
+        where d.paidamount = 0.00 and d.amount2 = 0.00 and d.payby <![CDATA[<>]]> 2
+            <var name="dailydatest" woper="and" >and d.dailydate <![CDATA[>=]]> '<value/>' </var>
+            <var name="dailydatefn" woper="and" >and d.dailydate <![CDATA[<=]]> '<value/>' </var>
+            <var name="voucherno" woper="and" >and d.voucherno = '<value/>' </var>
+            <var name="monetaryusd" woper="and" >and b.monetaryusd = '<value/>' </var>
+
+       <where>       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydatest</VarName>
+            <UIName>dailydatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatefn</VarName>
+            <UIName>dailydatefn</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>voucherno</VarName>
+            <UIName>voucherno</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>monetaryusd</VarName>
+            <UIName>monetaryusd</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+<!-- ************************** 
+    ATR031500_SUM_RECEIVE_US
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATR031500_SUM_RECEIVE_US</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT sum(d.amount) amount 
+        FROM daily d left outer join tb_bank b on (d.payby = b.bankid) 
+        where d.paidamount = 0.00 and d.amount2 = 0.00 and d.payby <![CDATA[=]]> 2
+            <var name="dailydatest" woper="and" >and d.dailydate <![CDATA[>=]]> '<value/>' </var>
+            <var name="dailydatefn" woper="and" >and d.dailydate <![CDATA[<=]]> '<value/>' </var>
+            <var name="voucherno" woper="and" >and d.voucherno = '<value/>' </var>
+            <var name="monetaryusd" woper="and" >and b.monetaryusd = '<value/>' </var>
+
+       <where>       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydatest</VarName>
+            <UIName>dailydatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatefn</VarName>
+            <UIName>dailydatefn</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>voucherno</VarName>
+            <UIName>voucherno</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>monetaryusd</VarName>
+            <UIName>monetaryusd</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+<!-- ************************** 
+    ATR031500_SUM_PAYMENT_TH
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATR031500_SUM_PAYMENT_TH</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT sum(d.paidamount) paidamount 
+        FROM daily d  left outer join tb_bank b on (d.payby = b.bankid) 
+        where d.receivedamount = 0.00 and d.amount = 0.00 and d.payby <![CDATA[<>]]> 2
+            <var name="dailydatest" woper="and" >and d.dailydate <![CDATA[>=]]> '<value/>' </var>
+            <var name="dailydatefn" woper="and" >and d.dailydate <![CDATA[<=]]> '<value/>' </var>
+            <var name="voucherno" woper="and" >and d.voucherno = '<value/>' </var>
+            <var name="monetaryusd" woper="and" >and b.monetaryusd = '<value/>' </var>
+       <where>       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydatest</VarName>
+            <UIName>dailydatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatefn</VarName>
+            <UIName>dailydatefn</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>voucherno</VarName>
+            <UIName>voucherno</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>monetaryusd</VarName>
+            <UIName>monetaryusd</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+
+<!-- ************************** 
+    ATR031500_SUM_PAYMENT_US
+- -  ************************** -->
+
+<Query>
+    <TranCode>ATR031500_SUM_PAYMENT_US</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+        SELECT sum(d.amount2) amount2  
+        FROM daily d  left outer join tb_bank b on (d.payby = b.bankid) 
+        where d.receivedamount = 0.00 and d.amount = 0.00 and d.payby <![CDATA[=]]> 2
+            <var name="dailydatest" woper="and" >and d.dailydate <![CDATA[>=]]> '<value/>' </var>
+            <var name="dailydatefn" woper="and" >and d.dailydate <![CDATA[<=]]> '<value/>' </var>
+            <var name="voucherno" woper="and" >and d.voucherno = '<value/>' </var>
+            <var name="monetaryusd" woper="and" >and b.monetaryusd = '<value/>' </var>
+       <where>       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>dailydatest</VarName>
+            <UIName>dailydatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatefn</VarName>
+            <UIName>dailydatefn</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>voucherno</VarName>
+            <UIName>voucherno</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>monetaryusd</VarName>
+            <UIName>monetaryusd</UIName>
             <Operator></Operator>
         </Param>
     </Params>

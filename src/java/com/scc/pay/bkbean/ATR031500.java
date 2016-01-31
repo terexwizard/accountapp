@@ -536,13 +536,13 @@ public class ATR031500 extends BKBPage {
                 hSheet.setColumnWidth(5,6000);
                 hSheet.setColumnWidth(6,6000);
                 
-                hSheet.addMergedRegion(new Region(2,(short)0,2,(short)2));
+                //hSheet.addMergedRegion(new Region(2,(short)0,2,(short)2));
 
                 //Query Data
                 HashMap hm = new HashMap<String, String>();
                 hm.put("dailydatest", this.getMasterdata().getYear()+"0101");
                 hm.put("dailydatefn", this.getMasterdata().getYear()+"1231");
-                hm.put("dailytype", "OIN"); //OVERSEA INCOME
+                hm.put("voucherno", "ORV"); //OVERSEA INCOME
                 List l = CenterUtils.selectData(hm,"ATR031500_RECEIVE");
 
                 
@@ -551,7 +551,7 @@ public class ATR031500 extends BKBPage {
                 HashMap hm2 = new HashMap<String, String>();
                 hm2.put("dailydatest", this.getMasterdata().getYear()+"0101");
                 hm2.put("dailydatefn", this.getMasterdata().getYear()+"1231");
-                hm2.put("dailytype", "ADV"); //OVERSEA INCOME
+                hm2.put("voucherno", "OPV"); //OVERSEA INCOME
                 List l2 = CenterUtils.selectData(hm2,"ATR031500_PAYMENT");
 
                 if(l.isEmpty() && l2.isEmpty()){
@@ -571,7 +571,19 @@ public class ATR031500 extends BKBPage {
                     cell.setCellValue(header);
                     cell.setCellStyle(hCellstyleCB);
                     
+                    cell = row.createCell(2);
+                    cell.setCellValue("Received");
+                    cell.setCellStyle(hCellstyleCB);
+                    
+                    cell = row.createCell(3);
+                    cell.setCellValue(sum_receive_th(Utils.NVL(this.getMasterdata().getYear()))+" ฿");
+                    cell.setCellStyle(hCellstyleRB);
+                    
                     cell = row.createCell(4);
+                    cell.setCellValue(sum_receive_us(Utils.NVL(this.getMasterdata().getYear()))+" $");
+                    cell.setCellStyle(hCellstyleRB);
+                    
+                    cell = row.createCell(6);
                     cell.setCellValue("ATR031500");
                     cell.setCellStyle(hCellstyleCB);
                     
@@ -581,9 +593,23 @@ public class ATR031500 extends BKBPage {
                     cell.setCellValue(condition);
                     cell.setCellStyle(hCellstyleCB);
                     
+                    cell = row.createCell(2);
+                    cell.setCellValue("Payment");
+                    cell.setCellStyle(hCellstyleCB);
+                    
+                    cell = row.createCell(3);
+                    cell.setCellValue(sum_payment_th(Utils.NVL(this.getMasterdata().getYear()))+" ฿");
+                    cell.setCellStyle(hCellstyleRB);
+                    
+                    cell = row.createCell(4);
+                    cell.setCellValue(sum_payment_us(Utils.NVL(this.getMasterdata().getYear()))+" $");
+                    cell.setCellStyle(hCellstyleRB);
+                    
+                    
+                    
                     row = hSheet.createRow(3);      
                     cell = row.createCell(0);
-                    cell.setCellValue("Oversea Report");
+                    cell.setCellValue("Oversea Report Received");
                     cell.setCellStyle(hCellstyleCB);
                     
                     //==================RECEIVED======================
@@ -626,7 +652,7 @@ public class ATR031500 extends BKBPage {
                         HashMap hmmonth = new HashMap<String, String>();
                         hmmonth.put("dailydatest", this.getMasterdata().getYear()+m+"01");
                         hmmonth.put("dailydatefn", this.getMasterdata().getYear()+m+"31");
-                        hmmonth.put("dailytype", "OIN");
+                        hmmonth.put("voucherno", "ORV");
                         List lmrv = CenterUtils.selectData(hmmonth,"ATR031500_RECEIVE");
                         
                         int sizemrv = lmrv.size();
@@ -715,6 +741,144 @@ public class ATR031500 extends BKBPage {
                     
                      rowpad++;
                     //TODO Total RECEIVED
+                     
+                     
+                    //================================================
+                    rowpad++;
+                    row = hSheet.createRow(rowpad);      
+                    cell = row.createCell(0);
+                    cell.setCellValue("Oversea Report Payment");
+                    cell.setCellStyle(hCellstyleCB);
+                    
+                    //==================Payment======================
+                    rowpad++;
+                    row = hSheet.createRow(rowpad);      
+                    cell = row.createCell(0);
+                    cell.setCellValue("DATE");
+                    cell.setCellStyle(hCellstyleHColor);
+                    
+                    cell = row.createCell(1);
+                    cell.setCellValue("COMPANY'NAME");
+                    cell.setCellStyle(hCellstyleHColor);
+                    
+                    cell = row.createCell(2);
+                    cell.setCellValue("REF NO.");
+                    cell.setCellStyle(hCellstyleHColor);
+                    
+                    cell = row.createCell(3);
+                    cell.setCellValue("AMOUNT(USD)");
+                    cell.setCellStyle(hCellstyleHColor);
+                    
+                    cell = row.createCell(4);
+                    cell.setCellValue("RATE(BAHT)");
+                    cell.setCellStyle(hCellstyleHColor);
+                    
+                    cell = row.createCell(5);
+                    cell.setCellValue("BALANCE(BAHT)");
+                    cell.setCellStyle(hCellstyleHColor);
+                    
+                    cell = row.createCell(6);
+                    cell.setCellValue("REMARKS");
+                    cell.setCellStyle(hCellstyleHColor);
+
+                    rowpad++;
+                    BigDecimal totalpvx = new BigDecimal(0);
+                    for(int i=1;i<13;i++){
+                        String m = Integer.toString(i).length() == 1?"0"+i:""+i;
+                        
+                        HashMap hmmonth = new HashMap<String, String>();
+                        hmmonth.put("dailydatest", this.getMasterdata().getYear()+m+"01");
+                        hmmonth.put("dailydatefn", this.getMasterdata().getYear()+m+"31");
+                        hmmonth.put("voucherno", "OPV");
+                        List lmrv = CenterUtils.selectData(hmmonth,"ATR031500_PAYMENT");
+                        
+                        int sizemrv = lmrv.size();
+                        
+                        if(!lmrv.isEmpty()){ //Header Month
+                            row = hSheet.createRow(rowpad);      
+                            cell = row.createCell(0);
+                            cell.setCellValue(new DateFormatSymbols().getMonths()[(i-1)]);
+                            cell.setCellStyle(hCellstyleL);
+                            
+                            rowpad++;
+                        }                        
+                        
+                        for(int j=0;j<sizemrv;j++){
+                            hmmonth = (HashMap)lmrv.get(j);
+                            
+                            row = hSheet.createRow(rowpad);      
+                            cell = row.createCell(0);
+                            cell.setCellValue(Utils.NVL(hmmonth.get("dailydate")));
+                            cell.setCellStyle(hCellstyleL);
+
+                            cell = row.createCell(1);
+                            cell.setCellValue(Utils.NVL(hmmonth.get("companyname")));
+                            cell.setCellStyle(hCellstyleL);
+
+                            cell = row.createCell(2);
+                            cell.setCellValue(Utils.NVL(hmmonth.get("bankname")));
+                            cell.setCellStyle(hCellstyleL);
+                            
+                            cell = row.createCell(3);
+                            cell.setCellValue(format(Utils.NVL(hmmonth.get("amount2"))));
+                            cell.setCellStyle(hCellstyleR);
+
+                            cell = row.createCell(4);
+                            cell.setCellValue(format(Utils.NVL(hmmonth.get("exchangerate"))));
+                            cell.setCellStyle(hCellstyleR);
+                            
+                            cell = row.createCell(5);
+                            cell.setCellValue(format(Utils.NVL(hmmonth.get("paidamount"))));
+                            cell.setCellStyle(hCellstyleR);
+
+                            cell = row.createCell(6);
+                            cell.setCellValue(Utils.NVL(hmmonth.get("voucherno_disp")));
+                            cell.setCellStyle(hCellstyleL);
+                            
+                            
+                            totalpvx = totalpvx.add(new BigDecimal(Utils.NVL(hmmonth.get("paidamount")).equals("")?"0":Utils.NVL(hmmonth.get("paidamount"))));
+                        
+                            rowpad++;
+                        }
+                        
+                        
+                    }
+                    
+                    //rowpad++; //เว้นขึ้นเดือนใหม่
+                    
+                    hSheet.addMergedRegion(new Region(rowpad,(short)0,rowpad,(short)4));
+                    row = hSheet.createRow(rowpad);      
+                    cell = row.createCell(0);
+                    cell.setCellValue("TOTAL");
+                    cell.setCellStyle(hCellstyleRB);
+                    
+                    cell = row.createCell(1);
+                    cell.setCellValue("");
+                    cell.setCellStyle(hCellstyleRB);
+                    
+                    cell = row.createCell(2);
+                    cell.setCellValue("");
+                    cell.setCellStyle(hCellstyleRB);
+                    
+                    cell = row.createCell(3);
+                    cell.setCellValue("");
+                    cell.setCellStyle(hCellstyleRB);
+                    
+                    cell = row.createCell(4);
+                    cell.setCellValue("");
+                    cell.setCellStyle(hCellstyleRB);
+                    
+                    cell = row.createCell(5);
+                    cell.setCellValue(format(totalpvx.toString()));
+                    cell.setCellStyle(hCellstyleRB);
+                            
+                    cell = row.createCell(6);
+                    cell.setCellValue("");
+                    cell.setCellStyle(hCellstyleRB);
+                    
+                     rowpad++;
+                    //TODO Total Payment
+                    //================================================
                     
                     
                     ByteArrayOutputStream bOutput = new ByteArrayOutputStream();
@@ -782,5 +946,78 @@ public class ATR031500 extends BKBPage {
         }
         
         return isok;
+    }
+    
+    private String sum_receive_th(String year){
+        
+        HashMap hm = new HashMap<String, String>();
+        hm.put("dailydatest", this.getMasterdata().getYear()+"0101");
+        hm.put("dailydatefn", this.getMasterdata().getYear()+"1231");
+        hm.put("voucherno", "ORV"); 
+        hm.put("monetaryusd", "false"); 
+        
+        List l = CenterUtils.selectData(hm,"ATR031500_SUM_RECEIVE_TH");
+        if(l.isEmpty()){
+            return "0.00";
+        }else{
+            hm = (HashMap)l.get(0);
+            String sum = Utils.NVL(hm.get("receivedamount"));
+            return CenterUtils.format(sum);
+        }
+        
+    }
+    
+    private String sum_receive_us(String year){
+      
+        HashMap hm = new HashMap<String, String>();
+        hm.put("dailydatest", this.getMasterdata().getYear()+"0101");
+        hm.put("dailydatefn", this.getMasterdata().getYear()+"1231");
+        hm.put("voucherno", "ORV"); 
+        hm.put("monetaryusd", "true"); 
+        
+        List l = CenterUtils.selectData(hm,"ATR031500_SUM_RECEIVE_US");
+        if(l.isEmpty()){
+            return "0.00";
+        }else{
+            hm = (HashMap)l.get(0);
+            String sum = Utils.NVL(hm.get("amount"));
+            return CenterUtils.format(sum);
+        }
+    }
+    
+    private String sum_payment_th(String year){
+      
+        HashMap hm = new HashMap<String, String>();
+        hm.put("dailydatest", this.getMasterdata().getYear()+"0101");
+        hm.put("dailydatefn", this.getMasterdata().getYear()+"1231");
+        hm.put("voucherno", "OPV"); 
+        hm.put("monetaryusd", "false"); 
+        
+        List l = CenterUtils.selectData(hm,"ATR031500_SUM_PAYMENT_TH");
+        if(l.isEmpty()){
+            return "0.00";
+        }else{
+            hm = (HashMap)l.get(0);
+            String sum = Utils.NVL(hm.get("paidamount"));
+            return CenterUtils.format(sum);
+        }
+    }
+    
+    private String sum_payment_us(String year){
+      
+        HashMap hm = new HashMap<String, String>();
+        hm.put("dailydatest", this.getMasterdata().getYear()+"0101");
+        hm.put("dailydatefn", this.getMasterdata().getYear()+"1231");
+        hm.put("voucherno", "OPV"); 
+        hm.put("monetaryusd", "false"); 
+        
+        List l = CenterUtils.selectData(hm,"ATR031500_SUM_PAYMENT_US");
+        if(l.isEmpty()){
+            return "0.00";
+        }else{
+            hm = (HashMap)l.get(0);
+            String sum = Utils.NVL(hm.get("amount2"));
+            return CenterUtils.format(sum);
+        }
     }
 }
