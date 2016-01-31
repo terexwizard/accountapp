@@ -53,7 +53,14 @@ public class ATP020301U extends BusinessImpl {
                 
                 Receivable db = em.find(Receivable.class, item.getData().getReceivable().getId());
                 if(db != null){    
-                    db.setClearflag(item.getData().getReceivable().getClearflag());
+                    
+                    if(Utils.NVL(item.getData().getReceivable().getClearflag()).equals("false")){
+                        db.setClearflag(null);
+                        db.setCleardate(null);
+                    }else{
+                        db.setClearflag(item.getData().getReceivable().getClearflag());
+                        db.setCleardate(Utils.formatDateToStringToDBEn(item.getData().getCleardate()));
+                    }
 
                     db.setUpdlcnt(addLcnt(db.getUpdlcnt()));
                     db.setUpdtime(Utils.getcurDateTime());

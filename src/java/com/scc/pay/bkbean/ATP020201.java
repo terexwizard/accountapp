@@ -4,6 +4,7 @@
  */
 package com.scc.pay.bkbean;
 
+import com.scc.f1.backingbean.DetailRow;
 import com.scc.f1.backingbean.DetailTable;
 import com.scc.pay.business.BusinessFactory;
 import com.scc.f1.business.IBusinessBase;
@@ -12,6 +13,8 @@ import com.scc.f1.util.Utils;
 import com.scc.pay.db.Invoice;
 import com.scc.pay.db.Invoicecompany;
 import com.scc.pay.util.CenterUtils;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -139,6 +142,9 @@ public class ATP020201 extends BKBPage {
         private Invoicecompany  invoicecompany;
         private Date jobdate;
         private Date invdate;
+        private String clearflag;
+        private String total;
+        
 
         public Invoicecompany getInvoicecompany() {
             if(invoicecompany == null){
@@ -166,14 +172,26 @@ public class ATP020201 extends BKBPage {
         public void setInvdate(Date invdate) {
             this.invdate = invdate;
         }
+
+        public String getClearflag() {
+            return clearflag;
+        }
+
+        public void setClearflag(String clearflag) {
+            this.clearflag = clearflag;
+        }
+
+        public String getTotal() {
+            return total;
+        }
+
+        public void setTotal(String total) {
+            this.total = total;
+        }
         
         
 
-
-        
-
-        
-        
+                    
     }
     
    public class DetailInvoice extends BBBase{
@@ -184,6 +202,7 @@ public class ATP020201 extends BKBPage {
         private Date duedate;
         private Date receivedDate;
         private String currency_disp;
+        private Date cleardate;
 
         public Invoice getInvoice() {
             if(invoice == null){
@@ -242,6 +261,13 @@ public class ATP020201 extends BKBPage {
 
         public void setCurrency_disp(String currency_disp) {
             this.currency_disp = currency_disp;
+        }
+        public Date getCleardate() {
+            return cleardate;
+        }
+
+        public void setCleardate(Date cleardate) {
+            this.cleardate = cleardate;
         }
   }
     
@@ -464,6 +490,8 @@ public class ATP020201 extends BKBPage {
         
         clearAllData();
         
+        initialvalue();
+        
         redirectPage(PAGE_E);
         
     }
@@ -486,8 +514,14 @@ public class ATP020201 extends BKBPage {
         
         BKBUQuery.getIns().clearListData();
         
-
+        initialvalue();
         //search();
+    }
+    
+    private void initialvalue(){
+        if(Utils.NVL(this.getMasterdata().getClearflag()).equals("")){
+            this.getMasterdata().setClearflag("N");
+        }
     }
     
     private void search(){
@@ -574,6 +608,7 @@ public class ATP020201 extends BKBPage {
         
         if(!Utils.NVL(this.getMasterdata().getInvoicecompany().getInvcomid()).equals("")){
             this.getSearchselectedrow().put("invcomid", this.getMasterdata().getInvoicecompany().getInvcomid());
+            this.getSearchselectedrow().put("clearflag", this.getMasterdata().getClearflag());
 
             IBusinessBase ib = BusinessFactory.getBusiness("ATP020201S");
 
@@ -584,7 +619,25 @@ public class ATP020201 extends BKBPage {
                     String msg = MessageUtil.getMessage("EP005");
                     addInfoMessage(null, msg, msg);
                 }
+                
+                calvalueclearflag();
             }
         }
     }  
+    
+    public void calvalueclearflag(){
+        
+        BigDecimal total = new BigDecimal(0);
+        
+        for(DetailRow<DetailInvoice> item :this.getDetailinvoice().getListdetailrow()){
+            logger.debug(">>terex "+item.getData().getInvoice().getInvid()+" // "+item.getData().getInvoice().getClearflag());
+            
+            if(Utils.NVL(item.getData().getInvoice().getClearflag()).equals("true")){
+                total = total.add(new BigDecimal(item.getData().getInvoice().getTotalall()));
+            }
+        }
+        
+        this.getMasterdata().setTotal(CenterUtils.format(total.toString()));
+    }
+    
 }

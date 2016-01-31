@@ -45,6 +45,25 @@ public class PROCESSBRINGFORWARD extends BusinessImpl {
         
         //if(countBringforward(vbfdate)){
             bfdate = Integer.parseInt(vbfdate);
+            
+           
+             if(!Utils.NVL(vbfdate).equals("")){
+                //มีการแก้ไขวันที่
+                if(!Utils.NVL(vbfdate).equals(Utils.formatDateToStringToDBEn(Utils.getcurDateTime()))){
+
+                    //ลบแล้วคำนวณใหม่
+                   String sql = "delete FROM Bringforward r "
+                           + "where r.bringforwardPK.bfdate >= :bfdate ";
+                           //+ "where r.bringforwardPK.bfdate > :bfdate ";
+
+                   Query query = em.createQuery(sql);
+                   query.setParameter("bfdate",vbfdate);
+                   query.executeUpdate();
+                }
+             }
+            
+            
+            
             checkLastBringforward();
             processBringforward(vuser);
         //}

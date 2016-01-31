@@ -836,8 +836,8 @@ public class ATP020112 extends BKBPage {
 
         if(ib.isOk()){
            
-            clearAllData();
-            initialValue();
+            //clearAllData();
+            //initialValue();
             
             searchData();
         }

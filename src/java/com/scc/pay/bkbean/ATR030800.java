@@ -27,6 +27,7 @@ import java.text.DecimalFormat;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.faces.context.FacesContext;
@@ -98,6 +99,8 @@ public class ATR030800 extends BKBPage {
         private String month = "";
         private String year = "";
         private String rdoflag = "";
+        private String reporttype = "";
+        private Date dailydate = null;
 
         public String getMonth() {
             return month;
@@ -131,6 +134,22 @@ public class ATR030800 extends BKBPage {
 
         public void setDaily(Daily daily) {
             this.daily = daily;
+        }
+
+        public String getReporttype() {
+            return reporttype;
+        }
+
+        public void setReporttype(String reporttype) {
+            this.reporttype = reporttype;
+        }
+
+        public Date getDailydate() {
+            return dailydate;
+        }
+
+        public void setDailydate(Date dailydate) {
+            this.dailydate = dailydate;
         }
 
     }
@@ -280,7 +299,11 @@ public class ATR030800 extends BKBPage {
         //logger.debug(">>terex "+validategenDataExcel());
         
         if(validategenDataExcel()){
-            genDataExcel();
+            if(Utils.NVL(this.getMasterdata().getReporttype()).equals("1")){
+                genDataExcel1();
+            }else{
+                genDataExcel();
+            }
         }
         
     }
@@ -399,6 +422,10 @@ public class ATR030800 extends BKBPage {
         if(Utils.NVL(this.getMasterdata().getYear()).equals("")){
             this.getMasterdata().setYear(Utils.getcurYear());
         }
+        
+        if(Utils.NVL(this.getMasterdata().getReporttype()).equals("")){
+            this.getMasterdata().setReporttype("1");
+        }
     }
     
     private void search(){
@@ -472,6 +499,203 @@ public class ATR030800 extends BKBPage {
     }
     
     
+    public void genDataExcel1(){
+        
+            
+            HSSFCell cell    = null; 
+            OutputStream out = null;
+            double ONEPIXEL      = 36.57;
+            
+            try{
+                
+                String pathFile = Constant.context_realpath+"/templeteExcel/ATR030100.xls";   //ชี้ path  file excel
+
+                logger.debug(">>pathFile "+pathFile.replace("\\", "/"));
+
+                FileInputStream fIn	 = new FileInputStream(pathFile.replace("\\", "/")); //instance เปิดไฟล์
+                POIFSFileSystem fPOI = new POIFSFileSystem(fIn);                             //instance POI cycle
+                HSSFWorkbook hWBook = new HSSFWorkbook(fPOI);                                //instance สร้าง workbook     
+                
+
+                Font font16 = hWBook.createFont();                                           //กำหนด font style
+                font16.setFontHeightInPoints((short)16);                                     //กำหนดขนาดของ font
+                font16.setFontName("Angsana New");                                         //กำหนด font
+                font16.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);                              //กำหนด font ให้เป็นตัวหนา
+
+                Font font14 = hWBook.createFont();                                           //กำหนด font style
+                font14.setFontHeightInPoints((short)14);                                     //กำหนดขนาดของ font
+                font14.setFontName("Angsana New");                                         //กำหนด font
+
+                HSSFCellStyle hCellstyle = hWBook.createCellStyle();                          //กำหนด style cell
+                hCellstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         //กำหนด ตัวอักษรให้อยู่กึ่งกลาง
+                hCellstyle.setFont(font14);       
+                CenterUtils.setCellBorder(hCellstyle);
+                
+                HSSFCellStyle hCellstyleL = hWBook.createCellStyle();                          //กำหนด style cell
+                hCellstyleL.setAlignment(HSSFCellStyle.ALIGN_LEFT);                         //กำหนด ตัวอักษรให้อยู่ซ้าย
+                hCellstyleL.setFont(font14);      
+                CenterUtils.setCellBorder(hCellstyleL);
+                
+                HSSFCellStyle hCellstyleR = hWBook.createCellStyle();                          //กำหนด style cell
+                hCellstyleR.setAlignment(HSSFCellStyle.ALIGN_RIGHT);                         //กำหนด ตัวอักษรให้อยู่ซ้าย
+                hCellstyleR.setFont(font14);                                                  //เรียกใช้ style font
+                CenterUtils.setCellBorder(hCellstyleR);
+                
+                HSSFCellStyle hCellstyleHColor = hWBook.createCellStyle();                         
+                hCellstyleHColor.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         
+                hCellstyleHColor.setFont(font16);                   
+                hCellstyleHColor.setFillForegroundColor(HSSFColor.LIGHT_GREEN.index);
+                hCellstyleHColor.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+                CenterUtils.setCellBorder(hCellstyleHColor);
+                
+                HSSFCellStyle hCellstyleHColorL = hWBook.createCellStyle();                         
+                hCellstyleHColorL.setAlignment(HSSFCellStyle.ALIGN_LEFT);                         
+                hCellstyleHColorL.setFont(font16);                   
+                hCellstyleHColorL.setFillForegroundColor(HSSFColor.LIGHT_GREEN.index);
+                hCellstyleHColorL.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+                CenterUtils.setCellBorder(hCellstyleHColorL);
+                
+                Font font18B = hWBook.createFont();                                           //กำหนด font style
+                font18B.setFontHeightInPoints((short)16);                                     //กำหนดขนาดของ font
+                font18B.setFontName("Angsana New");
+                font18B.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);                              //กำหนด font ให้เป็นตัวหนา
+                
+                HSSFCellStyle hCellstyleCB = hWBook.createCellStyle();                          //กำหนด style cell
+                hCellstyleCB.setAlignment(HSSFCellStyle.ALIGN_LEFT);                         //กำหนด ตัวอักษรให้อยู่ซ้าย
+                hCellstyleCB.setFont(font18B);                                                  //เรียกใช้ style font
+
+                
+
+                
+                //=======Header============ 
+                HashMap<String, Object> hmdata = new HashMap<String, Object>();
+                //Query Data company
+                List lcompany = new ArrayList();
+                HashMap hm = new HashMap<String, String>();
+                HashMap<String, String> hmcompany = new HashMap<String, String>();
+                hmcompany.put("invcomid", this.getMasterdata().getDaily().getCompanyid());
+                hmcompany.put("submitdate", Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydate()));
+                lcompany = CenterUtils.selectData(hmcompany,"lookup_data_invoice_distinct");
+
+                int sizecompany = lcompany.size();
+                hmcompany.put("sizecompany",  Utils.NVL(sizecompany));
+                for(int i=0;i<sizecompany;i++){
+                    hm = (HashMap)lcompany.get(i);       
+                    
+                    
+                    
+                    hmcompany.put(Utils.NVL(i),  Utils.NVL(hm.get("invcomid")));
+                    hmcompany.put(Utils.NVL(i)+"name",  Utils.NVL(hm.get("companyname")));
+                    
+                    
+                    logger.debug(">>company name "+hmcompany.get(Utils.NVL(i)));
+                }  
+                
+                //=============Process Data===================  
+                
+                HSSFSheet hSheet = hWBook.getSheetAt(0);
+                String header = "Date : " + CenterUtils.formatDateToStringShowTime(Utils.getcurDateTime());
+
+                hSheet.addMergedRegion(new Region(0,(short)0,0,(short)2));
+                HSSFRow row = hSheet.createRow(0);      
+                cell = row.createCell(0);
+                cell.setCellValue(header);
+                cell.setCellStyle(hCellstyleCB);
+
+                cell = row.createCell(6);
+                cell.setCellValue("ATR030900");
+                cell.setCellStyle(hCellstyleCB);
+
+                String condition = "Condition : "+Utils.convertDateStringToScreen(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydate()),"/")+" Status : "+(this.getMasterdata().getRdoflag().equals("Y")?"Clear":"Not Clear");
+                hSheet.addMergedRegion(new Region(1,(short)0,1,(short)2));
+                row = hSheet.createRow(1);      
+                cell = row.createCell(0);
+                cell.setCellValue(condition);
+                cell.setCellStyle(hCellstyleCB);
+                    
+                int rowpad = 3;    
+                for(int j=0;j<sizecompany;j++){
+
+                    String companyid = hmcompany.get(Utils.NVL(j));
+
+                    logger.debug(">>company name companyid "+companyid);
+
+                    String st = Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydate());
+                    HashMap hmmonth = new HashMap<String, String>();
+                    hmmonth.put("invcomid", companyid);
+                    hmmonth.put("invdatest", st);
+                    hmmonth.put("invdatefn", st);
+                    if(this.getMasterdata().getRdoflag().equals("Y")){
+                        hmmonth.put("clearflagY", "Y");  //clear
+                    }else if(this.getMasterdata().getRdoflag().equals("N")){
+                        hmmonth.put("clearflagN", "N");
+                    }
+                    List lcompanydate = CenterUtils.selectData(hmmonth,"lookup_data_invoice");
+                    
+                    
+                    //========================================
+                    
+                    int sizecompanydate = lcompanydate.size();
+                    for(int k=0;k<sizecompanydate;k++){
+                        hmmonth = (HashMap)lcompanydate.get(k);  
+                        
+                        if(k==0){
+                            hSheet.addMergedRegion(new Region(rowpad,(short)0,rowpad,(short)3));
+                            row = hSheet.createRow(rowpad);
+                            cell = row.createCell(0);
+                            cell.setCellValue(Utils.NVL(hmmonth.get("company")));
+                            cell.setCellStyle(hCellstyleHColorL);
+                            
+                            for(int l=1;l<4;l++){
+                                cell = row.createCell(l);
+                                cell.setCellValue("");
+                                cell.setCellStyle(hCellstyleHColorL);
+                            }
+                            rowpad++;
+                        }
+                        
+                        
+                        row = hSheet.createRow(rowpad);
+                        cell = row.createCell(0);
+                        cell.setCellValue(k+1);
+                        cell.setCellStyle(hCellstyle);
+
+                        cell = row.createCell(1);
+                        cell.setCellValue(Utils.NVL(hmmonth.get("invno")));
+                        cell.setCellStyle(hCellstyle);
+
+                        cell = row.createCell(2);
+                        cell.setCellValue(Utils.NVL(hmmonth.get("jobno")));
+                        cell.setCellStyle(hCellstyle);
+
+                        cell = row.createCell(3);
+                        cell.setCellValue(format(Utils.NVL(hmmonth.get("totalall"))));
+                        cell.setCellStyle(hCellstyleR);
+                        rowpad++;
+                    }
+                    
+                    
+                    rowpad++;
+
+                }
+                //=================================================
+                
+                
+                ByteArrayOutputStream bOutput = new ByteArrayOutputStream();
+                hWBook.write(bOutput);
+
+                FaceUtil.getDownloadfile(bOutput, "ATR030800_"+CenterUtils.formatfileNameDatetime()+".xls");
+
+            }catch(FileNotFoundException e){    
+                e.printStackTrace();
+            }catch(IOException e){    
+                e.printStackTrace();
+            }finally{
+
+            }
+   
+        
+    }
      
     public void genDataExcel(){
         
@@ -685,7 +909,7 @@ public class ATR030800 extends BKBPage {
                         cell.setCellStyle(hCellstyleHColor);
 
                         cell = row.createCell(2);
-                        cell.setCellValue("DATE");
+                        cell.setCellValue("SUBMIT DATE");
                         cell.setCellStyle(hCellstyleHColor);
 
                         cell = row.createCell(3);
@@ -759,7 +983,8 @@ public class ATR030800 extends BKBPage {
                                 cell.setCellStyle(hCellstyle);
 
                                 cell = row.createCell(2);
-                                cell.setCellValue(Utils.NVL(hmcompanymonth.get("invdate_disp")));
+                                //cell.setCellValue(Utils.NVL(hmcompanymonth.get("invdate_disp")));
+                                cell.setCellValue(Utils.NVL(hmcompanymonth.get("submitdate_disp")));
                                 cell.setCellStyle(hCellstyle);
 
                                 cell = row.createCell(3);

@@ -18,7 +18,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.math.BigDecimal;
 import java.nio.charset.Charset;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -876,4 +878,8 @@ public class CenterUtils{
                 return result;
     }
     
+    public static String format(String value){
+        DecimalFormat df = new DecimalFormat("###,##0.00");
+        return df.format( Utils.NVL(value).equals("")?new BigDecimal(0).doubleValue():new BigDecimal(Utils.NVL(value)).doubleValue());
+    }
 }

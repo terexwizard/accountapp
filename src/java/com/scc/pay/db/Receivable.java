@@ -81,6 +81,8 @@ public class Receivable implements Serializable {
     private String upduser;
     @Column(name = "clearflag")
     private String clearflag;
+    @Column(name = "cleardate")
+    private String cleardate;
     @Column(name = "currency")
     private String currency;
     @Column(name = "invoiceno")
@@ -273,6 +275,14 @@ public class Receivable implements Serializable {
 
     public void setClearflag(String clearflag) {
         this.clearflag = clearflag;
+    }
+
+    public String getCleardate() {
+        return cleardate;
+    }
+
+    public void setCleardate(String cleardate) {
+        this.cleardate = cleardate;
     }
 
     public String getCurrency() {

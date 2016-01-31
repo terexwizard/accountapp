@@ -75,6 +75,7 @@ public class ATP020100 extends BKBPage {
         private Daily daily = null;
         private Date dailydate;
         private Date dailydatefn;
+        private String nowdate;
         
         private boolean monetaryusd = false;
 
@@ -112,10 +113,17 @@ public class ATP020100 extends BKBPage {
             this.monetaryusd = monetaryusd;
         }
 
-        
+        public String getNowdate() {
+            nowdate = Utils.convertDateStringToScreen(Utils.formatDateToStringToDBThai(Utils.getcurDateTime()),"/");
+            return nowdate;
+        }
+
+        public void setNowdate(String nowdate) {
+            this.nowdate = nowdate;
+        }
 
         
-        
+
     }
     
     

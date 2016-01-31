@@ -48,6 +48,9 @@ public class ATP020112U extends BusinessImpl {
                     
                     Daily db = em.find(Daily.class, item.getData().getDaily().getDailyid());
                     if(db != null){
+                        
+                        String chequedate = db.getChequedate();
+                        
                         db.setChequedate(Utils.formatDateToStringToDBEn(item.getData().getTmpchequedate()));
                         
                         db.setUpdlcnt(addLcnt(db.getUpdlcnt()));
@@ -65,13 +68,18 @@ public class ATP020112U extends BusinessImpl {
 //                        ib.processBackground(vhm);
                         
                         //===========================
-//                        HashMap<String,Object> vhm = new HashMap<String,Object>();
-//                        vhm.put("user", frmi.getUserid());
-//                        vhm.put("dailydate", Utils.formatDateToStringToDBEn(item.getData().getTmpchequedate()));
-//                        vhm.put("form", item.getData().getDaily());
-//
-//                        IBusinessBase ib = BusinessFactory.getBusiness("PROCESSBRINGFORWARDUPDATECHEQUE");
-//                        ib.processBackground(vhm);
+                        HashMap<String,Object> vhm = new HashMap<String,Object>();
+                        vhm.put("user", frmi.getUserid());
+                        if(frmi.getMasterdata().getCheque().equals("C")){
+                            logger.debug(">>processDaily cheque Clear"+chequedate);
+                            vhm.put("dailydate", chequedate);
+                        }else{
+                            vhm.put("dailydate", Utils.formatDateToStringToDBEn(item.getData().getTmpchequedate()));
+                        }
+                        vhm.put("form", item.getData().getDaily());
+
+                        IBusinessBase ib = BusinessFactory.getBusiness("PROCESSBRINGFORWARDUPDATECHEQUE");
+                        ib.processBackground(vhm);
                         
                     }
                     

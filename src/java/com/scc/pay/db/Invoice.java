@@ -75,6 +75,8 @@ public class Invoice implements Serializable {
     private String submitdate;
     @Column(name = "clearflag")
     private String clearflag;
+    @Column(name = "cleardate")
+    private String cleardate;
     @Column(name = "reimbursement")
     private Double reimbursement;
     @Column(name = "currency")
@@ -253,6 +255,14 @@ public class Invoice implements Serializable {
 
     public void setClearflag(String clearflag) {
         this.clearflag = clearflag;
+    }
+
+    public String getCleardate() {
+        return cleardate;
+    }
+
+    public void setCleardate(String cleardate) {
+        this.cleardate = cleardate;
     }
 
     public Double getReimbursement() {

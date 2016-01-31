@@ -33,7 +33,6 @@ public class Invoicecompany implements Serializable {
     @Basic(optional = false)
     @Column(name = "invcomid")
     private String invcomid;
-    @Basic(optional = false)
     @Column(name = "companyname")
     private String companyname;
     @Column(name = "taxid")
@@ -56,17 +55,14 @@ public class Invoicecompany implements Serializable {
     private String address;
     @Column(name = "transport")
     private String transport;
+    @Column(name = "companytype")
+    private String companytype;
 
     public Invoicecompany() {
     }
 
     public Invoicecompany(String invcomid) {
         this.invcomid = invcomid;
-    }
-
-    public Invoicecompany(String invcomid, String companyname) {
-        this.invcomid = invcomid;
-        this.companyname = companyname;
     }
 
     public String getInvcomid() {
@@ -155,6 +151,14 @@ public class Invoicecompany implements Serializable {
 
     public void setTransport(String transport) {
         this.transport = transport;
+    }
+
+    public String getCompanytype() {
+        return companytype;
+    }
+
+    public void setCompanytype(String companytype) {
+        this.companytype = companytype;
     }
 
     @Override

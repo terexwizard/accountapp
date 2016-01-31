@@ -38,7 +38,7 @@ public class ATP020301S extends BusinessImpl {
         
         ATP020301 frmi = (ATP020301)inobj;
         
-        logger.debug(">>invcomid :" + frmi.getSearchselectedrow().get("invcomid"));
+        logger.debug(">>invcomid :" + frmi.getSearchselectedrow().get("invcomid")+" // "+frmi.getSearchselectedrow().get("clearflag"));
         
         searchInvoicecompany(frmi);
         searchInvoice(frmi);
@@ -60,13 +60,19 @@ public class ATP020301S extends BusinessImpl {
     
     private void searchInvoice(ATP020301 frmi){
         
+        String clearflag = frmi.getSearchselectedrow().get("clearflag");
+        
          String sql = "SELECT t FROM Receivable t "
-                       + "Where t.invcomid = :invcomid "
-                       + "and (t.clearflag is null or t.clearflag = :clearflag) "
-                       + "order by t.invdate desc";
+                       + "Where t.invcomid = :invcomid ";
+                if(Utils.NVL(clearflag).equals("Y")){
+                    sql += "and (t.clearflag is not null) ";
+                }else{
+                    sql += "and (t.clearflag is null) ";
+                }
+                sql += "order by t.submitdate desc";
         Query query = em.createQuery(sql);
         query.setParameter("invcomid",frmi.getMasterdata().getInvoicecompany().getInvcomid());
-        query.setParameter("clearflag","false");
+        //query.setParameter("clearflag","false");
 
         List<Receivable> l = query.getResultList();
         List<DetailReceivable> ld = new ArrayList<DetailReceivable>();
@@ -79,6 +85,7 @@ public class ATP020301S extends BusinessImpl {
               row.setInvdate(CenterUtils.formatStringToDateToScreen(db.getInvdate()));
               row.setSubmitdate(CenterUtils.formatStringToDateToScreen(db.getSubmitdate()));
               row.setCurrency_disp(getLabelCombotb_currency(db.getCurrency()));
+              row.setCleardate(CenterUtils.formatStringToDateToScreen(db.getCleardate()));
               
               ld.add(row);
          }

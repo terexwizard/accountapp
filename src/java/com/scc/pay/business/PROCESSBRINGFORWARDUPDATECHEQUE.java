@@ -62,7 +62,7 @@ public class PROCESSBRINGFORWARDUPDATECHEQUE extends BusinessImpl {
                  //ลบแล้วคำนวณใหม่
                 String sql = "delete FROM Bringforward r "
                         //+ "where r.bringforwardPK.bfdate >= :bfdate ";
-                        + "where r.bringforwardPK.bfdate > :bfdate ";
+                        + "where r.bringforwardPK.bfdate >= :bfdate "; //ไม่ลบวันที่ เคลียร์เช็ค เพราะต้องการเก็บค่า BF เดิมของวันที่นั้นไว้
 
                 Query query = em.createQuery(sql);
                 query.setParameter("bfdate",dailydate);

@@ -54,7 +54,16 @@ public class ATP020201U extends BusinessImpl {
                 
             Invoice db = em.find(Invoice.class, item.getData().getInvoice().getInvid());
             if(db != null){
-                db.setClearflag(item.getData().getInvoice().getClearflag());
+                
+                
+                if(Utils.NVL(item.getData().getInvoice().getClearflag()).equals("false")){
+                    db.setClearflag(null);
+                    db.setCleardate(null);
+                }else{
+                    db.setClearflag(item.getData().getInvoice().getClearflag());
+                    db.setCleardate(Utils.formatDateToStringToDBEn(item.getData().getCleardate()));
+                }
+                
 
                 db.setUpdlcnt(addLcnt(db.getUpdlcnt()));
                 db.setUpdtime(Utils.getcurDateTime());

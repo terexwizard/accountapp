@@ -5,6 +5,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui" 
       xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
        xmlns:func="http://taglib.scc.com/functions">
   <f:view beforePhase="#{aTP020301.beforePhase}" afterPhase="#{aTP020301.afterPhase}" encoding="UTF-8" >
     <h:head>
@@ -42,20 +43,34 @@
                     <p:column style="width: 120px;"/>
                     <p:column/>
                  </p:row>
-                        
+                 <p:row>
+                    <p:column>
+                      <h:outputLabel value="Clear Type"/>
+                    </p:column>
+                    <p:column>
+                        <p:outputPanel id="oplrdo">
+                            <h:selectOneRadio value="#{aTP020301.masterdata.clearflag}"
+                                              disabled="#{fn:length(aTP020301.detailreceivable.listdetailrow) ne '0'}">
+                                    <f:selectItem itemLabel="Clear" itemValue="Y"/>
+                                    <f:selectItem itemLabel="Not Clear" itemValue="N"/>
+                                    <p:ajax process="@this" update="@this" />
+                            </h:selectOneRadio>
+                        </p:outputPanel>
+                    </p:column>
+                </p:row>      
                   <p:row>
                     <p:column style="vertical-align: text-top;">
                       <h:outputLabel value="Company id"/>
                     </p:column>
                     <p:column style="padding: 0px;">
-                        <p:panelGrid>
+                        <p:panelGrid id="pgcompany">
                              <p:row>
                                  <p:column style="vertical-align: text-top;">
-                                     <p:inputText label="" id="invcomid" 
+                                     <p:inputText label="Company id" id="invcomid" 
                                                   value="#{aTP020301.masterdata.invoicecompany.invcomid}" 
                                                   size="8" maxlength="8" 
                                                   required="true"
-                                                  disabled="#{aTP020301.modeupdate}">
+                                                  disabled="#{aTP020301.modeupdate or fn:length(aTP020301.detailreceivable.listdetailrow) ne '0'}">
                                          <p:ajax event="change" onstart="b1_lookup();return false;" />
                                      </p:inputText>
 
@@ -68,7 +83,7 @@
                                       <ui:param name="after" value="afterlookup_invoicecompany();"/>
                                     </ui:include>
 
-                                    <p:outputPanel rendered="#{!aTP020301.modeupdate}">
+                                    <p:outputPanel rendered="#{!aTP020301.modeupdate and fn:length(aTP020301.detailreceivable.listdetailrow) eq '0'}">
                                     <ui:include src="#{bKBAppVar.COMPO_ZOOMDATA}" >
                                         <ui:param name="formid" value="form1"/>
                                         <ui:param name="zoomname" value="zoom1"/>
@@ -90,14 +105,14 @@
                                                      actionListener="#{aTP020301.searchinvcomid}" 
                                                      style="display:none;" ajax="true"
                                                      process="@this,:form1:invcomid"
-                                                     update="#{aTP020301.detailreceivable.detailname},:form1:#{bKBAppVar.COMPO_ID_MESSAGES}">
+                                                     update="#{aTP020301.detailreceivable.detailname},:form1:#{bKBAppVar.COMPO_ID_MESSAGES},oplrdo,pgcompany,:form1:sumtotal">
                                     </p:commandButton> 
                                  </p:column>
                             </p:row>
                         </p:panelGrid>
                     </p:column>
                   </p:row>
-                    
+                 
           </p:panelGrid>
             
             <br/>
@@ -111,7 +126,7 @@
                    scrollable="true" scrollHeight="500"
                     editable="false"  rowIndexVar="rowIndex" 
                     styleClass="f1-p-datatable-wide" 
-                     style="width:910px;table-layout: fixed;text-align: left;">
+                     style="width:1090px;table-layout: fixed;text-align: left;">
 
           <p:ajax event="rowSelect" listener="#{aTP020301.detailreceivable.selectRow}" 
                   update=":#{aTP020301.detailreceivable.parentid}:#{aTP020301.detailreceivable.detailrowpanel}" />
@@ -142,12 +157,21 @@
           </p:column>
           
             <p:column  headerText="Total"  style="width:90px;vertical-align: text-top;" >  
-              #{func:formatMoney(rec.data.receivable.total)}
+              #{func:formatMoney(rec.data.receivable.totalall)}
+          </p:column>
+          
+          <p:column  headerText="Clear Date"  style="width:140px;vertical-align: text-top;" >  
+               <p:calendar value="#{rec.data.cleardate}"
+                         size="10" maxlength="10" locale="en" showOn="button" 
+                         converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true">
+                    <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
+                    <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
+                </p:calendar>
           </p:column>
           
           <p:column  headerText="Clear"  style="width:90px;vertical-align: text-top;" >  
               <h:selectBooleanCheckbox value="#{rec.data.receivable.clearflag}" >
-                  <p:ajax process="@this" update="@this"/>
+                  <p:ajax process="@this" update="@this,:form1:sumtotal" listener="#{aTP020301.calvalueclearflag}"/>
               </h:selectBooleanCheckbox>
           </p:column>
       </p:dataTable>
@@ -388,7 +412,14 @@
    </p:outputPanel>            
             
             
-            
+    <p:panelGrid style="table-layout: fixed;width: 750px;">
+        <p:row>
+         <p:column style="text-align: right;padding: 0px;">
+             <p:inputText id="sumtotal" value="#{aTP020301.masterdata.total}"
+                          readonly="true" styleClass="#{bKBStyle.STYLE_INPUT_DISABLE} iNR"/>
+         </p:column>
+       </p:row>
+   </p:panelGrid>       
             
      
             

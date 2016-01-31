@@ -5249,6 +5249,61 @@
 
 
 <!-- ************************** 
+    lookup_data_invoice_distinct
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_data_invoice_distinct</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+            SELECT distinct submitdate,
+                jobdate,
+                invcomid
+            FROM invoice
+
+       <where>
+           <var name="invcomid" woper="and" > invcomid = '<value/>' </var>
+           <var name="submitdate" woper="and" > submitdate = '<value/>' </var>
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        invcomid
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>invcomid</VarName>
+            <UIName>invcomid</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>submitdate</VarName>
+            <UIName>submitdate</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+<!-- ************************** 
     lookup_data_invoice
 - -  ************************** -->
 
@@ -5266,6 +5321,7 @@
                 invno, 
                 invdate,
                 DB_DSF(invdate) as invdate_disp,
+                DB_DSF(submitdate) as submitdate_disp,
                 amount, 
                 duedate, 
                 paid_amount,
@@ -5295,7 +5351,7 @@
        </where>
     </SQL>
     <SQLOrderBy>
-        invcomid,invdate
+        invcomid,submitdate
     </SQLOrderBy>
 
     <Params>
@@ -5414,6 +5470,61 @@
 </Query>
 
 <!-- ************************** 
+    lookup_data_receivable_distinct
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_data_receivable_distinct</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+            SELECT distinct submitdate,
+                  invcomid,
+                  company
+            FROM receivable
+
+       <where>
+           <var name="invcomid" woper="and" > invcomid = '<value/>' </var>
+           <var name="submitdate" woper="and" > submitdate = '<value/>' </var>
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        invcomid
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>invcomid</VarName>
+            <UIName>invcomid</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>submitdate</VarName>
+            <UIName>submitdate</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+<!-- ************************** 
     lookup_data_receivable
 - -  ************************** -->
 
@@ -5429,6 +5540,7 @@
                   company,
                   invdate,
                   DB_DSF(invdate) as invdate_disp,
+                  DB_DSF(submitdate) as submitdate_disp,
                   ref,
                   jobno,
                   reimbursement,
@@ -5446,7 +5558,11 @@
                   updtime,
                   upduser,
                   clearflag,
-                  currency 
+                  currency,
+                  invoiceno,
+                  consignee,
+                  etd,
+                  eta 
             FROM receivable
 
        <where>
@@ -5458,7 +5574,7 @@
        </where>
     </SQL>
     <SQLOrderBy>
-        invcomid,invdate,ref
+        invcomid,submitdate,ref
     </SQLOrderBy>
 
     <Params>

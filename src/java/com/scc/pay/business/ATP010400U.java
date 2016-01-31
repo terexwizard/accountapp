@@ -50,6 +50,7 @@ public class ATP010400U extends BusinessImpl {
       record.setTaxid(recordn.getTaxid());
       record.setAddress(recordn.getAddress());
       record.setTransport(recordn.getTransport());
+      record.setCompanytype(recordn.getCompanytype());
       
       record.setUpdlcnt(addLcnt(record.getUpdlcnt()));
       record.setUpdtime(Utils.getcurDateTime());
