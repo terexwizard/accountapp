@@ -216,6 +216,23 @@ public class PROCESSBRINGFORWARD extends BusinessImpl {
             
             em.detach(db);
             
+            
+            String sqlpre = "select r FROM Bringforward r "
+                    + "where r.bringforwardPK.bfdate = :bfdate and r.bringforwardPK.bankid = :bankid";
+
+            Query querypre = em.createQuery(sqlpre);
+            String previousDay = CenterUtils.previousDayEn(Integer.toString(processdate), 1);
+            querypre.setParameter("bfdate",previousDay);
+            querypre.setParameter("bankid",new BigDecimal(db.getBringforwardPK().getBankid()));
+
+            List<Bringforward> lpre = querypre.getResultList();
+            Bringforward bringforward = new Bringforward();
+            for(Bringforward dbpre : lpre){
+                BeanUtil.copyProperties(bringforward, dbpre);
+            }
+
+            //=================================
+            
             //String nextbfdate = Integer.toString(processdate +1);
             String nextbfdate = Integer.toString(processdate);
             
@@ -228,7 +245,12 @@ public class PROCESSBRINGFORWARD extends BusinessImpl {
             db.setBtchqpaid(countChequeClearDailyPaid(nextbfdate,db.getBringforwardPK().getBankid(),false));
             
             //Double actualmoney = (db.getActualmoney()+db.getReceived()) - db.getPaid();
-            Double actualmoney = (db.getActualmoney()+db.getReceived()+db.getBpchqrcv()+db.getBtchqpaid()) - db.getPaid()-db.getBpchqpaid()-db.getBtchqrcv();
+            //Double actualmoney = (db.getActualmoney()+db.getReceived()+db.getBpchqrcv()+db.getBtchqpaid()) - db.getPaid()-db.getBpchqpaid()-db.getBtchqrcv();
+            logger.debug("  getActualmoney:"+bringforward.getActualmoney()+
+                            "  getReceived:"+db.getReceived()+"  getBpchqrcv:"+db.getBpchqrcv()+
+                            " getBtchqpaid:"+db.getBtchqpaid()+" -getPaid:"+db.getPaid()+
+                            " -getBpchqpaid:"+db.getBpchqpaid()+" -getBtchqrcv:"+db.getBtchqrcv());
+            Double actualmoney = (bringforward.getActualmoney()+db.getReceived()+db.getBpchqrcv()+db.getBtchqpaid()) - db.getPaid()-db.getBpchqpaid()-db.getBtchqrcv();
             
             db.setActualmoney(actualmoney);
             
