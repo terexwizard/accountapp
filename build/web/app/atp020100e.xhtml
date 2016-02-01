@@ -4,7 +4,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui" 
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:func="http://taglib.scc.com/functions">
   <f:view beforePhase="#{aTP020100.beforePhase}" afterPhase="#{aTP020100.afterPhase}" encoding="UTF-8" >
     <h:head>
       <title></title>
@@ -24,7 +25,12 @@
       
       <script type="text/javascript">   
  //<![CDATA[ 
-   
+        function callbackclickbtnupdate(){
+            document.getElementById("form1:btna11update").click();
+        }
+        function cancel(){
+            
+        }
  //]]>   
       </script>
     </h:head>
@@ -253,6 +259,18 @@
                                          required="#{aTP020100.masterdata.daily.cheque}" 
                                          label="chequeno"/>
                                     </p:column>
+                                      
+                                    <p:column>
+                                        <h:outputLabel id="lbl_chequedate" value="cheque clear date" 
+                                                       rendered="#{not empty aTP020100.masterdata.daily.chequedate}">
+                                            <h:outputText styleClass="redstar" value="*" />
+                                        </h:outputLabel>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="chequedate" size="12" disabled="true"
+                                         value="#{func:convertDateStringToScreen(aTP020100.masterdata.daily.chequedate)}"
+                                         rendered="#{not empty aTP020100.masterdata.daily.chequedate}"/>
+                                    </p:column>
                                  </p:row>                              
                               </p:panelGrid>  
                           </p:outputPanel>
@@ -337,9 +355,22 @@
             <div align="center">
                    <p:panelGrid>
                     <p:row>
-                     <p:column style="width:100%;">
+                    <p:column style="padding: 0px;">
+                         <p:commandButton type="button" value="" rendered="#{aTP020100.modeupdate and (aTP020100.masterdata.nowdate ne func:convertDateTimeToScreen(aTP020100.masterdata.dailydate))}"
+                                      styleClass="f1-p-commandbutton-cs-add"  
+                                      onclick="cf1.show();" />
+                         
+                         <p:commandButton id="btna11update" value="" 
+                                         styleClass="f1-p-commandbutton-cs-add}" 
+                                         style="display:none;"
+                                         action="#{aTP020100.doUpdate}" 
+                                         ajax="false" >
+                         </p:commandButton>
+                     </p:column>   
+                     <p:column>
                          <ui:include src="#{bKBAppVar.COMPO_COMMAND_E}" >
                            <ui:param name="basebean" value="#{aTP020100}"/>
+                           <ui:param name="hideupdate" value="#{aTP020100.masterdata.nowdate eq func:convertDateTimeToScreen(aTP020100.masterdata.dailydate)?'0':'1'}"/>
                          </ui:include>
                      </p:column>
                    </p:row>
@@ -352,6 +383,18 @@
         <ui:include src="#{bKBAppVar.COMPO_MASG}" >
           <ui:param name="basebean" value="#{aTP020100}"/>
         </ui:include>
+          
+        <ui:include src="#{bKBAppVar.COMPO_MASG_CONFIRM}" >
+            <ui:param name="basebean" value="#{aTP020100}"/>
+            <ui:param name="name" value="cf1"/>
+            <ui:param name="msg" value="ยืนยันการบันทึกข้อมูล&lt;br/&gt;อาจมีผลกระทบกับค่า BF"/>
+            <ui:param name="ok" value=""/>   
+            <ui:param name="oknotajax" value="1"/>
+            <ui:param name="okfunction" value="callbackclickbtnupdate"/>
+            <ui:param name="cancelfunction" value="cancel();"/>
+        </ui:include>   
+          
+          
       </h:form>
     </h:body>
   </f:view>

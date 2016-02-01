@@ -67,7 +67,8 @@ public class NewMain {
         
         
         getWeekofYear(2016, 2);
-
+        
+        System.out.println(Utils.convertDateStringToScreen(Utils.formatDateToStringToDBThai(Utils.getcurDateTime()),"/"));
     }
     
     public static String nextDayEn(String d,Integer i){  

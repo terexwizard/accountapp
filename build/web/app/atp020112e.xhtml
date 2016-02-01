@@ -189,7 +189,7 @@
                      <h:outputLabel value="#{rec.data.daily.companyname}" title="#{rec.data.daily.companyname}"/>
                   </p:column>                  
                   
-                  <p:column style="width:80px;" headerText="คำสั่ง" rendered="#{aTP020112.masterdata.cheque eq 'N'}"> 
+                  <p:column style="width:80px;" headerText="คำสั่ง" rendered="#{aTP020112.masterdata.cheque eq 'N' or aTP020112.masterdata.cheque eq 'C'}"> 
 
                                                     
                       <p:rowEditor>
