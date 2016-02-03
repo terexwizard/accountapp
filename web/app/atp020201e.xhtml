@@ -42,7 +42,7 @@
        
         <div align="center">
 
-            <p:panelGrid style="width: 700px;">
+            <p:panelGrid style="width: 750px;">
                  <p:row>
                     <p:column style="width: 120px;"/>
                     <p:column/>
@@ -72,7 +72,7 @@
                                  <p:column style="vertical-align: text-top;">
                                          <p:inputText label="Company id" id="invcomid" 
                                                       value="#{aTP020201.masterdata.invoicecompany.invcomid}" 
-                                                      size="8" maxlength="8" 
+                                                      size="15" maxlength="15" 
                                                       required="true"
                                                       disabled="#{aTP020201.modeupdate or fn:length(aTP020201.detailinvoice.listdetailrow) ne '0'}">
                                              <p:ajax event="change" onstart="b1_lookup();return false;" />

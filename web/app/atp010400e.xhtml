@@ -33,7 +33,7 @@
                         <p:inputText id="invcomid" value="#{aTP010400.masterdata.invoicecompany.invcomid}"
                                      required="true" label="company id"
                                      disabled="#{aTP010400.modeupdate}"
-                                     maxlength="8" size="8"/>
+                                     maxlength="15" size="15"/>
                          
                     </p:column>
                   </p:row>
@@ -78,6 +78,7 @@
                     </p:column>
                     <p:column>
                         <p:selectOneMenu id="transport" value="#{aTP010400.masterdata.invoicecompany.transport}" style="width: 120px;">
+                            <f:selectItem itemLabel="Select" itemValue=""/>
                             <f:selectItem itemLabel="Domestic" itemValue="D"/>
                             <f:selectItem itemLabel="Oversea" itemValue="O"/>
                         </p:selectOneMenu>
@@ -91,6 +92,7 @@
                     </p:column>
                     <p:column>
                         <p:selectOneMenu id="companytype" value="#{aTP010400.masterdata.invoicecompany.companytype}" style="width: 120px;">
+                            <f:selectItem itemLabel="Select" itemValue=""/>
                             <f:selectItem itemLabel="AR" itemValue="AR"/>
                             <f:selectItem itemLabel="AP" itemValue="AP"/>
                         </p:selectOneMenu>
