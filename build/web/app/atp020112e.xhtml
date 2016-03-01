@@ -128,8 +128,8 @@
                            paginator="false" emptyMessage="" 
                            scrollable="false" 
                            editable="true"  rowIndexVar="rowIndex" 
-                           styleClass="f1-p-datatable-wide hide" scrollWidth="1070" scrollHeight="120"
-                           style="width:1050px;table-layout: fixed;text-align: left;">
+                           styleClass="f1-p-datatable-wide hide" scrollWidth="1170" scrollHeight="120"
+                           style="width:1150px;table-layout: fixed;text-align: left;">
 
                   <p:ajax event="rowEdit" listener="#{aTP020112.onEditDetaildaily}" update=":form1:#{bKBAppVar.COMPO_ID_MESSAGES}" oncomplete="handleComplete('btnupd1');"/>  
                   <p:ajax event="rowEditCancel" listener="#{aTP020112.onCancelDetaildaily}" update=":form1:#{bKBAppVar.COMPO_ID_MESSAGES},:form1:btn_ctrl1 " />                                     
@@ -145,7 +145,7 @@
                                      title="#{func:convertDateStringToScreen(rec.data.daily.dailydate)}"/>
                   </p:column>
 
-                  <p:column  headerText="เลขที่เช็ค" style="width:120px;vertical-align: text-top;">  
+                  <p:column  headerText="เลขที่เช็ค" style="width:90px;vertical-align: text-top;">  
                       
                       <h:outputLabel value="#{rec.data.daily.chequeno}" title="#{rec.data.daily.chequeno}"/>
                   </p:column>
@@ -157,9 +157,15 @@
 
                   </p:column>
 
-                  <p:column headerText="ตัดจากบัญชี" style="width:120px;vertical-align: text-top;">             
+                  <p:column headerText="ตัดจากบัญชี" style="width:200px;vertical-align: text-top;">             
                       
                       <h:outputLabel value="#{rec.data.tbbank.bankname}" title="#{rec.data.tbbank.bankname}"/>
+                      
+                  </p:column>
+                  
+                  <p:column headerText="voucherno" style="width:100px;vertical-align: text-top;">             
+                      
+                      <h:outputLabel value="#{rec.data.daily.voucherno}#{rec.data.daily.docno}" title="#{rec.data.daily.voucherno}#{rec.data.daily.docno}"/>
                       
                   </p:column>
 

@@ -33,7 +33,7 @@
                                  <p:row>
                                      <p:column style="padding: 0px;vertical-align: text-top;">
                                        <p:inputText label="Company" id="companyid" value="#{aTR030700.masterdata.daily.companyid}"
-                                                      size="8" maxlength="8" 
+                                                      size="15" maxlength="15" 
                                                       disabled="#{aTR030700.modeupdate}">
                                              <p:ajax event="change" onstart="b1_lookup();return false;" />
                                         </p:inputText>
@@ -79,6 +79,17 @@
                                 <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
                             </p:calendar>
 
+                            &nbsp;
+                            <h:outputLabel value="-"/>
+                            &nbsp;
+                            
+                            <p:calendar id="dailydatefn" value="#{aTR030700.masterdata.dailydatefn}"
+                                         size="10" maxlength="10" locale="en" showOn="button" 
+                                         converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true"
+                                         label="Date">
+                                <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
+                                <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
+                            </p:calendar>
                         </p:column>
                   </p:row>
                   <p:row>
