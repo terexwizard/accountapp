@@ -2490,8 +2490,8 @@
             t.remark
         FROM  invoice i left outer join invoicecompany t  on (i.invcomid = t.invcomid)
 
-       <where>
-       
+       <where>  
+       <var name="companytype" woper="and" > t.companytype = '<value/>' </var>
        <var name="invcomid" woper="and" > t.invcomid = '<value/>' </var>
        <var name="companyname" woper="and" > t.companyname like '%<value/>%' </var>
        
@@ -2502,6 +2502,11 @@
     </SQLOrderBy>
 
     <Params>
+        <Param>
+            <VarName>companytype</VarName>
+            <UIName>companytype</UIName>
+            <Operator></Operator>
+        </Param>
         <Param>
             <VarName>invcomid</VarName>
             <UIName>invcomid</UIName>
@@ -2555,7 +2560,7 @@
         FROM  receivable i left outer join invoicecompany t  on (i.invcomid = t.invcomid)
 
        <where>
-       
+       <var name="companytype" woper="and" > t.companytype = '<value/>' </var>
        <var name="invcomid" woper="and" > t.invcomid = '<value/>' </var>
        <var name="companyname" woper="and" > t.companyname like '%<value/>%' </var>
        
@@ -2566,6 +2571,11 @@
     </SQLOrderBy>
 
     <Params>
+        <Param>
+            <VarName>companytype</VarName>
+            <UIName>companytype</UIName>
+            <Operator></Operator>
+        </Param>
         <Param>
             <VarName>invcomid</VarName>
             <UIName>invcomid</UIName>
@@ -2718,6 +2728,56 @@
      
      <ZoomFile>zoom_daily.xhtml</ZoomFile>
      <ZoomTitle>ตารางบันทึกประจำวัน</ZoomTitle>
+</Query>
+
+<!-- ************************** 
+    lookup_count_daily_voucherno
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_count_daily_voucherno</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+       SELECT count(d.dailyid) as countdata FROM daily d 
+
+       <where>
+       <var name="voucherno" woper="and" > d.voucherno = '<value/>' </var>
+       <var name="docno" woper="and" > d.docno = '<value/>' </var>
+       
+       
+       </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>voucherno</VarName>
+            <UIName>voucherno</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>docno</VarName>
+            <UIName>docno</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+     </Displays>     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
 </Query>
 
 <!-- ************************** 
@@ -5450,13 +5510,16 @@
            d.cheque = 'true' 
            <var name="chequedateclear" woper="and" > d.chequedate is not null </var>
            <var name="chequedatenotclear" woper="and" > d.chequedate is null </var>
-           <var name="chequedate" woper="and" > d.chequedate <![CDATA[=]]> '<value/>' </var>
-           <var name="chequedateold" woper="and" > d.chequedate <![CDATA[<=]]> '<value/>' </var>
+           <var name="chequedatest" woper="and" > d.chequedate <![CDATA[>=]]> '<value/>' </var>
+           <var name="chequedatefn" woper="and" > d.chequedate <![CDATA[<=]]> '<value/>' </var>
            <var name="companyid" woper="and" > d.companyid = '<value/>' </var>
+           
+           <var name="dailydatest" woper="and" > d.dailydate <![CDATA[>=]]> '<value/>' </var>
+           <var name="dailydatefn" woper="and" > d.dailydate <![CDATA[<=]]> '<value/>' </var>
        </where>
     </SQL>
     <SQLOrderBy>
-        d.chequedate
+        d.dailydate,d.voucherno,d.docno
     </SQLOrderBy>
 
     <Params>
@@ -5471,13 +5534,23 @@
             <Operator></Operator>
         </Param>
         <Param>
-            <VarName>chequedate</VarName>
-            <UIName>chequedate</UIName>
+            <VarName>chequedatest</VarName>
+            <UIName>chequedatest</UIName>
             <Operator></Operator>
         </Param>
         <Param>
-            <VarName>chequedateold</VarName>
-            <UIName>chequedateold</UIName>
+            <VarName>chequedatefn</VarName>
+            <UIName>chequedatefn</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatest</VarName>
+            <UIName>dailydatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>dailydatefn</VarName>
+            <UIName>dailydatefn</UIName>
             <Operator></Operator>
         </Param>
          <Param>

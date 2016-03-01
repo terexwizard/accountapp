@@ -367,6 +367,7 @@ public class ATR030700 extends BKBPage {
     private void reset(){
         
         clearAllData();
+        initialvalue();
         
         redirectPage(PAGE_E);
         
@@ -393,13 +394,21 @@ public class ATR030700 extends BKBPage {
 //        this.getSearchparam();
 //        search();
         
-        
-        if(Utils.NVL(this.getMasterdata().getType()).equals("")){
+        initialvalue();
+       
+    }
+    
+    private void initialvalue(){
+         if(Utils.NVL(this.getMasterdata().getType()).equals("")){
             this.getMasterdata().setType("N");
         }
         
         if(Utils.NVL(this.getMasterdata().getDailydatest()).equals("")){
             this.getMasterdata().setDailydatest(Utils.getcurDateTime());
+        }
+        
+        if(Utils.NVL(this.getMasterdata().getDailydatefn()).equals("")){
+            this.getMasterdata().setDailydatefn(Utils.getcurDateTime());
         }
     }
     
@@ -559,7 +568,7 @@ public class ATR030700 extends BKBPage {
                    type = "ALL"; 
                 }
                 
-                String condition = "Condition :"+type+" "+Utils.convertDateStringToScreen(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()),"/");
+                String condition = "Condition :"+type+" "+Utils.convertDateStringToScreen(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()),"/")+"-"+Utils.convertDateStringToScreen(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatefn()),"/");
                 
                 
                 hSheet.addMergedRegion(new Region(2,(short)0,2,(short)2));
@@ -582,11 +591,11 @@ public class ATR030700 extends BKBPage {
                     hSheet.setColumnWidth((short)0,(short)(ONEPIXEL*300));
                     row = hSheet.createRow(8);      
                     cell = row.createCell(0);
-                    cell.setCellValue("CHQ DATE");
+                    cell.setCellValue("DAILY DATE");
                     cell.setCellStyle(hCellstyleHColor);
                     
                     cell = row.createCell(1);
-                    cell.setCellValue("DOC.");
+                    cell.setCellValue("VOUCHER NO");
                     cell.setCellStyle(hCellstyleHColor);
                          
                     cell = row.createCell(2);
@@ -619,7 +628,8 @@ public class ATR030700 extends BKBPage {
                     HashMap hmold = new HashMap<String, String>();
                     if(Utils.NVL(this.getMasterdata().getType()).equals("N")){  //ถ้ายังไม่เคลียร์
                         hmold = new HashMap<String, String>();
-//                        hmold.put("chequedateold", Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()));
+                        hmold.put("dailydatest", Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()));
+                        hmold.put("dailydatefn", Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatefn()));
                         hmold.put("chequedatenotclear", Utils.NVL(this.getMasterdata().getType()));
                         hmold.put("companyid", this.getMasterdata().getDaily().getCompanyid());
 
@@ -688,18 +698,11 @@ public class ATR030700 extends BKBPage {
                     //=====================
                     if(Utils.NVL(this.getMasterdata().getType()).equals("C")){  //เคลียร์
                         HashMap hm = new HashMap<String, String>();
-//                        if(Utils.NVL(this.getMasterdata().getType()).equals("C")){
-                            hm.put("chequedateclear", Utils.NVL(this.getMasterdata().getType()));
-//                        }else if(Utils.NVL(this.getMasterdata().getType()).equals("N")){
-//                            hm.put("chequedatenotclear", Utils.NVL(this.getMasterdata().getType()));
-//                        }
-//
-//                        if(Utils.NVL(this.getMasterdata().getType()).equals("A")){
-//                            hm.put("chequedateold", Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()));
-//                        }else{
-                            hm.put("chequedate", Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()));
-                            hm.put("companyid", this.getMasterdata().getDaily().getCompanyid());
-//                        }
+
+                        hm.put("chequedatest", Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()));
+                        hm.put("chequedatefn", Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatefn()));
+                        hm.put("chequedateclear", Utils.NVL(this.getMasterdata().getType()));
+                        hm.put("companyid", this.getMasterdata().getDaily().getCompanyid());
 
                         List l = CenterUtils.selectData(hm,"lookup_daily_cheque");
                         int size = l.size();
@@ -839,6 +842,15 @@ public class ATR030700 extends BKBPage {
              Utils.NVL(this.getMasterdata().getDaily().getCompanyid()).equals("")){
                 
             String msg = MessageUtil.getMessage("EP011");
+            addErrorMessage(null,msg,msg);
+            return false;
+
+        }
+         
+         if((this.getMasterdata().getDailydatest() != null && this.getMasterdata().getDailydatefn() == null) ||
+                (this.getMasterdata().getDailydatest() == null && this.getMasterdata().getDailydatefn() != null)){
+                
+            String msg = MessageUtil.getMessage("EP007");
             addErrorMessage(null,msg,msg);
             return false;
 

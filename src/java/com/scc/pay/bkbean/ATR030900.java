@@ -785,6 +785,7 @@ public class ATR030900 extends BKBPage {
                 HashMap hm = new HashMap<String, String>();
                 HashMap<String, String> hmcompany = new HashMap<String, String>();
                 hmcompany.put("invcomid", this.getMasterdata().getDaily().getCompanyid());
+                hmcompany.put("companytype", "AR");
                 //lcompany = CenterUtils.selectData(hmcompany,"lookup_invoicecompany");
                 lcompany = CenterUtils.selectData(hmcompany,"lookup_invoicecompany_receivable");
 

@@ -554,4 +554,20 @@ public class ATP020101 extends BKBPage {
          this.getMasterdata().getDaily().setChequeno(null);
          //this.getMasterdata().setMonetaryusd(false);
      }
+     
+      public void checkvoucherno(){
+          if(!Utils.NVL(this.getMasterdata().getDaily().getVoucherno()).equals("") && !Utils.NVL(this.getMasterdata().getDaily().getDocno()).equals("")){
+                HashMap hm = new HashMap<String, String>();
+                hm.put("voucherno", Utils.NVL(this.getMasterdata().getDaily().getVoucherno()));
+                hm.put("docno", Utils.NVL(this.getMasterdata().getDaily().getDocno()));
+                List l = CenterUtils.selectData(hm, "lookup_count_daily_voucherno");
+
+                hm = (HashMap)l.get(0);
+
+                if(!Utils.NVL(hm.get("countdata")).equals("0")){
+                    String msg = "พบข้อมูล "+Utils.NVL(this.getMasterdata().getDaily().getVoucherno())+Utils.NVL(this.getMasterdata().getDaily().getDocno())+" แล้ว";
+                    addInfoMessage(null, msg,msg);
+                }
+          }
+     }
 }

@@ -60,7 +60,8 @@
                     <p:column>
                         <p:calendar id="dailydate" value="#{aTP020100.masterdata.dailydate}"
                                     size="10" maxlength="10" locale="en" showOn="button" disabled="false"
-                                     converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true">
+                                    converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true"
+                                    required="true" label="Received Date">
                             <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
                             <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
                         </p:calendar>
@@ -125,10 +126,13 @@
                             <p:selectOneMenu id="voucherno" value="#{aTP020100.masterdata.daily.voucherno}"
                                              style="width: 80px;">
                                 <f:selectItems value="#{bKBQuery.combotb_received_voucherno}" />
+                                <p:ajax process="@this,docno" update=":form1:#{bKBAppVar.COMPO_ID_MESSAGES}" listener="#{aTP020100.checkvoucherno}"/>
                             </p:selectOneMenu>
 
                             <p:inputText id="docno" maxlength="10" size="10"
-                                         value="#{aTP020100.masterdata.daily.docno}"/>
+                                         value="#{aTP020100.masterdata.daily.docno}">
+                                <p:ajax process="@this,voucherno" update=":form1:#{bKBAppVar.COMPO_ID_MESSAGES}" listener="#{aTP020100.checkvoucherno}"/>
+                            </p:inputText>
                         </p:panelGrid>
                     </p:column>
                   </p:row>

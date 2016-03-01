@@ -653,7 +653,8 @@ public class CenterUtils{
         SimpleDateFormat sm = new SimpleDateFormat("yyyyMMdd");
         
         try {
-            date = sm.parse(Utils.formatDateToStringToDBThai(c.getTime())); 
+            //date = sm.parse(Utils.formatDateToStringToDBThai(c.getTime())); 
+            date = sm.parse(Utils.formatDateToStringToDBEn(c.getTime())); 
         } catch (ParseException ex) {
             java.util.logging.Logger.getLogger(CenterUtils.class.getName()).log(Level.SEVERE, null, ex);
         } 
@@ -674,7 +675,8 @@ public class CenterUtils{
         SimpleDateFormat sm = new SimpleDateFormat("yyyyMMdd");
         
         try {
-            date = sm.parse(Utils.formatDateToStringToDBThai(c.getTime())); 
+            //date = sm.parse(Utils.formatDateToStringToDBThai(c.getTime())); 
+            date = sm.parse(Utils.formatDateToStringToDBEn(c.getTime()));
         } catch (ParseException ex) {
             java.util.logging.Logger.getLogger(CenterUtils.class.getName()).log(Level.SEVERE, null, ex);
         } 
