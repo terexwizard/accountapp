@@ -12,6 +12,7 @@ import com.scc.f1.business.IBusinessBase;
 import com.scc.f1.util.MessageUtil;
 import com.scc.f1.util.Utils;
 import com.scc.pay.db.Daily;
+import com.scc.pay.db.TbBank;
 import com.scc.pay.util.CenterUtils;
 import com.scc.pay.util.FaceUtil;
 import java.io.ByteArrayOutputStream;
@@ -29,6 +30,7 @@ import java.text.DecimalFormat;
 import java.math.BigDecimal;
 
 import javax.faces.context.FacesContext;
+import javax.persistence.Query;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -741,6 +743,21 @@ public class ATR030300 extends BKBPage {
                     cell.setCellStyle(hCellstyleR);
                     //=========================  
                     
+                    row = hSheet.createRow(rowpad+1+size2+1+2);
+                    cell = row.createCell(0);
+                    cell.setCellValue("AJ.PENDING CHEQUE.");
+                    cell.setCellStyle(hCellstyleL);
+                    
+                    BigDecimal pendingth = calpendingth(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()));
+                    
+                    cell = row.createCell(1);
+                    cell.setCellValue(format(  pendingth.toString()  ));
+                    cell.setCellStyle(hCellstyleR);
+
+                    cell = row.createCell(2);
+                    cell.setCellValue("-");
+                    cell.setCellStyle(hCellstyleR); 
+                    rowpad++;
                     
                     row = hSheet.createRow(rowpad+1+size2+1+2);
                     cell = row.createCell(0);
@@ -752,6 +769,7 @@ public class ATR030300 extends BKBPage {
                     tmpbfth = tmpbfth.add(bfth);
                     tmpbfth = tmpbfth.add(totalrevth);    
                     tmpbfth = tmpbfth.subtract(totalpaidth);
+                    tmpbfth = tmpbfth.add(pendingth);
                             
                     
                     BigDecimal tmpbfus = new BigDecimal(0);
@@ -842,4 +860,154 @@ public class ATR030300 extends BKBPage {
         
         return isok;
     }
+    
+    
+    private BigDecimal calpendingth(String date){
+        
+        BigDecimal sum = new BigDecimal(0);
+        
+        HashMap hm = new HashMap<String, String>();
+        hm.put("bfdate", date);
+        hm.put("bankid", "3");
+        List l = CenterUtils.selectData(hm,"search_bringforward");
+        
+        if(!l.isEmpty()){
+            int size = l.size();
+            for(int i=0;i<size;i++){
+                 hm = (HashMap)l.get(i);
+                 
+                 
+                 BigDecimal bpchqrcv = new BigDecimal(Utils.NVL(hm.get("bpchqrcv")).equals("")?"0":Utils.NVL(hm.get("bpchqrcv")));
+                 BigDecimal bpchqpaid = new BigDecimal(Utils.NVL(hm.get("bpchqpaid")).equals("")?"0":Utils.NVL(hm.get("bpchqpaid")));
+                 BigDecimal btchqrcv = new BigDecimal(Utils.NVL(hm.get("btchqrcv")).equals("")?"0":Utils.NVL(hm.get("btchqrcv")));
+                 BigDecimal btchqpaid = new BigDecimal(Utils.NVL(hm.get("btchqpaid")).equals("")?"0":Utils.NVL(hm.get("btchqpaid")));
+                 
+                 sum = sum.add(bpchqrcv);
+                 sum = sum.subtract(bpchqpaid);
+                 sum = sum.subtract(btchqrcv);
+                 sum = sum.add(btchqpaid);
+                 
+            }
+        }else{
+            
+             BigDecimal bpchqrcv = new BigDecimal(countChequeClearDailyReceived(date,3,true));
+             BigDecimal bpchqpaid = new BigDecimal(countChequeClearDailyPaid(date,3,true));
+             BigDecimal btchqrcv = new BigDecimal(countChequeClearDailyReceived(date,3,false));
+             BigDecimal btchqpaid = new BigDecimal(countChequeClearDailyPaid(date,3,false));
+
+             sum = sum.add(bpchqrcv);
+             sum = sum.subtract(bpchqpaid);
+             sum = sum.subtract(btchqrcv);
+             sum = sum.add(btchqpaid);
+          
+        }
+        
+        return sum;
+    }
+    
+    
+    private Double countChequeClearDailyReceived(String dailydate,int payby,boolean vclear){
+        
+        
+        String pselect = "";
+        String pfrom = " daily r ";
+        String pwhere = "";
+        
+
+        if(checkmonetaryusd(payby)){
+          pselect += " sum(r.amount) as amount ";
+        }else{
+          pselect += " sum(r.receivedamount) as amount ";
+        }                                              
+
+        if(vclear){
+
+            pwhere += " r.chequedate = '"+dailydate+"' "
+                   + "and r.payby = '"+payby+"' "
+                   + "and r.chequedate is not null "; //cheque clear
+        }else{
+            pwhere += " r.dailydate = '"+dailydate+"' "
+                   + "and r.payby = '"+payby+"' "
+                    + "and r.chequedate is null "; //cheque not clear
+        }
+        pwhere += "and r.cheque = 'true' ";
+        
+        
+        HashMap hm = new HashMap<String, String>();
+        hm.put("pselect", pselect);
+        hm.put("pfrom", pfrom);
+        hm.put("pwhere", pwhere);
+        List l = CenterUtils.selectData(hm,"lookup_data_querytemplate");
+        
+        if(l.isEmpty()){            
+            return new Double("0");
+        }else{
+            hm = (HashMap)l.get(0);
+            return new Double(Utils.NVL(hm.get("amount")).equals("")?"0":Utils.NVL(hm.get("amount")));            
+        }        
+        
+    }
+    
+    
+    private Double countChequeClearDailyPaid(String dailydate,int payby,boolean vclear){
+        
+        
+        String pselect = "";
+        String pfrom = " daily r ";
+        String pwhere = "";
+        
+
+        if(checkmonetaryusd(payby)){
+          pselect += " sum(r.amount2) as amount ";
+        }else{
+          pselect += " sum(r.paidamount) as amount ";
+        }                                              
+
+        if(vclear){
+
+            pwhere += " r.chequedate = '"+dailydate+"' "
+                   + "and r.payby = '"+payby+"' "
+                   + "and r.chequedate is not null "; //cheque clear
+        }else{
+            pwhere += " r.dailydate = '"+dailydate+"' "
+                   + "and r.payby = '"+payby+"' "
+                    + "and r.chequedate is null "; //cheque not clear
+        }
+        pwhere += "and r.cheque = 'true' ";
+        
+        
+        HashMap hm = new HashMap<String, String>();
+        hm.put("pselect", pselect);
+        hm.put("pfrom", pfrom);
+        hm.put("pwhere", pwhere);
+        List l = CenterUtils.selectData(hm,"lookup_data_querytemplate");
+        
+        if(l.isEmpty()){            
+            return new Double("0");
+        }else{
+            hm = (HashMap)l.get(0);
+            return new Double(Utils.NVL(hm.get("amount")).equals("")?"0":Utils.NVL(hm.get("amount")));            
+        }        
+
+    }      
+    
+    
+    private boolean checkmonetaryusd(int payby){
+        
+        HashMap hm = new HashMap<String, String>();
+        hm.put("bankid", Utils.NVL(payby));
+        List l = CenterUtils.selectData(hm,"ATP010100Q");
+        
+        if(!l.isEmpty()){
+            hm = (HashMap)l.get(0);
+            
+            if(Utils.NVL(hm.get("monetaryusd")).equals("true")){
+                return true;
+            }
+            
+            return false;
+        }        
+        return false;
+    }
+    
 }

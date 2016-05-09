@@ -479,7 +479,19 @@ public class ATP020101 extends BKBPage {
         
                 //if(Utils.NVLNumber(this.getMasterdata().getDaily().getPayby()) == 2){ //US
                 if(this.getMasterdata().isMonetaryusd()){
-                    this.getMasterdata().getDaily().setPaidamount(null);
+                    //this.getMasterdata().getDaily().setPaidamount(null);
+                    if(this.getMasterdata().getDaily().getExchangerate() != null && this.getMasterdata().getDaily().getAmount2() != null){
+                        Double x = this.getMasterdata().getDaily().getExchangerate() * this.getMasterdata().getDaily().getAmount2();
+
+                        this.getMasterdata().getDaily().setPaidamount(x);
+                    }else{
+
+                        this.getMasterdata().getDaily().setPaidamount(null);
+                        this.getMasterdata().getDaily().setAmount2(null);
+
+                        String msg = MessageUtil.getMessage("EP001");
+                        addInfoMessage(null,msg, msg);
+                    }
                 }else{
                     if(this.getMasterdata().getDaily().getExchangerate() != null && this.getMasterdata().getDaily().getAmount2() != null){
                         Double x = this.getMasterdata().getDaily().getExchangerate() * this.getMasterdata().getDaily().getAmount2();

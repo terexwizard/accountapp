@@ -2986,7 +2986,7 @@
        </where>
     </SQL>
     <SQLOrderBy>
-        t.dailydate,t.voucherno,t.docno
+        t.dailydate,t.voucherno,CONVERT(concat('20',SUBSTRING_INDEX(t.docno, '/', -1),SUBSTRING_INDEX(t.docno, '/', 1),SUBSTRING_INDEX(SUBSTRING_INDEX(t.docno,'/', 2), '/',-1)),UNSIGNED INTEGER) asc
     </SQLOrderBy>
 
     <Params>
@@ -3095,7 +3095,7 @@
        </where>
     </SQL>
     <SQLOrderBy>
-        t.dailydate,t.voucherno,t.docno
+        t.dailydate,t.voucherno,CONVERT(concat('20',SUBSTRING_INDEX(t.docno, '/', -1),SUBSTRING_INDEX(t.docno, '/', 1),SUBSTRING_INDEX(SUBSTRING_INDEX(t.docno,'/', 2), '/',-1)),UNSIGNED INTEGER) asc
     </SQLOrderBy>
 
     <Params>
@@ -4281,6 +4281,7 @@
        <where>
            
             <var name="bfdate" woper="and" > b.bfdate = '<value/>' </var>
+            <var name="bankid" woper="and" > b.bankid = '<value/>' </var>
             <var name="bankidnot2" woper="and" > t.monetaryusd = 'false'  </var>
             <var name="bankid2" woper="and" > t.monetaryusd = 'true'  </var>
        
@@ -4294,6 +4295,11 @@
         <Param>
             <VarName>bfdate</VarName>
             <UIName>bfdate</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>bankid</VarName>
+            <UIName>bankid</UIName>
             <Operator></Operator>
         </Param>
         <Param>
@@ -6020,5 +6026,59 @@
      <ZoomFile></ZoomFile>
      <ZoomTitle></ZoomTitle>
 </Query>
+
+
+<!-- ************************** 
+    lookup_data_querytemplate
+- -  ************************** -->
+<Query>
+    <TranCode>lookup_data_querytemplate</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <PU>1</PU>
+    <SQL>
+        select <var name="pselect" woper="and" > <value/> </var>  
+        from  <var name="pfrom" woper="and" > <value/> </var>
+        where <var name="pwhere" woper="and" > <value/> </var>
+
+
+        <where>   
+            
+        </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+    <Params>
+         <Param>
+            <VarName>pselect</VarName>
+            <UIName>pselect</UIName>
+            <Operator></Operator>
+        </Param>
+         <Param>
+            <VarName>pfrom</VarName>
+            <UIName>pfrom</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>pwhere</VarName>
+            <UIName>pwhere</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+    <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+             </Column>
+         </Columns>
+     </Displays>
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query> 
+
   
 </QueryXML>

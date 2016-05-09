@@ -44,7 +44,8 @@ public class PROCESSBRINGFORWARDUPDATECHEQUE extends BusinessImpl {
         Daily frmi = (Daily)vhm.get("form");
         logger.debug(">>processbringforwardupdatecheque user:" + user);
         logger.debug(">>processbringforwardupdatecheque dailydate:" + dailydate);
-        logger.debug(">>processbringforwardupdatecheque dailydate:" + frmi.getPayby());
+        logger.debug(">>processbringforwardupdatecheque dailydate:" + frmi.getDailydate());
+        logger.debug(">>processbringforwardupdatecheque Payby:" + frmi.getPayby());
         
         
         processBringforward( frmi , dailydate,user);
@@ -88,48 +89,68 @@ public class PROCESSBRINGFORWARDUPDATECHEQUE extends BusinessImpl {
 
                 List<Bringforward> l = query.getResultList();
 
-                for(Bringforward db : l){
+                logger.debug(">>Bringforward data size :"+l.size());
+                if(!l.isEmpty()){
+                    for(Bringforward db : l){
 
-                    String sqlpre = "select r FROM Bringforward r "
-                            + "where r.bringforwardPK.bfdate = :bfdate and r.bringforwardPK.bankid = :bankid";
+                        String sqlpre = "select r FROM Bringforward r "
+                                + "where r.bringforwardPK.bfdate = :bfdate and r.bringforwardPK.bankid = :bankid";
 
-                    Query querypre = em.createQuery(sqlpre);
-                    String previousDay = CenterUtils.previousDayEn(dailydate,1);
-                    querypre.setParameter("bfdate",previousDay);
-                    querypre.setParameter("bankid",new BigDecimal(dbdaily.getPayby()).intValue());
+                        Query querypre = em.createQuery(sqlpre);
+                        String previousDay = CenterUtils.previousDayEn(dailydate,1);
+                        querypre.setParameter("bfdate",previousDay);
+                        querypre.setParameter("bankid",new BigDecimal(dbdaily.getPayby()).intValue());
 
-                    List<Bringforward> lpre = querypre.getResultList();
-                    Bringforward bringforward = new Bringforward();
-                    for(Bringforward dbpre : lpre){
-                        BeanUtil.copyProperties(bringforward, dbpre);
+                        List<Bringforward> lpre = querypre.getResultList();
+                        Bringforward bringforward = new Bringforward();
+                        for(Bringforward dbpre : lpre){
+                            BeanUtil.copyProperties(bringforward, dbpre);
+                        }
+
+                        //=================================
+
+                        db.setReceived(countDailyReceived(dailydate,db.getBringforwardPK().getBankid()));
+                        db.setPaid(countDailyPaid(dailydate,db.getBringforwardPK().getBankid()));
+                        db.setBpchqrcv(countChequeClearDailyReceived(dailydate,db.getBringforwardPK().getBankid(),true));
+                        db.setBpchqpaid(countChequeClearDailyPaid(dailydate,db.getBringforwardPK().getBankid(),true));
+                        db.setBtchqrcv(countChequeClearDailyReceived(dailydate,db.getBringforwardPK().getBankid(),false));
+                        db.setBtchqpaid(countChequeClearDailyPaid(dailydate,db.getBringforwardPK().getBankid(),false));
+
+
+                        logger.debug("  getActualmoney:"+bringforward.getActualmoney()+
+                                "  getReceived:"+db.getReceived()+"  getBpchqrcv:"+db.getBpchqrcv()+
+                                " getBtchqpaid:"+db.getBtchqpaid()+" -getPaid:"+db.getPaid()+
+                                " -getBpchqpaid:"+db.getBpchqpaid()+" -getBtchqrcv:"+db.getBtchqrcv());
+                        Double actualmoney = (bringforward.getActualmoney()+db.getReceived()+db.getBpchqrcv()+db.getBtchqpaid()) - db.getPaid()-db.getBpchqpaid()-db.getBtchqrcv();
+
+                        db.setActualmoney(actualmoney);
+
+                        db.setUpdlcnt(addLcnt(db.getUpdlcnt()));
+                        db.setUpdtime(Utils.getcurDateTime() );
+                        db.setUpduser(user);
+
+
+                        merge(db);
+
+
                     }
+                }else{
+                     //ลบแล้วคำนวณใหม่
+                    String sqlempt = "delete FROM Bringforward r "
+                            //+ "where r.bringforwardPK.bfdate >= :bfdate ";
+                            + "where r.bringforwardPK.bfdate >= :bfdate "; //ไม่ลบวันที่ เคลียร์เช็ค เพราะต้องการเก็บค่า BF เดิมของวันที่นั้นไว้
 
-                    //=================================
+                    Query queryempt = em.createQuery(sqlempt);
+                    queryempt.setParameter("bfdate",dailydate);
+                    queryempt.executeUpdate();
 
-                    db.setReceived(countDailyReceived(dailydate,db.getBringforwardPK().getBankid()));
-                    db.setPaid(countDailyPaid(dailydate,db.getBringforwardPK().getBankid()));
-                    db.setBpchqrcv(countChequeClearDailyReceived(dailydate,db.getBringforwardPK().getBankid(),true));
-                    db.setBpchqpaid(countChequeClearDailyPaid(dailydate,db.getBringforwardPK().getBankid(),true));
-                    db.setBtchqrcv(countChequeClearDailyReceived(dailydate,db.getBringforwardPK().getBankid(),false));
-                    db.setBtchqpaid(countChequeClearDailyPaid(dailydate,db.getBringforwardPK().getBankid(),false));
+                    //==========================
+                    HashMap<String,String> vhm = new HashMap<String,String>();
+                    vhm.put("vuser", user);
+                    vhm.put("vbfdate", dailydate);
 
-
-                    logger.debug("  getActualmoney:"+bringforward.getActualmoney()+
-                            "  getReceived:"+db.getReceived()+"  getBpchqrcv:"+db.getBpchqrcv()+
-                            " getBtchqpaid:"+db.getBtchqpaid()+" -getPaid:"+db.getPaid()+
-                            " -getBpchqpaid:"+db.getBpchqpaid()+" -getBtchqrcv:"+db.getBtchqrcv());
-                    Double actualmoney = (bringforward.getActualmoney()+db.getReceived()+db.getBpchqrcv()+db.getBtchqpaid()) - db.getPaid()-db.getBpchqpaid()-db.getBtchqrcv();
-
-                    db.setActualmoney(actualmoney);
-
-                    db.setUpdlcnt(addLcnt(db.getUpdlcnt()));
-                    db.setUpdtime(Utils.getcurDateTime() );
-                    db.setUpduser(user);
-
-
-                    merge(db);
-
-
+                    IBusinessBase ib = BusinessFactory.getBusiness("PROCESSBRINGFORWARD");
+                    ib.processBackground(vhm);
                 }
 
              }
