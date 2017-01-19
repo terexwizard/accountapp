@@ -5,7 +5,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui" 
       xmlns:ui="http://java.sun.com/jsf/facelets">
-  <f:view beforePhase="#{aTR030800.beforePhase}" afterPhase="#{aTR030800.afterPhase}" encoding="UTF-8" >
+  <f:view beforePhase="#{aTR030801.beforePhase}" afterPhase="#{aTR030801.afterPhase}" encoding="UTF-8" >
     <h:head>
       <title></title>
       <h:outputStylesheet name="style.css" library="css" /> 
@@ -16,6 +16,21 @@
    
  //]]>   
       </script>
+      
+    <style>
+       
+    table tr1{
+        border-color: red !important;
+    }
+    
+    .ui-panelgrid td1 {
+        border: 1px solid #7f2ac5 !important;
+     }
+     
+
+   </style>
+      
+      
     </h:head>
     <h:body>
       <br/>
@@ -24,17 +39,21 @@
         <div align="center">
 
                 <p:panelGrid>
+                    <p:row>
+                        <p:column style="width: 80px;"/>
+                        <p:column />
+                    </p:row>
                      <p:row>
                         <p:column style="vertical-align: text-top;">
                             <h:outputLabel value="Company"/>
                         </p:column>
-                         <p:column style="vertical-align: text-top;">
+                         <p:column style="vertical-align: text-top;padding: 0px;">
                              <p:panelGrid>
                                  <p:row>
                                      <p:column style="padding: 0px;vertical-align: text-top;">
-                                       <p:inputText label="Company" id="companyid" value="#{aTR030800.masterdata.daily.companyid}"
+                                       <p:inputText label="Company" id="companyid" value="#{aTR030801.masterdata.daily.companyid}"
                                                       size="15" maxlength="15" 
-                                                      disabled="#{aTR030800.modeupdate}">
+                                                      disabled="#{aTR030801.modeupdate}">
                                              <p:ajax event="change" onstart="b1_lookup();return false;" />
                                         </p:inputText>
                                      </p:column>
@@ -47,7 +66,7 @@
                                           <ui:param name="lookupreturn" value="companyname#companyname"/>
                                         </ui:include>
 
-                                        <p:outputPanel rendered="#{!aTR030800.modeupdate}">
+                                        <p:outputPanel rendered="#{!aTR030801.modeupdate}">
                                         <ui:include src="#{bKBAppVar.COMPO_ZOOMDATA}" >
                                             <ui:param name="formid" value="form1"/>
                                             <ui:param name="zoomname" value="zoom1"/>
@@ -56,7 +75,7 @@
                                           </ui:include>
                                         </p:outputPanel> 
 
-                                        <p:inputTextarea label="" id="companyname" value="#{aTR030800.masterdata.daily.companyname}"
+                                        <p:inputTextarea label="" id="companyname" value="#{aTR030801.masterdata.daily.companyname}"
                                                       rows="4" cols="70" readonly="true"
                                                       styleClass="#{bKBStyle.STYLE_INPUT_DISABLE}"
                                                       tabindex="-1">
@@ -66,69 +85,33 @@
                            </p:panelGrid>
                         </p:column>
                     </p:row>
-                  <p:row>
+                    
+                <p:row>
                         <p:column>
                           <h:outputLabel value="Status"/>
+                          <h:outputText styleClass="redstar" value="*" />
                         </p:column>
                         <p:column style="padding: 0px;">
-                            <h:selectOneRadio value="#{aTR030800.masterdata.rdoflag}">
+                            <h:selectOneRadio value="#{aTR030801.masterdata.rdoflag}">
                                 <f:selectItem itemLabel="Clear" itemValue="Y"/>
                                 <f:selectItem itemLabel="Not Clear" itemValue="N"/>
-                                <f:selectItem itemLabel="Balance" itemValue="B"/>
-                                <p:ajax process="@this" update="opldatelabel,opldatevalue,oplreportlabel,oplreportvalue" listener="#{aTR030800.clearreporttype}"/>
+                                <p:ajax process="@this" update="@this" />
                             </h:selectOneRadio>
                         </p:column>
                   </p:row>
                     
-                   <p:row>
-                       <p:column>
-                            <p:outputPanel id="oplreportlabel" style="padding: 0px;">
-                                <h:outputLabel value="Report Type" rendered="#{aTR030800.masterdata.rdoflag ne 'B'}"/>
-                            </p:outputPanel>
-                        </p:column>
-                        <p:column style="padding: 0px;">
-                            <p:outputPanel id="oplreportvalue" >
-                                <h:selectOneRadio value="#{aTR030800.masterdata.reporttype}" rendered="#{aTR030800.masterdata.rdoflag ne 'B'}">
-                                    <f:selectItem itemLabel="Daily" itemValue="1"/>
-                                    <f:selectItem itemLabel="Month" itemValue="2"/>
-                                    <p:ajax process="@this" update="opldatelabel,opldatevalue"/>
-                                </h:selectOneRadio>
-                            </p:outputPanel>
-                        </p:column>
-                  </p:row>  
-                    
                   <p:row>
                         <p:column>
-                          <p:outputPanel id="opldatelabel" style="padding: 0px;">
-                              <h:outputLabel value="Date" rendered="#{aTR030800.masterdata.reporttype eq '1'}"/>
-                              <h:outputLabel value="Month / Year" rendered="#{aTR030800.masterdata.reporttype eq '2'}"/>   
-                              <h:outputLabel value="Due Date" rendered="#{aTR030800.masterdata.rdoflag eq 'B'}"/> 
-                          </p:outputPanel>
+                          <h:outputLabel value="Year"/>
                         </p:column>
-                        <p:column>
-                             <p:outputPanel id="opldatevalue">
-                                <p:calendar id="dailydate" value="#{aTR030800.masterdata.dailydate}"
-                                         size="10" maxlength="10" locale="en" showOn="button" 
-                                         converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true"
-                                         required="false" label="Date"
-                                         rendered="#{aTR030800.masterdata.reporttype eq '1'}">
-                                    <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
-                                    <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
-                                </p:calendar>
-
-
-                                <p:selectOneMenu  value="#{aTR030800.masterdata.month}" style="width: 150px;"
-                                                  rendered="#{aTR030800.masterdata.reporttype eq '2' or aTR030800.masterdata.rdoflag eq 'B'}">
-                                    <f:selectItems value="#{bKBRdb.month}"/>
-                                </p:selectOneMenu>
-                                &nbsp;
-                                <p:selectOneMenu  value="#{aTR030800.masterdata.year}"
-                                                  rendered="#{aTR030800.masterdata.reporttype eq '2' or aTR030800.masterdata.rdoflag eq 'B'}">
-                                    <f:selectItems value="#{bKBQuery.comboYear}"/>
-                                </p:selectOneMenu>
-                            </p:outputPanel>
+                        <p:column style="padding: 0px;">
+                            <p:inputText value="#{aTR030801.masterdata.year}" size="4" maxlength="4"
+                                         required="false">
+                                <p:ajax process="@this" update="@this" />
+                            </p:inputText>
                         </p:column>
                   </p:row>
+               
                 </p:panelGrid>
             
             
@@ -138,7 +121,7 @@
                     <p:row>
                      <p:column style="width:100%;">
                          <ui:include src="#{bKBAppVar.COMPO_COMMAND_E}" >
-                           <ui:param name="basebean" value="#{aTR030800}"/>
+                           <ui:param name="basebean" value="#{aTR030801}"/>
                            <ui:param name="btn_img_add" value="f1-p-commandbutton-cs-excel"/>
                            <ui:param name="hidequery" value="1"/>
                          </ui:include>
@@ -151,7 +134,7 @@
           <br/>
         </div>
         <ui:include src="#{bKBAppVar.COMPO_MASG}" >
-          <ui:param name="basebean" value="#{aTR030800}"/>
+          <ui:param name="basebean" value="#{aTR030801}"/>
         </ui:include>
       </h:form>
     </h:body>
