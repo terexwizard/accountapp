@@ -103,6 +103,10 @@ public class Daily implements Serializable {
     private Date updtime;
     @Column(name = "upduser")
     private String upduser;
+    @Column(name = "consigneeid")
+    private String consigneeid;
+    @Column(name = "consigneename")
+    private String consigneename;
 
     public Daily() {
     }
@@ -374,7 +378,21 @@ public class Daily implements Serializable {
     public void setUpduser(String upduser) {
         this.upduser = upduser;
     }
+    public String getConsigneeid() {
+        return consigneeid;
+    }
 
+    public void setConsigneeid(String consigneeid) {
+        this.consigneeid = consigneeid;
+    }
+
+    public String getConsigneename() {
+        return consigneename;
+    }
+
+    public void setConsigneename(String consigneename) {
+        this.consigneename = consigneename;
+    }
     @Override
     public int hashCode() {
         int hash = 0;

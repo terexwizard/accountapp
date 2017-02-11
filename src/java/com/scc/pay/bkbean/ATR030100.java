@@ -41,6 +41,7 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.ClientAnchor;
 import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.Drawing;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Picture;
@@ -504,6 +505,13 @@ public class ATR030100 extends BKBPage {
                 hCellstyleR.setFont(font14);                                                  //เรียกใช้ style font
                 CenterUtils.setCellBorder(hCellstyleR);
                 
+                HSSFCellStyle hCellstyleRMoney = hWBook.createCellStyle();                       
+                hCellstyleRMoney.setAlignment(HSSFCellStyle.ALIGN_RIGHT);                         
+                hCellstyleRMoney.setFont(font14);                                                  
+                DataFormat format = hWBook.createDataFormat();
+                hCellstyleRMoney.setDataFormat(format.getFormat("#,##0.00"));
+                CenterUtils.setCellBorder(hCellstyleRMoney);
+                
                 HSSFCellStyle hCellstyleHColor = hWBook.createCellStyle();                         
                 hCellstyleHColor.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         
                 hCellstyleHColor.setFont(font16);                   
@@ -690,12 +698,12 @@ public class ATR030100 extends BKBPage {
 //                        cell.setCellStyle(hCellstyleL);
                         
                         cell = row.createCell(8);
-                        cell.setCellValue(format(Utils.NVL(hm.get("amount_us"))));
-                        cell.setCellStyle(hCellstyleR);
+                        cell.setCellValue(CenterUtils.format(Utils.NVL(hm.get("amount_us"))));
+                        cell.setCellStyle(hCellstyleRMoney);
                         
                         cell = row.createCell(9);
-                        cell.setCellValue(format( Utils.NVL(hm.get("receivedamount_th"))));
-                        cell.setCellStyle(hCellstyleR);
+                        cell.setCellValue(CenterUtils.format( Utils.NVL(hm.get("receivedamount_th"))));
+                        cell.setCellStyle(hCellstyleRMoney);
                         
 //                        cell = row.createCell(11);
 //                        cell.setCellValue(Utils.NVL(hm.get("currencyname")));
@@ -747,8 +755,8 @@ public class ATR030100 extends BKBPage {
                     
 
                     cell = row.createCell(8);
-                    cell.setCellValue(format(amount.toString()));
-                    cell.setCellStyle(hCellstyleR);
+                    cell.setCellValue(CenterUtils.format(amount.toString()));
+                    cell.setCellStyle(hCellstyleRMoney);
                     
                     cell = row.createCell(9);
                     cell.setCellValue("");
@@ -767,8 +775,8 @@ public class ATR030100 extends BKBPage {
                     }
 
                     cell = row.createCell(9);
-                    cell.setCellValue(format(receivedamount.toString()));
-                    cell.setCellStyle(hCellstyleR);
+                    cell.setCellValue(CenterUtils.format(receivedamount.toString()));
+                    cell.setCellStyle(hCellstyleRMoney);
 
                     
                 ByteArrayOutputStream bOutput = new ByteArrayOutputStream();
@@ -821,10 +829,10 @@ public class ATR030100 extends BKBPage {
         pict.resize();
     }
     
-    private String format(String value){
-        DecimalFormat df = new DecimalFormat("###,##0.00");
-        return df.format( Utils.NVL(value).equals("")?new BigDecimal(0).doubleValue():new BigDecimal(Utils.NVL(value)).doubleValue());
-    }
+//    private String format(String value){
+//        DecimalFormat df = new DecimalFormat("###,##0.00");
+//        return df.format( Utils.NVL(value).equals("")?new BigDecimal(0).doubleValue():new BigDecimal(Utils.NVL(value)).doubleValue());
+//    }   
      
     
     private boolean validategenDataExcel(){

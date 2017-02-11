@@ -39,6 +39,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.hssf.util.Region;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.Font;
 
 /**
@@ -525,6 +526,8 @@ public class ATR030700 extends BKBPage {
                 HSSFCellStyle hCellstyleR = hWBook.createCellStyle();                          //กำหนด style cell
                 hCellstyleR.setAlignment(HSSFCellStyle.ALIGN_RIGHT);                         //กำหนด ตัวอักษรให้อยู่ซ้าย
                 hCellstyleR.setFont(font14);                                                  //เรียกใช้ style font
+                DataFormat format = hWBook.createDataFormat();
+                hCellstyleR.setDataFormat(format.getFormat("#,##0.00"));
                 CenterUtils.setCellBorder(hCellstyleR);
                 
                 HSSFCellStyle hCellstyleHColor = hWBook.createCellStyle();                         
@@ -542,9 +545,14 @@ public class ATR030700 extends BKBPage {
                 HSSFCellStyle hCellstyleCB = hWBook.createCellStyle();                          //กำหนด style cell
                 hCellstyleCB.setAlignment(HSSFCellStyle.ALIGN_LEFT);                         //กำหนด ตัวอักษรให้อยู่ซ้าย
                 hCellstyleCB.setFont(font18B);                                                  //เรียกใช้ style font
-
                 
 
+                HSSFCellStyle hCellstyleCBMoney = hWBook.createCellStyle();                       
+                hCellstyleCBMoney.setAlignment(HSSFCellStyle.ALIGN_RIGHT);                         
+                hCellstyleCBMoney.setFont(font18B);             
+                hCellstyleCBMoney.setDataFormat(format.getFormat("#,##0.00"));
+                CenterUtils.setCellBorder(hCellstyleCBMoney);
+                
                 
                 //=======Header============ 
                 String header = "Date : " + CenterUtils.formatDateToStringShowTime(Utils.getcurDateTime());
@@ -664,11 +672,11 @@ public class ATR030700 extends BKBPage {
 
                             cell = row.createCell(5);
                             if(Utils.NVL(hmold.get("monetaryusd")).equals("false")){
-                                cell.setCellValue(format(Utils.NVL(hmold.get("receivedamount"))));
+                                cell.setCellValue(CenterUtils.format(Utils.NVL(hmold.get("receivedamount"))));
 
                                 rcvpastth = rcvpastth.add(new BigDecimal(Utils.NVL(hmold.get("receivedamount")).equals("")?"0":Utils.NVL(hmold.get("receivedamount"))));
                             }else{
-                                cell.setCellValue(format(Utils.NVL(hmold.get("amount")))+"$");
+                                cell.setCellValue(CenterUtils.format(Utils.NVL(hmold.get("amount")))+"$");
 
                                 rcvpastusd = rcvpastusd.add(new BigDecimal(Utils.NVL(hmold.get("amount")).equals("")?"0":Utils.NVL(hmold.get("amount"))));
                             }
@@ -676,11 +684,11 @@ public class ATR030700 extends BKBPage {
 
                             cell = row.createCell(6);
                             if(Utils.NVL(hmold.get("monetaryusd")).equals("false")){
-                                cell.setCellValue(format(Utils.NVL(hmold.get("paidamount"))));
+                                cell.setCellValue(CenterUtils.format(Utils.NVL(hmold.get("paidamount"))));
 
                                 paidpastth = paidpastth.add(new BigDecimal(Utils.NVL(hmold.get("paidamount")).equals("")?"0":Utils.NVL(hmold.get("paidamount"))));
                             }else{
-                                cell.setCellValue(format(Utils.NVL(hmold.get("amount2")))+"$");
+                                cell.setCellValue(CenterUtils.format(Utils.NVL(hmold.get("amount2")))+"$");
 
                                 paidpastusd = paidpastusd.add(new BigDecimal(Utils.NVL(hmold.get("amount2")).equals("")?"0":Utils.NVL(hmold.get("amount2"))));
                             }
@@ -736,12 +744,12 @@ public class ATR030700 extends BKBPage {
 
                             cell = row.createCell(5);
                             if(Utils.NVL(hm.get("monetaryusd")).equals("false")){
-                                cell.setCellValue(format(Utils.NVL(hm.get("receivedamount"))));
+                                cell.setCellValue(CenterUtils.format(Utils.NVL(hm.get("receivedamount"))));
 
                                 rcvpastth = rcvpastth.add(new BigDecimal(Utils.NVL(hm.get("receivedamount")).equals("")?"0":Utils.NVL(hm.get("receivedamount"))));
 
                             }else{
-                                cell.setCellValue(format(Utils.NVL(hm.get("amount")))+"$");
+                                cell.setCellValue(CenterUtils.format(Utils.NVL(hm.get("amount")))+"$");
 
                                 rcvpastusd = rcvpastusd.add(new BigDecimal(Utils.NVL(hm.get("amount")).equals("")?"0":Utils.NVL(hm.get("amount"))));
                             }
@@ -749,11 +757,11 @@ public class ATR030700 extends BKBPage {
 
                             cell = row.createCell(6);
                             if(Utils.NVL(hm.get("monetaryusd")).equals("false")){
-                                cell.setCellValue(format(Utils.NVL(hm.get("paidamount"))));
+                                cell.setCellValue(CenterUtils.format(Utils.NVL(hm.get("paidamount"))));
 
                                 paidpastth = paidpastth.add(new BigDecimal(Utils.NVL(hm.get("paidamount")).equals("")?"0":Utils.NVL(hm.get("paidamount"))));
                             }else{
-                                cell.setCellValue(format(Utils.NVL(hm.get("amount2")))+"$");
+                                cell.setCellValue(CenterUtils.format(Utils.NVL(hm.get("amount2")))+"$");
 
                                 paidpastusd = paidpastusd.add(new BigDecimal(Utils.NVL(hm.get("amount2")).equals("")?"0":Utils.NVL(hm.get("amount2"))));
                             }
@@ -793,20 +801,20 @@ public class ATR030700 extends BKBPage {
                 cell.setCellStyle(hCellstyleCB);
                 
                 cell = row.createCell(2);
-                cell.setCellValue(format(rcvpastth.toString()));
-                cell.setCellStyle(hCellstyleCB);
+                cell.setCellValue(CenterUtils.format(rcvpastth.toString()));
+                cell.setCellStyle(hCellstyleCBMoney);
                 
                 cell = row.createCell(3);
-                cell.setCellValue(format(rcvpastusd.toString()));
-                cell.setCellStyle(hCellstyleCB);
+                cell.setCellValue(CenterUtils.format(rcvpastusd.toString()));
+                cell.setCellStyle(hCellstyleCBMoney);
                 
                 cell = row.createCell(4);
-                cell.setCellValue(format(paidpastth.toString()));
-                cell.setCellStyle(hCellstyleCB);
+                cell.setCellValue(CenterUtils.format(paidpastth.toString()));
+                cell.setCellStyle(hCellstyleCBMoney);
                 
                 cell = row.createCell(5);
-                cell.setCellValue(format(paidpastusd.toString()));
-                cell.setCellStyle(hCellstyleCB);
+                cell.setCellValue(CenterUtils.format(paidpastusd.toString()));
+                cell.setCellStyle(hCellstyleCBMoney);
                     
                 ByteArrayOutputStream bOutput = new ByteArrayOutputStream();
                 hWBook.write(bOutput);
@@ -829,10 +837,10 @@ public class ATR030700 extends BKBPage {
         
     }
     
-    private String format(String value){
-        DecimalFormat df = new DecimalFormat("###,##0.00");
-        return df.format( Utils.NVL(value).equals("")?new BigDecimal(0).doubleValue():new BigDecimal(Utils.NVL(value)).doubleValue());
-    }
+//    private String format(String value){
+//        DecimalFormat df = new DecimalFormat("###,##0.00");
+//        return df.format( Utils.NVL(value).equals("")?new BigDecimal(0).doubleValue():new BigDecimal(Utils.NVL(value)).doubleValue());
+//    }
      
     
     private boolean validategenDataExcel(){

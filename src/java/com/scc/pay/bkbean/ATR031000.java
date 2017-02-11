@@ -38,6 +38,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.hssf.util.Region;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.Font;
 
 /**
@@ -507,6 +508,13 @@ public class ATR031000 extends BKBPage {
                 hCellstyleR.setFont(font14);                                                  //เรียกใช้ style font
                 CenterUtils.setCellBorder(hCellstyleR);
                 
+                HSSFCellStyle hCellstyleRMoney = hWBook.createCellStyle();                       
+                hCellstyleRMoney.setAlignment(HSSFCellStyle.ALIGN_RIGHT);                         
+                hCellstyleRMoney.setFont(font14);                                                  
+                DataFormat format = hWBook.createDataFormat();
+                hCellstyleRMoney.setDataFormat(format.getFormat("#,##0.00"));
+                CenterUtils.setCellBorder(hCellstyleRMoney);
+                
                 HSSFCellStyle hCellstyleHColor = hWBook.createCellStyle();                         
                 hCellstyleHColor.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         
                 hCellstyleHColor.setFont(font16);                   
@@ -527,6 +535,12 @@ public class ATR031000 extends BKBPage {
                 hCellstyleRB.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
                 hCellstyleRB.setFont(font18B); 
                 CenterUtils.setCellBorder(hCellstyleRB);
+                
+                HSSFCellStyle hCellstyleRBMoney = hWBook.createCellStyle();
+                hCellstyleRBMoney.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+                hCellstyleRBMoney.setFont(font18B); 
+                hCellstyleRBMoney.setDataFormat(format.getFormat("#,##0.00"));
+                CenterUtils.setCellBorder(hCellstyleRBMoney);
 
                 hSheet.setColumnWidth(0,14000);
                 hSheet.setColumnWidth(1,14000);
@@ -690,8 +704,8 @@ public class ATR031000 extends BKBPage {
                             String data = almonthrv.get((j-1));
                             
                             cell = row.createCell(j);
-                            cell.setCellValue(format(Utils.NVL(data)));
-                            cell.setCellStyle(hCellstyleR);
+                            cell.setCellValue(CenterUtils.format(Utils.NVL(data)));
+                            cell.setCellStyle(hCellstyleRMoney);
 
                             if(j==1){
                                 totalrvx1 = totalrvx1.add(new BigDecimal(Utils.NVL(data).equals("")?"0":Utils.NVL(data)));
@@ -729,52 +743,52 @@ public class ATR031000 extends BKBPage {
                     cell.setCellStyle(hCellstyleRB);
                     
                     cell = row.createCell(1);
-                    cell.setCellValue(format(totalrvx1.toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format(totalrvx1.toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(2);
-                    cell.setCellValue(format(totalrvx2.toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format(totalrvx2.toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(3);
-                    cell.setCellValue(format(totalrvx3.toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format(totalrvx3.toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(4);
-                    cell.setCellValue(format(totalrvx4.toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format(totalrvx4.toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(5);
-                    cell.setCellValue(format(totalrvx5.toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format(totalrvx5.toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(6);
-                    cell.setCellValue(format(totalrvx6.toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format(totalrvx6.toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(7);
-                    cell.setCellValue(format(totalrvx7.toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format(totalrvx7.toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(8);
-                    cell.setCellValue(format(totalrvx8.toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format(totalrvx8.toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(9);
-                    cell.setCellValue(format(totalrvx9.toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format(totalrvx9.toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(10);
-                    cell.setCellValue(format(totalrvx10.toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format(totalrvx10.toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(11);
-                    cell.setCellValue(format(totalrvx11.toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format(totalrvx11.toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(12);
-                    cell.setCellValue(format(totalrvx12.toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format(totalrvx12.toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     //TODO Total RECEIVED
                     
@@ -815,8 +829,8 @@ public class ATR031000 extends BKBPage {
                             String data = almonthpay.get((j-1));
                             
                             cell = row.createCell(j);
-                            cell.setCellValue(format(Utils.NVL(data)));
-                            cell.setCellStyle(hCellstyleR);
+                            cell.setCellValue(CenterUtils.format(Utils.NVL(data)));
+                            cell.setCellStyle(hCellstyleRMoney);
 
                             
                             if(j==1){
@@ -855,52 +869,52 @@ public class ATR031000 extends BKBPage {
                     cell.setCellStyle(hCellstyleRB);
                     
                     cell = row.createCell(1);
-                    cell.setCellValue(format(totalpayx1.toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format(totalpayx1.toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(2);
-                    cell.setCellValue(format(totalpayx2.toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format(totalpayx2.toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(3);
-                    cell.setCellValue(format(totalpayx3.toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format(totalpayx3.toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(4);
-                    cell.setCellValue(format(totalpayx4.toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format(totalpayx4.toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(5);
-                    cell.setCellValue(format(totalpayx5.toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format(totalpayx5.toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(6);
-                    cell.setCellValue(format(totalpayx6.toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format(totalpayx6.toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(7);
-                    cell.setCellValue(format(totalpayx7.toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format(totalpayx7.toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(8);
-                    cell.setCellValue(format(totalpayx8.toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format(totalpayx8.toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(9);
-                    cell.setCellValue(format(totalpayx9.toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format(totalpayx9.toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(10);
-                    cell.setCellValue(format(totalpayx10.toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format(totalpayx10.toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(11);
-                    cell.setCellValue(format(totalpayx11.toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format(totalpayx11.toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(12);
-                    cell.setCellValue(format(totalpayx12.toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format(totalpayx12.toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     //TODO Total COST
                 
                     rowpad++;
@@ -912,52 +926,52 @@ public class ATR031000 extends BKBPage {
                     cell.setCellStyle(hCellstyleRB);
                     
                     cell = row.createCell(1);
-                    cell.setCellValue(format((totalpayx1.subtract(totalrvx1)).toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format((totalpayx1.subtract(totalrvx1)).toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(2);
-                    cell.setCellValue(format((totalpayx2.subtract(totalrvx2)).toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format((totalpayx2.subtract(totalrvx2)).toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(3);
-                    cell.setCellValue(format((totalpayx3.subtract(totalrvx3)).toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format((totalpayx3.subtract(totalrvx3)).toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(4);
-                    cell.setCellValue(format((totalpayx4.subtract(totalrvx4)).toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format((totalpayx4.subtract(totalrvx4)).toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(5);
-                    cell.setCellValue(format((totalpayx5.subtract(totalrvx5)).toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format((totalpayx5.subtract(totalrvx5)).toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(6);
-                    cell.setCellValue(format((totalpayx6.subtract(totalrvx6)).toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format((totalpayx6.subtract(totalrvx6)).toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(7);
-                    cell.setCellValue(format((totalpayx7.subtract(totalrvx7)).toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format((totalpayx7.subtract(totalrvx7)).toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(8);
-                    cell.setCellValue(format((totalpayx8.subtract(totalrvx8)).toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format((totalpayx8.subtract(totalrvx8)).toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(9);
-                    cell.setCellValue(format((totalpayx9.subtract(totalrvx9)).toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format((totalpayx9.subtract(totalrvx9)).toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(10);
-                    cell.setCellValue(format((totalpayx10.subtract(totalrvx10)).toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format((totalpayx10.subtract(totalrvx10)).toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(11);
-                    cell.setCellValue(format((totalpayx11.subtract(totalrvx11)).toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format((totalpayx11.subtract(totalrvx11)).toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     cell = row.createCell(12);
-                    cell.setCellValue(format((totalpayx12.subtract(totalrvx12)).toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format((totalpayx12.subtract(totalrvx12)).toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                     
                     ByteArrayOutputStream bOutput = new ByteArrayOutputStream();
@@ -982,10 +996,10 @@ public class ATR031000 extends BKBPage {
         
     }
     
-    private String format(String value){
-        DecimalFormat df = new DecimalFormat("###,##0.00");
-        return df.format( Utils.NVL(value).equals("")?new BigDecimal(0).doubleValue():new BigDecimal(Utils.NVL(value)).doubleValue());
-    }
+//    private String format(String value){
+//        DecimalFormat df = new DecimalFormat("###,##0.00");
+//        return df.format( Utils.NVL(value).equals("")?new BigDecimal(0).doubleValue():new BigDecimal(Utils.NVL(value)).doubleValue());
+//    }
      
     
     private boolean validategenDataExcel(){

@@ -880,8 +880,12 @@ public class CenterUtils{
                 return result;
     }
     
-    public static String format(String value){
+    public static String formatStringNumber(String value){
         DecimalFormat df = new DecimalFormat("###,##0.00");
         return df.format( Utils.NVL(value).equals("")?new BigDecimal(0).doubleValue():new BigDecimal(Utils.NVL(value)).doubleValue());
+    }
+    
+    public static double format(String value){
+        return Utils.NVL(value).equals("")?new BigDecimal(0).doubleValue():new BigDecimal(Utils.NVL(value)).doubleValue();
     }
 }

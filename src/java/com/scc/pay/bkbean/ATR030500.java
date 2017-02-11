@@ -43,6 +43,7 @@ import org.apache.poi.hssf.util.Region;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.ClientAnchor;
 import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.Drawing;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Picture;
@@ -505,6 +506,13 @@ public class ATR030500 extends BKBPage {
                 hCellstyleR.setFont(font14);                                                 
                 CenterUtils.setCellBorder(hCellstyleR);
                 
+                HSSFCellStyle hCellstyleRMoney = hWBook.createCellStyle();                       
+                hCellstyleRMoney.setAlignment(HSSFCellStyle.ALIGN_RIGHT);                         
+                hCellstyleRMoney.setFont(font14);                                                  
+                DataFormat format = hWBook.createDataFormat();
+                hCellstyleRMoney.setDataFormat(format.getFormat("#,##0.00"));
+                CenterUtils.setCellBorder(hCellstyleRMoney);
+                
                 HSSFCellStyle hCellstyleHColor = hWBook.createCellStyle();                         
                 hCellstyleHColor.setAlignment(HSSFCellStyle.ALIGN_CENTER);   
                 hCellstyleHColor.setVerticalAlignment(HSSFCellStyle.VERTICAL_TOP);
@@ -525,7 +533,8 @@ public class ATR030500 extends BKBPage {
                 
                 HSSFCellStyle hCellstyleRB = hWBook.createCellStyle();                         
                 hCellstyleRB.setAlignment(HSSFCellStyle.ALIGN_RIGHT);                         
-                hCellstyleRB.setFont(font18B);                                                 
+                hCellstyleRB.setFont(font18B);       
+                hCellstyleRMoney.setDataFormat(format.getFormat("#,##0.00"));
                 CenterUtils.setCellBorder(hCellstyleRB);
                 
 //                if (!Utils.NVL(this.getMasterdata().getSortoption()).equals("1")){
@@ -811,36 +820,36 @@ public class ATR030500 extends BKBPage {
 
 
                     cell = row.createCell(1);
-                    cell.setCellValue(format(Utils.NVL(fixdepositN[1])));
-                    cell.setCellStyle(hCellstyleR);
+                    cell.setCellValue(CenterUtils.format(Utils.NVL(fixdepositN[1])));
+                    cell.setCellStyle(hCellstyleRMoney);
 
                     cell = row.createCell(2);
-                    cell.setCellValue(format(Utils.NVL(fixdepositN[2])));
-                    cell.setCellStyle(hCellstyleR);
+                    cell.setCellValue(CenterUtils.format(Utils.NVL(fixdepositN[2])));
+                    cell.setCellStyle(hCellstyleRMoney);
 
                     cell = row.createCell(3);
-                    cell.setCellValue(format(Utils.NVL(fixdepositN[3])));
-                    cell.setCellStyle(hCellstyleR);
+                    cell.setCellValue(CenterUtils.format(Utils.NVL(fixdepositN[3])));
+                    cell.setCellStyle(hCellstyleRMoney);
 
                     cell = row.createCell(4);
-                    cell.setCellValue(format(Utils.NVL(fixdepositN[4])));
-                    cell.setCellStyle(hCellstyleR);
+                    cell.setCellValue(CenterUtils.format(Utils.NVL(fixdepositN[4])));
+                    cell.setCellStyle(hCellstyleRMoney);
                     
                     cell = row.createCell(5);
-                    cell.setCellValue(format(Utils.NVL(fixdepositN[5])));
-                    cell.setCellStyle(hCellstyleR);
+                    cell.setCellValue(CenterUtils.format(Utils.NVL(fixdepositN[5])));
+                    cell.setCellStyle(hCellstyleRMoney);
                     
                     cell = row.createCell(6);
-                    cell.setCellValue(format(Utils.NVL(fixdepositN[6])));
-                    cell.setCellStyle(hCellstyleR);
+                    cell.setCellValue(CenterUtils.format(Utils.NVL(fixdepositN[6])));
+                    cell.setCellStyle(hCellstyleRMoney);
                     
                     cell = row.createCell(7);
-                    cell.setCellValue(format(Utils.NVL(fixdepositN[7])));
-                    cell.setCellStyle(hCellstyleR);
+                    cell.setCellValue(CenterUtils.format(Utils.NVL(fixdepositN[7])));
+                    cell.setCellStyle(hCellstyleRMoney);
                     
                     cell = row.createCell(8);
-                    cell.setCellValue(format(Utils.NVL(fixdepositN[8])));
-                    cell.setCellStyle(hCellstyleR);
+                    cell.setCellValue(CenterUtils.format(Utils.NVL(fixdepositN[8])));
+                    cell.setCellStyle(hCellstyleRMoney);
 
 
                     actualmoneyN = actualmoneyN.add(new BigDecimal(Utils.NVL(fixdepositN[8]).equals("")?"0":Utils.NVL(fixdepositN[8])));
@@ -867,35 +876,35 @@ public class ATR030500 extends BKBPage {
 //                }
                 
                 cell = row.createCell(1);
-                cell.setCellValue(format(actualmoneyN1.toString()));
+                cell.setCellValue(CenterUtils.format(actualmoneyN1.toString()));
                 cell.setCellStyle(hCellstyleRB);
                 
                 cell = row.createCell(2);
-                cell.setCellValue(format(actualmoneyN2.toString()));
+                cell.setCellValue(CenterUtils.format(actualmoneyN2.toString()));
                 cell.setCellStyle(hCellstyleRB);
                 
                 cell = row.createCell(3);
-                cell.setCellValue(format(actualmoneyN3.toString()));
+                cell.setCellValue(CenterUtils.format(actualmoneyN3.toString()));
                 cell.setCellStyle(hCellstyleRB);
                 
                 cell = row.createCell(4);
-                cell.setCellValue(format(actualmoneyN4.toString()));
+                cell.setCellValue(CenterUtils.format(actualmoneyN4.toString()));
                 cell.setCellStyle(hCellstyleRB);
                 
                 cell = row.createCell(5);
-                cell.setCellValue(format(actualmoneyN5.toString()));
+                cell.setCellValue(CenterUtils.format(actualmoneyN5.toString()));
                 cell.setCellStyle(hCellstyleRB);
                 
                 cell = row.createCell(6);
-                cell.setCellValue(format(actualmoneyN6.toString()));
+                cell.setCellValue(CenterUtils.format(actualmoneyN6.toString()));
                 cell.setCellStyle(hCellstyleRB);
                 
                 cell = row.createCell(7);
-                cell.setCellValue(format(actualmoneyN7.toString()));
+                cell.setCellValue(CenterUtils.format(actualmoneyN7.toString()));
                 cell.setCellStyle(hCellstyleRB);
                 
                 cell = row.createCell(8);
-                cell.setCellValue(format(actualmoneyN.toString()));
+                cell.setCellValue(CenterUtils.format(actualmoneyN.toString()));
                 cell.setCellStyle(hCellstyleRB);
                 
                 
@@ -913,36 +922,36 @@ public class ATR030500 extends BKBPage {
 
 
                     cell = row.createCell(1);
-                    cell.setCellValue(format(Utils.NVL(fixdepositY[1])));
-                    cell.setCellStyle(hCellstyleR);
+                    cell.setCellValue(CenterUtils.format(Utils.NVL(fixdepositY[1])));
+                    cell.setCellStyle(hCellstyleRMoney);
 
                     cell = row.createCell(2);
-                    cell.setCellValue(format(Utils.NVL(fixdepositY[2])));
-                    cell.setCellStyle(hCellstyleR);
+                    cell.setCellValue(CenterUtils.format(Utils.NVL(fixdepositY[2])));
+                    cell.setCellStyle(hCellstyleRMoney);
 
                     cell = row.createCell(3);
-                    cell.setCellValue(format(Utils.NVL(fixdepositY[3])));
-                    cell.setCellStyle(hCellstyleR);
+                    cell.setCellValue(CenterUtils.format(Utils.NVL(fixdepositY[3])));
+                    cell.setCellStyle(hCellstyleRMoney);
 
                     cell = row.createCell(4);
-                    cell.setCellValue(format(Utils.NVL(fixdepositY[4])));
-                    cell.setCellStyle(hCellstyleR);
+                    cell.setCellValue(CenterUtils.format(Utils.NVL(fixdepositY[4])));
+                    cell.setCellStyle(hCellstyleRMoney);
                     
                     cell = row.createCell(5);
-                    cell.setCellValue(format(Utils.NVL(fixdepositY[5])));
-                    cell.setCellStyle(hCellstyleR);
+                    cell.setCellValue(CenterUtils.format(Utils.NVL(fixdepositY[5])));
+                    cell.setCellStyle(hCellstyleRMoney);
                     
                     cell = row.createCell(6);
-                    cell.setCellValue(format(Utils.NVL(fixdepositY[6])));
-                    cell.setCellStyle(hCellstyleR);
+                    cell.setCellValue(CenterUtils.format(Utils.NVL(fixdepositY[6])));
+                    cell.setCellStyle(hCellstyleRMoney);
                     
                     cell = row.createCell(7);
-                    cell.setCellValue(format(Utils.NVL(fixdepositY[7])));
-                    cell.setCellStyle(hCellstyleR);
+                    cell.setCellValue(CenterUtils.format(Utils.NVL(fixdepositY[7])));
+                    cell.setCellStyle(hCellstyleRMoney);
                     
                     cell = row.createCell(8);
-                    cell.setCellValue(format(Utils.NVL(fixdepositY[8])));
-                    cell.setCellStyle(hCellstyleR);
+                    cell.setCellValue(CenterUtils.format(Utils.NVL(fixdepositY[8])));
+                    cell.setCellStyle(hCellstyleRMoney);
 
 
                     actualmoneyY = actualmoneyY.add(new BigDecimal(Utils.NVL(fixdepositY[8]).equals("")?"0":Utils.NVL(fixdepositY[8])));
@@ -969,35 +978,35 @@ public class ATR030500 extends BKBPage {
 //                }
                 
                 cell = row.createCell(1);
-                cell.setCellValue(format(actualmoneyY1.toString()));
+                cell.setCellValue(CenterUtils.format(actualmoneyY1.toString()));
                 cell.setCellStyle(hCellstyleRB);
                 
                 cell = row.createCell(2);
-                cell.setCellValue(format(actualmoneyY2.toString()));
+                cell.setCellValue(CenterUtils.format(actualmoneyY2.toString()));
                 cell.setCellStyle(hCellstyleRB);
                 
                 cell = row.createCell(3);
-                cell.setCellValue(format(actualmoneyY3.toString()));
+                cell.setCellValue(CenterUtils.format(actualmoneyY3.toString()));
                 cell.setCellStyle(hCellstyleRB);
                 
                 cell = row.createCell(4);
-                cell.setCellValue(format(actualmoneyY4.toString()));
+                cell.setCellValue(CenterUtils.format(actualmoneyY4.toString()));
                 cell.setCellStyle(hCellstyleRB);
                 
                 cell = row.createCell(5);
-                cell.setCellValue(format(actualmoneyY5.toString()));
+                cell.setCellValue(CenterUtils.format(actualmoneyY5.toString()));
                 cell.setCellStyle(hCellstyleRB);
                 
                 cell = row.createCell(6);
-                cell.setCellValue(format(actualmoneyY6.toString()));
+                cell.setCellValue(CenterUtils.format(actualmoneyY6.toString()));
                 cell.setCellStyle(hCellstyleRB);
                 
                 cell = row.createCell(7);
-                cell.setCellValue(format(actualmoneyY7.toString()));
+                cell.setCellValue(CenterUtils.format(actualmoneyY7.toString()));
                 cell.setCellStyle(hCellstyleRB);
                 
                 cell = row.createCell(8);
-                cell.setCellValue(format(actualmoneyY.toString()));
+                cell.setCellValue(CenterUtils.format(actualmoneyY.toString()));
                 cell.setCellStyle(hCellstyleRB);
                 
 //                row = hSheet.createRow(sizealN+sizealY+2+8);
@@ -1075,35 +1084,35 @@ public class ATR030500 extends BKBPage {
                         
                         
                         cell = row.createCell(1);
-                        cell.setCellValue(format(Utils.NVL(hmpre2.get("actualmoney"))));
+                        cell.setCellValue(CenterUtils.format(Utils.NVL(hmpre2.get("actualmoney"))));
                         cell.setCellStyle(hCellstyleR);
                         
                         cell = row.createCell(2);
-                        cell.setCellValue(format(Utils.NVL(hm2.get("received"))));
+                        cell.setCellValue(CenterUtils.format(Utils.NVL(hm2.get("received"))));
                         cell.setCellStyle(hCellstyleR);
                         
                         cell = row.createCell(3);
-                        cell.setCellValue(format(Utils.NVL(hm2.get("paid"))));
+                        cell.setCellValue(CenterUtils.format(Utils.NVL(hm2.get("paid"))));
                         cell.setCellStyle(hCellstyleR);
                         
                         cell = row.createCell(4);
-                        cell.setCellValue(format(Utils.NVL(hmpre2.get("bpchqrcv"))));
+                        cell.setCellValue(CenterUtils.format(Utils.NVL(hmpre2.get("bpchqrcv"))));
                         cell.setCellStyle(hCellstyleR);
                         
                         cell = row.createCell(5);
-                        cell.setCellValue(format(Utils.NVL(hm2.get("bpchqpaid"))));
+                        cell.setCellValue(CenterUtils.format(Utils.NVL(hm2.get("bpchqpaid"))));
                         cell.setCellStyle(hCellstyleR);
                         
                         cell = row.createCell(6);
-                        cell.setCellValue(format(Utils.NVL(hm2.get("btchqrcv"))));
+                        cell.setCellValue(CenterUtils.format(Utils.NVL(hm2.get("btchqrcv"))));
                         cell.setCellStyle(hCellstyleR);
                         
                         cell = row.createCell(7);
-                        cell.setCellValue(format(Utils.NVL(hm2.get("btchqpaid"))));
+                        cell.setCellValue(CenterUtils.format(Utils.NVL(hm2.get("btchqpaid"))));
                         cell.setCellStyle(hCellstyleR);
                         
                         cell = row.createCell(8);
-                        cell.setCellValue(format(Utils.NVL(hm2.get("actualmoney"))));
+                        cell.setCellValue(CenterUtils.format(Utils.NVL(hm2.get("actualmoney"))));
                         cell.setCellStyle(hCellstyleR);
                         
 
@@ -1132,10 +1141,10 @@ public class ATR030500 extends BKBPage {
         
     }
     
-    private String format(String value){
-        DecimalFormat df = new DecimalFormat("###,##0.00");
-        return df.format( Utils.NVL(value).equals("")?new BigDecimal(0).doubleValue():new BigDecimal(Utils.NVL(value)).doubleValue());
-    }
+//    private String format(String value){
+//        DecimalFormat df = new DecimalFormat("###,##0.00");
+//        return df.format( Utils.NVL(value).equals("")?new BigDecimal(0).doubleValue():new BigDecimal(Utils.NVL(value)).doubleValue());
+//    }
      
     
     private boolean validategenDataExcel(){

@@ -42,6 +42,7 @@ import org.apache.poi.hssf.util.Region;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.ClientAnchor;
 import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.Drawing;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Picture;
@@ -507,7 +508,9 @@ public class ATR030400 extends BKBPage {
                 
                 HSSFCellStyle hCellstyleR = hWBook.createCellStyle();                         
                 hCellstyleR.setAlignment(HSSFCellStyle.ALIGN_RIGHT);                        
-                hCellstyleR.setFont(font14);                                                
+                hCellstyleR.setFont(font14); 
+                DataFormat format = hWBook.createDataFormat();
+                hCellstyleR.setDataFormat(format.getFormat("#,##0.00"));
                 CenterUtils.setCellBorder(hCellstyleR);
                 
                 HSSFCellStyle hCellstyleHColor = hWBook.createCellStyle();                         
@@ -595,11 +598,11 @@ public class ATR030400 extends BKBPage {
                         cell.setCellStyle(hCellstyleL);
                         
                         cell = row.createCell(1);
-                        cell.setCellValue(format(Utils.NVL(hm.get("receivedamount"))));
+                        cell.setCellValue(CenterUtils.format(Utils.NVL(hm.get("receivedamount"))));
                         cell.setCellStyle(hCellstyleR);
                         
                         cell = row.createCell(2);
-                        cell.setCellValue(format(Utils.NVL(hm.get("paidamount"))));
+                        cell.setCellValue(CenterUtils.format(Utils.NVL(hm.get("paidamount"))));
                         cell.setCellStyle(hCellstyleR);
                         
                         
@@ -616,11 +619,11 @@ public class ATR030400 extends BKBPage {
                 cell.setCellStyle(hCellstyleL);   
                 
                 cell = row.createCell(1);
-                cell.setCellValue(format(receivedamount.toString()));
+                cell.setCellValue(CenterUtils.format(receivedamount.toString()));
                 cell.setCellStyle(hCellstyleR);
 
                 cell = row.createCell(2);
-                cell.setCellValue(format(paidamount.toString()));
+                cell.setCellValue(CenterUtils.format(paidamount.toString()));
                 cell.setCellStyle(hCellstyleR);
                 //=========================    
                     
@@ -652,11 +655,11 @@ public class ATR030400 extends BKBPage {
                         cell.setCellStyle(hCellstyleL);
 
                         cell = row.createCell(1);
-                        cell.setCellValue(format(Utils.NVL(hm2.get("amount"))));
+                        cell.setCellValue(CenterUtils.format(Utils.NVL(hm2.get("amount"))));
                         cell.setCellStyle(hCellstyleR);
                         
                         cell = row.createCell(2);
-                        cell.setCellValue(format(Utils.NVL(hm2.get("amount2"))));
+                        cell.setCellValue(CenterUtils.format(Utils.NVL(hm2.get("amount2"))));
                         cell.setCellStyle(hCellstyleR);
 
                         amount = amount.add(new BigDecimal(Utils.NVL(hm2.get("amount")).equals("")?"0":Utils.NVL(hm2.get("amount"))));
@@ -671,11 +674,11 @@ public class ATR030400 extends BKBPage {
                     cell.setCellStyle(hCellstyleL);   
 
                     cell = row.createCell(1);
-                    cell.setCellValue(format(amount.toString()));
+                    cell.setCellValue(CenterUtils.format(amount.toString()));
                     cell.setCellStyle(hCellstyleR);
 
                     cell = row.createCell(2);
-                    cell.setCellValue(format(amount2.toString()));
+                    cell.setCellValue(CenterUtils.format(amount2.toString()));
                     cell.setCellStyle(hCellstyleR);
                     //=========================  
                 }
@@ -704,10 +707,10 @@ public class ATR030400 extends BKBPage {
         
     }
     
-    private String format(String value){
-        DecimalFormat df = new DecimalFormat("###,##0.00");
-        return df.format( Utils.NVL(value).equals("")?new BigDecimal(0).doubleValue():new BigDecimal(Utils.NVL(value)).doubleValue());
-    }
+//    private String format(String value){
+//        DecimalFormat df = new DecimalFormat("###,##0.00");
+//        return df.format( Utils.NVL(value).equals("")?new BigDecimal(0).doubleValue():new BigDecimal(Utils.NVL(value)).doubleValue());
+//    }
      
     
     private boolean validategenDataExcel(){

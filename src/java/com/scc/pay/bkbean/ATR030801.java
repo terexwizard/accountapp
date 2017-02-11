@@ -39,6 +39,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.hssf.util.Region;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.Font;
 
 /**
@@ -504,6 +505,8 @@ public class ATR030801 extends BKBPage {
                 HSSFCellStyle hCellstyleR = hWBook.createCellStyle();                          //กำหนด style cell
                 hCellstyleR.setAlignment(HSSFCellStyle.ALIGN_RIGHT);                         //กำหนด ตัวอักษรให้อยู่ซ้าย
                 hCellstyleR.setFont(font14);                                                  //เรียกใช้ style font
+                DataFormat format = hWBook.createDataFormat();
+                hCellstyleR.setDataFormat(format.getFormat("#,##0.00"));
                 CenterUtils.setCellBorder(hCellstyleR);
                 
                 HSSFCellStyle hCellstyleHColor = hWBook.createCellStyle();                         
@@ -518,6 +521,7 @@ public class ATR030801 extends BKBPage {
                 hCellstyleHColorR.setFont(font16);                   
                 hCellstyleHColorR.setFillForegroundColor(HSSFColor.LIGHT_TURQUOISE.index);
                 hCellstyleHColorR.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+                hCellstyleHColorR.setDataFormat(format.getFormat("#,##0.00"));
                 CenterUtils.setCellBorder(hCellstyleHColorR);
                 
                 Font font18B = hWBook.createFont();                                           //กำหนด font style
@@ -647,7 +651,7 @@ public class ATR030801 extends BKBPage {
                         cell.setCellStyle(hCellstyleL);
 
                         cell = row.createCell(2);
-                        cell.setCellValue(format(Utils.NVL(hmvalue.get("sumdata"))));
+                        cell.setCellValue(CenterUtils.format(Utils.NVL(hmvalue.get("sumdata"))));
                         cell.setCellStyle(hCellstyleR);
                         
                         
@@ -661,7 +665,7 @@ public class ATR030801 extends BKBPage {
                 
                 row = hSheet.createRow(rowpad);
                  cell = row.createCell(2);
-                 cell.setCellValue(format(sumtotal.toString()));
+                 cell.setCellValue(CenterUtils.format(sumtotal.toString()));
                  cell.setCellStyle(hCellstyleHColorR);
                 
                 ByteArrayOutputStream bOutput = new ByteArrayOutputStream();
@@ -681,10 +685,10 @@ public class ATR030801 extends BKBPage {
     }
     
     
-    private String format(String value){
-        DecimalFormat df = new DecimalFormat("###,##0.00");
-        return df.format( Utils.NVL(value).equals("")?new BigDecimal(0).doubleValue():new BigDecimal(Utils.NVL(value)).doubleValue());
-    }
+//    private String format(String value){
+//        DecimalFormat df = new DecimalFormat("###,##0.00");
+//        return df.format( Utils.NVL(value).equals("")?new BigDecimal(0).doubleValue():new BigDecimal(Utils.NVL(value)).doubleValue());
+//    }
     
     private String replaceName(String name){
         String result = name.replace("[", "");

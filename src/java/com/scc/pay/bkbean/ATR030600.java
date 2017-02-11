@@ -43,6 +43,7 @@ import org.apache.poi.hssf.util.Region;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.ClientAnchor;
 import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.Drawing;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Picture;
@@ -507,6 +508,14 @@ public class ATR030600 extends BKBPage {
                 hCellstyleR.setFont(font14);                                                  //เรียกใช้ style font
                 CenterUtils.setCellBorder(hCellstyleR);
                 
+                                
+                HSSFCellStyle hCellstyleRMoney = hWBook.createCellStyle();                       
+                hCellstyleRMoney.setAlignment(HSSFCellStyle.ALIGN_RIGHT);                         
+                hCellstyleRMoney.setFont(font14);                                                  
+                DataFormat format = hWBook.createDataFormat();
+                hCellstyleRMoney.setDataFormat(format.getFormat("#,##0.00"));
+                CenterUtils.setCellBorder(hCellstyleRMoney);
+                
                 HSSFCellStyle hCellstyleHColor = hWBook.createCellStyle();                         
                 hCellstyleHColor.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         
                 hCellstyleHColor.setFont(font14);                   
@@ -608,15 +617,15 @@ public class ATR030600 extends BKBPage {
                         cell = row.createCell(3);
                         logger.debug(">>terex "+hm.get("moneyr"));
                         if(!Utils.NVL(hm.get("moneyr")).equals("0.0")){
-                            cell.setCellValue(format(Utils.NVL(hm.get("moneyr"))));
+                            cell.setCellValue(CenterUtils.format(Utils.NVL(hm.get("moneyr"))));
                             
                             totalth = totalth.add(new BigDecimal(Utils.NVL(hm.get("moneyr")).equals("")?"0":Utils.NVL(hm.get("moneyr"))));
                         }else{
-                            cell.setCellValue(format(Utils.NVL(hm.get("moneyp"))));
+                            cell.setCellValue(CenterUtils.format(Utils.NVL(hm.get("moneyp"))));
                             
                             totalth = totalth.add(new BigDecimal(Utils.NVL(hm.get("moneyp")).equals("")?"0":Utils.NVL(hm.get("moneyp"))));
                         }
-                        cell.setCellStyle(hCellstyleR);
+                        cell.setCellStyle(hCellstyleRMoney);
                         
                         cell = row.createCell(4);
                         cell.setCellValue(getvaluevoucherno(Utils.NVL(hm.get("dailyid"))));
@@ -638,8 +647,8 @@ public class ATR030600 extends BKBPage {
 
 
                     cell = row.createCell(3);
-                    cell.setCellValue(format(totalth.toString()));
-                    cell.setCellStyle(hCellstyleR); 
+                    cell.setCellValue(CenterUtils.format(totalth.toString()));
+                    cell.setCellStyle(hCellstyleRMoney); 
                     
                     cell = row.createCell(4);
                     cell.setCellValue("");
@@ -677,15 +686,15 @@ public class ATR030600 extends BKBPage {
                         
                         cell = row.createCell(3);
                         if(!Utils.NVL(hm2.get("moneyr")).equals("0.0")){
-                            cell.setCellValue(format(Utils.NVL(hm2.get("moneyr"))));
+                            cell.setCellValue(CenterUtils.format(Utils.NVL(hm2.get("moneyr"))));
                             
                             totalus = totalus.add(new BigDecimal(Utils.NVL(hm2.get("moneyr")).equals("")?"0":Utils.NVL(hm2.get("moneyr"))));
                         }else{
-                            cell.setCellValue(format(Utils.NVL(hm2.get("moneyp"))));
+                            cell.setCellValue(CenterUtils.format(Utils.NVL(hm2.get("moneyp"))));
                             
                             totalus = totalus.add(new BigDecimal(Utils.NVL(hm2.get("moneyp")).equals("")?"0":Utils.NVL(hm2.get("moneyp"))));
                         }
-                        cell.setCellStyle(hCellstyleR);
+                        cell.setCellStyle(hCellstyleRMoney);
                         
                         cell = row.createCell(4);
                         cell.setCellValue(getvaluevoucherno(Utils.NVL(hm2.get("dailyid"))));
@@ -706,8 +715,8 @@ public class ATR030600 extends BKBPage {
                     cell.setCellStyle(hCellstyleR);
 
                     cell = row.createCell(3);
-                    cell.setCellValue(format(totalus.toString()));
-                    cell.setCellStyle(hCellstyleR);  
+                    cell.setCellValue(CenterUtils.format(totalus.toString()));
+                    cell.setCellStyle(hCellstyleRMoney);  
                     
                     cell = row.createCell(4);
                     cell.setCellValue("");
@@ -736,10 +745,10 @@ public class ATR030600 extends BKBPage {
         
     }
     
-    private String format(String value){
-        DecimalFormat df = new DecimalFormat("###,##0.00");
-        return df.format( Utils.NVL(value).equals("")?new BigDecimal(0).doubleValue():new BigDecimal(Utils.NVL(value)).doubleValue());
-    }
+//    private String format(String value){
+//        DecimalFormat df = new DecimalFormat("###,##0.00");
+//        return df.format( Utils.NVL(value).equals("")?new BigDecimal(0).doubleValue():new BigDecimal(Utils.NVL(value)).doubleValue());
+//    }
      
     
     private boolean validategenDataExcel(){

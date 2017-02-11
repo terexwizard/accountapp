@@ -38,6 +38,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.hssf.util.Region;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.Font;
 
 /**
@@ -514,6 +515,13 @@ public class ATR031200 extends BKBPage {
                 hCellstyleR.setFont(font14);                                                  //เรียกใช้ style font
                 CenterUtils.setCellBorder(hCellstyleR);
                 
+                HSSFCellStyle hCellstyleRMoney = hWBook.createCellStyle();                       
+                hCellstyleRMoney.setAlignment(HSSFCellStyle.ALIGN_RIGHT);                         
+                hCellstyleRMoney.setFont(font14);                                                  
+                DataFormat format = hWBook.createDataFormat();
+                hCellstyleRMoney.setDataFormat(format.getFormat("#,##0.00"));
+                CenterUtils.setCellBorder(hCellstyleRMoney);
+                
                 HSSFCellStyle hCellstyleHColor = hWBook.createCellStyle();                         
                 hCellstyleHColor.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         
                 hCellstyleHColor.setFont(font14);                   
@@ -536,8 +544,13 @@ public class ATR031200 extends BKBPage {
                 hCellstyleRB.setFont(font18B); 
                 CenterUtils.setCellBorder(hCellstyleRB);
                 
+                HSSFCellStyle hCellstyleRBMoney = hWBook.createCellStyle();                         
+                hCellstyleRBMoney.setAlignment(HSSFCellStyle.ALIGN_RIGHT);                         
+                hCellstyleRBMoney.setFont(font18B);
+                hCellstyleRBMoney.setDataFormat(format.getFormat("#,##0.00"));
+                CenterUtils.setCellBorder(hCellstyleRBMoney);
                 
-
+                
                 
                 //=======Header============ 
                 HashMap<String, Object> hmdata = new HashMap<String, Object>();
@@ -645,8 +658,8 @@ public class ATR031200 extends BKBPage {
                                 cell.setCellStyle(hCellstyleL);
                                 
                                 cell = row.createCell(3);
-                                cell.setCellValue(format(Utils.NVL(hmmonthpayment.get("amount2"))));
-                                cell.setCellStyle(hCellstyleR);
+                                cell.setCellValue(CenterUtils.format(Utils.NVL(hmmonthpayment.get("amount2"))));
+                                cell.setCellStyle(hCellstyleRMoney);
                                 
                                 totalpay = totalpay.add(new BigDecimal(Utils.NVL(hmmonthpayment.get("amount2")).equals("")?"0":Utils.NVL(hmmonthpayment.get("amount2"))));
                                         
@@ -669,8 +682,8 @@ public class ATR031200 extends BKBPage {
                                 cell.setCellStyle(hCellstyleRB);
 
                                 cell = row.createCell(3);
-                                cell.setCellValue(format(totalpay.toString()));
-                                cell.setCellStyle(hCellstyleRB);
+                                cell.setCellValue(CenterUtils.format(totalpay.toString()));
+                                cell.setCellStyle(hCellstyleRBMoney);
 
                                 rowpad++;
                             }
@@ -679,7 +692,7 @@ public class ATR031200 extends BKBPage {
                     }
                     
                     hmdataall.put(i+"name", hmcompany.get(i+"name"));
-                    hmdataall.put(i+"amount", format(totalallpay.toString()));
+                    hmdataall.put(i+"amount", CenterUtils.formatStringNumber(totalallpay.toString()));
                     
                     
                     hSheet.addMergedRegion(new Region(rowpad,(short)0,rowpad,(short)2));
@@ -697,8 +710,8 @@ public class ATR031200 extends BKBPage {
                     cell.setCellStyle(hCellstyleRB);
 
                     cell = row.createCell(3);
-                    cell.setCellValue(format(totalallpay.toString()));
-                    cell.setCellStyle(hCellstyleRB);
+                    cell.setCellValue(CenterUtils.format(totalallpay.toString()));
+                    cell.setCellStyle(hCellstyleRBMoney);
                     
                 }
                      
@@ -767,10 +780,10 @@ public class ATR031200 extends BKBPage {
         
     }
     
-    private String format(String value){
-        DecimalFormat df = new DecimalFormat("###,##0.00");
-        return df.format( Utils.NVL(value).equals("")?new BigDecimal(0).doubleValue():new BigDecimal(Utils.NVL(value)).doubleValue());
-    }
+//    private String format(String value){
+//        DecimalFormat df = new DecimalFormat("###,##0.00");
+//        return df.format( Utils.NVL(value).equals("")?new BigDecimal(0).doubleValue():new BigDecimal(Utils.NVL(value)).doubleValue());
+//    }
      
     
     private boolean validategenDataExcel(){

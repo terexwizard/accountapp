@@ -3076,6 +3076,7 @@
             t.currency,
             c.currencyname,
             t.remark,
+            t.consigneename,
             case
               when t.paymentsuccess is null then 'N'
               else t.paymentsuccess
@@ -3878,6 +3879,17 @@
             d.amount,
             d.receivedamount,
             d.exchangerate,
+        
+            case
+                when (b.monetaryusd = 'true') then d.amount
+                else '0.00'
+            end amountusd,
+            case
+                when (b.monetaryusd = 'false') then d.amount
+                else '0.00'
+            end amountth,
+        
+        
             concat(d.voucherno,'',d.docno) as voucherno_disp 
         FROM daily d left outer join tb_bank b on (d.payby = b.bankid) 
         where d.paidamount = 0.00 and d.amount2 = 0.00 
@@ -3945,6 +3957,16 @@
             d.amount2,
             d.paidamount,
             d.exchangerate,
+        
+            case
+                when (b.monetaryusd = 'true') then d.amount2
+                else '0.00'
+            end amountusd,
+            case
+                when (b.monetaryusd = 'false') then d.amount2
+                else '0.00'
+            end amountth,
+        
             concat(d.voucherno,'',d.docno) as voucherno_disp 
         FROM daily d  left outer join tb_bank b on (d.payby = b.bankid) 
         where d.receivedamount = 0.00 and d.amount = 0.00
@@ -4003,7 +4025,7 @@
     <Type></Type>
     <SQL>
         
-        SELECT sum(d.receivedamount) receivedamount
+        SELECT sum(d.amount) receivedamount
         FROM daily d left outer join tb_bank b on (d.payby = b.bankid) 
         where d.paidamount = 0.00 and d.amount2 = 0.00 and d.payby <![CDATA[<>]]> 2
             <var name="dailydatest" woper="and" >and d.dailydate <![CDATA[>=]]> '<value/>' </var>
@@ -4131,7 +4153,7 @@
     <Type></Type>
     <SQL>
         
-        SELECT sum(d.paidamount) paidamount 
+        SELECT sum(d.amount2) paidamount 
         FROM daily d  left outer join tb_bank b on (d.payby = b.bankid) 
         where d.receivedamount = 0.00 and d.amount = 0.00 and d.payby <![CDATA[<>]]> 2
             <var name="dailydatest" woper="and" >and d.dailydate <![CDATA[>=]]> '<value/>' </var>

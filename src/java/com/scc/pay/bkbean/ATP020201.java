@@ -637,7 +637,7 @@ public class ATP020201 extends BKBPage {
             }
         }
         
-        this.getMasterdata().setTotal(CenterUtils.format(total.toString()));
+        this.getMasterdata().setTotal(CenterUtils.formatStringNumber(total.toString()));
     }
     
 }

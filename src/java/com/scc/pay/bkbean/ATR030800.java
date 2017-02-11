@@ -42,6 +42,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.hssf.util.Region;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.Font;
 import org.eclipse.persistence.internal.jpa.metadata.structures.ArrayAccessor;
 
@@ -558,6 +559,13 @@ public class ATR030800 extends BKBPage {
                 hCellstyleR.setFont(font14);                                                  //เรียกใช้ style font
                 CenterUtils.setCellBorder(hCellstyleR);
                 
+                HSSFCellStyle hCellstyleRMoney = hWBook.createCellStyle();                       
+                hCellstyleRMoney.setAlignment(HSSFCellStyle.ALIGN_RIGHT);                         
+                hCellstyleRMoney.setFont(font14);                                                  
+                DataFormat format = hWBook.createDataFormat();
+                hCellstyleRMoney.setDataFormat(format.getFormat("#,##0.00"));
+                CenterUtils.setCellBorder(hCellstyleRMoney);
+                
                 HSSFCellStyle hCellstyleHColor = hWBook.createCellStyle();                         
                 hCellstyleHColor.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         
                 hCellstyleHColor.setFont(font16);                   
@@ -577,6 +585,7 @@ public class ATR030800 extends BKBPage {
                 hCellstyleHColorR.setFont(font16);                   
                 hCellstyleHColorR.setFillForegroundColor(HSSFColor.LIGHT_TURQUOISE.index);
                 hCellstyleHColorR.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+                hCellstyleHColorR.setDataFormat(format.getFormat("#,##0.00"));
                 CenterUtils.setCellBorder(hCellstyleHColorR);
                                 
                 Font font18B = hWBook.createFont();                                           //กำหนด font style
@@ -726,8 +735,8 @@ public class ATR030800 extends BKBPage {
                         cell.setCellStyle(hCellstyle);
 
                         cell = row.createCell(4);
-                        cell.setCellValue(format(Utils.NVL(hmmonth.get("totalall"))));
-                        cell.setCellStyle(hCellstyleR);
+                        cell.setCellValue(CenterUtils.format(Utils.NVL(hmmonth.get("totalall"))));
+                        cell.setCellStyle(hCellstyleRMoney);
                         rowpad++;
                         
                         sumtotal1 = sumtotal1.add(new BigDecimal(Utils.NVL(hmmonth.get("totalall")).equals("")?"0.00":Utils.NVL(hmmonth.get("totalall"))));
@@ -735,7 +744,7 @@ public class ATR030800 extends BKBPage {
                     
                      row = hSheet.createRow(rowpad);
                      cell = row.createCell(4);
-                     cell.setCellValue(format(sumtotal1.toString()));
+                     cell.setCellValue(CenterUtils.format(sumtotal1.toString()));
                      cell.setCellStyle(hCellstyleHColorR);
                     
                     
@@ -804,6 +813,13 @@ public class ATR030800 extends BKBPage {
                 hCellstyleR.setFont(font14);                                                  //เรียกใช้ style font
                 CenterUtils.setCellBorder(hCellstyleR);
                 
+                HSSFCellStyle hCellstyleRMoney = hWBook.createCellStyle();                       
+                hCellstyleRMoney.setAlignment(HSSFCellStyle.ALIGN_RIGHT);                         
+                hCellstyleRMoney.setFont(font14);                                                  
+                DataFormat format = hWBook.createDataFormat();
+                hCellstyleRMoney.setDataFormat(format.getFormat("#,##0.00"));
+                CenterUtils.setCellBorder(hCellstyleRMoney);
+                
                 HSSFCellStyle hCellstyleHColor = hWBook.createCellStyle();                         
                 hCellstyleHColor.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         
                 hCellstyleHColor.setFont(font14);                   
@@ -816,6 +832,7 @@ public class ATR030800 extends BKBPage {
                 hCellstyleHColorR.setFont(font16);                   
                 hCellstyleHColorR.setFillForegroundColor(HSSFColor.LIGHT_TURQUOISE.index);
                 hCellstyleHColorR.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+                hCellstyleHColorR.setDataFormat(format.getFormat("#,##0.00"));
                 CenterUtils.setCellBorder(hCellstyleHColorR);
                 
                 Font font18B = hWBook.createFont();                                           //กำหนด font style
@@ -1098,8 +1115,8 @@ public class ATR030800 extends BKBPage {
                                 cell.setCellStyle(hCellstyle);
 
                                 cell = row.createCell(4);
-                                cell.setCellValue(format(Utils.NVL(hmcompanymonth.get("totalall"))));
-                                cell.setCellStyle(hCellstyleR);   
+                                cell.setCellValue(CenterUtils.format(Utils.NVL(hmcompanymonth.get("totalall"))));
+                                cell.setCellStyle(hCellstyleRMoney);   
 
 
 
@@ -1137,19 +1154,19 @@ public class ATR030800 extends BKBPage {
 
                             cell = row.createCell(4);
                             if(i==3){
-                                cell.setCellValue(format(sumtotal3.toString()));
+                                cell.setCellValue(CenterUtils.format(sumtotal3.toString()));
                                 
                                 alcompanyrowx.add(sumtotal3.toString());
                             }else if(i==2){
-                                cell.setCellValue(format(sumtotal2.toString()));
+                                cell.setCellValue(CenterUtils.format(sumtotal2.toString()));
                                 
                                 alcompanyrowx.add(sumtotal2.toString());
                             }else if(i==1){
-                                cell.setCellValue(format(sumtotal1.toString()));
+                                cell.setCellValue(CenterUtils.format(sumtotal1.toString()));
                                 
                                 alcompanyrowx.add(sumtotal1.toString());
                             }else if(i==0){
-                                cell.setCellValue(format(sumtotal0.toString()));
+                                cell.setCellValue(CenterUtils.format(sumtotal0.toString()));
                                 
                                 alcompanyrowx.add(sumtotal0.toString());
                             }
@@ -1178,7 +1195,7 @@ public class ATR030800 extends BKBPage {
                     cell.setCellStyle(hCellstyleR);
 
                     cell = row.createCell(4);
-                    cell.setCellValue(format(sumtotalall.toString()));
+                    cell.setCellValue(CenterUtils.format(sumtotalall.toString()));
                     cell.setCellStyle(hCellstyleHColorR); 
                     
                     
@@ -1246,7 +1263,7 @@ public class ATR030800 extends BKBPage {
                     cell.setCellStyle(hCellstyleL);
                                         
                     cell = row.createCell(1);
-                    cell.setCellValue(format(Utils.NVL(alcompanyrowxx.get(6))));
+                    cell.setCellValue(CenterUtils.format(Utils.NVL(alcompanyrowxx.get(6))));
                     cell.setCellStyle(hCellstyleHColorR);
                     
 //                    cell = row.createCell(1);
@@ -1329,6 +1346,13 @@ public class ATR030800 extends BKBPage {
                 hCellstyleR.setFont(font14);                                                  //เรียกใช้ style font
                 CenterUtils.setCellBorder(hCellstyleR);
                 
+                HSSFCellStyle hCellstyleRMoney = hWBook.createCellStyle();                       
+                hCellstyleRMoney.setAlignment(HSSFCellStyle.ALIGN_RIGHT);                         
+                hCellstyleRMoney.setFont(font14);                                                  
+                DataFormat format = hWBook.createDataFormat();
+                hCellstyleRMoney.setDataFormat(format.getFormat("#,##0.00"));
+                CenterUtils.setCellBorder(hCellstyleRMoney);
+                
                 HSSFCellStyle hCellstyleHColor = hWBook.createCellStyle();                         
                 hCellstyleHColor.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         
                 hCellstyleHColor.setFont(font16);                   
@@ -1348,6 +1372,7 @@ public class ATR030800 extends BKBPage {
                 hCellstyleHColorR.setFont(font16);                   
                 hCellstyleHColorR.setFillForegroundColor(HSSFColor.LIGHT_TURQUOISE.index);
                 hCellstyleHColorR.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+                hCellstyleHColorR.setDataFormat(format.getFormat("#,##0.00"));
                 CenterUtils.setCellBorder(hCellstyleHColorR);
                 
                 Font font18B = hWBook.createFont();                                           //กำหนด font style
@@ -1499,24 +1524,26 @@ public class ATR030800 extends BKBPage {
                         cell.setCellStyle(hCellstyle);
                         
                         cell = row.createCell(4);
-                        cell.setCellValue(format(Utils.NVL(hminvoice.get("totalall"))));
-                        cell.setCellStyle(hCellstyleR);
+                        cell.setCellValue(CenterUtils.format(Utils.NVL(hminvoice.get("totalall"))));
+                        cell.setCellStyle(hCellstyleRMoney);
 
                         cell = row.createCell(5);
                         cell.setCellValue(Utils.convertDateStringToScreen(Utils.NVL(hminvoice.get("duedate")),"/"));
                         cell.setCellStyle(hCellstyle);
 
                         cell = row.createCell(6);
-                        cell.setCellValue(Utils.NVL(hminvoice.get("clearflag")).equals("true")?format(Utils.NVL(hminvoice.get("totalall"))):"0.00");
-                        cell.setCellStyle(hCellstyleR);
+                        //cell.setCellValue(Utils.NVL(hminvoice.get("clearflag")).equals("true")?format(Utils.NVL(hminvoice.get("totalall"))):"0.00");
+                        cell.setCellValue(Utils.NVL(hminvoice.get("clearflag")).equals("true")?CenterUtils.format(Utils.NVL(hminvoice.get("totalall"))):new Double("0.00"));
+                        cell.setCellStyle(hCellstyleRMoney);
                         
                         cell = row.createCell(7);
                         cell.setCellValue(Utils.convertDateStringToScreen(Utils.NVL(hminvoice.get("cleardate")),"/"));
                         cell.setCellStyle(hCellstyle);
 
                         cell = row.createCell(8);
-                        cell.setCellValue(Utils.NVL(hminvoice.get("clearflag")).equals("true")?"0.00":format(Utils.NVL(hminvoice.get("totalall"))));
-                        cell.setCellStyle(hCellstyleR);
+                        //cell.setCellValue(Utils.NVL(hminvoice.get("clearflag")).equals("true")?"0.00":format(Utils.NVL(hminvoice.get("totalall"))));
+                        cell.setCellValue(Utils.NVL(hminvoice.get("clearflag")).equals("true")?new Double("0.00"):CenterUtils.format(Utils.NVL(hminvoice.get("totalall"))));
+                        cell.setCellStyle(hCellstyleRMoney);
 
                         cell = row.createCell(9);
                         cell.setCellValue("");
@@ -1544,7 +1571,7 @@ public class ATR030800 extends BKBPage {
                     
                      row = hSheet.createRow(rowpad);
                      cell = row.createCell(4);
-                     cell.setCellValue(format(sumtotal1.toString()));
+                     cell.setCellValue(CenterUtils.format(sumtotal1.toString()));
                      cell.setCellStyle(hCellstyleHColorR);
                      
                      cell = row.createCell(5);
@@ -1552,7 +1579,7 @@ public class ATR030800 extends BKBPage {
                      cell.setCellStyle(hCellstyleHColorR);
                     
                      cell = row.createCell(6);
-                     cell.setCellValue(format(sumtotal2.toString()));
+                     cell.setCellValue(CenterUtils.format(sumtotal2.toString()));
                      cell.setCellStyle(hCellstyleHColorR);
                      
                       cell = row.createCell(7);
@@ -1560,14 +1587,14 @@ public class ATR030800 extends BKBPage {
                      cell.setCellStyle(hCellstyleHColorR);
                      
                      cell = row.createCell(8);
-                     cell.setCellValue(format(sumtotal1.subtract(sumtotal2).toString()));
+                     cell.setCellValue(CenterUtils.format(sumtotal1.subtract(sumtotal2).toString()));
                      cell.setCellStyle(hCellstyleHColorR);
                      
                       cell = row.createCell(9);
                      cell.setCellValue("");
                      cell.setCellStyle(hCellstyleHColorR);
                      
-                     String[] arrs = {company,format(sumtotal1.toString()),format(sumtotal2.toString()),format(sumtotal1.subtract(sumtotal2).toString())};
+                     String[] arrs = {company,CenterUtils.formatStringNumber(sumtotal1.toString()),CenterUtils.formatStringNumber(sumtotal2.toString()),CenterUtils.formatStringNumber(sumtotal1.subtract(sumtotal2).toString())};
                      al.add(Arrays.asList(arrs));
                     
                     rowpad++;
@@ -1636,15 +1663,15 @@ public class ATR030800 extends BKBPage {
                 row = hSheet.createRow(rowpad);
                     
                  cell = row.createCell(2);
-                 cell.setCellValue(format(sumfinal1.toString()));
+                 cell.setCellValue(CenterUtils.format(sumfinal1.toString()));
                  cell.setCellStyle(hCellstyleHColorR);
 
                  cell = row.createCell(3);
-                 cell.setCellValue(format(sumfinal2.toString()));
+                 cell.setCellValue(CenterUtils.format(sumfinal2.toString()));
                  cell.setCellStyle(hCellstyleHColorR);
 
                  cell = row.createCell(4);
-                 cell.setCellValue(format(sumfinal3.toString()));
+                 cell.setCellValue(CenterUtils.format(sumfinal3.toString()));
                  cell.setCellStyle(hCellstyleHColorR);
                 
                 
@@ -1667,10 +1694,10 @@ public class ATR030800 extends BKBPage {
         
     }
     
-    private String format(String value){
-        DecimalFormat df = new DecimalFormat("###,##0.00");
-        return df.format( Utils.NVL(value).equals("")?new BigDecimal(0).doubleValue():new BigDecimal(Utils.NVL(value)).doubleValue());
-    }
+//    private String format(String value){
+//        DecimalFormat df = new DecimalFormat("###,##0.00");
+//        return df.format( Utils.NVL(value).equals("")?new BigDecimal(0).doubleValue():new BigDecimal(Utils.NVL(value)).doubleValue());
+//    }
      
     
     private boolean validategenDataExcel(){

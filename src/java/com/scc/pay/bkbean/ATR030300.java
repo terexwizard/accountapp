@@ -40,6 +40,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.hssf.util.Region;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.Font;
 
 /**
@@ -507,6 +508,13 @@ public class ATR030300 extends BKBPage {
                 hCellstyleR.setFont(font14);                                                  //เรียกใช้ style font
                 CenterUtils.setCellBorder(hCellstyleR);
                 
+                HSSFCellStyle hCellstyleRMoney = hWBook.createCellStyle();                       
+                hCellstyleRMoney.setAlignment(HSSFCellStyle.ALIGN_RIGHT);                         
+                hCellstyleRMoney.setFont(font14);                                                  
+                DataFormat format = hWBook.createDataFormat();
+                hCellstyleRMoney.setDataFormat(format.getFormat("#,##0.00"));
+                CenterUtils.setCellBorder(hCellstyleRMoney);
+                
                 Font font18B = hWBook.createFont();                                           //กำหนด font style
                 font18B.setFontHeightInPoints((short)16);                                     //กำหนดขนาดของ font
                 font18B.setFontName("Angsana New");
@@ -614,8 +622,8 @@ public class ATR030300 extends BKBPage {
                     }
                     
                     cell = row.createCell(1);
-                    cell.setCellValue(format(bfth.toString()));
-                    cell.setCellStyle(hCellstyleR);
+                    cell.setCellValue(CenterUtils.format(bfth.toString()));
+                    cell.setCellStyle(hCellstyleRMoney);
 
                     //Query Data us
                     HashMap hmpreus = new HashMap<String, String>();
@@ -628,8 +636,8 @@ public class ATR030300 extends BKBPage {
                     }
                     
                     cell = row.createCell(2);
-                    cell.setCellValue(format(bfus.toString()));
-                    cell.setCellStyle(hCellstyleR);
+                    cell.setCellValue(CenterUtils.format(bfus.toString()));
+                    cell.setCellStyle(hCellstyleRMoney);
                     
                     
                     BigDecimal totalrevth = new BigDecimal(0);
@@ -645,12 +653,12 @@ public class ATR030300 extends BKBPage {
                         cell.setCellStyle(hCellstyleL);
                         
                         cell = row.createCell(1);
-                        cell.setCellValue(format(Utils.NVL(hm.get("receivedamount"))));
-                        cell.setCellStyle(hCellstyleR);
+                        cell.setCellValue(CenterUtils.format(Utils.NVL(hm.get("receivedamount"))));
+                        cell.setCellStyle(hCellstyleRMoney);
                         
                         cell = row.createCell(2);
-                        cell.setCellValue(format(Utils.NVL(hm.get("amount"))));
-                        cell.setCellStyle(hCellstyleR);
+                        cell.setCellValue(CenterUtils.format(Utils.NVL(hm.get("amount"))));
+                        cell.setCellStyle(hCellstyleRMoney);
                         
                         
                         totalrevth = totalrevth.add(new BigDecimal(Utils.NVL(hm.get("receivedamount")).equals("")?"0":Utils.NVL(hm.get("receivedamount"))));
@@ -666,12 +674,12 @@ public class ATR030300 extends BKBPage {
                 cell.setCellStyle(hCellstyleR);   
                 
                 cell = row.createCell(1);
-                cell.setCellValue(format(totalrevth.toString()));
-                cell.setCellStyle(hCellstyleR);
+                cell.setCellValue(CenterUtils.format(totalrevth.toString()));
+                cell.setCellStyle(hCellstyleRMoney);
 
                 cell = row.createCell(2);
-                cell.setCellValue(format(totalrevus.toString()));
-                cell.setCellStyle(hCellstyleR);
+                cell.setCellValue(CenterUtils.format(totalrevus.toString()));
+                cell.setCellStyle(hCellstyleRMoney);
                 //=========================    
                     
                 //Query Data sumdaily_paiddall
@@ -716,12 +724,12 @@ public class ATR030300 extends BKBPage {
                         cell.setCellStyle(hCellstyleL);
 
                         cell = row.createCell(1);
-                        cell.setCellValue(format(Utils.NVL(hm2.get("paidamount"))));
-                        cell.setCellStyle(hCellstyleR);
+                        cell.setCellValue(CenterUtils.format(Utils.NVL(hm2.get("paidamount"))));
+                        cell.setCellStyle(hCellstyleRMoney);
                         
                         cell = row.createCell(2);
-                        cell.setCellValue(format(Utils.NVL(hm2.get("amount2"))));
-                        cell.setCellStyle(hCellstyleR);
+                        cell.setCellValue(CenterUtils.format(Utils.NVL(hm2.get("amount2"))));
+                        cell.setCellStyle(hCellstyleRMoney);
 
                         totalpaidth = totalpaidth.add(new BigDecimal(Utils.NVL(hm2.get("paidamount")).equals("")?"0":Utils.NVL(hm2.get("paidamount"))));
                         totalpaidus = totalpaidus.add(new BigDecimal(Utils.NVL(hm2.get("amount2")).equals("")?"0":Utils.NVL(hm2.get("amount2"))));
@@ -735,12 +743,12 @@ public class ATR030300 extends BKBPage {
                     cell.setCellStyle(hCellstyleR);   
 
                     cell = row.createCell(1);
-                    cell.setCellValue(format(totalpaidth.toString()));
-                    cell.setCellStyle(hCellstyleR);
+                    cell.setCellValue(CenterUtils.format(totalpaidth.toString()));
+                    cell.setCellStyle(hCellstyleRMoney);
 
                     cell = row.createCell(2);
-                    cell.setCellValue(format(totalpaidus.toString()));
-                    cell.setCellStyle(hCellstyleR);
+                    cell.setCellValue(CenterUtils.format(totalpaidus.toString()));
+                    cell.setCellStyle(hCellstyleRMoney);
                     //=========================  
                     
                     row = hSheet.createRow(rowpad+1+size2+1+2);
@@ -751,8 +759,8 @@ public class ATR030300 extends BKBPage {
                     BigDecimal pendingth = calpendingth(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()));
                     
                     cell = row.createCell(1);
-                    cell.setCellValue(format(  pendingth.toString()  ));
-                    cell.setCellStyle(hCellstyleR);
+                    cell.setCellValue(CenterUtils.format(  pendingth.toString()  ));
+                    cell.setCellStyle(hCellstyleRMoney);
 
                     cell = row.createCell(2);
                     cell.setCellValue("-");
@@ -778,12 +786,12 @@ public class ATR030300 extends BKBPage {
                     tmpbfus = tmpbfus.subtract(totalpaidus); 
                     
                     cell = row.createCell(1);
-                    cell.setCellValue(format(  tmpbfth.toString()    ));
-                    cell.setCellStyle(hCellstyleR);
+                    cell.setCellValue(CenterUtils.format(  tmpbfth.toString()    ));
+                    cell.setCellStyle(hCellstyleRMoney);
 
                     cell = row.createCell(2);
-                    cell.setCellValue(format( tmpbfus.toString() ));
-                    cell.setCellStyle(hCellstyleR);
+                    cell.setCellValue(CenterUtils.format( tmpbfus.toString() ));
+                    cell.setCellStyle(hCellstyleRMoney);
                 }
                 
                 
@@ -810,10 +818,10 @@ public class ATR030300 extends BKBPage {
         
     }
     
-    private String format(String value){
-        DecimalFormat df = new DecimalFormat("###,##0.00");
-        return df.format( Utils.NVL(value).equals("")?new BigDecimal(0).doubleValue():new BigDecimal(Utils.NVL(value)).doubleValue());
-    }
+//    private String format(String value){
+//        DecimalFormat df = new DecimalFormat("###,##0.00");
+//        return df.format( Utils.NVL(value).equals("")?new BigDecimal(0).doubleValue():new BigDecimal(Utils.NVL(value)).doubleValue());
+//    }
      
     
     private boolean validategenDataExcel(){
