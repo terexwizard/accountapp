@@ -33,6 +33,7 @@ public class ATP020100U extends BusinessImpl {
       updateDaily(frmi);
       
       //===========================
+      if(!frmi.getMasterdata().isIsProcess()){
         HashMap<String,Object> vhm = new HashMap<String,Object>();
         vhm.put("user", frmi.getUserid());
         vhm.put("dailydate", Utils.formatDateToStringToDBEn(frmi.getMasterdata().getDailydate()));
@@ -40,6 +41,7 @@ public class ATP020100U extends BusinessImpl {
 
         IBusinessBase ib = BusinessFactory.getBusiness("PROCESSBRINGFORWARDUPDATE");
         ib.processBackground(vhm);
+      }
       
       frmi.setOk(true);
       return inobj;

@@ -57,14 +57,26 @@
                     <p:column>
                       <h:outputLabel value="Received Date"/>
                     </p:column>
-                    <p:column>
-                        <p:calendar id="dailydate" value="#{aTP020100.masterdata.dailydate}"
-                                    size="10" maxlength="10" locale="en" showOn="button" disabled="false"
-                                    converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true"
-                                    required="true" label="Received Date">
-                            <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
-                            <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
-                        </p:calendar>
+                      <p:column style="padding: 0px;">
+                        <p:panelGrid>
+                            <p:row>
+                                <p:column >
+                                    <p:calendar id="dailydate" value="#{aTP020100.masterdata.dailydate}"
+                                                size="10" maxlength="10" locale="en" showOn="button" disabled="false"
+                                                converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true"
+                                                required="true" label="Received Date">
+                                        <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
+                                        <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
+                                    </p:calendar>
+                                </p:column>
+                                <p:column >
+                                    
+                                    <p:selectBooleanCheckbox label="Not Process" value="#{aTP020100.masterdata.isProcess}" 
+                                                             itemLabel="Not Process" rendered="#{aTP020100.modeupdate}"/>
+                                    
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
                          
                     </p:column>
                   </p:row>

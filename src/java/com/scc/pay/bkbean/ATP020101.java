@@ -76,6 +76,7 @@ public class ATP020101 extends BKBPage {
         private Date dailydate;
         private Date dailydatefn;
         private String nowdate;
+        private boolean isProcess;
         
         private boolean monetaryusd = false;
 
@@ -122,9 +123,15 @@ public class ATP020101 extends BKBPage {
             this.nowdate = nowdate;
         }
 
+        public boolean isIsProcess() {
+            return isProcess;
+        }
 
-        
+        public void setIsProcess(boolean isProcess) {
+            this.isProcess = isProcess;
+        }
 
+       
     }
     
     

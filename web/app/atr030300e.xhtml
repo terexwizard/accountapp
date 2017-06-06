@@ -26,18 +26,72 @@
                 <p:panelGrid>
                     <p:row>
                         <p:column>
-                          <h:outputLabel value="Date"/>
+                            <h:outputLabel value="Type"/>
                         </p:column>
                         <p:column>
-                             <p:calendar id="dailydatest" value="#{aTR030300.masterdata.dailydatest}"
-                                         size="10" maxlength="10" locale="en" showOn="button" 
-                                         converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true">
-                                <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
-                                <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
-                            </p:calendar>
-
+                            <p:selectOneRadio value="#{aTR030300.masterdata.type}">
+                                <f:selectItem itemLabel="Daily" itemValue="1"/>
+                                <f:selectItem itemLabel="Month" itemValue="2"/>
+                                <p:ajax process="@this" update="opllabel,oplvalue,opllabel2,oplvalue2"/>
+                            </p:selectOneRadio>
                         </p:column>
-                  </p:row>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                          <p:outputPanel id="opllabel" style="padding: 0px;">
+                                <h:outputLabel value="Date" rendered="#{aTR030300.masterdata.type eq '1'}"/>
+                                <h:outputLabel value="Month" rendered="#{aTR030300.masterdata.type eq '2'}"/>
+                          </p:outputPanel>
+                        </p:column>
+                        <p:column>
+                            
+                            <p:outputPanel id="oplvalue">
+                                <p:calendar id="dailydatest" value="#{aTR030300.masterdata.dailydatest}"
+                                            size="10" maxlength="10" locale="en" showOn="button" 
+                                            rendered="#{aTR030300.masterdata.type eq '1'}"
+                                            converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true">
+                                   <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
+                                   <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
+                               </p:calendar>
+
+
+
+                               <p:selectOneMenu  value="#{aTR030300.masterdata.month}" style="width: 150px;"
+                                                     rendered="#{aTR030300.masterdata.type eq '2'}">
+                                       <f:selectItems value="#{bKBRdb.month}"/>
+                               </p:selectOneMenu>
+                               &nbsp;
+                               <p:selectOneMenu  value="#{aTR030300.masterdata.year}"
+                                                 rendered="#{aTR030300.masterdata.type eq '2'}">
+                                   <f:selectItems value="#{bKBQuery.comboYear}"/>
+                               </p:selectOneMenu>
+                            </p:outputPanel>
+                            
+                        </p:column>
+                    </p:row> 
+                    <p:row>
+                        <p:column>
+                          <p:outputPanel id="opllabel2" style="padding: 0px;">
+                                <h:outputLabel value="Month" rendered="#{aTR030300.masterdata.type eq '2'}"/>
+                          </p:outputPanel>
+                        </p:column>
+                        <p:column>
+                            
+                            <p:outputPanel id="oplvalue2">
+
+                               <p:selectOneMenu  value="#{aTR030300.masterdata.month2}" style="width: 150px;"
+                                                     rendered="#{aTR030300.masterdata.type eq '2'}">
+                                       <f:selectItems value="#{bKBRdb.month}"/>
+                               </p:selectOneMenu>
+                               &nbsp;
+                               <p:selectOneMenu  value="#{aTR030300.masterdata.year2}"
+                                                 rendered="#{aTR030300.masterdata.type eq '2'}">
+                                   <f:selectItems value="#{bKBQuery.comboYear}"/>
+                               </p:selectOneMenu>
+                            </p:outputPanel>
+                            
+                        </p:column>
+                    </p:row> 
                 </p:panelGrid>
             
             

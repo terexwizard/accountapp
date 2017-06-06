@@ -12,7 +12,6 @@ import com.scc.f1.business.IBusinessBase;
 import com.scc.f1.util.MessageUtil;
 import com.scc.f1.util.Utils;
 import com.scc.pay.db.Daily;
-import com.scc.pay.db.TbBank;
 import com.scc.pay.util.CenterUtils;
 import com.scc.pay.util.FaceUtil;
 import java.io.ByteArrayOutputStream;
@@ -26,11 +25,9 @@ import java.util.List;
 import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import java.text.DecimalFormat;
 import java.math.BigDecimal;
 
 import javax.faces.context.FacesContext;
-import javax.persistence.Query;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -100,6 +97,11 @@ public class ATR030300 extends BKBPage {
         private Date dailydatest;
         private Date dailydatefn;
         private String receivesuccess = "";
+        private String type = "";
+        private String month = "";
+        private String year = "";
+        private String month2 = "";
+        private String year2 = "";
 
         public Daily getDaily() {
             if(daily == null){
@@ -136,8 +138,46 @@ public class ATR030300 extends BKBPage {
             this.receivesuccess = receivesuccess;
         }
 
-        
+        public String getType() {
+            return type;
+        }
 
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public String getMonth() {
+            return month;
+        }
+
+        public void setMonth(String month) {
+            this.month = month;
+        }
+
+        public String getYear() {
+            return year;
+        }
+
+        public void setYear(String year) {
+            this.year = year;
+        }
+
+        public String getMonth2() {
+            return month2;
+        }
+
+        public void setMonth2(String month2) {
+            this.month2 = month2;
+        }
+
+        public String getYear2() {
+            return year2;
+        }
+
+        public void setYear2(String year2) {
+            this.year2 = year2;
+        }
+     
     }
     
     
@@ -285,7 +325,11 @@ public class ATR030300 extends BKBPage {
         logger.debug(">>terex "+validategenDataExcel());
         
         if(validategenDataExcel()){
-            genDataExcel();
+            if(Utils.NVL(this.getMasterdata().getType()).equals("1")){  //รายวัน
+                genDataExcel();
+            }else if(Utils.NVL(this.getMasterdata().getType()).equals("2")){  //รายเดือน
+                genDataExcelMonth();
+            }
         }
         
     }
@@ -385,6 +429,10 @@ public class ATR030300 extends BKBPage {
 //        
 //        this.getSearchparam();
 //        search();
+        
+        if(Utils.NVL(this.getMasterdata().getType()).equals("")){
+            this.getMasterdata().setType("1");
+        }
     }
     
     private void search(){
@@ -818,6 +866,287 @@ public class ATR030300 extends BKBPage {
         
     }
     
+    
+    
+     public void genDataExcelMonth(){
+        
+            
+            HSSFCell cell    = null; 
+            OutputStream out = null;
+            double ONEPIXEL      = 36.57;
+            
+            try{
+                
+                String pathFile = Constant.context_realpath+"/templeteExcel/ATR030100.xls";   //ชี้ path  file excel
+
+                logger.debug(">>pathFile "+pathFile.replace("\\", "/"));
+
+                FileInputStream fIn	 = new FileInputStream(pathFile.replace("\\", "/")); //instance เปิดไฟล์
+                POIFSFileSystem fPOI = new POIFSFileSystem(fIn);                             //instance POI cycle
+                HSSFWorkbook hWBook = new HSSFWorkbook(fPOI);                                //instance สร้าง workbook     
+                HSSFSheet hSheet = hWBook.getSheetAt(0);                                     //instance เลือก sheetที่ 1
+
+                Font font16 = hWBook.createFont();                                           //กำหนด font style
+                font16.setFontHeightInPoints((short)16);                                     //กำหนดขนาดของ font
+                font16.setFontName("Angsana New");                                         //กำหนด font
+                font16.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);                              //กำหนด font ให้เป็นตัวหนา
+
+                Font font14 = hWBook.createFont();                                           //กำหนด font style
+                font14.setFontHeightInPoints((short)14);                                     //กำหนดขนาดของ font
+                font14.setFontName("Angsana New");                                         //กำหนด font
+
+                HSSFCellStyle hCellstyle = hWBook.createCellStyle();                          //กำหนด style cell
+                hCellstyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         //กำหนด ตัวอักษรให้อยู่กึ่งกลาง
+                hCellstyle.setFont(font14);                                                  //เรียกใช้ style font
+                CenterUtils.setCellBorder(hCellstyle);
+                
+                HSSFCellStyle hCellstyleHColor = hWBook.createCellStyle();                         
+                hCellstyleHColor.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         
+                hCellstyleHColor.setFont(font14);                   
+                hCellstyleHColor.setFillForegroundColor(HSSFColor.LIGHT_GREEN.index);
+                hCellstyleHColor.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+                CenterUtils.setCellBorder(hCellstyleHColor);
+                
+                HSSFCellStyle hCellstyleL = hWBook.createCellStyle();                          //กำหนด style cell
+                hCellstyleL.setAlignment(HSSFCellStyle.ALIGN_LEFT);                         //กำหนด ตัวอักษรให้อยู่ซ้าย
+                hCellstyleL.setFont(font14);                                                  //เรียกใช้ style font
+                CenterUtils.setCellBorder(hCellstyleL);
+                
+                HSSFCellStyle hCellstyleR = hWBook.createCellStyle();                          //กำหนด style cell
+                hCellstyleR.setAlignment(HSSFCellStyle.ALIGN_RIGHT);                         //กำหนด ตัวอักษรให้อยู่ซ้าย
+                hCellstyleR.setFont(font14);                                                  //เรียกใช้ style font
+                CenterUtils.setCellBorder(hCellstyleR);
+                
+                HSSFCellStyle hCellstyleRMoney = hWBook.createCellStyle();                       
+                hCellstyleRMoney.setAlignment(HSSFCellStyle.ALIGN_RIGHT);                         
+                hCellstyleRMoney.setFont(font14);                                                  
+                DataFormat format = hWBook.createDataFormat();
+                hCellstyleRMoney.setDataFormat(format.getFormat("#,##0.00"));
+                CenterUtils.setCellBorder(hCellstyleRMoney);
+                
+                Font font18B = hWBook.createFont();                                           //กำหนด font style
+                font18B.setFontHeightInPoints((short)16);                                     //กำหนดขนาดของ font
+                font18B.setFontName("Angsana New");
+                font18B.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);                              //กำหนด font ให้เป็นตัวหนา
+                
+                HSSFCellStyle hCellstyleCB = hWBook.createCellStyle();                          //กำหนด style cell
+                hCellstyleCB.setAlignment(HSSFCellStyle.ALIGN_LEFT);                         //กำหนด ตัวอักษรให้อยู่ซ้าย
+                hCellstyleCB.setFont(font18B);                                                  //เรียกใช้ style font
+                
+                HSSFCellStyle hCellstyleHBC = hWBook.createCellStyle();                          //กำหนด style cell
+                hCellstyleHBC.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         //กำหนด ตัวอักษรให้อยู่ซ้าย
+                hCellstyleHBC.setFont(font18B);                                                  //เรียกใช้ style font
+
+                
+                hSheet.setColumnWidth(0,10000);
+                
+                //=======Header============ 
+                hSheet.addMergedRegion(new Region(0,(short)0,0,(short)2));
+                HSSFRow row = hSheet.createRow(0);      
+                cell = row.createCell(0);
+                cell.setCellValue("Cash Flow Status");
+                cell.setCellStyle(hCellstyleHBC);
+                
+                
+                
+                String header = "Date : " + CenterUtils.formatDateToStringShowTime(Utils.getcurDateTime());
+
+                hSheet.addMergedRegion(new Region(1,(short)0,1,(short)2));
+                row = hSheet.createRow(1);      
+                cell = row.createCell(0);
+                cell.setCellValue(header);
+                cell.setCellStyle(hCellstyleCB);
+                
+                cell = row.createCell(6);
+                cell.setCellValue("ATR030300");
+                cell.setCellStyle(hCellstyleCB);
+                                
+                String condition = "Condition :";
+                if(this.getMasterdata().getYear().equals(this.getMasterdata().getYear2()) && this.getMasterdata().getMonth().equals(this.getMasterdata().getMonth2())){
+                    condition += CenterUtils.getENMonth(Integer.parseInt(this.getMasterdata().getMonth()),0)+" "+this.getMasterdata().getYear();
+                }else if(this.getMasterdata().getYear().equals(this.getMasterdata().getYear2())){
+                    condition += CenterUtils.getENMonth(Integer.parseInt(this.getMasterdata().getMonth()),0)+"-"+
+                            CenterUtils.getENMonth(Integer.parseInt(this.getMasterdata().getMonth2()),0)+" "+
+                            this.getMasterdata().getYear();
+                }else{
+                    condition += CenterUtils.getENMonth(Integer.parseInt(this.getMasterdata().getMonth()),0)+" "+this.getMasterdata().getYear();
+                    condition += "-";
+                    condition += CenterUtils.getENMonth(Integer.parseInt(this.getMasterdata().getMonth2()),0)+" "+this.getMasterdata().getYear2();
+                }
+                
+                hSheet.addMergedRegion(new Region(2,(short)0,2,(short)2));
+                row = hSheet.createRow(2);      
+                cell = row.createCell(0);
+                cell.setCellValue(condition);
+                cell.setCellStyle(hCellstyleCB);
+
+                //Query Data
+                HashMap hm = new HashMap<String, String>();
+                hm.put("dailydatest", this.getMasterdata().getYear()+this.getMasterdata().getMonth()+"01");
+                hm.put("dailydatefn", this.getMasterdata().getYear2()+this.getMasterdata().getMonth2()+"31");
+
+                List l = CenterUtils.selectData(hm,"sumdaily_receivedall");
+
+
+                if(!l.isEmpty()){
+
+                    
+                    row = hSheet.createRow(3);      
+                    cell = row.createCell(0);
+                    cell.setCellValue("Received");
+                    cell.setCellStyle(hCellstyleCB);
+                    
+                    row = hSheet.createRow(4);      
+                    cell = row.createCell(0);
+                    cell.setCellValue("Detail");
+                    cell.setCellStyle(hCellstyleHColor);
+
+
+                    cell = row.createCell(1);
+                    cell.setCellValue("BATH");
+                    cell.setCellStyle(hCellstyleHColor);
+
+                    cell = row.createCell(2);
+                    cell.setCellValue("USD");
+                    cell.setCellStyle(hCellstyleHColor);
+                    
+                    
+                    
+                    BigDecimal totalrevth = new BigDecimal(0);
+                    BigDecimal totalrevus = new BigDecimal(0);
+                    int size = l.size();
+                    for(int i=0;i<size;i++){
+
+                        hm = (HashMap)l.get(i);
+
+                        row = hSheet.createRow(5+i);
+                        cell = row.createCell(0);
+                        cell.setCellValue(Utils.NVL(hm.get("redesc")));
+                        cell.setCellStyle(hCellstyleL);
+                        
+                        cell = row.createCell(1);
+                        cell.setCellValue(CenterUtils.format(Utils.NVL(hm.get("receivedamount"))));
+                        cell.setCellStyle(hCellstyleRMoney);
+                        
+                        cell = row.createCell(2);
+                        cell.setCellValue(CenterUtils.format(Utils.NVL(hm.get("amount"))));
+                        cell.setCellStyle(hCellstyleRMoney);
+                        
+                        
+                        totalrevth = totalrevth.add(new BigDecimal(Utils.NVL(hm.get("receivedamount")).equals("")?"0":Utils.NVL(hm.get("receivedamount"))));
+                        totalrevus = totalrevus.add(new BigDecimal(Utils.NVL(hm.get("amount")).equals("")?"0":Utils.NVL(hm.get("amount"))));
+                                
+
+                }
+                 
+                //=========Total=============== 
+                row = hSheet.createRow(size+5);
+                cell = row.createCell(0);
+                cell.setCellValue("Total");
+                cell.setCellStyle(hCellstyleR);   
+                
+                cell = row.createCell(1);
+                cell.setCellValue(CenterUtils.format(totalrevth.toString()));
+                cell.setCellStyle(hCellstyleRMoney);
+
+                cell = row.createCell(2);
+                cell.setCellValue(CenterUtils.format(totalrevus.toString()));
+                cell.setCellStyle(hCellstyleRMoney);
+                //=========================    
+                    
+                //Query Data sumdaily_paiddall
+                HashMap hm2 = new HashMap<String, String>();
+                hm2.put("dailydatest", this.getMasterdata().getYear()+this.getMasterdata().getMonth()+"01");
+                hm2.put("dailydatefn", this.getMasterdata().getYear2()+this.getMasterdata().getMonth2()+"31");
+
+                List l2 = CenterUtils.selectData(hm2,"sumdaily_paiddall");
+                int rowpad = (size+8);
+                if(!l2.isEmpty()){
+
+                    
+                    row = hSheet.createRow(rowpad);      
+                    cell = row.createCell(0);
+                    cell.setCellValue("Paid");
+                    cell.setCellStyle(hCellstyleCB);
+                    
+                    row = hSheet.createRow(rowpad+1);      
+                    cell = row.createCell(0);
+                    cell.setCellValue("Detail");
+                    cell.setCellStyle(hCellstyleHColor);
+                    cell = row.createCell(1);
+                    cell.setCellValue("BATH");
+                    cell.setCellStyle(hCellstyleHColor);
+
+                    cell = row.createCell(2);
+                    cell.setCellValue("USD");
+                    cell.setCellStyle(hCellstyleHColor);
+                    //===================
+                    
+                    BigDecimal totalpaidth = new BigDecimal(0);
+                    BigDecimal totalpaidus = new BigDecimal(0);
+                    int size2 = l2.size();
+                    for(int i=0;i<size2;i++){
+
+                        hm2 = (HashMap)l2.get(i);
+
+                        row = hSheet.createRow((rowpad+2)+i);      
+                        cell = row.createCell(0);
+                        cell.setCellValue(Utils.NVL(hm2.get("paydesc")));
+                        cell.setCellStyle(hCellstyleL);
+
+                        cell = row.createCell(1);
+                        cell.setCellValue(CenterUtils.format(Utils.NVL(hm2.get("paidamount"))));
+                        cell.setCellStyle(hCellstyleRMoney);
+                        
+                        cell = row.createCell(2);
+                        cell.setCellValue(CenterUtils.format(Utils.NVL(hm2.get("amount2"))));
+                        cell.setCellStyle(hCellstyleRMoney);
+
+                        totalpaidth = totalpaidth.add(new BigDecimal(Utils.NVL(hm2.get("paidamount")).equals("")?"0":Utils.NVL(hm2.get("paidamount"))));
+                        totalpaidus = totalpaidus.add(new BigDecimal(Utils.NVL(hm2.get("amount2")).equals("")?"0":Utils.NVL(hm2.get("amount2"))));
+                        
+                    }
+                    
+                    //=========Total=============== 
+                    row = hSheet.createRow(rowpad+1+size2+1);
+                    cell = row.createCell(0);
+                    cell.setCellValue("Total");
+                    cell.setCellStyle(hCellstyleR);   
+
+                    cell = row.createCell(1);
+                    cell.setCellValue(CenterUtils.format(totalpaidth.toString()));
+                    cell.setCellStyle(hCellstyleRMoney);
+
+                    cell = row.createCell(2);
+                    cell.setCellValue(CenterUtils.format(totalpaidus.toString()));
+                    cell.setCellStyle(hCellstyleRMoney);
+                    
+                }
+                
+                
+
+   
+                ByteArrayOutputStream bOutput = new ByteArrayOutputStream();
+                hWBook.write(bOutput);
+
+                FaceUtil.getDownloadfile(bOutput, "ATR030300_"+CenterUtils.formatfileNameDatetime()+".xls");
+                
+            }else{
+                String msg = "ไม่พบข้อมูล";
+                addInfoMessage(null, msg, msg);
+            }
+
+            }catch(FileNotFoundException e){    
+                e.printStackTrace();
+            }catch(IOException e){    
+                e.printStackTrace();
+            }finally{
+
+            }
+   
+        
+    }
+    
 //    private String format(String value){
 //        DecimalFormat df = new DecimalFormat("###,##0.00");
 //        return df.format( Utils.NVL(value).equals("")?new BigDecimal(0).doubleValue():new BigDecimal(Utils.NVL(value)).doubleValue());
@@ -827,13 +1156,32 @@ public class ATR030300 extends BKBPage {
     private boolean validategenDataExcel(){
        boolean isok = true;
        
-       if((this.getMasterdata().getDailydatest() == null)){
-                
+       if(Utils.NVL(this.getMasterdata().getType()).equals("1") && Utils.NVL(this.getMasterdata().getDailydatest()).equals("")){
             String msg = MessageUtil.getMessage("EP006");
             addErrorMessage(null,msg,msg);
             return false;
-
-        }
+       }
+       
+       if(Utils.NVL(this.getMasterdata().getType()).equals("2")){
+           int year = Integer.parseInt(this.getMasterdata().getYear()+this.getMasterdata().getMonth());
+           int year2 = Integer.parseInt(this.getMasterdata().getYear2()+this.getMasterdata().getMonth2());
+           
+           
+           if(year > year2){
+                String msg = MessageUtil.getMessage("EP012");
+                addErrorMessage(null,msg,msg);
+                return false;
+           }
+       }
+       
+       
+//       if((this.getMasterdata().getDailydatest() == null)){
+//                
+//            String msg = MessageUtil.getMessage("EP006");
+//            addErrorMessage(null,msg,msg);
+//            return false;
+//
+//        }
        
 //       if((this.getMasterdata().getDailydatest() == null && this.getMasterdata().getDailydatefn() == null)){
 //                

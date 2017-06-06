@@ -39,6 +39,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.hssf.util.Region;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.Font;
@@ -632,6 +633,9 @@ public class ATR031500 extends BKBPage {
                     cell.setCellValue("Oversea Report Received");
                     cell.setCellStyle(hCellstyleCB);
                     
+                    cell = row.createCell(3);
+                    cell.setCellStyle(hCellstyleR);
+                    
                     //==================RECEIVED======================
                     
                     row = hSheet.createRow(4);      
@@ -640,7 +644,7 @@ public class ATR031500 extends BKBPage {
                     cell.setCellStyle(hCellstyleHColor);
                     
                     cell = row.createCell(1);
-                    cell.setCellValue("COMPANY'NAME");
+                    cell.setCellValue("COMPANYNAME");
                     cell.setCellStyle(hCellstyleHColor);
                     
                     cell = row.createCell(2);
