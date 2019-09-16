@@ -612,8 +612,8 @@ public class ATR030300 extends BKBPage {
                 cell.setCellValue("ATR030300");
                 cell.setCellStyle(hCellstyleCB);
                                 
-                String condition = "Condition :"+Utils.convertDateStringToScreen(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()),"/");
-                
+                String condition = "Condition Date:"+Utils.convertDateStringToScreen(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()),"/");
+                condition += "-"+Utils.convertDateStringToScreen(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatefn()),"/");
                 
                 hSheet.addMergedRegion(new Region(2,(short)0,2,(short)2));
                 row = hSheet.createRow(2);      
@@ -624,7 +624,7 @@ public class ATR030300 extends BKBPage {
                 //Query Data
                 HashMap hm = new HashMap<String, String>();
                 hm.put("dailydatest", Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()));
-                hm.put("dailydatefn", Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()));
+                hm.put("dailydatefn", Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatefn()));
 
                 List l = CenterUtils.selectData(hm,"sumdaily_receivedall");
 
@@ -647,45 +647,46 @@ public class ATR030300 extends BKBPage {
 
 
                     cell = row.createCell(1);
-                    cell.setCellValue("BATH");
+                    cell.setCellValue("BAHT");
                     cell.setCellStyle(hCellstyleHColor);
 
                     cell = row.createCell(2);
                     cell.setCellValue("USD");
                     cell.setCellStyle(hCellstyleHColor);
                     
-                    row = hSheet.createRow(5);      
-                    cell = row.createCell(0);
-                    cell.setCellValue("BF");
-                    cell.setCellStyle(hCellstyleCB);
-                    
-                    //Query Data th
-                    HashMap hmpreth = new HashMap<String, String>();
-                    hmpreth.put("bfdate", CenterUtils.previousDayEn(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()),1));
-                    List lpreth = CenterUtils.selectData(hmpreth,"sumbringforward_th");
-                    if(!lpreth.isEmpty()){
-                        hmpreth = (HashMap)lpreth.get(0);
-                        
-                        bfth = bfth.add(new BigDecimal(Utils.NVL(hmpreth.get("sumbf_th")).equals("")?"0":Utils.NVL(hmpreth.get("sumbf_th"))));
-                    }
-                    
-                    cell = row.createCell(1);
-                    cell.setCellValue(CenterUtils.format(bfth.toString()));
-                    cell.setCellStyle(hCellstyleRMoney);
-
-                    //Query Data us
-                    HashMap hmpreus = new HashMap<String, String>();
-                    hmpreus.put("bfdate", CenterUtils.previousDayEn(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()),1));
-                    List lprethus = CenterUtils.selectData(hmpreus,"sumbringforward_us");
-                    if(!lprethus.isEmpty()){
-                        hmpreus = (HashMap)lprethus.get(0);
-                        
-                        bfus = bfus.add(new BigDecimal(Utils.NVL(hmpreus.get("sumbf_us")).equals("")?"0":Utils.NVL(hmpreus.get("sumbf_us"))));
-                    }
-                    
-                    cell = row.createCell(2);
-                    cell.setCellValue(CenterUtils.format(bfus.toString()));
-                    cell.setCellStyle(hCellstyleRMoney);
+                    //terex 09/01/2018 ปิด column bf เนื่องจากหน้าจอหาเป็นช่วงวันที่
+//                    row = hSheet.createRow(5);      
+//                    cell = row.createCell(0);
+//                    cell.setCellValue("BF");
+//                    cell.setCellStyle(hCellstyleCB);
+//                    
+//                    //Query Data th
+//                    HashMap hmpreth = new HashMap<String, String>();
+//                    hmpreth.put("bfdate", CenterUtils.previousDayEn(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()),1));
+//                    List lpreth = CenterUtils.selectData(hmpreth,"sumbringforward_th");
+//                    if(!lpreth.isEmpty()){
+//                        hmpreth = (HashMap)lpreth.get(0);
+//                        
+//                        bfth = bfth.add(new BigDecimal(Utils.NVL(hmpreth.get("sumbf_th")).equals("")?"0":Utils.NVL(hmpreth.get("sumbf_th"))));
+//                    }
+//                    
+//                    cell = row.createCell(1);
+//                    cell.setCellValue(CenterUtils.format(bfth.toString()));
+//                    cell.setCellStyle(hCellstyleRMoney);
+//
+//                    //Query Data us
+//                    HashMap hmpreus = new HashMap<String, String>();
+//                    hmpreus.put("bfdate", CenterUtils.previousDayEn(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()),1));
+//                    List lprethus = CenterUtils.selectData(hmpreus,"sumbringforward_us");
+//                    if(!lprethus.isEmpty()){
+//                        hmpreus = (HashMap)lprethus.get(0);
+//                        
+//                        bfus = bfus.add(new BigDecimal(Utils.NVL(hmpreus.get("sumbf_us")).equals("")?"0":Utils.NVL(hmpreus.get("sumbf_us"))));
+//                    }
+//                    
+//                    cell = row.createCell(2);
+//                    cell.setCellValue(CenterUtils.format(bfus.toString()));
+//                    cell.setCellStyle(hCellstyleRMoney);
                     
                     
                     BigDecimal totalrevth = new BigDecimal(0);
@@ -695,7 +696,7 @@ public class ATR030300 extends BKBPage {
 
                         hm = (HashMap)l.get(i);
 
-                        row = hSheet.createRow(6+i);
+                        row = hSheet.createRow(5+i);
                         cell = row.createCell(0);
                         cell.setCellValue(Utils.NVL(hm.get("redesc")));
                         cell.setCellStyle(hCellstyleL);
@@ -716,7 +717,7 @@ public class ATR030300 extends BKBPage {
                 }
                  
                 //=========Total=============== 
-                row = hSheet.createRow(size+6);
+                row = hSheet.createRow(size+5);
                 cell = row.createCell(0);
                 cell.setCellValue("Total");
                 cell.setCellStyle(hCellstyleR);   
@@ -733,7 +734,7 @@ public class ATR030300 extends BKBPage {
                 //Query Data sumdaily_paiddall
                 HashMap hm2 = new HashMap<String, String>();
                 hm2.put("dailydatest", Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()));
-                hm2.put("dailydatefn", Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()));
+                hm2.put("dailydatefn", Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatefn()));
 
                 List l2 = CenterUtils.selectData(hm2,"sumdaily_paiddall");
                 int rowpad = (size+8);
@@ -751,7 +752,7 @@ public class ATR030300 extends BKBPage {
                     cell.setCellValue("Detail");
                     cell.setCellStyle(hCellstyleHColor);
                     cell = row.createCell(1);
-                    cell.setCellValue("BATH");
+                    cell.setCellValue("BAHT");
                     cell.setCellStyle(hCellstyleHColor);
 
                     cell = row.createCell(2);
@@ -804,7 +805,8 @@ public class ATR030300 extends BKBPage {
                     cell.setCellValue("AJ.PENDING CHEQUE.");
                     cell.setCellStyle(hCellstyleL);
                     
-                    BigDecimal pendingth = calpendingth(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()));
+                    BigDecimal pendingth = calpendingth(Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatest()),
+                            Utils.formatDateToStringToDBEn(this.getMasterdata().getDailydatefn()));                     
                     
                     cell = row.createCell(1);
                     cell.setCellValue(CenterUtils.format(  pendingth.toString()  ));
@@ -961,18 +963,24 @@ public class ATR030300 extends BKBPage {
                 cell.setCellValue("ATR030300");
                 cell.setCellStyle(hCellstyleCB);
                                 
-                String condition = "Condition :";
-                if(this.getMasterdata().getYear().equals(this.getMasterdata().getYear2()) && this.getMasterdata().getMonth().equals(this.getMasterdata().getMonth2())){
-                    condition += CenterUtils.getENMonth(Integer.parseInt(this.getMasterdata().getMonth()),0)+" "+this.getMasterdata().getYear();
-                }else if(this.getMasterdata().getYear().equals(this.getMasterdata().getYear2())){
-                    condition += CenterUtils.getENMonth(Integer.parseInt(this.getMasterdata().getMonth()),0)+"-"+
-                            CenterUtils.getENMonth(Integer.parseInt(this.getMasterdata().getMonth2()),0)+" "+
-                            this.getMasterdata().getYear();
-                }else{
-                    condition += CenterUtils.getENMonth(Integer.parseInt(this.getMasterdata().getMonth()),0)+" "+this.getMasterdata().getYear();
-                    condition += "-";
-                    condition += CenterUtils.getENMonth(Integer.parseInt(this.getMasterdata().getMonth2()),0)+" "+this.getMasterdata().getYear2();
-                }
+                String condition = "Condition Month:";
+//                if(this.getMasterdata().getYear().equals(this.getMasterdata().getYear2()) && this.getMasterdata().getMonth().equals(this.getMasterdata().getMonth2())){
+//                    condition += CenterUtils.getENMonth(Integer.parseInt(this.getMasterdata().getMonth()),0)+" "+this.getMasterdata().getYear();
+//                }else if(this.getMasterdata().getYear().equals(this.getMasterdata().getYear2())){
+//                    condition += CenterUtils.getENMonth(Integer.parseInt(this.getMasterdata().getMonth()),0)+"-"+
+//                            CenterUtils.getENMonth(Integer.parseInt(this.getMasterdata().getMonth2()),0)+" "+
+//                            this.getMasterdata().getYear();
+//                }else{
+//                    condition += CenterUtils.getENMonth(Integer.parseInt(this.getMasterdata().getMonth()),0)+" "+this.getMasterdata().getYear();
+//                    condition += "-";
+//                    condition += CenterUtils.getENMonth(Integer.parseInt(this.getMasterdata().getMonth2()),0)+" "+this.getMasterdata().getYear2();
+//                }
+                
+                condition += "01 "+CenterUtils.getENMonth(Integer.parseInt(this.getMasterdata().getMonth()),0)+" "+this.getMasterdata().getYear();
+                condition += "-";
+                condition += CenterUtils.getMaxDayofMonthofYear(Integer.parseInt(this.getMasterdata().getYear2()),Integer.parseInt(this.getMasterdata().getMonth2()))
+                        +" "+ 
+                        CenterUtils.getENMonth(Integer.parseInt(this.getMasterdata().getMonth2()),0)+" "+this.getMasterdata().getYear2();
                 
                 hSheet.addMergedRegion(new Region(2,(short)0,2,(short)2));
                 row = hSheet.createRow(2);      
@@ -1003,7 +1011,7 @@ public class ATR030300 extends BKBPage {
 
 
                     cell = row.createCell(1);
-                    cell.setCellValue("BATH");
+                    cell.setCellValue("BAHT");
                     cell.setCellStyle(hCellstyleHColor);
 
                     cell = row.createCell(2);
@@ -1074,7 +1082,7 @@ public class ATR030300 extends BKBPage {
                     cell.setCellValue("Detail");
                     cell.setCellStyle(hCellstyleHColor);
                     cell = row.createCell(1);
-                    cell.setCellValue("BATH");
+                    cell.setCellValue("BAHT");
                     cell.setCellStyle(hCellstyleHColor);
 
                     cell = row.createCell(2);
@@ -1129,7 +1137,7 @@ public class ATR030300 extends BKBPage {
                 ByteArrayOutputStream bOutput = new ByteArrayOutputStream();
                 hWBook.write(bOutput);
 
-                FaceUtil.getDownloadfile(bOutput, "ATR030300_"+CenterUtils.formatfileNameDatetime()+".xls");
+                FaceUtil.getDownloadfile(bOutput, "ATR030300_MONTH_"+CenterUtils.formatfileNameDatetime()+".xls");
                 
             }else{
                 String msg = "ไม่พบข้อมูล";
@@ -1218,12 +1226,13 @@ public class ATR030300 extends BKBPage {
     }
     
     
-    private BigDecimal calpendingth(String date){
+    private BigDecimal calpendingth(String date,String fndate){
         
         BigDecimal sum = new BigDecimal(0);
         
         HashMap hm = new HashMap<String, String>();
-        hm.put("bfdate", date);
+        hm.put("bfdatest", date);
+        hm.put("bfdatefn", fndate);
         hm.put("bankid", "3");
         List l = CenterUtils.selectData(hm,"search_bringforward");
         
@@ -1246,10 +1255,10 @@ public class ATR030300 extends BKBPage {
             }
         }else{
             
-             BigDecimal bpchqrcv = new BigDecimal(countChequeClearDailyReceived(date,3,true));
-             BigDecimal bpchqpaid = new BigDecimal(countChequeClearDailyPaid(date,3,true));
-             BigDecimal btchqrcv = new BigDecimal(countChequeClearDailyReceived(date,3,false));
-             BigDecimal btchqpaid = new BigDecimal(countChequeClearDailyPaid(date,3,false));
+             BigDecimal bpchqrcv = new BigDecimal(countChequeClearDailyReceived(date,fndate,3,true));
+             BigDecimal bpchqpaid = new BigDecimal(countChequeClearDailyPaid(date,fndate,3,true));
+             BigDecimal btchqrcv = new BigDecimal(countChequeClearDailyReceived(date,fndate,3,false));
+             BigDecimal btchqpaid = new BigDecimal(countChequeClearDailyPaid(date,fndate,3,false));
 
              sum = sum.add(bpchqrcv);
              sum = sum.subtract(bpchqpaid);
@@ -1262,7 +1271,7 @@ public class ATR030300 extends BKBPage {
     }
     
     
-    private Double countChequeClearDailyReceived(String dailydate,int payby,boolean vclear){
+    private Double countChequeClearDailyReceived(String dailydate,String fndailydate,int payby,boolean vclear){
         
         
         String pselect = "";
@@ -1278,11 +1287,13 @@ public class ATR030300 extends BKBPage {
 
         if(vclear){
 
-            pwhere += " r.chequedate = '"+dailydate+"' "
+            pwhere += " (r.chequedate >= '"+dailydate+"' "
+                   + "and r.chequedate <= '"+fndailydate+"') "
                    + "and r.payby = '"+payby+"' "
                    + "and r.chequedate is not null "; //cheque clear
         }else{
-            pwhere += " r.dailydate = '"+dailydate+"' "
+            pwhere += " (r.dailydate >= '"+dailydate+"' "
+                   + "and r.dailydate <= '"+dailydate+"') "
                    + "and r.payby = '"+payby+"' "
                     + "and r.chequedate is null "; //cheque not clear
         }
@@ -1305,7 +1316,7 @@ public class ATR030300 extends BKBPage {
     }
     
     
-    private Double countChequeClearDailyPaid(String dailydate,int payby,boolean vclear){
+    private Double countChequeClearDailyPaid(String dailydate,String fndailydate,int payby,boolean vclear){
         
         
         String pselect = "";
@@ -1321,11 +1332,13 @@ public class ATR030300 extends BKBPage {
 
         if(vclear){
 
-            pwhere += " r.chequedate = '"+dailydate+"' "
+            pwhere += " (r.chequedate >= '"+dailydate+"' "
+                   + "and r.chequedate <= '"+fndailydate+"') "
                    + "and r.payby = '"+payby+"' "
                    + "and r.chequedate is not null "; //cheque clear
         }else{
-            pwhere += " r.dailydate = '"+dailydate+"' "
+            pwhere += " (r.dailydate >= '"+dailydate+"' "
+                   + "and r.dailydate <= '"+fndailydate+"') "
                    + "and r.payby = '"+payby+"' "
                     + "and r.chequedate is null "; //cheque not clear
         }

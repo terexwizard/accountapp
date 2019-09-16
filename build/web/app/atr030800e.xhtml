@@ -70,32 +70,39 @@
                         <p:column>
                           <h:outputLabel value="Status"/>
                         </p:column>
-                        <p:column>
+                        <p:column style="padding: 0px;">
                             <h:selectOneRadio value="#{aTR030800.masterdata.rdoflag}">
                                 <f:selectItem itemLabel="Clear" itemValue="Y"/>
                                 <f:selectItem itemLabel="Not Clear" itemValue="N"/>
+                                <f:selectItem itemLabel="Balance" itemValue="B"/>
+                                <p:ajax process="@this" update="opldatelabel,opldatevalue,oplreportlabel,oplreportvalue" listener="#{aTR030800.clearreporttype}"/>
                             </h:selectOneRadio>
                         </p:column>
                   </p:row>
                     
                    <p:row>
-                        <p:column>
-                          <h:outputLabel value="Report Type"/>
+                       <p:column>
+                            <p:outputPanel id="oplreportlabel" style="padding: 0px;">
+                                <h:outputLabel value="Report Type" rendered="#{aTR030800.masterdata.rdoflag ne 'B'}"/>
+                            </p:outputPanel>
                         </p:column>
-                        <p:column>
-                            <h:selectOneRadio value="#{aTR030800.masterdata.reporttype}">
-                                <f:selectItem itemLabel="Daily" itemValue="1"/>
-                                <f:selectItem itemLabel="Month" itemValue="2"/>
-                                <p:ajax process="@this" update="opldatelabel,opldatevalue"/>
-                            </h:selectOneRadio>
+                        <p:column style="padding: 0px;">
+                            <p:outputPanel id="oplreportvalue" >
+                                <h:selectOneRadio value="#{aTR030800.masterdata.reporttype}" rendered="#{aTR030800.masterdata.rdoflag ne 'B'}">
+                                    <f:selectItem itemLabel="Daily" itemValue="1"/>
+                                    <f:selectItem itemLabel="Month" itemValue="2"/>
+                                    <p:ajax process="@this" update="opldatelabel,opldatevalue"/>
+                                </h:selectOneRadio>
+                            </p:outputPanel>
                         </p:column>
                   </p:row>  
                     
                   <p:row>
                         <p:column>
-                          <p:outputPanel id="opldatelabel">
+                          <p:outputPanel id="opldatelabel" style="padding: 0px;">
                               <h:outputLabel value="Date" rendered="#{aTR030800.masterdata.reporttype eq '1'}"/>
-                              <h:outputLabel value="Month / Year" rendered="#{aTR030800.masterdata.reporttype eq '2'}"/>                                
+                              <h:outputLabel value="Month / Year" rendered="#{aTR030800.masterdata.reporttype eq '2'}"/>   
+                              <h:outputLabel value="Due Date" rendered="#{aTR030800.masterdata.rdoflag eq 'B'}"/> 
                           </p:outputPanel>
                         </p:column>
                         <p:column>
@@ -103,7 +110,7 @@
                                 <p:calendar id="dailydate" value="#{aTR030800.masterdata.dailydate}"
                                          size="10" maxlength="10" locale="en" showOn="button" 
                                          converter="calendarConverter" pattern="dd/MM/yyyy" navigator="true"
-                                         required="true" label="Date"
+                                         required="#{aTR030800.masterdata.reporttype eq '1'?true:false}" label="Date"
                                          rendered="#{aTR030800.masterdata.reporttype eq '1'}">
                                     <p:ajax process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}" />
                                     <p:ajax event="dateSelect" process="@this" update="@this,:form1:#{bKBAppVar.COMPO_ID_MESSAGES}"/>
@@ -111,12 +118,12 @@
 
 
                                 <p:selectOneMenu  value="#{aTR030800.masterdata.month}" style="width: 150px;"
-                                                  rendered="#{aTR030800.masterdata.reporttype eq '2'}">
+                                                  rendered="#{aTR030800.masterdata.reporttype eq '2' or aTR030800.masterdata.rdoflag eq 'B'}">
                                     <f:selectItems value="#{bKBRdb.month}"/>
                                 </p:selectOneMenu>
                                 &nbsp;
                                 <p:selectOneMenu  value="#{aTR030800.masterdata.year}"
-                                                  rendered="#{aTR030800.masterdata.reporttype eq '2'}">
+                                                  rendered="#{aTR030800.masterdata.reporttype eq '2' or aTR030800.masterdata.rdoflag eq 'B'}">
                                     <f:selectItems value="#{bKBQuery.comboYear}"/>
                                 </p:selectOneMenu>
                             </p:outputPanel>

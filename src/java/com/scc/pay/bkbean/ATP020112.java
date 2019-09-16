@@ -606,9 +606,13 @@ public class ATP020112 extends BKBPage {
     }
     
     private void initialValue(){
-//        if(this.getMasterdata().getDailydate() == null){
-//            this.getMasterdata().setDailydate(Utils.getcurDateTime());
-//        }
+        if(this.getMasterdata().getDailydate() == null){
+            this.getMasterdata().setDailydate(Utils.getcurDateTime());
+        }
+        
+        if(this.getMasterdata().getDailydatefn() == null){
+            this.getMasterdata().setDailydatefn(Utils.getcurDateTime());
+        }
         
         if(Utils.NVL(this.getMasterdata().getCheque()).equals("")){
             this.getMasterdata().setCheque("N");

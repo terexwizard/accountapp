@@ -867,7 +867,7 @@ public class ATR030500 extends BKBPage {
                 //=========Total=============== 
                 row = hSheet.createRow(sizealN+8);
                 cell = row.createCell(0);
-                cell.setCellValue("Total (BATH)");
+                cell.setCellValue("Total (BAHT)");
                 cell.setCellStyle(hCellstyleR);   
                 
 //                for(int i=1;i<8;i++){
@@ -969,7 +969,7 @@ public class ATR030500 extends BKBPage {
                 //=========Total=============== 
                 row = hSheet.createRow(sizealN+sizealY+1+8);
                 cell = row.createCell(0);
-                cell.setCellValue("Total Fix Deposit (BATH)");
+                cell.setCellValue("Total Fix Deposit (BAHT)");
                 cell.setCellStyle(hCellstyleR);   
                 
 //                for(int i=1;i<8;i++){
@@ -1011,7 +1011,7 @@ public class ATR030500 extends BKBPage {
                 
 //                row = hSheet.createRow(sizealN+sizealY+2+8);
 //                cell = row.createCell(0);
-//                cell.setCellValue("Total All (BATH)");
+//                cell.setCellValue("Total All (BAHT)");
 //                cell.setCellStyle(hCellstyleR);   
 //                
 ////                for(int i=1;i<8;i++){

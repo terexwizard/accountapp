@@ -11,6 +11,7 @@ import com.scc.f1.business.BusinessImpl;
 import com.scc.f1.util.BeanUtil;
 import com.scc.f1.util.Utils;
 import com.scc.pay.db.Bringforward;
+import com.scc.pay.db.BringforwardPK;
 import com.scc.pay.db.TbBank;
 import com.scc.pay.util.CenterUtils;
 import java.math.BigDecimal;
@@ -111,9 +112,14 @@ public class PROCESSBRINGFORWARD extends BusinessImpl {
             if(bfdate == (Integer.parseInt(Utils.getcurDateDB(false)))){
                 processBringforwardUpdate(vuser,bfdate);
             }else{
+                transactionCommit();
+                transactionBegin();
             
                 processBringforwardInsert(vuser,bfdate);
 
+                
+                logger.debug(">>processBringforward loop else :"+bfdate+" // "+Utils.getcurDateDB(false));
+                
                 //if(bfdate < (Integer.parseInt(Utils.getcurDateDB(false))-2)){ //ไม่ทำวันที่ ปัจจุบัน -2
                 if(bfdate < (Integer.parseInt(Utils.getcurDateDB(false))-1)){ //ทำถึงวันที่ ปัจจุบัน -1
                     bfdate = Integer.parseInt(CenterUtils.nextDayEn(Integer.toString(bfdate),1));
@@ -148,15 +154,24 @@ public class PROCESSBRINGFORWARD extends BusinessImpl {
         
         List<Bringforward> l = query.getResultList();
         
-        for(Bringforward db : l){
+        logger.debug(">>processBringforwardInsert "+processdate+" , size:"+l.size());
+        
+        for(Bringforward dbold : l){
             
             
-            em.detach(db);
+            em.detach(dbold);
+            
             
             //String nextbfdate = Integer.toString(processdate +1);
             String nextbfdate = CenterUtils.nextDayEn(Integer.toString(processdate),1);
             
-            logger.debug(">>processBringforwardInsert "+processdate+" "+nextbfdate);
+            Bringforward db = new Bringforward(new BringforwardPK());
+            BeanUtil.copyProperties(db, dbold);
+            db.setBringforwardPK(dbold.getBringforwardPK());
+            
+            logger.debug(">>processBringforwardInsert "+processdate+" "+nextbfdate+
+                    " ,getBankid:"+db.getBringforwardPK().getBankid()+
+                    " ,getBfdate:"+db.getBringforwardPK().getBfdate());
             
             db.getBringforwardPK().setBfdate(nextbfdate);
             db.setReceived(countDailyReceived(nextbfdate,db.getBringforwardPK().getBankid()));
@@ -194,6 +209,9 @@ public class PROCESSBRINGFORWARD extends BusinessImpl {
                 
                 merge(dbvn);
             }
+            
+            transactionCommit();
+            transactionBegin();
             
         }
     }

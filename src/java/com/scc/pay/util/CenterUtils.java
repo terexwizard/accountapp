@@ -9,6 +9,7 @@ import com.scc.f1.dbutil.DBUtils;
 import com.scc.f1.dbutil.QueryXML;
 import com.scc.f1.util.Utils;
 import com.scc.pay.bkbean.BKBListData;
+import com.scc.pay.db.Daily;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -498,12 +499,12 @@ public class CenterUtils{
         
         Date date = null; 
  
-        Calendar c = Calendar.getInstance();
+        Calendar c = Calendar.getInstance(Locale.ENGLISH);
         
         c.setTime(d);
         c.add(Calendar.DATE, +i);
   
-        SimpleDateFormat sm = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat sm = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
         
         try {
             date = sm.parse(Utils.formatDateToStringToDBThai(c.getTime())); 
@@ -519,12 +520,12 @@ public class CenterUtils{
         
         Date date = null; 
  
-        Calendar c = Calendar.getInstance();
+        Calendar c = Calendar.getInstance(Locale.ENGLISH);
         
         c.setTime(d);
         c.add(Calendar.DATE, +i);
   
-        SimpleDateFormat sm = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat sm = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
         
         try {
             date = sm.parse(Utils.formatDateToStringToDBEn(c.getTime())); 
@@ -540,12 +541,12 @@ public class CenterUtils{
         
         Date date = null; 
  
-        Calendar c = Calendar.getInstance();
+        Calendar c = Calendar.getInstance(Locale.ENGLISH);
         
         c.setTime(d);
         c.add(Calendar.DATE, +i);
   
-        SimpleDateFormat sm = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat sm = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
         
         try {
             date = sm.parse(Utils.formatDateToStringToDBThai(c.getTime())); 
@@ -645,12 +646,12 @@ public class CenterUtils{
         
         Date date = null; 
  
-        Calendar c = Calendar.getInstance();
+        Calendar c = Calendar.getInstance(Locale.ENGLISH);
         
         c.setTime(Utils.formatStringToDateToScreen(d));
         c.add(Calendar.DATE, +i);
   
-        SimpleDateFormat sm = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat sm = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
         
         try {
             //date = sm.parse(Utils.formatDateToStringToDBThai(c.getTime())); 
@@ -667,16 +668,16 @@ public class CenterUtils{
         
         Date date = null; 
  
-        Calendar c = Calendar.getInstance();
+        Calendar c = Calendar.getInstance(Locale.ENGLISH);
         
         c.setTime(Utils.formatStringToDateToScreen(d));
         c.add(Calendar.DATE, -i);
   
-        SimpleDateFormat sm = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat sm = new SimpleDateFormat("yyyyMMdd",Locale.ENGLISH);
         
         try {
             //date = sm.parse(Utils.formatDateToStringToDBThai(c.getTime())); 
-            date = sm.parse(Utils.formatDateToStringToDBEn(c.getTime()));
+            date = sm.parse(Utils.formatDateToStringToDBEn(c.getTime()));            
         } catch (ParseException ex) {
             java.util.logging.Logger.getLogger(CenterUtils.class.getName()).log(Level.SEVERE, null, ex);
         } 
@@ -689,12 +690,12 @@ public class CenterUtils{
         
         Date date = null; 
  
-        Calendar c = Calendar.getInstance();
+        Calendar c = Calendar.getInstance(Locale.ENGLISH);
         
         c.setTime(d);
         c.add(Calendar.DATE, -i);
   
-        SimpleDateFormat sm = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat sm = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
         
         try {
             date = sm.parse(Utils.formatDateToStringToDBEn(c.getTime())); 
@@ -738,7 +739,7 @@ public class CenterUtils{
     public static String convertStringMonthYear(String yearmonth){
         String result = "";
         try {
-            SimpleDateFormat sm = new SimpleDateFormat("yyyyMM");
+            SimpleDateFormat sm = new SimpleDateFormat("yyyyMM", Locale.ENGLISH);
             Date date = sm.parse(yearmonth);
             
             result = new SimpleDateFormat("MMM yyyy").format(date.getTime());
@@ -780,10 +781,10 @@ public class CenterUtils{
                     
                     //System.out.println(input);
                     String format = "yyyyMMdd";
-                    SimpleDateFormat df = new SimpleDateFormat(format);
+                    SimpleDateFormat df = new SimpleDateFormat(format, Locale.ENGLISH);
                     date = df.parse(input);
                     
-                    Calendar calw = Calendar.getInstance();
+                    Calendar calw = Calendar.getInstance(Locale.ENGLISH);
                     calw.setTime(date);
                     
                     int week = calw.get(Calendar.WEEK_OF_YEAR);
@@ -843,7 +844,7 @@ public class CenterUtils{
                 
                 
                 cal.set(Calendar.WEEK_OF_YEAR, weekofyear);
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
                 cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
                 String dst = formatter.format(cal.getTime());
                 cal.add(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
@@ -879,6 +880,28 @@ public class CenterUtils{
                 String[] result = {dst,dfn};
                 return result;
     }
+    
+     public static String getMaxDayofMonthofYear(int yyyy,int month){
+        
+                logger.debug(">>getMaxDayofMonthofYear "+yyyy+" // "+month);
+                int monthSelect = (month-1);
+                Calendar c = Calendar.getInstance(Locale.ENGLISH);
+                c.set(Calendar.YEAR, yyyy);
+                c.set(Calendar.MONTH, monthSelect);
+            
+                logger.debug(">>ddst c:"+c.getActualMaximum(Calendar.DAY_OF_MONTH));
+                
+                return Utils.NVL(c.getActualMaximum(Calendar.DAY_OF_MONTH));
+    }
+     
+    public static String isChangePayby(Daily db,Daily form){
+        
+        String changeBank = "";
+        if(db.getPayby() != form.getPayby()){
+              changeBank =  new BigDecimal(db.getPayby()).toString();
+        }
+        return changeBank;    
+    }  
     
     public static String formatStringNumber(String value){
         DecimalFormat df = new DecimalFormat("###,##0.00");

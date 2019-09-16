@@ -201,7 +201,8 @@ public class ATP020100 extends BKBPage {
         setModeupdate(false);
 
         clearAllData();
-
+        initialValueQ();
+        
         
         
         redirectPage(PAGE_Q);
@@ -227,6 +228,7 @@ public class ATP020100 extends BKBPage {
         setModeadd(true);
 
         clearAllData();
+        initialValue();
         
         redirectPage(PAGE_E);
         
@@ -351,6 +353,7 @@ public class ATP020100 extends BKBPage {
     private void reset(){
         
         clearAllData();
+        initialValue();
         
         redirectPage(PAGE_E);
         
@@ -359,6 +362,7 @@ public class ATP020100 extends BKBPage {
     private void resetSearch(){
         
         searchparam     = null;
+        initialValueQ();
         
         BKBUQuery.getIns().clearListData();
         
@@ -382,6 +386,16 @@ public class ATP020100 extends BKBPage {
     private void initialValue(){
         if(this.getMasterdata().getDailydate() == null){
             this.getMasterdata().setDailydate(Utils.getcurDateTime());
+        }
+    }
+    
+    private void initialValueQ(){
+        if(this.getSearchparam().getDailydate() == null){
+            this.getSearchparam().setDailydate(Utils.getcurDateTime());
+        }
+        
+        if(this.getSearchparam().getDailydatefn() == null){
+            this.getSearchparam().setDailydatefn(Utils.getcurDateTime());
         }
     }
     

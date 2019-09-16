@@ -25,12 +25,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import java.text.DecimalFormat;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 import javax.faces.context.FacesContext;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -793,6 +793,11 @@ public class ATR030800 extends BKBPage {
                 font16.setFontHeightInPoints((short)16);                                     //กำหนดขนาดของ font
                 font16.setFontName("Angsana New");                                         //กำหนด font
                 font16.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);                              //กำหนด font ให้เป็นตัวหนา
+                
+                Font font16Color = hWBook.createFont();                                           //กำหนด font style
+                font16Color.setFontHeightInPoints((short)16);                                     //กำหนดขนาดของ font
+                font16Color.setFontName("Angsana New");                                         //กำหนด font
+                font16Color.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 
                 Font font14 = hWBook.createFont();                                           //กำหนด font style
                 font14.setFontHeightInPoints((short)14);                                     //กำหนดขนาดของ font
@@ -819,6 +824,12 @@ public class ATR030800 extends BKBPage {
                 DataFormat format = hWBook.createDataFormat();
                 hCellstyleRMoney.setDataFormat(format.getFormat("#,##0.00"));
                 CenterUtils.setCellBorder(hCellstyleRMoney);
+                
+                HSSFCellStyle hCellstyleRMoneyB = hWBook.createCellStyle();                       
+                hCellstyleRMoneyB.setAlignment(HSSFCellStyle.ALIGN_RIGHT);                         
+                hCellstyleRMoneyB.setFont(font16Color);              
+                hCellstyleRMoneyB.setDataFormat(format.getFormat("#,##0.00"));
+                CenterUtils.setCellBorder(hCellstyleRMoneyB);
                 
                 HSSFCellStyle hCellstyleHColor = hWBook.createCellStyle();                         
                 hCellstyleHColor.setAlignment(HSSFCellStyle.ALIGN_CENTER);                         
@@ -921,7 +932,7 @@ public class ATR030800 extends BKBPage {
                 ArrayList alcompanyrowx = new ArrayList();
                 
                  for(int i=3;i>0;i--){
-                    Calendar c = Calendar.getInstance();   
+                    Calendar c = Calendar.getInstance(Locale.ENGLISH);   
                     c.set(Integer.parseInt(this.getMasterdata().getYear()), Integer.parseInt(this.getMasterdata().getMonth())-1, 1);
                     c.add(Calendar.MONTH, -i);
 
@@ -957,7 +968,7 @@ public class ATR030800 extends BKBPage {
                 }
                  
                     //เดือนปัจจุบัน
-                    Calendar c = Calendar.getInstance();   
+                    Calendar c = Calendar.getInstance(Locale.ENGLISH);   
                     c.set(Integer.parseInt(this.getMasterdata().getYear()), Integer.parseInt(this.getMasterdata().getMonth())-1, 1);
 
                     System.out.println(">>now : "+Utils.formatDateToStringToDBEn(c.getTime()));
@@ -1040,7 +1051,7 @@ public class ATR030800 extends BKBPage {
                         cell.setCellStyle(hCellstyleHColor);
                         
                         cell = row.createCell(4);
-                        cell.setCellValue("BATH");
+                        cell.setCellValue("BAHT");
                         cell.setCellStyle(hCellstyleHColor);
                     
                     BigDecimal sumtotalall = new BigDecimal(0);
@@ -1212,10 +1223,16 @@ public class ATR030800 extends BKBPage {
                 //================สรุปหน้าเปิด===================================
                 HSSFSheet hSheet = hWBook.getSheetAt(0);
                 
+                    hSheet.addMergedRegion(new Region(0,(short)0,0,(short)2));
+                    HSSFRow row = hSheet.createRow(0);      
+                    cell = row.createCell(0);
+                    cell.setCellValue("Account Payable Details");
+                    cell.setCellStyle(hCellstyleCB);
+                
                     String header = "Date : " + CenterUtils.formatDateToStringShowTime(Utils.getcurDateTime());
 
                     hSheet.addMergedRegion(new Region(0,(short)0,0,(short)2));
-                    HSSFRow row = hSheet.createRow(0);      
+                    row = hSheet.createRow(2);      
                     cell = row.createCell(0);
                     cell.setCellValue(header);
                     cell.setCellStyle(hCellstyleCB);
@@ -1226,14 +1243,14 @@ public class ATR030800 extends BKBPage {
                     
                     String condition = "Condition Submit date: "+CenterUtils.getENMonth(Integer.parseInt(this.getMasterdata().getMonth()),0)+" "+this.getMasterdata().getYear()+" Status : "+(this.getMasterdata().getRdoflag().equals("Y")?"Clear":"Not Clear");
                     hSheet.addMergedRegion(new Region(1,(short)0,1,(short)2));
-                    row = hSheet.createRow(1);      
+                    row = hSheet.createRow(3);      
                     cell = row.createCell(0);
                     cell.setCellValue(condition);
                     cell.setCellStyle(hCellstyleCB);
                     
                     //========================================
                 
-                    row = hSheet.createRow(2);
+                    row = hSheet.createRow(4);
                     cell = row.createCell(0);
                     cell.setCellValue("Customer");
                     cell.setCellStyle(hCellstyleHColor);
@@ -1241,7 +1258,8 @@ public class ATR030800 extends BKBPage {
                     cell = row.createCell(1);
                     cell.setCellValue("Balance "+CenterUtils.convertStringMonthYear(Utils.NVL(aldateheader.get(0))));
                     cell.setCellStyle(hCellstyleHColor);
-                    
+                
+                BigDecimal sumtotalpage0 = new BigDecimal("0");
                 int size = alallcompany.size();
                 for(int i=0;i<size;i++){
                     
@@ -1257,7 +1275,7 @@ public class ATR030800 extends BKBPage {
 //                    }
                     
                     hSheet.setColumnWidth(0,15000);
-                    row = hSheet.createRow(i+3);
+                    row = hSheet.createRow(i+5);
                     cell = row.createCell(0);
                     cell.setCellValue(Utils.NVL(alcompanyrowxx.get(1)));
                     cell.setCellStyle(hCellstyleL);
@@ -1285,7 +1303,22 @@ public class ATR030800 extends BKBPage {
 //                    cell = row.createCell(5);
 //                    cell.setCellValue(format(Utils.NVL(alcompanyrowxx.get(6))));
 //                    cell.setCellStyle(hCellstyleR); 
+                    
+                    sumtotalpage0 = sumtotalpage0.add(new BigDecimal(Utils.NVL(alcompanyrowxx.get(6)).equals("")?"0.00":Utils.NVL(alcompanyrowxx.get(6))));
+                    
                 }     
+                
+                
+                row = hSheet.createRow(size+5);
+                
+                cell = row.createCell(0);
+                cell.setCellValue("TOTAL");
+                cell.setCellStyle(hCellstyleRMoneyB);
+                
+                cell = row.createCell(1);
+                cell.setCellValue(sumtotalpage0.doubleValue());
+                cell.setCellStyle(hCellstyleRMoneyB);
+                
                 
                 ByteArrayOutputStream bOutput = new ByteArrayOutputStream();
                 hWBook.write(bOutput);

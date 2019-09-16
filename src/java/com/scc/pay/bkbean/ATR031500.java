@@ -581,7 +581,7 @@ public class ATR031500 extends BKBPage {
                     cell.setCellStyle(hCellstyleRB);
                     
                     cell = row.createCell(4);
-                    cell.setCellValue("BATH");
+                    cell.setCellValue("BAHT");
                     cell.setCellStyle(hCellstyleRB);
                     
 //                    String header = "Date : " + CenterUtils.formatDateToStringShowTime(Utils.getcurDateTime());

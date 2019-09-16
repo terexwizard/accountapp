@@ -4303,6 +4303,8 @@
        <where>
            
             <var name="bfdate" woper="and" > b.bfdate = '<value/>' </var>
+            <var name="bfdatest" woper="and" > b.bfdate <![CDATA[>=]]> '<value/>' </var>
+            <var name="bfdatefn" woper="and" > b.bfdate <![CDATA[<=]]> '<value/>' </var>
             <var name="bankid" woper="and" > b.bankid = '<value/>' </var>
             <var name="bankidnot2" woper="and" > t.monetaryusd = 'false'  </var>
             <var name="bankid2" woper="and" > t.monetaryusd = 'true'  </var>
@@ -4317,6 +4319,16 @@
         <Param>
             <VarName>bfdate</VarName>
             <UIName>bfdate</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>bfdatest</VarName>
+            <UIName>bfdatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>bfdatefn</VarName>
+            <UIName>bfdatefn</UIName>
             <Operator></Operator>
         </Param>
         <Param>

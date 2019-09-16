@@ -92,8 +92,7 @@
                                  <p:column style="vertical-align: text-top;">
                                     <p:inputText label="Received From" id="companyid" value="#{aTP020100.masterdata.daily.companyid}"
                                                   size="15" maxlength="15" 
-                                                  required="true" 
-                                                  disabled="#{aTP010200.modeupdate}">
+                                                  required="true" >
                                          <p:ajax event="change" onstart="b1_lookup();return false;" />
                                      </p:inputText>
 
@@ -106,7 +105,7 @@
                                       <ui:param name="lookupreturn" value="companyname#companyname"/>
                                     </ui:include>
 
-                                    <p:outputPanel rendered="#{!aTP020100.modeupdate}">
+                                    <p:outputPanel >
                                     <ui:include src="#{bKBAppVar.COMPO_ZOOMDATA}" >
                                         <ui:param name="formid" value="form1"/>
                                         <ui:param name="zoomname" value="zoom1"/>
@@ -128,6 +127,60 @@
                         </p:panelGrid>
                     </p:column>
                   </p:row>
+                
+                
+                <p:row>
+                    <p:column style="vertical-align: text-top;">
+                        <h:outputLabel value="Consignee / Shipper"/>
+                        <h:outputText styleClass="redstar" value="*" />
+                    </p:column>
+                    <p:column style="padding: 0px;">
+                        <p:panelGrid>
+                             <p:row>
+                                 <p:column style="vertical-align: text-top;">
+                                   <p:inputText label="Consignee / Shipper" id="consigneeid" value="#{aTP020100.masterdata.daily.consigneeid}"
+                                                  size="15" maxlength="15" 
+                                                  required="true" >
+                                         <p:ajax event="change" onstart="b2_lookup();return false;" />
+                                     </p:inputText>
+
+
+                                     <ui:include src="#{bKBAppVar.COMPO_LOOKUPDATA}" >
+                                      <ui:param name="formid" value="form1"/>
+                                      <ui:param name="lookupname" value="b2"/>
+                                      <ui:param name="lookupquery" value="lookup_invoicecompany"/>
+                                      <ui:param name="lookuppara" value="consigneeid#invcomid"/>
+                                      <ui:param name="lookupreturn" value="consigneename#companyname"/>
+                                    </ui:include>
+
+                                    <p:outputPanel >
+                                    <ui:include src="#{bKBAppVar.COMPO_ZOOMDATA}" >
+                                        <ui:param name="formid" value="form1"/>
+                                        <ui:param name="zoomname" value="zoom2"/>
+                                        <ui:param name="zoomquery" value="lookup_invoicecompany"/>
+                                        <ui:param name="zoomreturn" value="consigneeid#invcomid,consigneename#companyname"/>
+                                      </ui:include>
+
+                                    </p:outputPanel> 
+                                 </p:column>
+                                 <p:column style="padding: 0px;">
+                       
+                                     <p:inputTextarea label="" id="consigneename" value="#{aTP020100.masterdata.daily.consigneename}"
+                                                  rows="4" cols="70" readonly="true"
+                                                  styleClass="#{bKBStyle.STYLE_INPUT_DISABLE}"
+                                                  tabindex="-1">
+                                    </p:inputTextarea>
+                                 </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                        
+                        
+                        
+                    </p:column>
+                </p:row>
+                
+                
+                
                     
                  <p:row>
                     <p:column>

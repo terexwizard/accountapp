@@ -96,8 +96,7 @@
                                  <p:column style="vertical-align: text-top;">
                                    <p:inputText label="Paid To" id="companyid" value="#{aTP020101.masterdata.daily.companyid}"
                                                   size="15" maxlength="15" 
-                                                  required="true" 
-                                                  disabled="#{aTP010200.modeupdate}">
+                                                  required="true" >
                                          <p:ajax event="change" onstart="b1_lookup();return false;" />
                                      </p:inputText>
 
@@ -110,7 +109,7 @@
                                       <ui:param name="lookupreturn" value="companyname#companyname"/>
                                     </ui:include>
 
-                                    <p:outputPanel rendered="#{!aTP020101.modeupdate}">
+                                    <p:outputPanel>
                                     <ui:include src="#{bKBAppVar.COMPO_ZOOMDATA}" >
                                         <ui:param name="formid" value="form1"/>
                                         <ui:param name="zoomname" value="zoom1"/>
@@ -144,8 +143,7 @@
                                  <p:column style="vertical-align: text-top;">
                                    <p:inputText label="Consignee / Shipper" id="consigneeid" value="#{aTP020101.masterdata.daily.consigneeid}"
                                                   size="15" maxlength="15" 
-                                                  required="true" 
-                                                  disabled="#{aTP010200.modeupdate}">
+                                                  required="true" >
                                          <p:ajax event="change" onstart="b2_lookup();return false;" />
                                      </p:inputText>
 
@@ -158,7 +156,7 @@
                                       <ui:param name="lookupreturn" value="consigneename#companyname"/>
                                     </ui:include>
 
-                                    <p:outputPanel rendered="#{!aTP020101.modeupdate}">
+                                    <p:outputPanel >
                                     <ui:include src="#{bKBAppVar.COMPO_ZOOMDATA}" >
                                         <ui:param name="formid" value="form1"/>
                                         <ui:param name="zoomname" value="zoom2"/>

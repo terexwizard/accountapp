@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 import javax.faces.context.FacesContext;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -828,7 +829,7 @@ public class ATR030900 extends BKBPage {
                 //Map<String, String> tmcompanyrowx = new TreeMap<String, String>();
                                 
                  for(int i=3;i>0;i--){
-                    Calendar c = Calendar.getInstance();   
+                    Calendar c = Calendar.getInstance(Locale.ENGLISH);   
                     c.set(Integer.parseInt(this.getMasterdata().getYear()), Integer.parseInt(this.getMasterdata().getMonth())-1, 1);
                     c.add(Calendar.MONTH, -i);
 
@@ -865,7 +866,7 @@ public class ATR030900 extends BKBPage {
                 }
                  
                     //เดือนปัจจุบัน
-                    Calendar c = Calendar.getInstance();   
+                    Calendar c = Calendar.getInstance(Locale.ENGLISH);   
                     c.set(Integer.parseInt(this.getMasterdata().getYear()), Integer.parseInt(this.getMasterdata().getMonth())-1, 1);
 
                     System.out.println(">>now : "+Utils.formatDateToStringToDBEn(c.getTime()));

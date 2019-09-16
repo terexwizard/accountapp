@@ -136,7 +136,17 @@ public class ATP020200 extends BKBPage {
         
         if(mode.equals(DetailTable.ROW_NEW)){
             
-            this.getDetailinvoice().getRow().getData().setSubmitdate(Utils.getcurDateTime());
+            this.getDetailinvoice().getRow().getData().setSubmitdate(Utils.getcurDateTime());           
+        }
+        
+        
+        
+        //>>terex 20170718
+        IBusinessBase ib = BusinessFactory.getBusiness("ATP020200A");
+        ib.process(this);
+
+        for(DetailRow<DetailInvoice> item :this.getDetailinvoice().getListdetailrow()){
+            item.setRowstatus(DetailRow.ROW_STATUS_NOTCHANGE);
         }
     }
     

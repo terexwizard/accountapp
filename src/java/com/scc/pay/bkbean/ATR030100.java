@@ -634,7 +634,7 @@ public class ATR030100 extends BKBPage {
                     cell.setCellStyle(hCellstyleHColor);
                     
                     cell = row.createCell(9);
-                    cell.setCellValue("Amount in Bath");
+                    cell.setCellValue("Amount in Baht");
                     cell.setCellStyle(hCellstyleHColor);
                     
 //                    

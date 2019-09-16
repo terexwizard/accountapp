@@ -42,22 +42,26 @@ public class PROCESSBRINGFORWARDUPDATE extends BusinessImpl {
         String user = (String)vhm.get("user");
         String dailydate = (String)vhm.get("dailydate");
         Daily frmi = (Daily)vhm.get("form");
+        String changeBank = (String)vhm.get("changeBank");
         logger.debug(">>processbringforwardupdate user:" + user);
         logger.debug(">>processbringforwardupdate dailydate:" + dailydate);
         logger.debug(">>processbringforwardupdate dailydate:" + frmi.getPayby());
+        logger.debug(">>processbringforwardupdate changeBank:" + changeBank);
         
         
-        processBringforward( frmi , dailydate,user);
+        processBringforward( frmi , dailydate,user,changeBank);
 
         
         return inobj;
     }
     
-     private void processBringforward(Daily dbdaily ,String dailydate,String user){
+     private void processBringforward(Daily dbdaily ,String dailydate,String user,String changeBank){
          if(!Utils.NVL(dailydate).equals("")){
              //มีการแก้ไขวันที่
              if(!Utils.NVL(dailydate).equals(Utils.NVL(dbdaily.getDailydate())) || 
                      !Utils.NVL(dailydate).equals(Utils.formatDateToStringToDBEn(Utils.getcurDateTime()))){
+                 
+                 logger.debug(">>updateBringforwardByBankid if:");
 
                  //ลบแล้วคำนวณใหม่
                 String sql = "delete FROM Bringforward r "
@@ -78,13 +82,82 @@ public class PROCESSBRINGFORWARDUPDATE extends BusinessImpl {
 
              }else{
 
-
+//>>terex comment 09/08/2560
+//                String sql = "select r FROM Bringforward r "
+//                        + "where r.bringforwardPK.bfdate = :bfdate and r.bringforwardPK.bankid = :bankid ";
+//
+//                Query query = em.createQuery(sql);
+//                query.setParameter("bfdate",dailydate);
+//                query.setParameter("bankid",new BigDecimal(dbdaily.getPayby()).intValue());
+//
+//                List<Bringforward> l = query.getResultList();
+//
+//                for(Bringforward db : l){
+//
+//                    String sqlpre = "select r FROM Bringforward r "
+//                            + "where r.bringforwardPK.bfdate = :bfdate and r.bringforwardPK.bankid = :bankid";
+//
+//                    Query querypre = em.createQuery(sqlpre);
+//                    String previousDay = CenterUtils.previousDayEn(dailydate,1);
+//                    querypre.setParameter("bfdate",previousDay);
+//                    querypre.setParameter("bankid",new BigDecimal(dbdaily.getPayby()).intValue());
+//
+//                    List<Bringforward> lpre = querypre.getResultList();
+//                    Bringforward bringforward = new Bringforward();
+//                    for(Bringforward dbpre : lpre){
+//                        BeanUtil.copyProperties(bringforward, dbpre);
+//                    }
+//
+//                    //=================================
+//
+//                    db.setReceived(countDailyReceived(dailydate,db.getBringforwardPK().getBankid()));
+//                    db.setPaid(countDailyPaid(dailydate,db.getBringforwardPK().getBankid()));
+//                    db.setBpchqrcv(countChequeClearDailyReceived(dailydate,db.getBringforwardPK().getBankid(),true));
+//                    db.setBpchqpaid(countChequeClearDailyPaid(dailydate,db.getBringforwardPK().getBankid(),true));
+//                    db.setBtchqrcv(countChequeClearDailyReceived(dailydate,db.getBringforwardPK().getBankid(),false));
+//                    db.setBtchqpaid(countChequeClearDailyPaid(dailydate,db.getBringforwardPK().getBankid(),false));
+//
+//
+//                    logger.debug("  getActualmoney:"+bringforward.getActualmoney()+
+//                            "  getReceived:"+db.getReceived()+"  getBpchqrcv:"+db.getBpchqrcv()+
+//                            " getBtchqpaid:"+db.getBtchqpaid()+" -getPaid:"+db.getPaid()+
+//                            " -getBpchqpaid:"+db.getBpchqpaid()+" -getBtchqrcv:"+db.getBtchqrcv());
+//                    Double actualmoney = (bringforward.getActualmoney()+db.getReceived()+db.getBpchqrcv()+db.getBtchqpaid()) - db.getPaid()-db.getBpchqpaid()-db.getBtchqrcv();
+//
+//                    db.setActualmoney(actualmoney);
+//
+//                    db.setUpdlcnt(addLcnt(db.getUpdlcnt()));
+//                    db.setUpdtime(Utils.getcurDateTime() );
+//                    db.setUpduser(user);
+//
+//
+//                    merge(db);
+//
+//
+//                }
+                
+                 //รหัสตาม ธนาคาร ที่เปลี่ยนใหม่
+                 updateBringforwardByBankid(new BigDecimal(dbdaily.getPayby()).intValue(),dailydate,user);
+                 
+                //คำนวณกรณีเปลี่ยนธนาคารหรือเงินสด
+                if(!Utils.NVL(changeBank).equals("")){
+                    logger.debug(">>updateBringforwardByBankid changeBank:"+changeBank);
+                    updateBringforwardByBankid(Integer.parseInt(changeBank),dailydate,user);
+                }
+             }
+         }
+     }
+     
+     private void updateBringforwardByBankid(int bankid,String dailydate,String user){
+         
+                 logger.debug(">>updateBringforwardByBankid :"+bankid);
+         
                 String sql = "select r FROM Bringforward r "
                         + "where r.bringforwardPK.bfdate = :bfdate and r.bringforwardPK.bankid = :bankid ";
 
                 Query query = em.createQuery(sql);
                 query.setParameter("bfdate",dailydate);
-                query.setParameter("bankid",new BigDecimal(dbdaily.getPayby()).intValue());
+                query.setParameter("bankid",bankid);
 
                 List<Bringforward> l = query.getResultList();
 
@@ -96,7 +169,7 @@ public class PROCESSBRINGFORWARDUPDATE extends BusinessImpl {
                     Query querypre = em.createQuery(sqlpre);
                     String previousDay = CenterUtils.previousDayEn(dailydate,1);
                     querypre.setParameter("bfdate",previousDay);
-                    querypre.setParameter("bankid",new BigDecimal(dbdaily.getPayby()).intValue());
+                    querypre.setParameter("bankid",bankid);
 
                     List<Bringforward> lpre = querypre.getResultList();
                     Bringforward bringforward = new Bringforward();
@@ -131,10 +204,8 @@ public class PROCESSBRINGFORWARDUPDATE extends BusinessImpl {
 
 
                 }
-
-             }
-         }
      }
+     
     
 //    private void processBringforwardInsert(String vuser,int processdate){
 //        

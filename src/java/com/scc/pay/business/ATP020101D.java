@@ -11,6 +11,7 @@ import com.scc.f1.business.IBusinessBase;
 import com.scc.f1.util.Utils;
 import com.scc.pay.bkbean.ATP020101;
 import com.scc.pay.db.Daily;
+import com.scc.pay.util.CenterUtils;
 import java.util.HashMap;
 
 /**
@@ -20,6 +21,8 @@ import java.util.HashMap;
  * 12/06/2555 12:50:20
  */
 public class ATP020101D extends BusinessImpl {
+    
+    private String changeBank = "";
 
     @Override
     protected Object doProcess(Object inobj) {
@@ -37,6 +40,7 @@ public class ATP020101D extends BusinessImpl {
         vhm.put("user", frmi.getUserid());
         vhm.put("dailydate", Utils.formatDateToStringToDBEn(frmi.getMasterdata().getDailydate()));
         vhm.put("form", frmi.getMasterdata().getDaily());
+        vhm.put("changeBank", changeBank);
         
         IBusinessBase ib = BusinessFactory.getBusiness("PROCESSBRINGFORWARDUPDATE");
         ib.processBackground(vhm);
@@ -51,6 +55,9 @@ public class ATP020101D extends BusinessImpl {
         Daily db = em.find(Daily.class, frmi.getMasterdata().getDaily().getDailyid());
         
         if(db != null){
+            
+            changeBank =  CenterUtils.isChangePayby(db, frmi.getMasterdata().getDaily());
+            
             remove(db);
         }
         

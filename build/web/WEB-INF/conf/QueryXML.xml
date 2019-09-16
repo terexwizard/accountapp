@@ -2986,7 +2986,7 @@
        </where>
     </SQL>
     <SQLOrderBy>
-        t.dailydate,t.voucherno,t.docno
+        t.dailydate,t.voucherno,CONVERT(concat('20',SUBSTRING_INDEX(t.docno, '/', -1),SUBSTRING_INDEX(t.docno, '/', 1),SUBSTRING_INDEX(SUBSTRING_INDEX(t.docno,'/', 2), '/',-1)),UNSIGNED INTEGER) asc
     </SQLOrderBy>
 
     <Params>
@@ -3076,6 +3076,7 @@
             t.currency,
             c.currencyname,
             t.remark,
+            t.consigneename,
             case
               when t.paymentsuccess is null then 'N'
               else t.paymentsuccess
@@ -3095,7 +3096,7 @@
        </where>
     </SQL>
     <SQLOrderBy>
-        t.dailydate,t.voucherno,t.docno
+        t.dailydate,t.voucherno,CONVERT(concat('20',SUBSTRING_INDEX(t.docno, '/', -1),SUBSTRING_INDEX(t.docno, '/', 1),SUBSTRING_INDEX(SUBSTRING_INDEX(t.docno,'/', 2), '/',-1)),UNSIGNED INTEGER) asc
     </SQLOrderBy>
 
     <Params>
@@ -3878,6 +3879,17 @@
             d.amount,
             d.receivedamount,
             d.exchangerate,
+        
+            case
+                when (b.monetaryusd = 'true') then d.amount
+                else '0.00'
+            end amountusd,
+            case
+                when (b.monetaryusd = 'false') then d.amount
+                else '0.00'
+            end amountth,
+        
+        
             concat(d.voucherno,'',d.docno) as voucherno_disp 
         FROM daily d left outer join tb_bank b on (d.payby = b.bankid) 
         where d.paidamount = 0.00 and d.amount2 = 0.00 
@@ -3945,6 +3957,16 @@
             d.amount2,
             d.paidamount,
             d.exchangerate,
+        
+            case
+                when (b.monetaryusd = 'true') then d.amount2
+                else '0.00'
+            end amountusd,
+            case
+                when (b.monetaryusd = 'false') then d.amount2
+                else '0.00'
+            end amountth,
+        
             concat(d.voucherno,'',d.docno) as voucherno_disp 
         FROM daily d  left outer join tb_bank b on (d.payby = b.bankid) 
         where d.receivedamount = 0.00 and d.amount = 0.00
@@ -4003,7 +4025,7 @@
     <Type></Type>
     <SQL>
         
-        SELECT sum(d.receivedamount) receivedamount
+        SELECT sum(d.amount) receivedamount
         FROM daily d left outer join tb_bank b on (d.payby = b.bankid) 
         where d.paidamount = 0.00 and d.amount2 = 0.00 and d.payby <![CDATA[<>]]> 2
             <var name="dailydatest" woper="and" >and d.dailydate <![CDATA[>=]]> '<value/>' </var>
@@ -4131,7 +4153,7 @@
     <Type></Type>
     <SQL>
         
-        SELECT sum(d.paidamount) paidamount 
+        SELECT sum(d.amount2) paidamount 
         FROM daily d  left outer join tb_bank b on (d.payby = b.bankid) 
         where d.receivedamount = 0.00 and d.amount = 0.00 and d.payby <![CDATA[<>]]> 2
             <var name="dailydatest" woper="and" >and d.dailydate <![CDATA[>=]]> '<value/>' </var>
@@ -4281,6 +4303,9 @@
        <where>
            
             <var name="bfdate" woper="and" > b.bfdate = '<value/>' </var>
+            <var name="bfdatest" woper="and" > b.bfdate <![CDATA[>=]]> '<value/>' </var>
+            <var name="bfdatefn" woper="and" > b.bfdate <![CDATA[<=]]> '<value/>' </var>
+            <var name="bankid" woper="and" > b.bankid = '<value/>' </var>
             <var name="bankidnot2" woper="and" > t.monetaryusd = 'false'  </var>
             <var name="bankid2" woper="and" > t.monetaryusd = 'true'  </var>
        
@@ -4294,6 +4319,21 @@
         <Param>
             <VarName>bfdate</VarName>
             <UIName>bfdate</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>bfdatest</VarName>
+            <UIName>bfdatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>bfdatefn</VarName>
+            <UIName>bfdatefn</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>bankid</VarName>
+            <UIName>bankid</UIName>
             <Operator></Operator>
         </Param>
         <Param>
@@ -5632,6 +5672,168 @@
 </Query>
 
 
+
+<!-- ************************** 
+    lookup_data_invoice_distinct_duedate
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_data_invoice_distinct_duedate</TranCode>    
+    <Version>1</Version>
+    <Description>lookup_data_invoice_distinct_duedate</Description>
+    <Type></Type>
+    <SQL>
+        
+            SELECT distinct invcomid
+            FROM invoice
+
+       <where>
+           <var name="invcomid" woper="and" > invcomid = '<value/>' </var>
+           <var name="duedate" woper="and" > duedate like '<value/>%' </var>
+           
+           <var name="submitdate" woper="and" > submitdate like '<value/>%' </var>
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        invcomid
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>invcomid</VarName>
+            <UIName>invcomid</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>duedate</VarName>
+            <UIName>duedate</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>submitdate</VarName>
+            <UIName>submitdate</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+
+<!-- ************************** 
+    lookup_data_invoice_duedate
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_data_invoice_duedate</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+            SELECT   jobno,
+                jobdate,
+                invcomid,
+                company,
+                invno, 
+                invdate,
+                DB_DSF(invdate) as invdate_disp,
+                DB_DSF(submitdate) as submitdate_disp,
+                amount, 
+                duedate, 
+                paid_amount,
+                received_date, 
+                invid,
+                balance, 
+                submitdate,
+                clearflag, 
+                cleardate,
+                reimbursement,
+                currency,
+                service,
+                vatdata,
+                vat,
+                total, 
+                whtaxdata,
+                whtax,
+                advance,
+                totalall 
+            FROM invoice
+
+       <where>
+           <var name="invcomid" woper="and" > invcomid = '<value/>' </var>
+           <var name="duedate" woper="and" > duedate like '<value/>%' </var>
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        invcomid,duedate
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>invcomid</VarName>
+            <UIName>invcomid</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>invdatest</VarName>
+            <UIName>invdatest</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>invdatefn</VarName>
+            <UIName>invdatefn</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>clearflagY</VarName>
+            <UIName>clearflagY</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>clearflagN</VarName>
+            <UIName>clearflagN</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>duedate</VarName>
+            <UIName>duedate</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+
 <!-- ************************** 
     lookup_data_invoice
 - -  ************************** -->
@@ -5994,6 +6196,188 @@
             <Operator></Operator>
         </Param>
          <Param>
+            <VarName>clearflagY</VarName>
+            <UIName>clearflagY</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>clearflagN</VarName>
+            <UIName>clearflagN</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+
+<!-- ************************** 
+    lookup_data_querytemplate
+- -  ************************** -->
+<Query>
+    <TranCode>lookup_data_querytemplate</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <PU>1</PU>
+    <SQL>
+        select <var name="pselect" woper="and" > <value/> </var>  
+        from  <var name="pfrom" woper="and" > <value/> </var>
+        where <var name="pwhere" woper="and" > <value/> </var>
+
+
+        <where>   
+            
+        </where>
+    </SQL>
+    <SQLOrderBy>
+    </SQLOrderBy>
+    <Params>
+         <Param>
+            <VarName>pselect</VarName>
+            <UIName>pselect</UIName>
+            <Operator></Operator>
+        </Param>
+         <Param>
+            <VarName>pfrom</VarName>
+            <UIName>pfrom</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>pwhere</VarName>
+            <UIName>pwhere</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+    <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+             </Column>
+         </Columns>
+     </Displays>
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query> 
+
+
+<!-- ************************** 
+    lookup_data_invoice_distinct_year
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_data_invoice_distinct_year</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+            SELECT distinct invcomid 
+            FROM invoice
+
+       <where>
+           <var name="invcomid" woper="and" > invcomid = '<value/>' </var>
+           <var name="submitdatelike" woper="and" > submitdate like '<value/>%' </var>
+           <var name="clearflagY" woper="and" > clearflag is not null </var>
+           <var name="clearflagN" woper="and" > clearflag is null </var>
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        invcomid
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>invcomid</VarName>
+            <UIName>invcomid</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>submitdatelike</VarName>
+            <UIName>submitdatelike</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>clearflagY</VarName>
+            <UIName>clearflagY</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>clearflagN</VarName>
+            <UIName>clearflagN</UIName>
+            <Operator></Operator>
+        </Param>
+    </Params>
+     <Displays>
+         <Columns>
+             <Column>
+                <FieldName></FieldName>
+                <Header></Header>
+                <Style></Style>
+                <SortBy></SortBy>
+                <SortByThai></SortByThai>
+             </Column>
+         </Columns>
+
+     </Displays>
+     
+     <ZoomFile></ZoomFile>
+     <ZoomTitle></ZoomTitle>
+</Query>
+
+<!-- ************************** 
+    lookup_sumdata_invoice_year
+- -  ************************** -->
+
+<Query>
+    <TranCode>lookup_sumdata_invoice_year</TranCode>    
+    <Version>1</Version>
+    <Description></Description>
+    <Type></Type>
+    <SQL>
+        
+            SELECT sum(totalall) as sumdata  
+            FROM invoice
+
+       <where>
+           <var name="invcomid" woper="and" > invcomid = '<value/>' </var>
+           <var name="submitdatelike" woper="and" > submitdate like '<value/>%' </var>
+           <var name="clearflagY" woper="and" > clearflag is not null </var>
+           <var name="clearflagN" woper="and" > clearflag is null </var>
+       </where>
+    </SQL>
+    <SQLOrderBy>
+        invcomid,invdate
+    </SQLOrderBy>
+
+    <Params>
+        <Param>
+            <VarName>invcomid</VarName>
+            <UIName>invcomid</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
+            <VarName>submitdatelike</VarName>
+            <UIName>submitdatelike</UIName>
+            <Operator></Operator>
+        </Param>
+        <Param>
             <VarName>clearflagY</VarName>
             <UIName>clearflagY</UIName>
             <Operator></Operator>

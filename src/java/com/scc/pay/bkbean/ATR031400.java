@@ -28,6 +28,7 @@ import java.math.BigDecimal;
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 import javax.faces.context.FacesContext;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -581,7 +582,7 @@ public class ATR031400 extends BKBPage {
                             alrv.add(companyname);
                             
                             for(int k=3;k>=0;k--){
-                                Calendar c = Calendar.getInstance();   
+                                Calendar c = Calendar.getInstance(Locale.ENGLISH);   
                                 c.set(Integer.parseInt(this.getMasterdata().getYear()), Integer.parseInt(this.getMasterdata().getMonth())-1, 1);
                                 c.add(Calendar.MONTH, -k);
 
@@ -623,7 +624,7 @@ public class ATR031400 extends BKBPage {
                             alpay.add(companyname);
                             
                             for(int k=3;k>=0;k--){
-                                Calendar c = Calendar.getInstance();   
+                                Calendar c = Calendar.getInstance(Locale.ENGLISH);   
                                 c.set(Integer.parseInt(this.getMasterdata().getYear()), Integer.parseInt(this.getMasterdata().getMonth())-1, 1);
                                 c.add(Calendar.MONTH, -k);
 
