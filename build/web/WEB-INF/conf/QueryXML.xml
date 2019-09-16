@@ -3048,6 +3048,7 @@
         
         SELECT DB_DSF(t.dailydate) dailydate,
             t.dailytype,
+            concat(p.payvalue,'-',p.paydesc) as paydesc_disp,
             i.companyname,
             t.descriptioncode,
             d.dscptdesc,
@@ -3085,6 +3086,7 @@
             left outer join tb_currency c on (t.currency = c.currencyid)
             left outer join tb_descriptioncode d on (t.descriptioncode = d.dsrptvalue) 
             left outer join invoicecompany i on (i.invcomid = t.companyid)  
+            left outer join tb_payment_type p on (t.dailytype = p.payvalue)
        <where> 
            t.receivedamount = 0.00 and t.amount = 0.00 
        <var name="dailydatest" woper="and" > t.dailydate <![CDATA[>=]]>  '<value/>' </var>
