@@ -2967,6 +2967,7 @@
             t.currency,
             c.currencyname,
             t.remark,
+            t.consigneename,
             case
               when t.receivesuccess is null then 'N'
               else t.receivesuccess
